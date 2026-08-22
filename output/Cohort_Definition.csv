@@ -1,0 +1,118 @@
+Cohort_ID,Age_Band,Body_Region,Injury_Type,Severity,Cohort_Size
+C001,<25,Ankle,Achilles Tendon Rupture,Moderate,10
+C002,<25,Ankle,Ankle Fracture,Moderate,11
+C003,<25,Ankle,Severe Ankle Sprain,Moderate,13
+C004,<25,Cervical Spine,Cervical Strain,Mild,10
+C005,<25,Elbow,Tennis Elbow,Severe,8
+C006,<25,Foot,Plantar Fascia Injury,Mild,9
+C007,<25,Knee,ACL Tear,Mild,13
+C008,<25,Knee,ACL Tear,Moderate,15
+C009,<25,Knee,MCL Tear,Moderate,8
+C010,<25,Knee,Meniscus Tear,Moderate,11
+C011,<25,Lumbar Spine,Lumbar Disc Herniation,Mild,8
+C012,<25,Shoulder,Rotator Cuff Tear,Mild,13
+C013,<25,Shoulder,Rotator Cuff Tear,Severe,8
+C014,<25,Wrist,Distal Radius Fracture,Mild,8
+C015,<25,Wrist,Distal Radius Fracture,Moderate,8
+C016,25-40,Ankle,Achilles Tendon Rupture,Mild,9
+C017,25-40,Ankle,Ankle Fracture,Mild,8
+C018,25-40,Ankle,Ankle Fracture,Moderate,8
+C019,25-40,Ankle,Severe Ankle Sprain,Moderate,13
+C020,25-40,Cervical Spine,Cervical Strain,Severe,8
+C021,25-40,Elbow,Elbow Fracture,Mild,9
+C022,25-40,Elbow,Tennis Elbow,Moderate,12
+C023,25-40,Foot,Plantar Fascia Injury,Moderate,9
+C024,25-40,Hip,Hip Labral Tear,Mild,8
+C025,25-40,Knee,ACL Tear,Mild,12
+C026,25-40,Knee,ACL Tear,Moderate,17
+C027,25-40,Knee,Meniscus Tear,Mild,9
+C028,25-40,Knee,Meniscus Tear,Moderate,13
+C029,25-40,Knee,Meniscus Tear,Severe,8
+C030,25-40,Lumbar Spine,Lumbar Disc Herniation,Moderate,9
+C031,25-40,Lumbar Spine,Lumbar Muscle Strain,Mild,15
+C032,25-40,Lumbar Spine,Lumbar Muscle Strain,Moderate,12
+C033,25-40,Shoulder,Rotator Cuff Tear,Mild,13
+C034,25-40,Shoulder,Rotator Cuff Tear,Moderate,14
+C035,25-40,Shoulder,Shoulder Dislocation,Moderate,10
+C036,25-40,Thoracic Spine,Thoracic Spine Strain,Moderate,8
+C037,25-40,Wrist,Distal Radius Fracture,Moderate,8
+C038,25-40,Wrist,Wrist Sprain,Mild,8
+C039,25-40,Wrist,Wrist Sprain,Moderate,11
+C040,40-55,Ankle,Achilles Tendon Rupture,Moderate,10
+C041,40-55,Ankle,Ankle Fracture,Mild,10
+C042,40-55,Ankle,Ankle Fracture,Moderate,10
+C043,40-55,Ankle,Ankle Fracture,Severe,9
+C044,40-55,Ankle,Severe Ankle Sprain,Mild,10
+C045,40-55,Ankle,Severe Ankle Sprain,Moderate,12
+C046,40-55,Ankle,Severe Ankle Sprain,Severe,9
+C047,40-55,Cervical Spine,Cervical Strain,Moderate,13
+C048,40-55,Elbow,Tennis Elbow,Mild,8
+C049,40-55,Foot,Foot Fracture,Mild,8
+C050,40-55,Hand,Finger Tendon Injury,Severe,8
+C051,40-55,Hand,Metacarpal Fracture,Moderate,9
+C052,40-55,Knee,ACL Tear,Mild,11
+C053,40-55,Knee,ACL Tear,Moderate,19
+C054,40-55,Knee,MCL Tear,Moderate,9
+C055,40-55,Knee,Meniscus Tear,Moderate,12
+C056,40-55,Knee,Meniscus Tear,Severe,8
+C057,40-55,Knee,Patellar Fracture,Mild,8
+C058,40-55,Knee,Patellar Fracture,Moderate,8
+C059,40-55,Knee,Patellar Fracture,Severe,8
+C060,40-55,Lumbar Spine,Lumbar Disc Herniation,Moderate,12
+C061,40-55,Lumbar Spine,Lumbar Muscle Strain,Moderate,16
+C062,40-55,Lumbar Spine,Lumbar Muscle Strain,Severe,10
+C063,40-55,Shoulder,Labral Tear,Moderate,11
+C064,40-55,Shoulder,Rotator Cuff Tear,Mild,15
+C065,40-55,Shoulder,Rotator Cuff Tear,Severe,13
+C066,40-55,Wrist,Distal Radius Fracture,Mild,9
+C067,40-55,Wrist,Distal Radius Fracture,Moderate,8
+C068,40-55,Wrist,Wrist Sprain,Severe,8
+C069,55+,Ankle,Achilles Tendon Rupture,Mild,12
+C070,55+,Ankle,Achilles Tendon Rupture,Moderate,16
+C071,55+,Ankle,Achilles Tendon Rupture,Severe,14
+C072,55+,Ankle,Ankle Fracture,Mild,12
+C073,55+,Ankle,Ankle Fracture,Moderate,25
+C074,55+,Ankle,Ankle Fracture,Severe,10
+C075,55+,Ankle,Severe Ankle Sprain,Mild,25
+C076,55+,Ankle,Severe Ankle Sprain,Moderate,30
+C077,55+,Ankle,Severe Ankle Sprain,Severe,10
+C078,55+,Cervical Spine,Cervical Disc Injury,Moderate,8
+C079,55+,Cervical Spine,Cervical Strain,Mild,9
+C080,55+,Cervical Spine,Cervical Strain,Moderate,12
+C081,55+,Cervical Spine,Cervical Strain,Severe,9
+C082,55+,Elbow,Elbow Fracture,Mild,12
+C083,55+,Elbow,Elbow Fracture,Moderate,10
+C084,55+,Elbow,Tennis Elbow,Mild,9
+C085,55+,Elbow,Tennis Elbow,Moderate,11
+C086,55+,Foot,Foot Fracture,Mild,9
+C087,55+,Foot,Foot Fracture,Moderate,10
+C088,55+,Foot,Plantar Fascia Injury,Mild,10
+C089,55+,Hand,Finger Tendon Injury,Moderate,11
+C090,55+,Hip,Hip Fracture,Mild,12
+C091,55+,Hip,Hip Fracture,Moderate,9
+C092,55+,Hip,Hip Labral Tear,Moderate,9
+C093,55+,Knee,ACL Tear,Mild,20
+C094,55+,Knee,ACL Tear,Moderate,41
+C095,55+,Knee,ACL Tear,Severe,15
+C096,55+,Knee,MCL Tear,Mild,8
+C097,55+,Knee,MCL Tear,Moderate,18
+C098,55+,Knee,MCL Tear,Severe,11
+C099,55+,Knee,Meniscus Tear,Mild,13
+C100,55+,Knee,Meniscus Tear,Moderate,22
+C101,55+,Knee,Meniscus Tear,Severe,15
+C102,55+,Knee,Patellar Fracture,Mild,11
+C103,55+,Knee,Patellar Fracture,Moderate,12
+C104,55+,Knee,Patellar Fracture,Severe,10
+C105,55+,Lumbar Spine,Lumbar Disc Herniation,Moderate,15
+C106,55+,Lumbar Spine,Lumbar Muscle Strain,Mild,11
+C107,55+,Lumbar Spine,Lumbar Muscle Strain,Moderate,23
+C108,55+,Lumbar Spine,Lumbar Muscle Strain,Severe,8
+C109,55+,Shoulder,Rotator Cuff Tear,Mild,21
+C110,55+,Shoulder,Rotator Cuff Tear,Moderate,18
+C111,55+,Shoulder,Rotator Cuff Tear,Severe,12
+C112,55+,Shoulder,Shoulder Dislocation,Mild,15
+C113,55+,Shoulder,Shoulder Dislocation,Moderate,9
+C114,55+,Thoracic Spine,Thoracic Spine Strain,Mild,11
+C115,55+,Wrist,Distal Radius Fracture,Moderate,15
+C116,55+,Wrist,Wrist Sprain,Mild,11
+C117,55+,Wrist,Wrist Sprain,Moderate,14

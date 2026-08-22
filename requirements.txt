@@ -1,0 +1,9 @@
+pandas
+numpy
+scikit-learn
+plotly
+streamlit
+sqlalchemy
+pymysql
+# optional, only needed if you set USE_XGBOOST = True in modeling.py
+# xgboost

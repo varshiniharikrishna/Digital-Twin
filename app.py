@@ -1,0 +1,703 @@
+"""
+app.py
+------
+Phase 7 - Streamlit Digital Twin Dashboard for Orthopaedic Rehabilitation.
+
+Run with:
+    streamlit run app.py
+"""
+
+import os
+import pandas as pd
+import numpy as np
+import streamlit as st
+import plotly.graph_objects as go
+
+import config
+from db import load_all_tables
+from data_prep import build_modelling_dataset, chronological_split, get_feature_frame
+import modeling
+import similarity as sim
+import simulation as simmod
+import evaluation as ev
+import pdf_generator
+
+
+st.set_page_config(
+    page_title="Dynamic Digital Twin - Orthopaedic Rehabilitation",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+# Injected Custom CSS for ultra-professional non-blue dark slate theme
+st.markdown("""
+<style>
+/* Main Dark Theme Container */
+.stApp {
+    background-color: #0F172A;
+    color: #F8FAFC;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Sidebar styling */
+[data-testid="stSidebar"] {
+    background-color: #1E293B !important;
+    border-right: 1px solid #334155 !important;
+}
+
+/* Metric card styling */
+.metric-card {
+    background: #1E293B;
+    border: 1px solid #334155;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+.metric-card:hover {
+    border-color: #10B981;
+}
+.metric-title {
+    color: #94A3B8;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+}
+.metric-value {
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: #F8FAFC;
+}
+.metric-sub {
+    font-size: 0.8rem;
+    color: #10B981;
+    margin-top: 2px;
+}
+
+/* Pressure point flag box */
+.flag-box {
+    background: rgba(225, 29, 72, 0.12);
+    border: 1px solid #E11D48;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    color: #FECDD3;
+}
+.flag-box-title {
+    font-weight: 700;
+    color: #F43F5E;
+    font-size: 0.92rem;
+}
+
+/* Twin State card */
+.twin-card-real {
+    background: #1E293B;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    padding: 18px;
+}
+.twin-card-twin {
+    background: #1E293B;
+    border: 1px solid #059669;
+    border-radius: 12px;
+    padding: 18px;
+}
+
+/* SVG Body Map Container */
+.svg-container {
+    background: #1E293B;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+}
+</style>
+""", unsafe_allow_html=True)
+
+
+# ----------------------------------------------------------------------
+# CACHED DATA & MODEL LOADING
+# ----------------------------------------------------------------------
+@st.cache_resource(show_spinner="Loading database & training Digital Twin models...")
+def load_everything():
+    tables = load_all_tables()
+    full = build_modelling_dataset(tables)
+    train, test = chronological_split(full)
+
+    X_train = get_feature_frame(train)
+    X_test = get_feature_frame(test)
+
+    pct_model, weeks_model = modeling.train_models(
+        X_train, train[config.TARGET_RECOVERY_PCT], train[config.TARGET_RECOVERY_WEEKS]
+    )
+    pred_pct, pred_weeks = modeling.predict(pct_model, weeks_model, X_test)
+
+    metrics_pct = modeling.evaluate(test[config.TARGET_RECOVERY_PCT], pred_pct)
+    metrics_weeks = modeling.evaluate(test[config.TARGET_RECOVERY_WEEKS], pred_weeks)
+    fi = modeling.get_feature_importance(pct_model)
+
+    test = test.copy()
+    test["Predicted_Recovery_Pct"] = pred_pct
+    test["Predicted_Recovery_Weeks"] = pred_weeks
+
+    return {
+        "tables": tables,
+        "full": full,
+        "train": train,
+        "test": test,
+        "pct_model": pct_model,
+        "weeks_model": weeks_model,
+        "metrics_pct": metrics_pct,
+        "metrics_weeks": metrics_weeks,
+        "feature_importance": fi,
+    }
+
+
+state = load_everything()
+tables = state["tables"]
+train = state["train"]
+test = state["test"]
+pct_model = state["pct_model"]
+weeks_model = state["weeks_model"]
+
+
+# Initialize session state for recalibration history
+if "recal_result" not in st.session_state:
+    st.session_state["recal_result"] = None
+if "recal_week" not in st.session_state:
+    st.session_state["recal_week"] = None
+if "recal_history" not in st.session_state:
+    st.session_state["recal_history"] = []
+
+
+# ----------------------------------------------------------------------
+# SIDEBAR NAVIGATION
+# ----------------------------------------------------------------------
+st.sidebar.title("Orthopaedic Digital Twin")
+st.sidebar.caption("Dynamic Living Patient Simulation System")
+
+page = st.sidebar.radio(
+    "Navigation Menu",
+    [
+        "Week-by-Week Twin",
+        "Treatment Clones",
+        "Digital Twin Overview",
+        "Patient Information",
+        "Weekly Recovery Timeline",
+        "Simulation & Recalibration",
+        "Recommendations",
+        "Evaluation Metrics",
+    ]
+)
+
+st.sidebar.markdown("---")
+patient_id = st.sidebar.selectbox("Select 2025 Test Patient", sorted(test["Patient_ID"].unique()))
+patient_row = test[test["Patient_ID"] == patient_id].iloc[0]
+
+
+# ----------------------------------------------------------------------
+# HELPER FUNCTIONS
+# ----------------------------------------------------------------------
+def predict_for_row(row: pd.Series):
+    X = get_feature_frame(pd.DataFrame([row]))
+    pct = float(pct_model.predict(X)[0])
+    weeks = float(weeks_model.predict(X)[0])
+    return pct, weeks
+
+
+def non_blue_line_chart(actual_traj, predicted_traj, metric_actual, metric_pred, title, y_title):
+    fig = go.Figure()
+    if not actual_traj.empty and metric_actual in actual_traj.columns:
+        fig.add_trace(go.Scatter(
+            x=actual_traj["Week"], y=actual_traj[metric_actual], mode="lines+markers",
+            name="Actual Recorded", line=dict(color="#10B981", width=3),
+            marker=dict(size=7, color="#059669")
+        ))
+    if not predicted_traj.empty and metric_pred in predicted_traj.columns:
+        fig.add_trace(go.Scatter(
+            x=predicted_traj["Week"], y=predicted_traj[metric_pred], mode="lines",
+            name="Twin Predicted Trajectory", line=dict(color="#F59E0B", width=2, dash="dash")
+        ))
+    fig.update_layout(
+        title=title,
+        xaxis_title="Week",
+        yaxis_title=y_title,
+        paper_bgcolor="#0F172A",
+        plot_bgcolor="#1E293B",
+        font=dict(color="#F8FAFC"),
+        height=350,
+        legend=dict(orientation="h", y=1.15)
+    )
+    return fig
+
+
+def render_svg_pain_spot(pain_score: float, body_part: str, compensation_event: dict = None):
+    """
+    Renders an anatomical SVG diagram displaying dynamic red pain spot intensity
+    and muscle compensation markers.
+    """
+    # Color & size mapping based on pain
+    if pain_score >= 8.0:
+        fill_color = "#E11D48"  # Crimson
+        glow_color = "rgba(225, 29, 72, 0.6)"
+        radius = 28
+    elif pain_score >= 5.0:
+        fill_color = "#F59E0B"  # Amber
+        glow_color = "rgba(245, 158, 11, 0.5)"
+        radius = 20
+    elif pain_score >= 2.0:
+        fill_color = "#EAB308"  # Soft yellow
+        glow_color = "rgba(234, 179, 8, 0.4)"
+        radius = 14
+    else:
+        fill_color = "#10B981"  # Emerald green
+        glow_color = "rgba(16, 185, 129, 0.3)"
+        radius = 10
+
+    comp_marker = ""
+    if compensation_event:
+        comp_muscle = compensation_event.get("Muscle_Overloaded", "Muscle")
+        comp_level = compensation_event.get("Compensation_Level", "Moderate")
+        comp_marker = f"""
+        <g transform="translate(260, 110)">
+            <rect x="0" y="0" width="110" height="40" rx="6" fill="#7F1D1D" stroke="#EF4444" stroke-width="1.5"/>
+            <text x="55" y="16" fill="#FEE2E2" font-size="10" font-weight="bold" text-anchor="middle">OVERLOAD ALERT</text>
+            <text x="55" y="30" fill="#FCA5A5" font-size="9" text-anchor="middle">{comp_muscle} ({comp_level})</text>
+        </g>
+        <line x1="210" y1="140" x2="260" y2="130" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="3,3"/>
+        """
+
+    svg = f"""
+    <div class="svg-container">
+        <h4 style="color:#10B981; margin-top:0;">Anatomical Visual Twin & Dynamic Pain Spot</h4>
+        <svg width="380" height="260" viewBox="0 0 380 260" style="max-width:100%;">
+            <!-- Background grid lines -->
+            <defs>
+                <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                    <feGaussianBlur stdDeviation="6" result="blur" />
+                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                </filter>
+            </defs>
+
+            <!-- Anatomical Leg / Knee Outline -->
+            <!-- Femur (Upper Leg) -->
+            <rect x="180" y="20" width="40" height="100" rx="8" fill="#334155" stroke="#475569" stroke-width="2"/>
+            <text x="140" y="70" fill="#94A3B8" font-size="11">Femur / Quadriceps</text>
+            
+            <!-- Knee Joint Center -->
+            <circle cx="200" cy="140" r="30" fill="#1E293B" stroke="#64748B" stroke-width="2"/>
+            <text x="120" y="145" fill="#94A3B8" font-size="11">Knee Joint ({body_part})</text>
+
+            <!-- Tibia (Lower Leg) -->
+            <rect x="182" y="160" width="36" height="90" rx="6" fill="#334155" stroke="#475569" stroke-width="2"/>
+            <text x="140" y="210" fill="#94A3B8" font-size="11">Tibia / Calves</text>
+
+            <!-- Dynamic Pain Spot & Pulsing Glow -->
+            <circle cx="200" cy="140" r="{radius + 10}" fill="{glow_color}" filter="url(#glow)">
+                <animate attributeName="r" values="{radius+6};{radius+14};{radius+6}" dur="2s" repeatCount="indefinite" />
+            </circle>
+            <circle cx="200" cy="140" r="{radius}" fill="{fill_color}" stroke="#FFFFFF" stroke-width="2"/>
+            <text x="200" y="144" fill="#FFFFFF" font-size="11" font-weight="bold" text-anchor="middle">{pain_score}</text>
+
+            {comp_marker}
+        </svg>
+        <div style="font-size:0.85rem; color:#94A3B8; margin-top:6px;">
+            Red spot indicates active pain area (Score: <b>{pain_score}/10</b>)
+        </div>
+    </div>
+    """
+    return svg
+
+
+# ========================================================================
+# PAGE 1: WEEK-BY-WEEK TWIN (MAIN RECOVERY SHOWCASE)
+# ========================================================================
+if page == "Week-by-Week Twin":
+    st.title(f"Living Patient Twin — Week-by-Week Timeline")
+    st.caption(f"Patient ID: {patient_id} | {patient_row['Injury_Type']} ({patient_row['Severity']} Severity)")
+
+    # Fetch actual weekly progress data
+    actual_traj = simmod.get_actual_trajectory(tables["Weekly_Progress"], patient_id)
+    pred_pct, pred_weeks = predict_for_row(patient_row)
+    predicted_traj = simmod.build_predicted_trajectory(patient_row, pred_pct, pred_weeks)
+
+    if actual_traj.empty:
+        st.warning("No weekly progress records found for this patient.")
+    else:
+        max_week = int(actual_traj["Week"].max())
+        
+        # Week Selector Slider
+        col_w1, col_w2 = st.columns([3, 1])
+        with col_w1:
+            selected_week = st.slider("Select Timeline Week", 1, max_week, 1, key="wbw_week_slider")
+        with col_w2:
+            st.metric("Timeline Stage", f"Week {selected_week} of {max_week}")
+
+        # Current selected week data row
+        week_row = actual_traj[actual_traj["Week"] == selected_week].iloc[0]
+
+        # ----------------------------------------------------------------
+        # 1. TWIN STATE (Metric Cards)
+        # ----------------------------------------------------------------
+        st.markdown("### 1. Selected Week Twin State")
+        m1, m2, m3, m4, m5, m6 = st.columns(6)
+        m1.metric("Pain Score", f"{week_row['Pain']}/10")
+        m2.metric("ROM", f"{week_row['ROM_deg']}°")
+        m3.metric("Quad Strength", f"{week_row['Quadriceps_Strength_pct']}%")
+        m4.metric("Hamstring Strength", f"{week_row['Hamstring_Strength_pct']}%")
+        m5.metric("Balance", f"{week_row['Balance_Score']}")
+        m6.metric("Walking Speed", f"{week_row['Walking_Speed_mps']} m/s")
+
+        sub1, sub2, sub3, sub4 = st.columns(4)
+        sub1.metric("Swelling", str(week_row["Swelling"]))
+        sub2.metric("Compliance", f"{week_row['Compliance_pct']}%")
+        sub3.metric("Patient Feedback", str(week_row["Patient_Feedback"]))
+        sub4.metric("Clinician Remark", str(week_row["Clinician_Remark"]))
+
+        st.markdown("---")
+
+        # ----------------------------------------------------------------
+        # 2. DYNAMIC VISUAL TWIN & PRESSURE POINTS (Side by Side)
+        # ----------------------------------------------------------------
+        col_vis, col_flags = st.columns([1, 1])
+
+        # Check muscle compensation table for this week
+        comp_df = tables["Muscle_Compensation"]
+        comp_match = comp_df[(comp_df["Patient_ID"] == patient_id) & (comp_df["Week"] == selected_week)]
+        comp_event = comp_match.iloc[0].to_dict() if not comp_match.empty else None
+
+        with col_vis:
+            body_part = patient_row.get("Body_Part", "Knee")
+            svg_html = render_svg_pain_spot(float(week_row["Pain"]), body_part, comp_event)
+            st.markdown(svg_html, unsafe_allow_html=True)
+
+        with col_flags:
+            st.markdown("### 2. Flagged Recovery Pressure Points")
+            flags = []
+
+            if float(week_row["Pain"]) > 5.0:
+                flags.append({"Category": "High Pain Alert", "Actual": f"{week_row['Pain']}/10", "Flag": "Pain > 5.0 (Moderate to Severe)"})
+            if float(week_row["ROM_deg"]) < 90.0:
+                flags.append({"Category": "Low ROM Restrict", "Actual": f"{week_row['ROM_deg']}°", "Flag": "ROM < 90° (Flexion deficit)"})
+            if float(week_row["Quadriceps_Strength_pct"]) < 60.0:
+                flags.append({"Category": "Quad Weakness", "Actual": f"{week_row['Quadriceps_Strength_pct']}%", "Flag": "Strength < 60% (Atrophy risk)"})
+            if float(week_row["Balance_Score"]) < 60.0:
+                flags.append({"Category": "Impaired Balance", "Actual": f"{week_row['Balance_Score']}", "Flag": "Balance < 60 (Fall risk)"})
+            if float(week_row["Compliance_pct"]) < 70.0:
+                flags.append({"Category": "Low Compliance", "Actual": f"{week_row['Compliance_pct']}%", "Flag": "Compliance < 70%"})
+            if week_row["Swelling"] in ["Severe", "Moderate"]:
+                flags.append({"Category": "Joint Swelling", "Actual": str(week_row['Swelling']), "Flag": "Persistent inflammation"})
+            if comp_event:
+                flags.append({"Category": "Muscle Compensation", "Actual": f"{comp_event['Muscle_Overloaded']} overloaded", "Flag": f"{comp_event['Compensation_Level']} level risk"})
+
+            if flags:
+                for flg in flags:
+                    st.markdown(f"""
+                    <div class="flag-box">
+                        <div class="flag-box-title">⚠ {flg['Category']} — {flg['Flag']}</div>
+                        <div style="font-size:0.88rem;">Recorded Value: <b>{flg['Actual']}</b></div>
+                    </div>
+                    """, unsafe_allow_html=True)
+            else:
+                st.success("✓ No critical pressure point flags detected for this week!")
+
+        st.markdown("---")
+
+        # ----------------------------------------------------------------
+        # 3. EXPECTED VS ACTUAL COMPARISON FOR SELECTED WEEK
+        # ----------------------------------------------------------------
+        st.markdown(f"### 3. Twin Expected vs. Actual (Week {selected_week})")
+        pred_week_row = predicted_traj[predicted_traj["Week"] == selected_week]
+        if not pred_week_row.empty:
+            p_row = pred_week_row.iloc[0]
+            current_state = {
+                "Pain": float(week_row["Pain"]),
+                "ROM_deg": float(week_row["ROM_deg"]),
+                "Strength_pct": float(week_row["Quadriceps_Strength_pct"]),
+            }
+            dev_dict = simmod.check_deviation(p_row, current_state)
+            
+            c_ev1, c_ev2, c_ev3 = st.columns(3)
+            for col, (met, d) in zip([c_ev1, c_ev2, c_ev3], dev_dict.items()):
+                status = "⚠ Flagged Deviation" if d["flagged"] else "✓ On Track"
+                col.metric(met, f"Actual: {d['actual']:.1f}", f"{d['pct_deviation']:+.1f}% vs Pred ({d['predicted']:.1f})")
+                col.caption(status)
+
+        st.markdown("---")
+
+        # ----------------------------------------------------------------
+        # 4. RECOVERY JOURNEY & THERAPY PLAN
+        # ----------------------------------------------------------------
+        st.markdown("### 4. Patient Recovery Journey & Active Rehabilitation Phase")
+        
+        # Display Pathway Phase
+        tplan = tables["Therapy_Plan"]
+        week_plan = tplan[(tplan["Patient_ID"] == patient_id) & (tplan["Week_Number"] == selected_week)]
+        
+        st.info(f"**Current Milestone:** Initial Assessment → **Week {selected_week} (Active)** → Predicted Discharge (Week {pred_weeks:.0f})")
+
+        if not week_plan.empty:
+            st.markdown("##### Prescribed Exercises for Selected Week")
+            elib = tables["Exercise_Library"].set_index("Exercise_ID")
+            plan_merged = week_plan.merge(elib, left_on="Exercise_ID", right_index=True, how="left")
+            st.dataframe(
+                plan_merged[["Exercise_Name", "Target_Muscle", "Exercise_Category", "Sets", "Repetitions", "Duration_min", "Therapist_Notes"]],
+                width="stretch"
+            )
+
+        st.markdown("---")
+
+        # ----------------------------------------------------------------
+        # 5. GENERATE & DOWNLOAD CLINICAL PDF REPORT
+        # ----------------------------------------------------------------
+        st.markdown("### 5. Export Patient Twin Clinical PDF Report")
+        clones = simmod.build_treatment_clones(patient_row, pred_pct, pred_weeks)
+        
+        pdf_bytes = pdf_generator.generate_twin_pdf(
+            patient_id=patient_id,
+            patient_row=patient_row,
+            week_data=week_row.to_dict(),
+            pressure_points=flags if 'flags' in locals() else [],
+            expected_vs_actual=dev_dict if 'dev_dict' in locals() else {},
+            treatment_clones=clones,
+            recal_history=st.session_state.get("recal_history", [])
+        )
+
+        st.download_button(
+            label="📄 Download Clinical PDF Report",
+            data=pdf_bytes,
+            file_name=f"Digital_Twin_Report_{patient_id}_Week{selected_week}.pdf",
+            mime="application/pdf",
+            type="primary"
+        )
+
+
+# ========================================================================
+# PAGE 2: TREATMENT CLONES
+# ========================================================================
+elif page == "Treatment Clones":
+    st.title(f"Treatment Clones & Reaction Simulation — {patient_id}")
+    st.caption("Comparing 3 treatment clones to analyze how different rehabilitation protocols cause different physiological reactions in the twin.")
+
+    pred_pct, pred_weeks = predict_for_row(patient_row)
+    clones = simmod.build_treatment_clones(patient_row, pred_pct, pred_weeks)
+
+    st.markdown("### Treatment Pathway Options")
+    c1, c2, c3 = st.columns(3)
+    for col, cl in zip([c1, c2, c3], clones):
+        with col:
+            st.markdown(f"""
+            <div style="background:#1E293B; border:1px solid {cl['color']}; border-radius:10px; padding:16px;">
+                <h4 style="color:{cl['color']}; margin-top:0;">{cl['name']}</h4>
+                <div style="font-size:1.6rem; font-weight:700; color:#F8FAFC;">{cl['recovery_pct']:.0f}% Recovery</div>
+                <div style="color:#94A3B8; font-size:0.85rem;">Estimated Duration: <b>{cl['weeks']} weeks</b></div>
+                <hr style="border-color:#334155; margin:10px 0;">
+                <div style="font-size:0.88rem;"><b>Final ROM:</b> {cl['final_rom']:.0f}°</div>
+                <div style="font-size:0.88rem;"><b>Final Strength:</b> {cl['final_strength']:.0f}%</div>
+                <div style="font-size:0.88rem;"><b>Pain End-state:</b> {cl['final_pain']:.1f}/10</div>
+                <hr style="border-color:#334155; margin:10px 0;">
+                <div style="font-size:0.82rem; color:#CBD5E1;"><i>{cl['reaction']}</i></div>
+            </div>
+            """, unsafe_allow_html=True)
+
+    st.markdown("---")
+    st.markdown("### Comparative Trajectory Curves Across Clones")
+    
+    fig_comp = go.Figure()
+    for cl in clones:
+        traj = cl["trajectory"]
+        fig_comp.add_trace(go.Scatter(
+            x=traj["Week"], y=traj["Predicted_Strength_pct"], mode="lines+markers",
+            name=f"{cl['name']} (Strength %)", line=dict(color=cl["color"], width=2.5)
+        ))
+    fig_comp.update_layout(
+        title="Predicted Strength Trajectory Comparison Across Treatment Clones",
+        xaxis_title="Week", yaxis_title="Quadriceps Strength (%)",
+        paper_bgcolor="#0F172A", plot_bgcolor="#1E293B", font=dict(color="#F8FAFC"), height=420
+    )
+    st.plotly_chart(fig_comp, width="stretch")
+
+
+# ========================================================================
+# PAGE 3: DIGITAL TWIN OVERVIEW
+# ========================================================================
+elif page == "Digital Twin Overview":
+    st.title(f"Digital Twin Overview — {patient_id}")
+    pred_pct, pred_weeks = predict_for_row(patient_row)
+    actual_traj = simmod.get_actual_trajectory(tables["Weekly_Progress"], patient_id)
+
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown(f"""
+        <div class="twin-card-real">
+            <h4 style="color:#94A3B8; margin-top:0;">👤 Real Patient Profile</h4>
+            <div><b>Patient ID:</b> {patient_id}</div>
+            <div><b>Age / Gender:</b> {patient_row['Age']} / {patient_row['Gender']}</div>
+            <div><b>Injury:</b> {patient_row['Injury_Type']} ({patient_row['Severity']})</div>
+            <div><b>Initial Pain / ROM:</b> {patient_row['Pain_Score']}/10 | {patient_row['Range_of_Motion_deg']}°</div>
+            <div><b>Initial Strength:</b> {patient_row['Quadriceps_Strength_pct']}%</div>
+        </div>
+        """, unsafe_allow_html=True)
+    with col2:
+        st.markdown(f"""
+        <div class="twin-card-twin">
+            <h4 style="color:#10B981; margin-top:0;">🤖 Digital Twin Prediction</h4>
+            <div><b>Twin ID:</b> DT_{patient_id}</div>
+            <div><b>Predicted Recovery %:</b> {pred_pct:.1f}%</div>
+            <div><b>Predicted Total Weeks:</b> {pred_weeks:.1f} weeks</div>
+            <div><b>Model Confidence R²:</b> {state['metrics_pct']['R2']:.3f}</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.markdown("---")
+    st.markdown("### Closest Historical Patient Matches (Training Pool Only)")
+    top_sim = sim.find_similar_patients(patient_row, train, top_k=5)
+    st.dataframe(
+        top_sim[["Patient_ID", "Similarity_Score", "Age", "Injury_Type", "Severity", config.TARGET_RECOVERY_PCT, config.TARGET_RECOVERY_WEEKS]],
+        width="stretch"
+    )
+
+
+# ========================================================================
+# PAGE 4: PATIENT INFORMATION
+# ========================================================================
+elif page == "Patient Information":
+    st.title(f"Patient Information — {patient_id}")
+
+    c1, c2 = st.columns(2)
+    with c1:
+        st.markdown("### Demographics & Lifestyle")
+        st.write(f"**Age:** {patient_row['Age']}")
+        st.write(f"**Gender:** {patient_row['Gender']}")
+        st.write(f"**BMI:** {patient_row['BMI']}")
+        st.write(f"**Occupation:** {patient_row['Occupation']}")
+        st.write(f"**Activity Level:** {patient_row['Activity_Level']}")
+        st.write(f"**Smoking Status:** {patient_row['Smoking_Status']}")
+        st.write(f"**Diabetes:** {'Yes' if patient_row['Diabetes'] else 'No'}")
+        st.write(f"**Hypertension:** {'Yes' if patient_row['Hypertension'] else 'No'}")
+
+    with c2:
+        st.markdown("### Injury & Surgical Background")
+        st.write(f"**Injury Type:** {patient_row['Injury_Type']}")
+        st.write(f"**Body Part:** {patient_row['Body_Part']}")
+        st.write(f"**Severity:** {patient_row['Severity']}")
+        st.write(f"**Surgery Required:** {'Yes' if patient_row['Surgery_Required'] else 'No'}")
+        st.write(f"**Injury Date:** {patient_row['Injury_Date']}")
+
+    st.markdown("---")
+    st.markdown("### Initial Assessment Baseline")
+    b1, b2, b3, b4 = st.columns(4)
+    b1.metric("Pain Score", f"{patient_row['Pain_Score']}/10")
+    b2.metric("Range of Motion", f"{patient_row['Range_of_Motion_deg']}°")
+    b3.metric("Quad Strength", f"{patient_row['Quadriceps_Strength_pct']}%")
+    b4.metric("Walking Speed", f"{patient_row['Walking_Speed_mps']} m/s")
+
+
+# ========================================================================
+# PAGE 5: WEEKLY RECOVERY TIMELINE
+# ========================================================================
+elif page == "Weekly Recovery Timeline":
+    st.title(f"Weekly Recovery Timeline — {patient_id}")
+
+    pred_pct, pred_weeks = predict_for_row(patient_row)
+    predicted_traj = simmod.build_predicted_trajectory(patient_row, pred_pct, pred_weeks)
+    actual_traj = simmod.get_actual_trajectory(tables["Weekly_Progress"], patient_id)
+
+    col1, col2 = st.columns(2)
+    with col1:
+        st.plotly_chart(non_blue_line_chart(actual_traj, predicted_traj, "Pain", "Predicted_Pain", "Pain Trajectory", "Pain (0-10)"), width="stretch")
+        st.plotly_chart(non_blue_line_chart(actual_traj, predicted_traj, "Quadriceps_Strength_pct", "Predicted_Strength_pct", "Strength Trajectory", "Strength (%)"), width="stretch")
+    with col2:
+        st.plotly_chart(non_blue_line_chart(actual_traj, predicted_traj, "ROM_deg", "Predicted_ROM_deg", "Range of Motion", "ROM (deg)"), width="stretch")
+        st.plotly_chart(non_blue_line_chart(actual_traj, predicted_traj, "Walking_Speed_mps", "Predicted_Walking_Speed_mps", "Walking Speed", "Speed (m/s)"), width="stretch")
+
+
+# ========================================================================
+# PAGE 6: SIMULATION & RECALIBRATION
+# ========================================================================
+elif page == "Simulation & Recalibration":
+    st.title(f"Digital Twin Recalibration Simulator — {patient_id}")
+    st.caption("Enter new clinical observations to re-simulate the patient's twin trajectory.")
+
+    pred_pct, pred_weeks = predict_for_row(patient_row)
+    predicted_traj = simmod.build_predicted_trajectory(patient_row, pred_pct, pred_weeks)
+    max_w = int(predicted_traj["Week"].max())
+
+    rec_w = st.slider("Recalibration Week", 1, max_w, min(4, max_w))
+    c1, c2, c3 = st.columns(3)
+    with c1:
+        p_in = st.number_input("Observed Pain (0-10)", 0.0, 10.0, 6.0, 0.5)
+    with c2:
+        rom_in = st.number_input("Observed ROM (deg)", 0.0, 150.0, 75.0, 1.0)
+    with c3:
+        str_in = st.number_input("Observed Strength (%)", 0.0, 100.0, 50.0, 1.0)
+
+    if st.button("Run Recalibration", type="primary"):
+        p_row = predicted_traj[predicted_traj["Week"] == rec_w].iloc[0]
+        cur_st = {"Pain": p_in, "ROM_deg": rom_in, "Strength_pct": str_in}
+        dev = simmod.check_deviation(p_row, cur_st)
+        res = simmod.recalibrate(
+            patient_row, cur_st, rec_w, train, tables["Recovery_Pathway"],
+            pct_model, weeks_model, get_feature_frame, dev
+        )
+        st.session_state["recal_result"] = res
+        
+        # Save to recalibration history
+        pw_label = res["recommended_pathway"]["Archetype_Label"] if res["recommended_pathway"] is not None else "Standard"
+        st.session_state["recal_history"].append({
+            "week": rec_w,
+            "old_pct": pred_pct,
+            "old_wks": pred_weeks,
+            "new_pct": res["new_predicted_pct"],
+            "new_wks": res["new_predicted_weeks"],
+            "pathway": pw_label,
+        })
+
+    if st.session_state["recal_result"]:
+        res = st.session_state["recal_result"]
+        st.markdown("---")
+        st.markdown("### Recalibration Outcome")
+        r1, r2 = st.columns(2)
+        r1.metric("Recalibrated Recovery %", f"{res['new_predicted_pct']:.1f}%", f"{res['new_predicted_pct'] - pred_pct:+.1f}% vs Original")
+        r2.metric("Recalibrated Recovery Weeks", f"{res['new_predicted_weeks']:.1f} wks", f"{res['new_predicted_weeks'] - pred_weeks:+.1f} wks vs Original")
+        st.info(res["explanation"])
+
+
+# ========================================================================
+# PAGE 7: RECOMMENDATIONS
+# ========================================================================
+elif page == "Recommendations":
+    st.title("Clinical Pathway Recommendations")
+    pathways = tables["Recovery_Pathway"].sort_values("Success_Rate", ascending=False)
+    st.markdown("### All Mined Recovery Pathways")
+    st.dataframe(pathways, width="stretch")
+
+
+# ========================================================================
+# PAGE 8: EVALUATION METRICS
+# ========================================================================
+elif page == "Evaluation Metrics":
+    st.title("Model Evaluation Metrics (2025 Test Set)")
+
+    m_pct = state["metrics_pct"]
+    m_wks = state["metrics_weeks"]
+
+    e1, e2, e3, e4 = st.columns(4)
+    e1.metric("Recovery % R²", f"{m_pct['R2']:.3f}")
+    e2.metric("Recovery % RMSE", f"{m_pct['RMSE']:.2f}")
+    e3.metric("Recovery Weeks R²", f"{m_wks['R2']:.3f}")
+    e4.metric("Recovery Weeks RMSE", f"{m_wks['RMSE']:.2f}")
+
+    st.markdown("---")
+    col1, col2 = st.columns(2)
+    with col1:
+        st.plotly_chart(ev.actual_vs_predicted_scatter(test[config.TARGET_RECOVERY_PCT], test["Predicted_Recovery_Pct"], "Actual vs Predicted Recovery %", "Recovery %"), width="stretch")
+        st.plotly_chart(ev.residual_plot(test[config.TARGET_RECOVERY_PCT], test["Predicted_Recovery_Pct"], "Residuals — Recovery %", "Recovery %"), width="stretch")
+    with col2:
+        st.plotly_chart(ev.actual_vs_predicted_scatter(test[config.TARGET_RECOVERY_WEEKS], test["Predicted_Recovery_Weeks"], "Actual vs Predicted Recovery Weeks", "Weeks"), width="stretch")
+        st.plotly_chart(ev.error_distribution_hist(test[config.TARGET_RECOVERY_WEEKS], test["Predicted_Recovery_Weeks"], "Error Distribution — Recovery Weeks"), width="stretch")
+
+    st.markdown("---")
+    st.markdown("### Feature Importance")
+    st.plotly_chart(ev.feature_importance_bar(state["feature_importance"]), width="stretch")

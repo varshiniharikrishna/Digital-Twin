@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Digital Twin — Orthopaedic Rehabilitation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <!-- Top Application Header -->
+    <header class="app-header">
+        <div class="header-brand">
+            <div>
+                <h1>Dynamic Digital Twin Framework</h1>
+                <p>Personalized Clinical Human Rehabilitation System</p>
+            </div>
+        </div>
+        <div class="header-controls">
+            <label for="patientSelect">Select 2025 Test Patient:</label>
+            <select id="patientSelect" class="patient-dropdown"></select>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs">
+        <button class="nav-tab active" data-tab="weekByWeek">Week-by-Week Twin</button>
+        <button class="nav-tab" data-tab="treatmentClones">Treatment Clones</button>
+        <button class="nav-tab" data-tab="twinOverview">Digital Twin Overview</button>
+        <button class="nav-tab" data-tab="recalibration">Simulation & Recalibration</button>
+        <button class="nav-tab" data-tab="evaluation">Evaluation Metrics</button>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="main-container">
+
+        <!-- TAB 1: WEEK-BY-WEEK TWIN -->
+        <section id="tab-weekByWeek" class="tab-content active">
+            <!-- Digital Twin Explanation Card -->
+            <div class="card concept-card mb-4">
+                <h3>What is the Dynamic Digital Twin?</h3>
+                <p>The Dynamic Digital Twin is a computational virtual copy of a human patient's physiological and musculoskeletal state. It continuously updates week-by-week using real recorded clinical observations (Pain, Range of Motion, Quad/Hamstring strength, Balance, Walking speed). By combining baseline intake features with machine learning models trained on historical patient cohorts, the twin forecasts individual recovery trajectories and simulates physiological reactions across alternative treatment pathways.</p>
+            </div>
+
+            <!-- Timeline Header Card -->
+            <div class="card timeline-header-card">
+                <div class="timeline-slider-row">
+                    <div>
+                        <h2 class="section-title">Week-by-Week Patient Twin Progression</h2>
+                        <p class="section-desc">Track real recorded metrics evolving across recovery weeks.</p>
+                    </div>
+                    <div class="slider-control">
+                        <label for="weekSlider">Timeline Stage: <span id="weekSliderVal" class="badge-emerald">Week 1</span></label>
+                        <input type="range" id="weekSlider" min="1" max="16" value="1" step="1">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Metric Cards -->
+            <div class="metric-grid" id="twinStateMetrics">
+                <div class="metric-card">
+                    <div class="metric-label">Pain Score</div>
+                    <div class="metric-val" id="mPain">-</div>
+                    <div class="metric-sub">Target &le; 2.0</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Range of Motion (ROM)</div>
+                    <div class="metric-val" id="mRom">-</div>
+                    <div class="metric-sub">Degrees (&deg;)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Quad Strength</div>
+                    <div class="metric-val" id="mQuad">-</div>
+                    <div class="metric-sub">Percentage (%)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Hamstring Strength</div>
+                    <div class="metric-val" id="mHam">-</div>
+                    <div class="metric-sub">Percentage (%)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Balance Score</div>
+                    <div class="metric-val" id="mBalance">-</div>
+                    <div class="metric-sub">Target &ge; 75</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Walking Speed</div>
+                    <div class="metric-val" id="mSpeed">-</div>
+                    <div class="metric-sub">Meters/sec</div>
+                </div>
+            </div>
+
+            <!-- Sub Metrics Row -->
+            <div class="submetric-row">
+                <div class="submetric-box"><span class="sub-label">Swelling:</span> <strong id="mSwelling">-</strong></div>
+                <div class="submetric-box"><span class="sub-label">Compliance:</span> <strong id="mCompliance">-</strong></div>
+                <div class="submetric-box"><span class="sub-label">Patient Feedback:</span> <span id="mFeedback" class="italic-txt">-</span></div>
+                <div class="submetric-box"><span class="sub-label">Clinician Remark:</span> <span id="mRemark" class="italic-txt">-</span></div>
+            </div>
+
+            <!-- Full Body Human Twin & Pressure Points -->
+            <div class="grid-2col mt-4">
+                <div class="card svg-card">
+                    <h3>Full-Body Human Anatomical Twin</h3>
+                    <p class="card-desc">Dynamic pain spot and muscle overload alerts mapped to exact anatomical joint locations (Shoulder, Arm, Spine, Hip, Knee, Ankle, Leg).</p>
+                    <div class="svg-wrapper" id="svgPainMapWrapper"></div>
+                </div>
+                <div class="card flags-card">
+                    <h3>Flagged Recovery Pressure Points</h3>
+                    <p class="card-desc">Automated clinical risk detection based on actual recorded metrics.</p>
+                    <div id="pressureFlagsContainer" class="flags-container"></div>
+                </div>
+            </div>
+
+            <!-- Expected vs Actual & Active Therapy Plan -->
+            <div class="grid-2col mt-4">
+                <div class="card">
+                    <h3>Twin Expected vs. Actual Comparison</h3>
+                    <p class="card-desc">Comparing digital twin forward prediction vs recorded patient observation.</p>
+                    <div id="expectedVsActualContainer" class="eva-container"></div>
+                </div>
+                <div class="card">
+                    <h3>Active Rehabilitation Therapy Plan</h3>
+                    <p class="card-desc">Prescribed exercises for selected week from Therapy_Plan table.</p>
+                    <div id="therapyPlanContainer" class="table-wrapper"></div>
+                </div>
+            </div>
+
+            <!-- PDF Download Bar -->
+            <div class="card pdf-download-card mt-4">
+                <div>
+                    <h3>Export Clinical PDF Report</h3>
+                    <p>Generate a printable PDF report containing twin status, pressure points, and treatment options.</p>
+                </div>
+                <button id="downloadPdfBtn" class="btn btn-primary">Download PDF Report</button>
+            </div>
+        </section>
+
+        <!-- TAB 2: TREATMENT CLONES -->
+        <section id="tab-treatmentClones" class="tab-content">
+            <div class="card">
+                <h2 class="section-title">Treatment Clones & Reaction Simulation</h2>
+                <p class="section-desc">Comparing 3 treatment clones to demonstrate how different protocols cause different physiological reactions in the human twin.</p>
+            </div>
+            <div class="grid-3col mt-4" id="treatmentClonesGrid"></div>
+            <div class="card mt-4">
+                <h3>Comparative Trajectory Curves Across Clones</h3>
+                <div class="chart-container"><canvas id="clonesChart"></canvas></div>
+            </div>
+        </section>
+
+        <!-- TAB 3: DIGITAL TWIN OVERVIEW -->
+        <section id="tab-twinOverview" class="tab-content">
+            <div class="grid-2col">
+                <div class="card twin-card-real">
+                    <h3>Real Patient Profile</h3>
+                    <table class="info-table" id="realPatientInfoTable"></table>
+                </div>
+                <div class="card twin-card-twin">
+                    <h3>Digital Twin Model State</h3>
+                    <table class="info-table" id="digitalTwinStateTable"></table>
+                </div>
+            </div>
+            <div class="card mt-4">
+                <h3>Closest Historical Matches (2023–2024 Training Pool Only)</h3>
+                <div id="similarPatientsTableWrapper" class="table-wrapper"></div>
+            </div>
+        </section>
+
+        <!-- TAB 4: SIMULATION & RECALIBRATION -->
+        <section id="tab-recalibration" class="tab-content">
+            <div class="card">
+                <h2 class="section-title">Digital Twin Recalibration Simulator</h2>
+                <form id="recalForm" class="recal-form mt-4">
+                    <div class="form-group"><label for="recalWeek">Recalibration Week:</label><input type="number" id="recalWeek" min="1" max="52" value="4"></div>
+                    <div class="form-group"><label for="recalPain">Observed Pain (0-10):</label><input type="number" id="recalPain" min="0" max="10" step="0.5" value="6.0"></div>
+                    <div class="form-group"><label for="recalRom">Observed ROM (&deg;):</label><input type="number" id="recalRom" min="0" max="150" step="1" value="75"></div>
+                    <div class="form-group"><label for="recalStrength">Observed Strength (%):</label><input type="number" id="recalStrength" min="0" max="100" step="1" value="50"></div>
+                    <button type="submit" class="btn btn-primary">Run Recalibration</button>
+                </form>
+            </div>
+            <div id="recalResultCard" class="card mt-4 hidden">
+                <h3>Recalibration Result</h3>
+                <div class="metric-grid">
+                    <div class="metric-card"><div class="metric-label">Old Recovery</div><div class="metric-val" id="oldPredPct">-</div></div>
+                    <div class="metric-card"><div class="metric-label">New Recovery</div><div class="metric-val text-emerald" id="newPredPct">-</div></div>
+                    <div class="metric-card"><div class="metric-label">Old Duration</div><div class="metric-val" id="oldPredWks">-</div></div>
+                    <div class="metric-card"><div class="metric-label">New Duration</div><div class="metric-val text-emerald" id="newPredWks">-</div></div>
+                </div>
+                <div class="alert-box-info mt-4" id="recalExplanation"></div>
+            </div>
+            <div class="card mt-4">
+                <h3>Session Recalibration History Log</h3>
+                <div class="table-wrapper">
+                    <table class="data-table" id="recalHistoryTable">
+                        <thead><tr><th>Week</th><th>Old Prediction</th><th>Recalibrated Prediction</th><th>Updated Pathway</th></tr></thead>
+                        <tbody id="recalHistoryTbody"><tr><td colspan="4" class="text-muted text-center">No recalibrations run yet.</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 5: EVALUATION METRICS -->
+        <section id="tab-evaluation" class="tab-content">
+            <div class="card">
+                <h2 class="section-title">Upgraded Model Evaluation Metrics (2025 Test Set)</h2>
+                <p class="section-desc">Ensemble Model combining HistGradientBoosting, ExtraTrees, and RandomForest.</p>
+            </div>
+            <div class="metric-grid mt-4">
+                <div class="metric-card"><div class="metric-label">Recovery % R&sup2;</div><div class="metric-val text-emerald" id="kpiPctR2">-</div></div>
+                <div class="metric-card"><div class="metric-label">Recovery % RMSE</div><div class="metric-val" id="kpiPctRmse">-</div></div>
+                <div class="metric-card"><div class="metric-label">Recovery Time R&sup2;</div><div class="metric-val text-emerald" id="kpiWksR2">-</div></div>
+                <div class="metric-card"><div class="metric-label">Recovery Time RMSE</div><div class="metric-val" id="kpiWksRmse">-</div></div>
+            </div>
+            <div class="card mt-4">
+                <h3>Top Feature Importances</h3>
+                <div id="featureImportanceList" class="fi-list"></div>
+            </div>
+        </section>
+    </main>
+    <script src="/static/app.js"></script>
+</body>
+</html>

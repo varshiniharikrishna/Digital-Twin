@@ -1,0 +1,340 @@
+/* ==========================================================================
+   Dynamic Digital Twin — Frontend JavaScript (Full-Body Human Twin SVG)
+   ========================================================================== */
+
+document.addEventListener('DOMContentLoaded', () => {
+    let currentPatientId = null;
+    let maxPatientWeek = 1;
+    let clonesChartInstance = null;
+    let currentBodyPart = "Knee";
+    let currentInjuryType = "ACL Tear";
+    const recalHistory = [];
+
+    const patientSelect = document.getElementById('patientSelect');
+    const weekSlider = document.getElementById('weekSlider');
+    const weekSliderVal = document.getElementById('weekSliderVal');
+    const downloadPdfBtn = document.getElementById('downloadPdfBtn');
+    const recalForm = document.getElementById('recalForm');
+
+    init();
+
+    async function init() {
+        setupTabs();
+        await loadPatientList();
+        setupEventListeners();
+        await loadCurrentPatient();
+        await loadEvaluationMetrics();
+    }
+
+    function setupTabs() {
+        const tabs = document.querySelectorAll('.nav-tab');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                tab.classList.add('active');
+                document.getElementById(`tab-${tab.dataset.tab}`).classList.add('active');
+
+                if (tab.dataset.tab === 'treatmentClones') loadTreatmentClones();
+                else if (tab.dataset.tab === 'twinOverview') loadTwinOverview();
+            });
+        });
+    }
+
+    function setupEventListeners() {
+        patientSelect.addEventListener('change', async (e) => {
+            currentPatientId = e.target.value;
+            await loadCurrentPatient();
+        });
+
+        weekSlider.addEventListener('input', (e) => {
+            const week = parseInt(e.target.value);
+            weekSliderVal.textContent = `Week ${week}`;
+            loadWeekDetail(week);
+        });
+
+        downloadPdfBtn.addEventListener('click', () => {
+            window.location.href = `/api/patient/${currentPatientId}/pdf?week=${weekSlider.value}`;
+        });
+
+        recalForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await runRecalibration();
+        });
+    }
+
+    async function loadPatientList() {
+        try {
+            const res = await fetch('/api/patients');
+            const data = await res.json();
+            patientSelect.innerHTML = '';
+            data.patients.forEach(pid => {
+                const opt = document.createElement('option');
+                opt.value = pid; opt.textContent = pid;
+                patientSelect.appendChild(opt);
+            });
+            if (data.patients.length > 0) currentPatientId = data.patients[0];
+        } catch (err) { console.error(err); }
+    }
+
+    async function loadCurrentPatient() {
+        if (!currentPatientId) return;
+        try {
+            const resDetails = await fetch(`/api/patient/${currentPatientId}`);
+            const dataDetails = await resDetails.json();
+            currentBodyPart = dataDetails.patient.Body_Part || "Knee";
+            currentInjuryType = dataDetails.patient.Injury_Type || "ACL Tear";
+
+            const resWeekly = await fetch(`/api/patient/${currentPatientId}/weekly`);
+            const weeklyData = await resWeekly.json();
+            maxPatientWeek = weeklyData.max_week || 1;
+            weekSlider.max = maxPatientWeek;
+            weekSlider.value = 1;
+            weekSliderVal.textContent = `Week 1`;
+            await loadWeekDetail(1);
+        } catch (err) { console.error(err); }
+    }
+
+    async function loadWeekDetail(week) {
+        if (!currentPatientId) return;
+        try {
+            const res = await fetch(`/api/patient/${currentPatientId}/week/${week}`);
+            if (!res.ok) return;
+            const data = await res.json();
+            const w = data.week_data;
+
+            document.getElementById('mPain').textContent = `${w.Pain}/10`;
+            document.getElementById('mRom').textContent = `${w.ROM_deg}°`;
+            document.getElementById('mQuad').textContent = `${w.Quadriceps_Strength_pct}%`;
+            document.getElementById('mHam').textContent = `${w.Hamstring_Strength_pct}%`;
+            document.getElementById('mBalance').textContent = w.Balance_Score;
+            document.getElementById('mSpeed').textContent = `${w.Walking_Speed_mps} m/s`;
+
+            document.getElementById('mSwelling').textContent = w.Swelling;
+            document.getElementById('mCompliance').textContent = `${w.Compliance_pct}%`;
+            document.getElementById('mFeedback').textContent = w.Patient_Feedback;
+            document.getElementById('mRemark').textContent = w.Clinician_Remark;
+
+            renderFullBodyHumanSvg(parseFloat(w.Pain), currentBodyPart, data.muscle_compensation);
+            renderPressurePoints(data.pressure_points);
+            renderExpectedVsActual(data.expected_vs_actual);
+            renderTherapyPlan(data.therapy_plan);
+        } catch (err) { console.error(err); }
+    }
+
+    // ----------------------------------------------------------------------
+    // FULL-BODY HUMAN ANATOMICAL SVG TWIN
+    // ----------------------------------------------------------------------
+    function renderFullBodyHumanSvg(painScore, bodyPart, compEvent) {
+        const wrapper = document.getElementById('svgPainMapWrapper');
+        
+        let radius = 12;
+        let fillColor = '#10B981';
+        let glowColor = 'rgba(16, 185, 129, 0.3)';
+
+        if (painScore >= 8.0) { radius = 26; fillColor = '#E11D48'; glowColor = 'rgba(225, 29, 72, 0.5)'; }
+        else if (painScore >= 5.0) { radius = 20; fillColor = '#F59E0B'; glowColor = 'rgba(245, 158, 11, 0.4)'; }
+        else if (painScore >= 2.0) { radius = 15; fillColor = '#EAB308'; glowColor = 'rgba(234, 179, 8, 0.3)'; }
+
+        // Determine anatomical coordinates based on injured body part
+        let spotX = 200, spotY = 295; // Default Knee
+        let partLabel = "Right Knee";
+
+        const bp = (bodyPart || "").toLowerCase();
+        const inj = (currentInjuryType || "").toLowerCase();
+
+        if (bp.includes("shoulder") || inj.includes("rotator")) { spotX = 250; spotY = 90; partLabel = "Right Shoulder"; }
+        else if (bp.includes("ankle") || inj.includes("ankle") || inj.includes("achilles")) { spotX = 215; spotY = 405; partLabel = "Right Ankle"; }
+        else if (bp.includes("lower leg") || inj.includes("tibial")) { spotX = 215; spotY = 350; partLabel = "Right Tibia / Calf"; }
+        else if (bp.includes("arm") || bp.includes("elbow")) { spotX = 265; spotY = 135; partLabel = "Right Elbow / Arm"; }
+        else if (bp.includes("wrist") || bp.includes("hand")) { spotX = 285; spotY = 185; partLabel = "Right Wrist"; }
+        else if (bp.includes("neck") || bp.includes("head")) { spotX = 200; spotY = 55; partLabel = "Cervical Spine / Neck"; }
+        else if (bp.includes("hip") || bp.includes("pelvis")) { spotX = 215; spotY = 205; partLabel = "Right Hip Joint"; }
+        else { spotX = 215; spotY = 295; partLabel = "Right Knee Joint"; }
+
+        let compMarker = '';
+        if (compEvent) {
+            compMarker = `
+            <g transform="translate(270, ${spotY - 20})">
+                <rect x="0" y="0" width="120" height="42" rx="6" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.5"/>
+                <text x="60" y="17" fill="#991B1B" font-size="10" font-weight="bold" text-anchor="middle">OVERLOAD ALERT</text>
+                <text x="60" y="31" fill="#7F1D1D" font-size="9" text-anchor="middle">${compEvent.Muscle_Overloaded} (${compEvent.Compensation_Level})</text>
+            </g>
+            <line x1="${spotX}" y1="${spotY}" x2="270" y2="${spotY}" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="3,3"/>
+            `;
+        }
+
+        wrapper.innerHTML = `
+        <svg width="400" height="460" viewBox="0 0 400 460">
+            <defs>
+                <filter id="glow"><feGaussianBlur stdDeviation="5" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" /></filter>
+            </defs>
+
+            <!-- Full-Body Human Anatomical Silhouette -->
+            <!-- Head & Neck -->
+            <ellipse cx="200" cy="35" rx="18" ry="22" fill="#E2E8F0" stroke="#94A3B8" stroke-width="1.5"/>
+            <rect x="194" y="55" width="12" height="15" rx="2" fill="#CBD5E1"/>
+
+            <!-- Torso / Chest / Spine / Pelvis -->
+            <path d="M 165 70 L 235 70 L 225 180 L 175 180 Z" fill="#CBD5E1" stroke="#94A3B8" stroke-width="1.5"/>
+            <line x1="200" y1="70" x2="200" y2="180" stroke="#94A3B8" stroke-width="1.5" stroke-dasharray="2,2"/>
+
+            <!-- Left Arm -->
+            <path d="M 165 70 L 140 85 L 125 135 L 115 185" fill="none" stroke="#CBD5E1" stroke-width="14" stroke-linecap="round"/>
+            <circle cx="140" cy="85" r="8" fill="#94A3B8"/>
+            <circle cx="125" cy="135" r="7" fill="#94A3B8"/>
+
+            <!-- Right Arm -->
+            <path d="M 235 70 L 260 85 L 275 135 L 285 185" fill="none" stroke="#CBD5E1" stroke-width="14" stroke-linecap="round"/>
+            <circle cx="260" cy="85" r="8" fill="#94A3B8"/>
+            <circle cx="275" cy="135" r="7" fill="#94A3B8"/>
+
+            <!-- Hips / Pelvis -->
+            <path d="M 175 180 L 225 180 L 230 210 L 170 210 Z" fill="#94A3B8"/>
+
+            <!-- Left Leg -->
+            <path d="M 180 210 L 180 290 L 180 380 L 180 430" fill="none" stroke="#CBD5E1" stroke-width="18" stroke-linecap="round"/>
+            <circle cx="180" cy="295" r="9" fill="#94A3B8"/>
+            <circle cx="180" cy="410" r="7" fill="#94A3B8"/>
+
+            <!-- Right Leg -->
+            <path d="M 220 210 L 220 290 L 220 380 L 220 430" fill="none" stroke="#CBD5E1" stroke-width="18" stroke-linecap="round"/>
+            <circle cx="220" cy="295" r="9" fill="#94A3B8"/>
+            <circle cx="220" cy="410" r="7" fill="#94A3B8"/>
+
+            <!-- Dynamic Pain Spot & Pulsing Glow on Targeted Joint -->
+            <circle cx="${spotX}" cy="${spotY}" r="${radius + 8}" fill="${glowColor}" filter="url(#glow)"/>
+            <circle cx="${spotX}" cy="${spotY}" r="${radius}" fill="${fillColor}" stroke="#FFFFFF" stroke-width="2"/>
+            <text x="${spotX}" y="${spotY + 4}" fill="#FFFFFF" font-size="10" font-weight="bold" text-anchor="middle">${painScore}</text>
+
+            <!-- Anatomical Location Tag -->
+            <rect x="15" y="15" width="130" height="26" rx="4" fill="#FFFFFF" stroke="#CBD5E1"/>
+            <text x="80" y="32" fill="#0F172A" font-size="10" font-weight="bold" text-anchor="middle">${partLabel}</text>
+
+            ${compMarker}
+        </svg>
+        `;
+    }
+
+    function renderPressurePoints(points) {
+        const container = document.getElementById('pressureFlagsContainer');
+        container.innerHTML = (!points || points.length === 0) ? `<div class="alert-box-info">✓ No critical pressure point flags detected!</div>` : '';
+        if (points) points.forEach(p => {
+            container.innerHTML += `<div class="flag-box"><div class="flag-title">ALERT: ${p.Category} — ${p.Flag}</div><div class="flag-detail">Recorded Value: <b>${p.Actual}</b></div></div>`;
+        });
+    }
+
+    function renderExpectedVsActual(eva) {
+        const container = document.getElementById('expectedVsActualContainer');
+        if (!eva || Object.keys(eva).length === 0) return;
+        let html = `<table class="data-table"><thead><tr><th>Metric</th><th>Expected</th><th>Actual</th><th>Deviation</th></tr></thead><tbody>`;
+        Object.keys(eva).forEach(m => {
+            const d = eva[m];
+            html += `<tr><td><b>${m}</b></td><td>${d.predicted.toFixed(1)}</td><td>${d.actual.toFixed(1)}</td><td><strong style="color:${d.flagged ? '#E11D48' : '#059669'}">${d.pct_deviation >= 0 ? '+' : ''}${d.pct_deviation.toFixed(1)}%</strong></td></tr>`;
+        });
+        container.innerHTML = html + `</tbody></table>`;
+    }
+
+    function renderTherapyPlan(plan) {
+        const container = document.getElementById('therapyPlanContainer');
+        if (!plan || plan.length === 0) return;
+        let html = `<table class="data-table"><thead><tr><th>Exercise</th><th>Target</th><th>Sets x Reps</th><th>Duration</th><th>Therapist Notes</th></tr></thead><tbody>`;
+        plan.forEach(ex => {
+            html += `<tr><td><b>${ex.Exercise_Name}</b></td><td>${ex.Target_Muscle}</td><td>${ex.Sets} &times; ${ex.Repetitions}</td><td>${ex.Duration_min} min</td><td class="italic-txt">${ex.Therapist_Notes || '-'}</td></tr>`;
+        });
+        container.innerHTML = html + `</tbody></table>`;
+    }
+
+    async function loadTreatmentClones() {
+        if (!currentPatientId) return;
+        const res = await fetch(`/api/patient/${currentPatientId}/clones`);
+        const data = await res.json();
+        const grid = document.getElementById('treatmentClonesGrid');
+        grid.innerHTML = '';
+        data.clones.forEach(cl => {
+            grid.innerHTML += `<div class="card" style="border-top:4px solid ${cl.color}"><h3>${cl.name}</h3><div style="font-size:1.5rem; font-weight:700; color:#0F172A;">${cl.recovery_pct.toFixed(0)}% Recovery</div><div style="color:#64748B; font-size:0.85rem;">Duration: <b>${cl.weeks} wks</b></div><hr style="border-color:#E2E8F0; margin:10px 0;"><div style="font-size:0.88rem;"><b>Final ROM:</b> ${cl.final_rom.toFixed(0)}° | <b>Strength:</b> ${cl.final_strength.toFixed(0)}%</div><div style="font-size:0.82rem; color:#475569; margin-top:8px;"><i>${cl.reaction}</i></div></div>`;
+        });
+        renderClonesChart(data.clones);
+    }
+
+    function renderClonesChart(clones) {
+        const ctx = document.getElementById('clonesChart').getContext('2d');
+        if (clonesChartInstance) clonesChartInstance.destroy();
+        const maxWeeks = Math.max(...clones.map(c => c.weeks));
+        const labels = Array.from({length: maxWeeks}, (_, i) => `W${i+1}`);
+        const datasets = clones.map(cl => ({
+            label: cl.name,
+            data: cl.trajectory.map(t => t.Predicted_Strength_pct),
+            borderColor: cl.color, backgroundColor: cl.color, borderWidth: 2.5, tension: 0.3
+        }));
+        clonesChartInstance = new Chart(ctx, {
+            type: 'line', data: { labels, datasets },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#0F172A' } } }, scales: { x: { ticks: { color: '#64748B' }, grid: { color: '#E2E8F0' } }, y: { ticks: { color: '#64748B' }, grid: { color: '#E2E8F0' } } } }
+        });
+    }
+
+    async function loadTwinOverview() {
+        if (!currentPatientId) return;
+        const res = await fetch(`/api/patient/${currentPatientId}`);
+        const data = await res.json();
+        const p = data.patient, pred = data.prediction;
+
+        document.getElementById('realPatientInfoTable').innerHTML = `<tr><td>Patient ID</td><td>${p.Patient_ID}</td></tr><tr><td>Age / Gender</td><td>${p.Age} / ${p.Gender}</td></tr><tr><td>Injury Type</td><td>${p.Injury_Type}</td></tr><tr><td>Body Part</td><td>${p.Body_Part}</td></tr><tr><td>Severity</td><td>${p.Severity}</td></tr><tr><td>Baseline Pain / ROM</td><td>${p.Pain_Score}/10 | ${p.Range_of_Motion_deg}°</td></tr>`;
+        document.getElementById('digitalTwinStateTable').innerHTML = `<tr><td>Twin ID</td><td>DT_${p.Patient_ID}</td></tr><tr><td>Predicted Recovery %</td><td class="text-emerald"><b>${pred.predicted_pct}%</b></td></tr><tr><td>Predicted Duration</td><td class="text-emerald"><b>${pred.predicted_weeks} wks</b></td></tr><tr><td>Model R² Confidence</td><td>${pred.r2_score}</td></tr>`;
+
+        let simHtml = `<table class="data-table"><thead><tr><th>Patient ID</th><th>Similarity</th><th>Age / Gender</th><th>Injury</th><th>Severity</th><th>Recovery %</th><th>Duration</th></tr></thead><tbody>`;
+        data.similar_patients.forEach(sp => {
+            simHtml += `<tr><td><b>${sp.Patient_ID}</b></td><td class="text-emerald"><b>${(sp.Similarity_Score * 100).toFixed(0)}%</b></td><td>${sp.Age} / ${sp.Gender}</td><td>${sp.Injury_Type}</td><td>${sp.Severity}</td><td>${sp.Final_Recovery_Pct.toFixed(0)}%</td><td>${sp.Actual_Recovery_Time_weeks.toFixed(0)} wks</td></tr>`;
+        });
+        document.getElementById('similarPatientsTableWrapper').innerHTML = simHtml + `</tbody></table>`;
+    }
+
+    async function runRecalibration() {
+        const week = document.getElementById('recalWeek').value;
+        const pain = document.getElementById('recalPain').value;
+        const rom = document.getElementById('recalRom').value;
+        const strength = document.getElementById('recalStrength').value;
+
+        const res = await fetch(`/api/patient/${currentPatientId}/recalibrate`, {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ week, pain, rom, strength })
+        });
+        const data = await res.json();
+
+        document.getElementById('oldPredPct').textContent = `${data.old_predicted_pct}%`;
+        document.getElementById('newPredPct').textContent = `${data.new_predicted_pct}%`;
+        document.getElementById('oldPredWks').textContent = `${data.old_predicted_weeks} wks`;
+        document.getElementById('newPredWks').textContent = `${data.new_predicted_weeks} wks`;
+        document.getElementById('recalExplanation').textContent = data.explanation;
+        document.getElementById('recalResultCard').classList.remove('hidden');
+
+        recalHistory.push({ week, oldPred: `${data.old_predicted_pct}%`, newPred: `${data.new_predicted_pct}%`, pathway: data.recommended_pathway ? data.recommended_pathway.Archetype_Label : 'Standard' });
+        renderRecalHistory();
+    }
+
+    function renderRecalHistory() {
+        const tbody = document.getElementById('recalHistoryTbody');
+        tbody.innerHTML = '';
+        recalHistory.forEach(item => {
+            tbody.innerHTML += `<tr><td>Week ${item.week}</td><td>${item.oldPred}</td><td class="text-emerald"><b>${item.newPred}</b></td><td>${item.pathway}</td></tr>`;
+        });
+    }
+
+    async function loadEvaluationMetrics() {
+        const res = await fetch('/api/metrics');
+        const data = await res.json();
+
+        document.getElementById('kpiPctR2').textContent = data.metrics_pct.R2.toFixed(3);
+        document.getElementById('kpiPctRmse').textContent = data.metrics_pct.RMSE.toFixed(2);
+        document.getElementById('kpiWksR2').textContent = data.metrics_weeks.R2.toFixed(3);
+        document.getElementById('kpiWksRmse').textContent = data.metrics_weeks.RMSE.toFixed(2);
+
+        const fiContainer = document.getElementById('featureImportanceList');
+        fiContainer.innerHTML = '';
+        const maxImp = Math.max(...data.feature_importance.map(f => f.Importance));
+        data.feature_importance.forEach(f => {
+            fiContainer.innerHTML += `<div class="fi-item"><div class="fi-name">${f.Feature}</div><div class="fi-bar-wrapper"><div class="fi-bar-fill" style="width: ${(f.Importance / maxImp * 100).toFixed(0)}%"></div></div><div style="font-size:0.85rem; font-weight:600; width:45px;">${(f.Importance * 100).toFixed(1)}%</div></div>`;
+        });
+    }
+});
