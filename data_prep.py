@@ -27,46 +27,74 @@ def compute_derived_features(df: pd.DataFrame) -> pd.DataFrame:
     """Adds clinical feature engineering for multi-region datasets."""
     df = df.copy()
 
-    # Column aliases normalization
-    if "Quadriceps_Strength_pct" not in df.columns:
-        if "Primary_Strength_pct" in df.columns:
-            df["Quadriceps_Strength_pct"] = df["Primary_Strength_pct"]
-        elif "Muscle_Strength_pct" in df.columns:
-            df["Quadriceps_Strength_pct"] = df["Muscle_Strength_pct"]
-        else:
-            df["Quadriceps_Strength_pct"] = 50.0
-
-    if "Hamstring_Strength_pct" not in df.columns:
-        if "Secondary_Strength_pct" in df.columns:
-            df["Hamstring_Strength_pct"] = df["Secondary_Strength_pct"].fillna(df["Quadriceps_Strength_pct"])
-        else:
-            df["Hamstring_Strength_pct"] = df["Quadriceps_Strength_pct"]
-
-    if "Range_of_Motion_deg" not in df.columns:
-        if "Primary_ROM_deg" in df.columns:
-            df["Range_of_Motion_deg"] = df["Primary_ROM_deg"]
-        else:
-            df["Range_of_Motion_deg"] = 100.0
-
-    if "Balance_Score" not in df.columns:
-        if "Function_Score" in df.columns:
-            df["Balance_Score"] = df["Function_Score"]
-        else:
-            df["Balance_Score"] = 70.0
-
-    if "Walking_Speed_mps" not in df.columns:
-        df["Walking_Speed_mps"] = 1.0
+    # Resolve Quadriceps / Primary Strength
+    quad_col = None
+    for col in ["Quadriceps_Strength_pct", "Primary_Strength_pct_x", "Primary_Strength_pct", "Primary_Strength_pct_y", "Muscle_Strength_pct", "Primary_Strength_pct_w1"]:
+        if col in df.columns and df[col].notna().any():
+            quad_col = col
+            break
+    if quad_col is not None:
+        df["Quadriceps_Strength_pct"] = df[quad_col].astype(float)
     else:
-        df["Walking_Speed_mps"] = df["Walking_Speed_mps"].fillna(1.0)
+        df["Quadriceps_Strength_pct"] = 50.0
 
-    if "Pain_Score" not in df.columns:
-        if "Actual_Pain_Score" in df.columns:
-            df["Pain_Score"] = df["Actual_Pain_Score"]
-        else:
-            df["Pain_Score"] = 5.0
+    # Resolve Hamstring / Secondary Strength
+    ham_col = None
+    for col in ["Hamstring_Strength_pct", "Secondary_Strength_pct", "Secondary_Strength_pct_y", "Secondary_Strength_pct_w1"]:
+        if col in df.columns and df[col].notna().any():
+            ham_col = col
+            break
+    if ham_col is not None:
+        df["Hamstring_Strength_pct"] = df[ham_col].fillna(df["Quadriceps_Strength_pct"] * 0.85).astype(float)
+    else:
+        df["Hamstring_Strength_pct"] = (df["Quadriceps_Strength_pct"] * 0.85).astype(float)
+
+    # Resolve Range of Motion
+    rom_col = None
+    for col in ["Range_of_Motion_deg", "Primary_ROM_deg_x", "Primary_ROM_deg", "Primary_ROM_deg_y", "Primary_ROM_deg_w1", "ROM_deg"]:
+        if col in df.columns and df[col].notna().any():
+            rom_col = col
+            break
+    if rom_col is not None:
+        df["Range_of_Motion_deg"] = df[rom_col].astype(float)
+    else:
+        df["Range_of_Motion_deg"] = 100.0
+
+    # Resolve Balance / Function Score
+    bal_col = None
+    for col in ["Balance_Score", "Function_Score", "Function_Score_x", "Balance_Score_x"]:
+        if col in df.columns and df[col].notna().any():
+            bal_col = col
+            break
+    if bal_col is not None:
+        df["Balance_Score"] = df[bal_col].astype(float)
+    else:
+        df["Balance_Score"] = 70.0
+
+    # Resolve Walking Speed
+    speed_col = None
+    for col in ["Walking_Speed_mps", "Walking_Speed_mps_x"]:
+        if col in df.columns and df[col].notna().any():
+            speed_col = col
+            break
+    if speed_col is not None:
+        df["Walking_Speed_mps"] = df[speed_col].fillna(1.0).astype(float)
+    else:
+        df["Walking_Speed_mps"] = 1.0
+
+    # Resolve Pain Score
+    pain_col = None
+    for col in ["Pain_Score", "Pain_Score_x", "Pain_Score_ia", "Actual_Pain_Score", "Pain"]:
+        if col in df.columns and df[col].notna().any():
+            pain_col = col
+            break
+    if pain_col is not None:
+        df["Pain_Score"] = df[pain_col].astype(float)
+    else:
+        df["Pain_Score"] = 5.0
 
     quad = df["Quadriceps_Strength_pct"].astype(float)
-    ham = df["Hamstring_Strength_pct"].fillna(quad).astype(float)
+    ham = df["Hamstring_Strength_pct"].astype(float)
     df["Quad_Ham_Ratio"] = (quad / (ham + 1e-5)).round(3)
     
     diabetes = df["Diabetes"].astype(float) if "Diabetes" in df.columns else 0.0

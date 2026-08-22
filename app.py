@@ -234,76 +234,96 @@ def non_blue_line_chart(actual_traj, predicted_traj, metric_actual, metric_pred,
 
 def render_svg_pain_spot(pain_score: float, body_part: str, compensation_event: dict = None):
     """
-    Renders an anatomical SVG diagram displaying dynamic red pain spot intensity
-    and muscle compensation markers.
+    Renders a full-body human anatomical SVG diagram displaying dynamic pain spot intensity
+    mapped to exact anatomical joint locations.
     """
-    # Color & size mapping based on pain
     if pain_score >= 8.0:
-        fill_color = "#E11D48"  # Crimson
+        fill_color = "#E11D48"
         glow_color = "rgba(225, 29, 72, 0.6)"
-        radius = 28
+        radius = 24
     elif pain_score >= 5.0:
-        fill_color = "#F59E0B"  # Amber
+        fill_color = "#F59E0B"
         glow_color = "rgba(245, 158, 11, 0.5)"
-        radius = 20
+        radius = 18
     elif pain_score >= 2.0:
-        fill_color = "#EAB308"  # Soft yellow
+        fill_color = "#EAB308"
         glow_color = "rgba(234, 179, 8, 0.4)"
-        radius = 14
+        radius = 13
     else:
-        fill_color = "#10B981"  # Emerald green
+        fill_color = "#10B981"
         glow_color = "rgba(16, 185, 129, 0.3)"
         radius = 10
 
+    bp = (body_part or "").lower()
+    spot_x, spot_y = 215, 280
+    part_label = "Right Knee"
+
+    if "shoulder" in bp or "rotator" in bp:
+        spot_x, spot_y, part_label = 245, 85, "Right Shoulder"
+    elif "ankle" in bp or "achilles" in bp:
+        spot_x, spot_y, part_label = 215, 380, "Right Ankle"
+    elif "lower leg" in bp or "tibia" in bp or "calf" in bp:
+        spot_x, spot_y, part_label = 215, 330, "Tibia / Calf"
+    elif "arm" in bp or "elbow" in bp:
+        spot_x, spot_y, part_label = 260, 125, "Elbow / Arm"
+    elif "wrist" in bp or "hand" in bp:
+        spot_x, spot_y, part_label = 275, 170, "Wrist"
+    elif "neck" in bp or "spine" in bp:
+        spot_x, spot_y, part_label = 200, 55, "Spine / Neck"
+    elif "hip" in bp or "pelvis" in bp:
+        spot_x, spot_y, part_label = 215, 195, "Hip Joint"
+    else:
+        spot_x, spot_y, part_label = 215, 280, "Right Knee Joint"
+
     comp_marker = ""
     if compensation_event:
-        comp_muscle = compensation_event.get("Muscle_Overloaded", "Muscle")
-        comp_level = compensation_event.get("Compensation_Level", "Moderate")
+        comp_m = compensation_event.get("Muscle_Overloaded", "Muscle")
+        comp_l = compensation_event.get("Compensation_Level", "Moderate")
         comp_marker = f"""
-        <g transform="translate(260, 110)">
-            <rect x="0" y="0" width="110" height="40" rx="6" fill="#7F1D1D" stroke="#EF4444" stroke-width="1.5"/>
-            <text x="55" y="16" fill="#FEE2E2" font-size="10" font-weight="bold" text-anchor="middle">OVERLOAD ALERT</text>
-            <text x="55" y="30" fill="#FCA5A5" font-size="9" text-anchor="middle">{comp_muscle} ({comp_level})</text>
+        <g transform="translate(260, {spot_y - 20})">
+            <rect x="0" y="0" width="110" height="38" rx="6" fill="#7F1D1D" stroke="#EF4444" stroke-width="1.5"/>
+            <text x="55" y="15" fill="#FEE2E2" font-size="9" font-weight="bold" text-anchor="middle">OVERLOAD ALERT</text>
+            <text x="55" y="28" fill="#FCA5A5" font-size="8" text-anchor="middle">{comp_m} ({comp_l})</text>
         </g>
-        <line x1="210" y1="140" x2="260" y2="130" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="3,3"/>
+        <line x1="{spot_x}" y1="{spot_y}" x2="260" y2="{spot_y}" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="3,3"/>
         """
 
     svg = f"""
     <div class="svg-container">
-        <h4 style="color:#10B981; margin-top:0;">Anatomical Visual Twin & Dynamic Pain Spot</h4>
-        <svg width="380" height="260" viewBox="0 0 380 260" style="max-width:100%;">
-            <!-- Background grid lines -->
+        <h4 style="color:#10B981; margin-top:0;">Anatomical Visual Twin — {part_label}</h4>
+        <svg width="380" height="420" viewBox="0 0 380 420" style="max-width:100%;">
             <defs>
                 <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-                    <feGaussianBlur stdDeviation="6" result="blur" />
+                    <feGaussianBlur stdDeviation="5" result="blur" />
                     <feComposite in="SourceGraphic" in2="blur" operator="over" />
                 </filter>
             </defs>
 
-            <!-- Anatomical Leg / Knee Outline -->
-            <!-- Femur (Upper Leg) -->
-            <rect x="180" y="20" width="40" height="100" rx="8" fill="#334155" stroke="#475569" stroke-width="2"/>
-            <text x="140" y="70" fill="#94A3B8" font-size="11">Femur / Quadriceps</text>
+            <!-- Full Body Silhouette -->
+            <ellipse cx="200" cy="32" rx="16" ry="20" fill="#334155" stroke="#475569" stroke-width="1.5"/>
+            <rect x="195" y="52" width="10" height="12" fill="#475569"/>
+            <path d="M 165 64 L 235 64 L 225 170 L 175 170 Z" fill="#334155" stroke="#475569" stroke-width="1.5"/>
             
-            <!-- Knee Joint Center -->
-            <circle cx="200" cy="140" r="30" fill="#1E293B" stroke="#64748B" stroke-width="2"/>
-            <text x="120" y="145" fill="#94A3B8" font-size="11">Knee Joint ({body_part})</text>
+            <!-- Left & Right Arms -->
+            <path d="M 165 64 L 140 80 L 125 130" fill="none" stroke="#334155" stroke-width="12" stroke-linecap="round"/>
+            <path d="M 235 64 L 260 80 L 275 130 L 285 175" fill="none" stroke="#334155" stroke-width="12" stroke-linecap="round"/>
 
-            <!-- Tibia (Lower Leg) -->
-            <rect x="182" y="160" width="36" height="90" rx="6" fill="#334155" stroke="#475569" stroke-width="2"/>
-            <text x="140" y="210" fill="#94A3B8" font-size="11">Tibia / Calves</text>
+            <!-- Hips & Legs -->
+            <path d="M 175 170 L 225 170 L 230 195 L 170 195 Z" fill="#475569"/>
+            <path d="M 180 195 L 180 280 L 180 380" fill="none" stroke="#334155" stroke-width="16" stroke-linecap="round"/>
+            <path d="M 220 195 L 220 280 L 220 380" fill="none" stroke="#334155" stroke-width="16" stroke-linecap="round"/>
 
-            <!-- Dynamic Pain Spot & Pulsing Glow -->
-            <circle cx="200" cy="140" r="{radius + 10}" fill="{glow_color}" filter="url(#glow)">
-                <animate attributeName="r" values="{radius+6};{radius+14};{radius+6}" dur="2s" repeatCount="indefinite" />
+            <!-- Dynamic Pain Spot -->
+            <circle cx="{spot_x}" cy="{spot_y}" r="{radius + 8}" fill="{glow_color}" filter="url(#glow)">
+                <animate attributeName="r" values="{radius+5};{radius+12};{radius+5}" dur="2s" repeatCount="indefinite" />
             </circle>
-            <circle cx="200" cy="140" r="{radius}" fill="{fill_color}" stroke="#FFFFFF" stroke-width="2"/>
-            <text x="200" y="144" fill="#FFFFFF" font-size="11" font-weight="bold" text-anchor="middle">{pain_score}</text>
+            <circle cx="{spot_x}" cy="{spot_y}" r="{radius}" fill="{fill_color}" stroke="#FFFFFF" stroke-width="2"/>
+            <text x="{spot_x}" y="{spot_y + 4}" fill="#FFFFFF" font-size="10" font-weight="bold" text-anchor="middle">{pain_score}</text>
 
             {comp_marker}
         </svg>
-        <div style="font-size:0.85rem; color:#94A3B8; margin-top:6px;">
-            Red spot indicates active pain area (Score: <b>{pain_score}/10</b>)
+        <div style="font-size:0.85rem; color:#94A3B8; margin-top:4px;">
+            Targeted Joint: <b>{part_label}</b> | Recorded Pain: <b>{pain_score}/10</b>
         </div>
     </div>
     """
@@ -441,10 +461,17 @@ if page == "Week-by-Week Twin":
             st.markdown("##### Prescribed Exercises for Selected Week")
             elib = tables["Exercise_Library"].set_index("Exercise_ID")
             plan_merged = week_plan.merge(elib, left_on="Exercise_ID", right_index=True, how="left")
+            target_col = "Target_Muscle_or_Function" if "Target_Muscle_or_Function" in plan_merged.columns else ("Target_Muscle" if "Target_Muscle" in plan_merged.columns else "Target_Region")
+            plan_merged["Target_Muscle"] = plan_merged[target_col].fillna("Full Body")
+            for c in ["Sets", "Repetitions", "Duration_min", "Therapist_Notes"]:
+                if c not in plan_merged.columns:
+                    plan_merged[c] = "-"
+
             st.dataframe(
                 plan_merged[["Exercise_Name", "Target_Muscle", "Exercise_Category", "Sets", "Repetitions", "Duration_min", "Therapist_Notes"]],
                 width="stretch"
             )
+
 
         st.markdown("---")
 
@@ -465,7 +492,7 @@ if page == "Week-by-Week Twin":
         )
 
         st.download_button(
-            label="📄 Download Clinical PDF Report",
+            label="Download Clinical PDF Report",
             data=pdf_bytes,
             file_name=f"Digital_Twin_Report_{patient_id}_Week{selected_week}.pdf",
             mime="application/pdf",
@@ -474,46 +501,78 @@ if page == "Week-by-Week Twin":
 
 
 # ========================================================================
-# PAGE 2: TREATMENT CLONES
+# ========================================================================
+# PAGE 2: TREATMENT REACTION SIMULATOR
 # ========================================================================
 elif page == "Treatment Clones":
-    st.title(f"Treatment Clones & Reaction Simulation — {patient_id}")
-    st.caption("Comparing 3 treatment clones to analyze how different rehabilitation protocols cause different physiological reactions in the twin.")
+    st.title(f"Single Digital Twin Treatment Reaction Simulator — {patient_id}")
+    st.caption("Simulate how this patient's digital twin reacts in real time to specific clinical treatment interventions, exercise sub-protocols, and recovery stages.")
 
-    pred_pct, pred_weeks = predict_for_row(patient_row)
-    clones = simmod.build_treatment_clones(patient_row, pred_pct, pred_weeks)
+    c_cat, c_sub = st.columns(2)
+    with c_cat:
+        cat_key = st.selectbox(
+            "1. Treatment Category",
+            options=list(simmod.TREATMENT_TAXONOMY.keys()),
+            format_func=lambda k: simmod.TREATMENT_TAXONOMY[k]["label"]
+        )
+    with c_sub:
+        sub_map = simmod.TREATMENT_TAXONOMY[cat_key]["subtypes"]
+        sub_key = st.selectbox(
+            "2. Exercise Sub-Protocol",
+            options=list(sub_map.keys()),
+            format_func=lambda k: f"{sub_map[k]['name']} ({sub_map[k]['preferred_stage']})"
+        )
 
-    st.markdown("### Treatment Pathway Options")
-    c1, c2, c3 = st.columns(3)
-    for col, cl in zip([c1, c2, c3], clones):
-        with col:
-            st.markdown(f"""
-            <div style="background:#1E293B; border:1px solid {cl['color']}; border-radius:10px; padding:16px;">
-                <h4 style="color:{cl['color']}; margin-top:0;">{cl['name']}</h4>
-                <div style="font-size:1.6rem; font-weight:700; color:#F8FAFC;">{cl['recovery_pct']:.0f}% Recovery</div>
-                <div style="color:#94A3B8; font-size:0.85rem;">Estimated Duration: <b>{cl['weeks']} weeks</b></div>
-                <hr style="border-color:#334155; margin:10px 0;">
-                <div style="font-size:0.88rem;"><b>Final ROM:</b> {cl['final_rom']:.0f}°</div>
-                <div style="font-size:0.88rem;"><b>Final Strength:</b> {cl['final_strength']:.0f}%</div>
-                <div style="font-size:0.88rem;"><b>Pain End-state:</b> {cl['final_pain']:.1f}/10</div>
-                <hr style="border-color:#334155; margin:10px 0;">
-                <div style="font-size:0.82rem; color:#CBD5E1;"><i>{cl['reaction']}</i></div>
-            </div>
-            """, unsafe_allow_html=True)
+    c_stg, c_int = st.columns(2)
+    with c_stg:
+        stage = st.selectbox("3. Stage of Recovery", ["Early Stage (Weeks 1-4)", "Mid Stage (Weeks 5-12)", "Late Stage / Sport Return (Weeks 13+)"], index=1)
+    with c_int:
+        intensity = st.selectbox("4. Intervention Intensity", ["Gentle", "Standard", "Aggressive"], index=1)
+
+    rx_res = simmod.simulate_treatment_intervention(patient_row, cat_key, sub_key, stage, intensity)
+
+    # Banner
+    appr = rx_res["appropriateness"]
+    if appr["status"] == "warning":
+        st.error(appr["message"])
+    elif appr["status"] == "success":
+        st.success(appr["message"])
+    else:
+        st.info(appr["message"])
+
+    # Impact Cards
+    imp = rx_res["impact"]
+    m1, m2, m3, m4 = st.columns(4)
+    m1.metric("ROM Impact", f"+{imp['rom_boost']:.1f}°")
+    m2.metric("Strength Impact", f"+{imp['strength_boost']:.1f}%")
+    m3.metric("Pain Delta", f"{imp['pain_delta']:+.1f}")
+    m4.metric("Discharge Timeline", f"{imp['discharge_weeks_new']} wks", f"{imp['discharge_delta']:+.1f} wks vs standard")
+
+    st.info(f"**Physiological Reaction Rationale:** {rx_res['reaction_summary']}")
 
     st.markdown("---")
-    st.markdown("### Comparative Trajectory Curves Across Clones")
-    
+    st.markdown("### Comparative Trajectory Overlay (Standard vs Treatment-Stimulated)")
+
+    base_df = pd.DataFrame(rx_res["baseline_trajectory"])
+    tx_df = pd.DataFrame(rx_res["treatment_trajectory"])
+
     fig_comp = go.Figure()
-    for cl in clones:
-        traj = cl["trajectory"]
-        fig_comp.add_trace(go.Scatter(
-            x=traj["Week"], y=traj["Predicted_Strength_pct"], mode="lines+markers",
-            name=f"{cl['name']} (Strength %)", line=dict(color=cl["color"], width=2.5)
-        ))
+    fig_comp.add_trace(go.Scatter(
+        x=base_df["Week"], y=base_df["Predicted_Strength_pct"], mode="lines",
+        name="Standard Baseline (Strength %)", line=dict(color="#64748B", width=2, dash="dash")
+    ))
+    fig_comp.add_trace(go.Scatter(
+        x=tx_df["Week"], y=tx_df["Predicted_Strength_pct"], mode="lines+markers",
+        name=f"Stimulated: {rx_res['exercise']['name']} (Strength %)", line=dict(color="#10B981", width=3)
+    ))
+    fig_comp.add_trace(go.Scatter(
+        x=tx_df["Week"], y=tx_df["Predicted_Pain"], mode="lines",
+        name="Treatment Pain Curve (0-10)", line=dict(color="#E11D48", width=2)
+    ))
+
     fig_comp.update_layout(
-        title="Predicted Strength Trajectory Comparison Across Treatment Clones",
-        xaxis_title="Week", yaxis_title="Quadriceps Strength (%)",
+        title=f"Physiological Reaction Trajectory for {patient_id} ({rx_res['exercise']['name']})",
+        xaxis_title="Week", yaxis_title="Strength (%) / Pain (0-10)",
         paper_bgcolor="#0F172A", plot_bgcolor="#1E293B", font=dict(color="#F8FAFC"), height=420
     )
     st.plotly_chart(fig_comp, width="stretch")
@@ -531,7 +590,7 @@ elif page == "Digital Twin Overview":
     with col1:
         st.markdown(f"""
         <div class="twin-card-real">
-            <h4 style="color:#94A3B8; margin-top:0;">👤 Real Patient Profile</h4>
+            <h4 style="color:#94A3B8; margin-top:0;">Real Patient Profile</h4>
             <div><b>Patient ID:</b> {patient_id}</div>
             <div><b>Age / Gender:</b> {patient_row['Age']} / {patient_row['Gender']}</div>
             <div><b>Injury:</b> {patient_row['Injury_Type']} ({patient_row['Severity']})</div>
@@ -542,7 +601,7 @@ elif page == "Digital Twin Overview":
     with col2:
         st.markdown(f"""
         <div class="twin-card-twin">
-            <h4 style="color:#10B981; margin-top:0;">🤖 Digital Twin Prediction</h4>
+            <h4 style="color:#10B981; margin-top:0;">Digital Twin Prediction</h4>
             <div><b>Twin ID:</b> DT_{patient_id}</div>
             <div><b>Predicted Recovery %:</b> {pred_pct:.1f}%</div>
             <div><b>Predicted Total Weeks:</b> {pred_weeks:.1f} weeks</div>

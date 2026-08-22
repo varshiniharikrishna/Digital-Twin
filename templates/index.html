@@ -129,6 +129,40 @@
                 </div>
             </div>
 
+            <!-- Record & Save Weekly Check-In Form (Data Collection Engine) -->
+            <div class="card mt-4" style="border-left: 4px solid #10B981;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h3 style="color: #10B981; margin: 0;">Record Weekly Patient Check-In Observation</h3>
+                        <p class="section-desc" style="margin-top: 4px;">Enter and persist new clinical data for this selected week directly into MySQL / CSV.</p>
+                    </div>
+                    <button type="button" id="toggleCheckinFormBtn" class="btn btn-secondary">Toggle Check-In Form</button>
+                </div>
+                <form id="saveWeeklyCheckinForm" class="recal-form mt-4 hidden">
+                    <div class="form-group"><label for="checkinPain">Pain (0-10):</label><input type="number" id="checkinPain" min="0" max="10" step="0.5" value="5.0"></div>
+                    <div class="form-group"><label for="checkinRom">ROM (&deg;):</label><input type="number" id="checkinRom" min="0" max="150" value="95"></div>
+                    <div class="form-group"><label for="checkinQuad">Quad Strength (%):</label><input type="number" id="checkinQuad" min="0" max="100" value="65"></div>
+                    <div class="form-group"><label for="checkinHam">Hamstring Strength (%):</label><input type="number" id="checkinHam" min="0" max="100" value="60"></div>
+                    <div class="form-group"><label for="checkinBalance">Balance Score:</label><input type="number" id="checkinBalance" min="0" max="100" value="75"></div>
+                    <div class="form-group"><label for="checkinSpeed">Walking Speed (m/s):</label><input type="number" id="checkinSpeed" min="0" max="3" step="0.1" value="1.1"></div>
+                    <div class="form-group"><label for="checkinSwelling">Swelling:</label>
+                        <select id="checkinSwelling" class="patient-dropdown" style="padding: 8px;">
+                            <option value="None">None</option>
+                            <option value="Mild">Mild</option>
+                            <option value="Moderate">Moderate</option>
+                            <option value="Severe">Severe</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label for="checkinCompliance">Compliance (%):</label><input type="number" id="checkinCompliance" min="0" max="100" value="90"></div>
+                    <div class="form-group" style="grid-column: span 2;"><label for="checkinFeedback">Patient Feedback:</label><input type="text" id="checkinFeedback" placeholder="e.g. Feeling less stiffness during exercises."></div>
+                    <div class="form-group" style="grid-column: span 2;"><label for="checkinRemark">Clinician Remark:</label><input type="text" id="checkinRemark" placeholder="e.g. Good mobility progress. Continue pathway."></div>
+                    <div style="grid-column: span 4; display: flex; gap: 10px; align-items: center;">
+                        <button type="submit" class="btn btn-primary">Save Observation to Database</button>
+                        <span id="checkinStatusMsg" style="font-weight: 600;"></span>
+                    </div>
+                </form>
+            </div>
+
             <!-- PDF Download Bar -->
             <div class="card pdf-download-card mt-4">
                 <div>
@@ -139,16 +173,84 @@
             </div>
         </section>
 
-        <!-- TAB 2: TREATMENT CLONES -->
+        <!-- TAB 2: TREATMENT REACTION SIMULATOR -->
         <section id="tab-treatmentClones" class="tab-content">
             <div class="card">
-                <h2 class="section-title">Treatment Clones & Reaction Simulation</h2>
-                <p class="section-desc">Comparing 3 treatment clones to demonstrate how different protocols cause different physiological reactions in the human twin.</p>
+                <h2 class="section-title">Single Digital Twin Treatment Reaction Simulator</h2>
+                <p class="section-desc">Select specific clinical treatment interventions, exercise sub-protocols, recovery stages, and intensity levels to simulate how this patient's digital twin reacts in real time.</p>
+                
+                <form id="treatmentSimForm" class="recal-form mt-4">
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label for="rxCategorySelect">1. Treatment Category:</label>
+                        <select id="rxCategorySelect" class="patient-dropdown" style="padding:10px;">
+                            <option value="rom">Range-of-Motion (ROM) Exercises</option>
+                            <option value="strengthening">Strengthening Exercises</option>
+                            <option value="balance">Balance & Proprioception Training</option>
+                            <option value="functional">Functional & Agility Exercises</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label for="rxSubtypeSelect">2. Exercise Sub-Protocol:</label>
+                        <select id="rxSubtypeSelect" class="patient-dropdown" style="padding:10px;"></select>
+                    </div>
+
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label for="rxStageSelect">3. Stage of Recovery:</label>
+                        <select id="rxStageSelect" class="patient-dropdown" style="padding:10px;">
+                            <option value="Early Stage (Weeks 1-4)">Early Stage (Weeks 1-4)</option>
+                            <option value="Mid Stage (Weeks 5-12)" selected>Mid Stage (Weeks 5-12)</option>
+                            <option value="Late Stage / Sport Return (Weeks 13+)">Late Stage / Sport Return (Weeks 13+)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label for="rxIntensitySelect">4. Intervention Intensity:</label>
+                        <select id="rxIntensitySelect" class="patient-dropdown" style="padding:10px;">
+                            <option value="Gentle">Gentle</option>
+                            <option value="Standard" selected>Standard</option>
+                            <option value="Aggressive">Aggressive</option>
+                        </select>
+                    </div>
+
+                    <div style="grid-column: span 4; margin-top: 10px;">
+                        <button type="submit" class="btn btn-primary" style="padding: 12px 24px; font-size: 1rem;">Simulate Twin Reaction to Treatment</button>
+                    </div>
+                </form>
             </div>
-            <div class="grid-3col mt-4" id="treatmentClonesGrid"></div>
+
+            <!-- Clinical Appropriateness Banner -->
+            <div id="rxApprBanner" class="alert-box-info mt-4" style="font-size: 1rem; font-weight: 600;">
+                Select a treatment intervention above to simulate physiological twin reactions.
+            </div>
+
+            <!-- Metric Impact Cards -->
+            <div class="metric-grid mt-4" id="rxImpactGrid">
+                <div class="metric-card">
+                    <div class="metric-label">ROM Impact</div>
+                    <div class="metric-val text-emerald" id="rxRomImpact">+0&deg;</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Strength Impact</div>
+                    <div class="metric-val text-emerald" id="rxStrengthImpact">+0%</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Pain Delta</div>
+                    <div class="metric-val" id="rxPainImpact">0.0</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Discharge Timeline</div>
+                    <div class="metric-val text-emerald" id="rxDischargeImpact">0 wks</div>
+                </div>
+            </div>
+
+            <!-- Reaction Summary & Divergent Curves -->
             <div class="card mt-4">
-                <h3>Comparative Trajectory Curves Across Clones</h3>
-                <div class="chart-container"><canvas id="clonesChart"></canvas></div>
+                <h3>Physiological Twin Reaction Summary</h3>
+                <p id="rxSummaryText" class="italic-txt" style="color: #94A3B8; font-size: 0.95rem; margin-bottom: 16px;">Detailed physiological rationale will appear here upon simulation.</p>
+                
+                <h3>Divergent Trajectory Overlay (Standard vs Treatment-Stimulated)</h3>
+                <div class="chart-container" style="height: 380px;"><canvas id="clonesChart"></canvas></div>
             </div>
         </section>
 

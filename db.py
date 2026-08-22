@@ -85,7 +85,133 @@ def load_all_tables():
     return tables
 
 
+def _get_engine():
+    from sqlalchemy import create_engine
+    cfg = config.MYSQL_CONFIG
+    url = (
+        f"mysql+pymysql://{cfg['user']}:{cfg['password']}"
+        f"@{cfg['host']}:{cfg['port']}/{cfg['database']}"
+    )
+    return create_engine(url)
+
+
+def save_weekly_progress_record(record_dict):
+    """
+    Saves or updates a weekly progress observation record in MySQL or CSV.
+    """
+    patient_id = record_dict.get("Patient_ID")
+    week = int(record_dict.get("Week", 1))
+
+    if config.DATA_SOURCE == "mysql":
+        engine = _get_engine()
+        from sqlalchemy import text
+        cols = list(record_dict.keys())
+        cols_str = ", ".join([f"`{c}`" for c in cols])
+        vals_str = ", ".join([f":{c}" for c in cols])
+        update_str = ", ".join([f"`{c}` = :{c}" for c in cols if c not in ["Patient_ID", "Week"]])
+        
+        sql = text(f"""
+            INSERT INTO `Weekly_Progress` ({cols_str})
+            VALUES ({vals_str})
+            ON DUPLICATE KEY UPDATE {update_str}
+        """)
+        with engine.begin() as conn:
+            conn.execute(sql, record_dict)
+    else:
+        csv_path = os.path.join(config.CSV_DIR, "Weekly_Progress.csv")
+        if os.path.exists(csv_path):
+            df = pd.read_csv(csv_path)
+            mask = (df["Patient_ID"] == patient_id) & (df["Week"] == week)
+            if mask.any():
+                for k, v in record_dict.items():
+                    if k in df.columns:
+                        df.loc[mask, k] = v
+            else:
+                new_row = pd.DataFrame([record_dict])
+                df = pd.concat([df, new_row], ignore_index=True)
+            df.to_csv(csv_path, index=False)
+
+
+def save_patient_recalibration_record(patient_id, week, recal_dict):
+    """
+    Persists a recalibration outcome record in MySQL or CSV.
+    """
+    rec_data = {
+        "Patient_ID": patient_id,
+        "Week": int(week),
+        "Recalibrated_Recovery_Pct": float(recal_dict.get("new_predicted_pct", 0.0)),
+        "Recalibrated_Recovery_Weeks": float(recal_dict.get("new_predicted_weeks", 0.0)),
+        "Explanation": str(recal_dict.get("explanation", "")),
+        "Updated_Pathway": str(recal_dict.get("recommended_pathway", {}).get("Archetype_Label", "Standard") if isinstance(recal_dict.get("recommended_pathway"), dict) else "Standard")
+    }
+
+    if config.DATA_SOURCE == "mysql":
+        engine = _get_engine()
+        from sqlalchemy import text
+        sql = text("""
+            CREATE TABLE IF NOT EXISTS `Recalibration_Log` (
+                `Patient_ID` VARCHAR(50),
+                `Week` INT,
+                `Recalibrated_Recovery_Pct` FLOAT,
+                `Recalibrated_Recovery_Weeks` FLOAT,
+                `Explanation` TEXT,
+                `Updated_Pathway` VARCHAR(255),
+                PRIMARY KEY (`Patient_ID`, `Week`)
+            );
+        """)
+        with engine.begin() as conn:
+            conn.execute(sql)
+            cols = list(rec_data.keys())
+            cols_str = ", ".join([f"`{c}`" for c in cols])
+            vals_str = ", ".join([f":{c}" for c in cols])
+            update_str = ", ".join([f"`{c}` = :{c}" for c in cols if c not in ["Patient_ID", "Week"]])
+            upsert_sql = text(f"""
+                INSERT INTO `Recalibration_Log` ({cols_str})
+                VALUES ({vals_str})
+                ON DUPLICATE KEY UPDATE {update_str}
+            """)
+            conn.execute(upsert_sql, rec_data)
+    else:
+        csv_path = os.path.join(config.CSV_DIR, "Recalibration_Log.csv")
+        if os.path.exists(csv_path):
+            df = pd.read_csv(csv_path)
+            mask = (df["Patient_ID"] == patient_id) & (df["Week"] == week)
+            if mask.any():
+                for k, v in rec_data.items():
+                    df.loc[mask, k] = v
+            else:
+                new_row = pd.DataFrame([rec_data])
+                df = pd.concat([df, new_row], ignore_index=True)
+            df.to_csv(csv_path, index=False)
+        else:
+            pd.DataFrame([rec_data]).to_csv(csv_path, index=False)
+
+
+def add_new_patient_record(patient_dict, injury_dict, assessment_dict):
+    """
+    Creates a new patient profile across Patient, Injury, and Initial_Assessment.
+    """
+    if config.DATA_SOURCE == "mysql":
+        engine = _get_engine()
+        from sqlalchemy import text
+        with engine.begin() as conn:
+            for tbl, data in [("Patient", patient_dict), ("Injury", injury_dict), ("Initial_Assessment", assessment_dict)]:
+                cols = list(data.keys())
+                cols_str = ", ".join([f"`{c}`" for c in cols])
+                vals_str = ", ".join([f":{c}" for c in cols])
+                sql = text(f"INSERT INTO `{tbl}` ({cols_str}) VALUES ({vals_str})")
+                conn.execute(sql, data)
+    else:
+        for tbl, data in [("Patient", patient_dict), ("Injury", injury_dict), ("Initial_Assessment", assessment_dict)]:
+            csv_path = os.path.join(config.CSV_DIR, f"{tbl}.csv")
+            if os.path.exists(csv_path):
+                df = pd.read_csv(csv_path)
+                df = pd.concat([df, pd.DataFrame([data])], ignore_index=True)
+                df.to_csv(csv_path, index=False)
+
+
 if __name__ == "__main__":
     t = load_all_tables()
     for name, df in t.items():
         print(f"{name:<22} {df.shape}")
+

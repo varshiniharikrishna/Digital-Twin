@@ -62,6 +62,60 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             await runRecalibration();
         });
+
+        const toggleCheckinBtn = document.getElementById('toggleCheckinFormBtn');
+        const checkinForm = document.getElementById('saveWeeklyCheckinForm');
+        if (toggleCheckinBtn && checkinForm) {
+            toggleCheckinBtn.addEventListener('click', () => {
+                checkinForm.classList.toggle('hidden');
+            });
+        }
+
+        if (checkinForm) {
+            checkinForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const week = parseInt(weekSlider.value);
+                const payload = {
+                    week: week,
+                    pain: parseFloat(document.getElementById('checkinPain').value),
+                    rom: parseFloat(document.getElementById('checkinRom').value),
+                    quad_strength: parseFloat(document.getElementById('checkinQuad').value),
+                    ham_strength: parseFloat(document.getElementById('checkinHam').value),
+                    balance: parseFloat(document.getElementById('checkinBalance').value),
+                    walking_speed: parseFloat(document.getElementById('checkinSpeed').value),
+                    swelling: document.getElementById('checkinSwelling').value,
+                    compliance: parseFloat(document.getElementById('checkinCompliance').value),
+                    patient_feedback: document.getElementById('checkinFeedback').value || "Observation recorded",
+                    clinician_remark: document.getElementById('checkinRemark').value || "Saved to DB"
+                };
+
+                const statusMsg = document.getElementById('checkinStatusMsg');
+                statusMsg.style.color = '#F59E0B';
+                statusMsg.textContent = 'Saving to database...';
+
+                try {
+                    const res = await fetch(`/api/patient/${currentPatientId}/weekly/save`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const resData = await res.json();
+                    if (res.ok && resData.success) {
+                        statusMsg.style.color = '#10B981';
+                        statusMsg.textContent = 'Observation saved to database and persisted.';
+                        await loadWeekDetail(week);
+                        setTimeout(() => { statusMsg.textContent = ''; }, 4000);
+                    } else {
+                        statusMsg.style.color = '#E11D48';
+                        statusMsg.textContent = `Error: ${resData.error || 'Failed to save'}`;
+                    }
+                } catch (err) {
+                    console.error(err);
+                    statusMsg.style.color = '#E11D48';
+                    statusMsg.textContent = 'Network error saving observation.';
+                }
+            });
+        }
     }
 
     async function loadPatientList() {
@@ -246,31 +300,161 @@ document.addEventListener('DOMContentLoaded', () => {
         container.innerHTML = html + `</tbody></table>`;
     }
 
+    let treatmentTaxonomy = null;
+
     async function loadTreatmentClones() {
         if (!currentPatientId) return;
-        const res = await fetch(`/api/patient/${currentPatientId}/clones`);
-        const data = await res.json();
-        const grid = document.getElementById('treatmentClonesGrid');
-        grid.innerHTML = '';
-        data.clones.forEach(cl => {
-            grid.innerHTML += `<div class="card" style="border-top:4px solid ${cl.color}"><h3>${cl.name}</h3><div style="font-size:1.5rem; font-weight:700; color:#0F172A;">${cl.recovery_pct.toFixed(0)}% Recovery</div><div style="color:#64748B; font-size:0.85rem;">Duration: <b>${cl.weeks} wks</b></div><hr style="border-color:#E2E8F0; margin:10px 0;"><div style="font-size:0.88rem;"><b>Final ROM:</b> ${cl.final_rom.toFixed(0)}° | <b>Strength:</b> ${cl.final_strength.toFixed(0)}%</div><div style="font-size:0.82rem; color:#475569; margin-top:8px;"><i>${cl.reaction}</i></div></div>`;
-        });
-        renderClonesChart(data.clones);
+
+        if (!treatmentTaxonomy) {
+            try {
+                const resTax = await fetch('/api/treatment/taxonomy');
+                treatmentTaxonomy = await resTax.json();
+
+                const rxCategorySelect = document.getElementById('rxCategorySelect');
+                const rxSubtypeSelect = document.getElementById('rxSubtypeSelect');
+                const treatmentForm = document.getElementById('treatmentSimForm');
+
+                if (rxCategorySelect) {
+                    rxCategorySelect.addEventListener('change', (e) => {
+                        updateSubtypeDropdown(e.target.value);
+                    });
+                    updateSubtypeDropdown(rxCategorySelect.value);
+                }
+
+                if (treatmentForm) {
+                    treatmentForm.addEventListener('submit', async (e) => {
+                        e.preventDefault();
+                        await runTreatmentSimulation();
+                    });
+                }
+            } catch (err) {
+                console.error("Error loading taxonomy:", err);
+            }
+        }
+
+        await runTreatmentSimulation();
     }
 
-    function renderClonesChart(clones) {
+    function updateSubtypeDropdown(catKey) {
+        const rxSubtypeSelect = document.getElementById('rxSubtypeSelect');
+        if (!rxSubtypeSelect || !treatmentTaxonomy || !treatmentTaxonomy[catKey]) return;
+
+        rxSubtypeSelect.innerHTML = '';
+        const subMap = treatmentTaxonomy[catKey].subtypes;
+        Object.keys(subMap).forEach(subKey => {
+            const item = subMap[subKey];
+            const opt = document.createElement('option');
+            opt.value = subKey;
+            opt.textContent = `${item.name} (${item.preferred_stage})`;
+            rxSubtypeSelect.appendChild(opt);
+        });
+    }
+
+    async function runTreatmentSimulation() {
+        if (!currentPatientId) return;
+
+        const category = document.getElementById('rxCategorySelect').value;
+        const exercise_type = document.getElementById('rxSubtypeSelect').value;
+        const stage = document.getElementById('rxStageSelect').value;
+        const intensity = document.getElementById('rxIntensitySelect').value;
+
+        try {
+            const res = await fetch(`/api/patient/${currentPatientId}/treatment/simulate`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ category, exercise_type, stage, intensity })
+            });
+            const data = await res.json();
+
+            // Appropriateness Banner
+            const banner = document.getElementById('rxApprBanner');
+            banner.textContent = data.appropriateness.message;
+            if (data.appropriateness.status === 'warning') {
+                banner.className = 'flag-box mt-4';
+            } else if (data.appropriateness.status === 'success') {
+                banner.className = 'alert-box-info mt-4';
+                banner.style.borderLeft = '4px solid #10B981';
+            } else {
+                banner.className = 'alert-box-info mt-4';
+            }
+
+            // Impact Cards
+            document.getElementById('rxRomImpact').textContent = `+${data.impact.rom_boost.toFixed(1)}°`;
+            document.getElementById('rxStrengthImpact').textContent = `+${data.impact.strength_boost.toFixed(1)}%`;
+            document.getElementById('rxPainImpact').textContent = `${data.impact.pain_delta > 0 ? '+' : ''}${data.impact.pain_delta.toFixed(1)}`;
+            
+            const disEl = document.getElementById('rxDischargeImpact');
+            disEl.textContent = `${data.impact.discharge_weeks_new} wks (${data.impact.discharge_delta >= 0 ? '+' : ''}${data.impact.discharge_delta} wks)`;
+            disEl.style.color = data.impact.discharge_delta <= 0 ? '#10B981' : '#E11D48';
+
+            // Summary text
+            document.getElementById('rxSummaryText').textContent = data.reaction_summary;
+
+            // Render Comparative Overlay Chart
+            renderDivergentChart(data.baseline_trajectory, data.treatment_trajectory, data.exercise.name);
+
+        } catch (err) {
+            console.error("Error simulating treatment:", err);
+        }
+    }
+
+    function renderDivergentChart(baseTraj, txTraj, exerciseName) {
         const ctx = document.getElementById('clonesChart').getContext('2d');
         if (clonesChartInstance) clonesChartInstance.destroy();
-        const maxWeeks = Math.max(...clones.map(c => c.weeks));
-        const labels = Array.from({length: maxWeeks}, (_, i) => `W${i+1}`);
-        const datasets = clones.map(cl => ({
-            label: cl.name,
-            data: cl.trajectory.map(t => t.Predicted_Strength_pct),
-            borderColor: cl.color, backgroundColor: cl.color, borderWidth: 2.5, tension: 0.3
-        }));
+
+        const maxWeeks = Math.max(baseTraj.length, txTraj.length);
+        const labels = Array.from({length: maxWeeks}, (_, i) => `Week ${i+1}`);
+
         clonesChartInstance = new Chart(ctx, {
-            type: 'line', data: { labels, datasets },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#0F172A' } } }, scales: { x: { ticks: { color: '#64748B' }, grid: { color: '#E2E8F0' } }, y: { ticks: { color: '#64748B' }, grid: { color: '#E2E8F0' } } } }
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Standard Recovery (Strength %)',
+                        data: baseTraj.map(t => t.Predicted_Strength_pct),
+                        borderColor: '#64748B',
+                        borderDash: [5, 5],
+                        borderWidth: 2,
+                        fill: false
+                    },
+                    {
+                        label: `Treatment Stimulated: ${exerciseName} (Strength %)`,
+                        data: txTraj.map(t => t.Predicted_Strength_pct),
+                        borderColor: '#10B981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.3
+                    },
+                    {
+                        label: `Treatment Pain Curve (Pain Score 0-10)`,
+                        data: txTraj.map(t => t.Predicted_Pain),
+                        borderColor: '#E11D48',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        yAxisID: 'y1'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { labels: { color: '#0F172A', font: { weight: 'bold' } } }
+                },
+                scales: {
+                    x: { ticks: { color: '#64748B' }, grid: { color: '#E2E8F0' } },
+                    y: {
+                        title: { display: true, text: 'Strength (%)', color: '#0F172A' },
+                        ticks: { color: '#64748B' }, grid: { color: '#E2E8F0' }, min: 0, max: 100
+                    },
+                    y1: {
+                        position: 'right',
+                        title: { display: true, text: 'Pain (0-10)', color: '#E11D48' },
+                        ticks: { color: '#E11D48' }, grid: { drawOnChartArea: false }, min: 0, max: 10
+                    }
+                }
+            }
         });
     }
 
@@ -301,6 +485,12 @@ document.addEventListener('DOMContentLoaded', () => {
             body: JSON.stringify({ week, pain, rom, strength })
         });
         const data = await res.json();
+
+        // Also persist recalibration to database
+        fetch(`/api/patient/${currentPatientId}/recalibrate/save`, {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ week, pain, rom, strength })
+        }).catch(err => console.error("Error persisting recalibration:", err));
 
         document.getElementById('oldPredPct').textContent = `${data.old_predicted_pct}%`;
         document.getElementById('newPredPct').textContent = `${data.new_predicted_pct}%`;

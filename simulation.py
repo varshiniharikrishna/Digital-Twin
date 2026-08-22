@@ -214,11 +214,169 @@ def recalibrate(patient_row: pd.Series, current_state: dict, week: int,
     else:
         explanation = "No significant deviation detected -- current pathway remains appropriate."
 
-    return {
-        "updated_row": updated_row,
-        "new_predicted_pct": new_pred_pct,
-        "new_predicted_weeks": new_pred_weeks,
-        "new_neighbors": new_neighbors,
-        "recommended_pathway": recommended_pathway,
-        "explanation": explanation,
+TREATMENT_TAXONOMY = {
+    "rom": {
+        "label": "Range-of-Motion (ROM) Exercises",
+        "subtypes": {
+            "passive_rom": {
+                "name": "Passive ROM (Therapist / Machine Assisted)",
+                "description": "Therapist or machine moves joint while patient relaxes.",
+                "pain_impact": -1.8, "rom_boost": 12.0, "strength_boost": 0.0, "balance_boost": 0.0, "speed_boost": 0.0,
+                "preferred_stage": "Early Stage", "max_strain": "Low"
+            },
+            "active_assisted_rom": {
+                "name": "Active-Assisted ROM (Strap / Tool Assisted)",
+                "description": "Patient moves joint with assistance from non-injured limb or strap.",
+                "pain_impact": -1.2, "rom_boost": 16.0, "strength_boost": 4.0, "balance_boost": 0.0, "speed_boost": 0.05,
+                "preferred_stage": "Early Stage", "max_strain": "Low-Moderate"
+            },
+            "active_rom": {
+                "name": "Active ROM (Unassisted Movement)",
+                "description": "Patient moves joint entirely unassisted through full range.",
+                "pain_impact": -0.8, "rom_boost": 22.0, "strength_boost": 8.0, "balance_boost": 2.0, "speed_boost": 0.1,
+                "preferred_stage": "Mid Stage", "max_strain": "Moderate"
+            }
+        }
+    },
+    "strengthening": {
+        "label": "Strengthening Exercises",
+        "subtypes": {
+            "isometric": {
+                "name": "Isometric Strengthening (Static Contraction)",
+                "description": "Muscle contraction without moving joint. Builds stability with minimal pain.",
+                "pain_impact": -0.5, "rom_boost": 4.0, "strength_boost": 15.0, "balance_boost": 6.0, "speed_boost": 0.1,
+                "preferred_stage": "Early Stage", "max_strain": "Low"
+            },
+            "isotonic": {
+                "name": "Isotonic Strengthening (Progressive Resistance)",
+                "description": "Muscles move resistance through range of motion.",
+                "pain_impact": -0.3, "rom_boost": 10.0, "strength_boost": 24.0, "balance_boost": 10.0, "speed_boost": 0.25,
+                "preferred_stage": "Mid Stage", "max_strain": "Moderate"
+            },
+            "isokinetic": {
+                "name": "Isokinetic Strengthening (Machine Controlled Speed)",
+                "description": "Maximal effort against machine-controlled constant speed.",
+                "pain_impact": 0.5, "rom_boost": 14.0, "strength_boost": 32.0, "balance_boost": 12.0, "speed_boost": 0.35,
+                "preferred_stage": "Late Stage", "max_strain": "High"
+            }
+        }
+    },
+    "balance": {
+        "label": "Balance and Proprioception Training",
+        "subtypes": {
+            "single_leg_stands": {
+                "name": "Single-Leg Balance Stands",
+                "description": "Retrains joint position awareness and static balance.",
+                "pain_impact": -0.4, "rom_boost": 2.0, "strength_boost": 8.0, "balance_boost": 18.0, "speed_boost": 0.2,
+                "preferred_stage": "Mid Stage", "max_strain": "Low-Moderate"
+            },
+            "wobble_board": {
+                "name": "Wobble Board Stability Training",
+                "description": "Balancing on unstable surface to challenge joint & core stability.",
+                "pain_impact": -0.2, "rom_boost": 5.0, "strength_boost": 12.0, "balance_boost": 28.0, "speed_boost": 0.3,
+                "preferred_stage": "Mid Stage", "max_strain": "Moderate"
+            },
+            "catch_and_throw": {
+                "name": "Dynamic Catch & Throw Drills",
+                "description": "Sudden movements on balance pads to challenge core & limb reflexes.",
+                "pain_impact": 0.2, "rom_boost": 8.0, "strength_boost": 15.0, "balance_boost": 35.0, "speed_boost": 0.4,
+                "preferred_stage": "Late Stage", "max_strain": "Moderate-High"
+            }
+        }
+    },
+    "functional": {
+        "label": "Functional and Agility Exercises",
+        "subtypes": {
+            "stepups_and_squats": {
+                "name": "Step-ups & Functional Squats",
+                "description": "Simulating everyday stair climbing and squatting movements.",
+                "pain_impact": -0.5, "rom_boost": 12.0, "strength_boost": 18.0, "balance_boost": 15.0, "speed_boost": 0.35,
+                "preferred_stage": "Mid Stage", "max_strain": "Moderate"
+            },
+            "jogging_and_cutting": {
+                "name": "Jogging & Multi-Directional Cutting Drills",
+                "description": "High-speed directional changes preparing for sport return.",
+                "pain_impact": 1.2, "rom_boost": 15.0, "strength_boost": 25.0, "balance_boost": 25.0, "speed_boost": 0.65,
+                "preferred_stage": "Late Stage", "max_strain": "High"
+            }
+        }
     }
+}
+
+
+def simulate_treatment_intervention(patient_row: pd.Series, category: str, exercise_type: str, stage: str, intensity: str = "Standard") -> dict:
+    """
+    Simulates how a patient's digital twin reacts to a specific clinical treatment intervention.
+    """
+    cat_info = TREATMENT_TAXONOMY.get(category, TREATMENT_TAXONOMY["rom"])
+    ex_info = cat_info["subtypes"].get(exercise_type, list(cat_info["subtypes"].values())[0])
+
+    base_pct = float(patient_row.get("Predicted_Recovery_Pct", 75.0))
+    base_weeks = max(int(round(float(patient_row.get("Predicted_Recovery_Weeks", 16.0)))), 1)
+    base_traj = build_predicted_trajectory(patient_row, base_pct, base_weeks)
+
+    # Intensity multipliers
+    int_mult = 1.3 if intensity == "Aggressive" else (0.7 if intensity == "Gentle" else 1.0)
+    
+    # Overload check
+    is_early = "Early" in stage
+    is_high_strain = ex_info["max_strain"] in ["High", "Moderate-High"]
+    is_overload = is_early and is_high_strain
+
+    if is_overload:
+        appr_status = "warning"
+        appr_msg = f"HIGH STRAIN ALERT: {ex_info['name']} applied prematurely in Early Stage! High risk of joint swelling and pain flare-up (+2.5 weeks delay)."
+        week_delta = +2.5
+        pain_modifier = +1.8
+        strength_mod = 0.5
+    elif ex_info["preferred_stage"] in stage or "Mid" in stage:
+        appr_status = "success"
+        appr_msg = f"HIGHLY APPROPRIATE: {ex_info['name']} matches current {stage} goals for {patient_row.get('Body_Part', 'injured joint')}."
+        week_delta = -1.5 * int_mult
+        pain_modifier = ex_info["pain_impact"] * int_mult
+        strength_mod = 1.2 * int_mult
+    else:
+        appr_status = "info"
+        appr_msg = f"MODERATE BENEFIT: {ex_info['name']} provides steady progress during {stage}."
+        week_delta = -0.5 * int_mult
+        pain_modifier = ex_info["pain_impact"]
+        strength_mod = 1.0
+
+    new_weeks = max(int(round(base_weeks + week_delta)), 1)
+    
+    # Build stimulated curves
+    rx_pain = np.clip(base_traj["Predicted_Pain"].values + pain_modifier, 0.5, 10.0)
+    rx_rom = np.clip(base_traj["Predicted_ROM_deg"].values + (ex_info["rom_boost"] * int_mult * 0.4), 0, 145.0)
+    rx_strength = np.clip(base_traj["Predicted_Strength_pct"].values + (ex_info["strength_boost"] * strength_mod * 0.4), 0, 100.0)
+    rx_speed = np.clip(base_traj["Predicted_Walking_Speed_mps"].values + (ex_info["speed_boost"] * int_mult * 0.3), 0.2, 1.8)
+
+    rx_traj = pd.DataFrame({
+        "Week": range(1, len(rx_pain) + 1),
+        "Predicted_Pain": rx_pain.round(1),
+        "Predicted_ROM_deg": rx_rom.round(1),
+        "Predicted_Strength_pct": rx_strength.round(1),
+        "Predicted_Walking_Speed_mps": rx_speed.round(2),
+    })
+
+    reaction_summary = (
+        f"For {patient_row.get('Patient_ID')} ({patient_row.get('Injury_Type')}), applying {ex_info['name']} "
+        f"at {intensity} intensity in {stage} results in a {rx_strength[-1]:.0f}% strength recovery "
+        f"and {rx_rom[-1]:.0f}° ROM. Discharge timeline estimated at {new_weeks} weeks ({week_delta:+.1f} wks vs standard)."
+    )
+
+    return {
+        "exercise": ex_info,
+        "appropriateness": {"status": appr_status, "message": appr_msg},
+        "impact": {
+            "pain_delta": round(float(pain_modifier), 1),
+            "rom_boost": round(float(ex_info["rom_boost"] * int_mult), 1),
+            "strength_boost": round(float(ex_info["strength_boost"] * strength_mod), 1),
+            "discharge_weeks_orig": base_weeks,
+            "discharge_weeks_new": new_weeks,
+            "discharge_delta": round(float(week_delta), 1)
+        },
+        "baseline_trajectory": base_traj.to_dict(orient="records"),
+        "treatment_trajectory": rx_traj.to_dict(orient="records"),
+        "reaction_summary": reaction_summary
+    }
+
