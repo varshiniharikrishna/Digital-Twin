@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (tab.dataset.tab === 'treatmentClones') loadTreatmentClones();
                 else if (tab.dataset.tab === 'twinOverview') loadTwinOverview();
+                else if (tab.dataset.tab === 'recalibration') loadRecalibrationHistory();
             });
         });
     }
@@ -104,7 +105,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         statusMsg.style.color = '#10B981';
                         statusMsg.textContent = 'Observation saved to database and persisted.';
                         await loadWeekDetail(week);
-                        setTimeout(() => { statusMsg.textContent = ''; }, 4000);
+
+                        // Show weekly recalibration result panel
+                        const recal = resData.recalibration;
+                        if (recal) {
+                            renderWeeklyRecalPanel(recal);
+                        }
+
+                        setTimeout(() => { statusMsg.textContent = ''; }, 5000);
                     } else {
                         statusMsg.style.color = '#E11D48';
                         statusMsg.textContent = `Error: ${resData.error || 'Failed to save'}`;
@@ -115,6 +123,89 @@ document.addEventListener('DOMContentLoaded', () => {
                     statusMsg.textContent = 'Network error saving observation.';
                 }
             });
+        }
+    }
+
+    function renderWeeklyRecalPanel(recal) {
+        const panel = document.getElementById('weeklyRecalPanel');
+        panel.classList.remove('hidden');
+        panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        document.getElementById('recalPanelWeek').textContent = recal.week;
+        document.getElementById('recalPanelWeek2').textContent = recal.week;
+        document.getElementById('recalPanelOldPct').textContent = `${recal.old_predicted_pct}%`;
+        document.getElementById('recalPanelNewPct').textContent = `${recal.new_predicted_pct}%`;
+        document.getElementById('recalPanelOldWks').textContent = `${recal.old_predicted_weeks} wks`;
+
+        const newWksEl = document.getElementById('recalPanelNewWks');
+        newWksEl.textContent = `${recal.new_predicted_weeks} wks (${recal.discharge_delta >= 0 ? '+' : ''}${recal.discharge_delta} wks)`;
+        newWksEl.style.color = recal.discharge_delta <= 0 ? '#10B981' : '#E11D48';
+
+        // Build Expected vs Real table
+        const tbody = document.getElementById('evrWeeklyTbody');
+        const metricLabels = {
+            Pain: 'Pain Score (0-10)',
+            ROM_deg: 'Range of Motion (deg)',
+            Strength_pct: 'Quadriceps Strength (%)',
+            Balance_Score: 'Balance Score',
+            Walking_Speed_mps: 'Walking Speed (m/s)'
+        };
+        tbody.innerHTML = '';
+        const evr = recal.expected_vs_real;
+        Object.keys(evr).forEach(key => {
+            const m = evr[key];
+            const flagClass = m.flagged ? 'style="background: rgba(225,29,72,0.08);"' : '';
+            const statusBadge = m.flagged
+                ? `<span style="background:#E11D48; color:#fff; padding:2px 8px; border-radius:4px; font-size:0.78rem;">FLAGGED</span>`
+                : `<span style="background:#10B981; color:#fff; padding:2px 8px; border-radius:4px; font-size:0.78rem;">On Track</span>`;
+            const devColor = m.flagged ? '#E11D48' : '#10B981';
+            tbody.innerHTML += `<tr ${flagClass}>
+                <td><b>${metricLabels[key] || key}</b></td>
+                <td>${m.expected}</td>
+                <td><b>${m.actual}</b></td>
+                <td style="color:${devColor}; font-weight:700;">${m.pct_deviation > 0 ? '+' : ''}${m.pct_deviation}%</td>
+                <td>${statusBadge}</td>
+            </tr>`;
+        });
+
+        document.getElementById('recalPanelExplanation').textContent = recal.explanation;
+
+        const pathway = recal.recommended_pathway;
+        document.getElementById('recalPanelPathway').textContent =
+            pathway ? (pathway.Archetype_Label || pathway.Pathway_Name || 'Standard Protocol') : 'Standard Protocol';
+    }
+
+    async function loadRecalibrationHistory() {
+        if (!currentPatientId) return;
+        try {
+            const res = await fetch(`/api/patient/${currentPatientId}/recalibration_history`);
+            const data = await res.json();
+            const tbody = document.getElementById('recalHistoryTbody');
+            if (!tbody) return;
+            if (!data.history || data.history.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="9" class="text-muted text-center">No weekly check-ins recorded yet for ${currentPatientId}.</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = '';
+            data.history.forEach(h => {
+                const delta = parseFloat(h.Recalibrated_Recovery_Weeks || 0) - parseFloat(h.Old_Predicted_Weeks || 0);
+                const deltaStr = isNaN(delta) ? '-' : `${delta >= 0 ? '+' : ''}${delta.toFixed(1)} wks`;
+                const deltaColor = delta <= 0 ? '#10B981' : '#E11D48';
+                const notes = (h.Explanation || '').substring(0, 80) + ((h.Explanation || '').length > 80 ? '...' : '');
+                tbody.innerHTML += `<tr>
+                    <td><b>Week ${h.Week}</b></td>
+                    <td>${h.Old_Predicted_Weeks ? h.Old_Predicted_Weeks + ' wks' : '-'}</td>
+                    <td>${h.Recalibrated_Recovery_Weeks ? h.Recalibrated_Recovery_Weeks + ' wks' : '-'}</td>
+                    <td style="color:${deltaColor}; font-weight:700;">${deltaStr}</td>
+                    <td>${h.Pain_Expected != null ? h.Pain_Expected + ' / ' + h.Pain_Actual : '-'}</td>
+                    <td>${h.ROM_Expected != null ? h.ROM_Expected + ' / ' + h.ROM_Actual : '-'}</td>
+                    <td>${h.Strength_Expected != null ? h.Strength_Expected + ' / ' + h.Strength_Actual : '-'}</td>
+                    <td style="color:#6366F1; font-weight:600;">${h.Updated_Pathway || 'Standard'}</td>
+                    <td style="font-size:0.82rem; color:#64748B;">${notes}</td>
+                </tr>`;
+            });
+        } catch (err) {
+            console.error('Error loading recalibration history:', err);
         }
     }
 

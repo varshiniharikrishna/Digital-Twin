@@ -163,6 +163,53 @@
                 </form>
             </div>
 
+            <!-- Weekly Recalibration Result Panel (shown after saving check-in) -->
+            <div id="weeklyRecalPanel" class="card mt-4 hidden" style="border-left: 4px solid #6366F1;">
+                <h3 style="color:#6366F1;">Week <span id="recalPanelWeek">-</span> — Dynamic Recalibration Result</h3>
+
+                <div class="metric-grid mt-4">
+                    <div class="metric-card">
+                        <div class="metric-label">Old Predicted Recovery</div>
+                        <div class="metric-val" id="recalPanelOldPct">-</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">New Predicted Recovery</div>
+                        <div class="metric-val text-emerald" id="recalPanelNewPct">-</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Old Discharge (wks)</div>
+                        <div class="metric-val" id="recalPanelOldWks">-</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">New Discharge (wks)</div>
+                        <div class="metric-val" id="recalPanelNewWks">-</div>
+                    </div>
+                </div>
+
+                <h4 style="margin-top: 20px; margin-bottom: 8px;">Expected vs Real Outcome at Week <span id="recalPanelWeek2">-</span></h4>
+                <div class="table-wrapper">
+                    <table class="data-table" id="evrWeeklyTable">
+                        <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th>Expected (Twin)</th>
+                                <th>Actual (Recorded)</th>
+                                <th>Deviation %</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="evrWeeklyTbody"></tbody>
+                    </table>
+                </div>
+
+                <div class="alert-box-info mt-4" id="recalPanelExplanation"></div>
+
+                <div style="margin-top:12px;">
+                    <strong>Updated Recommended Pathway:</strong>
+                    <span id="recalPanelPathway" style="color:#10B981; font-weight:600; margin-left:8px;">-</span>
+                </div>
+            </div>
+
             <!-- PDF Download Bar -->
             <div class="card pdf-download-card mt-4">
                 <div>
@@ -295,11 +342,24 @@
                 <div class="alert-box-info mt-4" id="recalExplanation"></div>
             </div>
             <div class="card mt-4">
-                <h3>Session Recalibration History Log</h3>
+                <h3>Weekly Stage-by-Stage Recalibration History Log</h3>
+                <p class="section-desc">Chronological log of every weekly check-in, recorded changes, expected vs real deviations, and treatment pathway adjustments.</p>
                 <div class="table-wrapper">
                     <table class="data-table" id="recalHistoryTable">
-                        <thead><tr><th>Week</th><th>Old Prediction</th><th>Recalibrated Prediction</th><th>Updated Pathway</th></tr></thead>
-                        <tbody id="recalHistoryTbody"><tr><td colspan="4" class="text-muted text-center">No recalibrations run yet.</td></tr></tbody>
+                        <thead>
+                            <tr>
+                                <th>Week</th>
+                                <th>Old Discharge</th>
+                                <th>New Discharge</th>
+                                <th>Delta</th>
+                                <th>Pain Exp / Real</th>
+                                <th>ROM Exp / Real</th>
+                                <th>Strength Exp / Real</th>
+                                <th>Updated Pathway</th>
+                                <th>Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recalHistoryTbody"><tr><td colspan="9" class="text-muted text-center">No weekly check-ins recorded yet. Submit a check-in on Tab 1 to begin the log.</td></tr></tbody>
                     </table>
                 </div>
             </div>

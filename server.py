@@ -339,6 +339,8 @@ def sanitize_dict(d):
 
 @app.route("/api/patient/<patient_id>/weekly/save", methods=["POST"])
 def save_weekly_progress(patient_id):
+    global FULL_DATASET, TRAIN_DATA, TEST_DATA, X_TEST
+
     row = get_patient_row(patient_id)
     if row is None:
         return jsonify({"error": "Patient not found"}), 404
@@ -371,12 +373,24 @@ def save_weekly_progress(patient_id):
     else:
         TABLES["Weekly_Progress"] = pd.concat([wp, pd.DataFrame([record])], ignore_index=True)
 
-    # Persist to DB or CSV
+    # Execute Weekly Stage Dynamic Recalibration
+    stage_recal = simmod.process_weekly_stage_recalibration(
+        patient_row=row,
+        week=week,
+        weekly_entry=record,
+        train_pool=TRAIN_DATA,
+        pathways_table=TABLES["Recovery_Pathway"],
+        pct_model=PCT_MODEL,
+        weeks_model=WEEKS_MODEL,
+        feature_fn=get_feature_frame
+    )
+
+    # Persist progress & recalibration log to DB or CSV
     db.save_weekly_progress_record(record)
+    db.save_patient_recalibration_record(patient_id, week, stage_recal)
 
     # Re-sync dataset state if week 1 is modified
     if week == 1:
-        global FULL_DATASET, TRAIN_DATA, TEST_DATA, X_TEST
         FULL_DATASET = build_modelling_dataset(TABLES)
         TRAIN_DATA, TEST_DATA = chronological_split(FULL_DATASET)
         X_TEST = get_feature_frame(TEST_DATA)
@@ -385,7 +399,22 @@ def save_weekly_progress(patient_id):
         TEST_DATA["Predicted_Recovery_Pct"] = PRED_PCT
         TEST_DATA["Predicted_Recovery_Weeks"] = PRED_WEEKS
 
-    return jsonify({"success": True, "message": f"Weekly progress saved for patient {patient_id} week {week}", "record": record})
+    return jsonify(sanitize_dict({
+        "success": True,
+        "message": f"Weekly progress & recalibration saved for patient {patient_id} week {week}",
+        "record": record,
+        "recalibration": stage_recal
+    }))
+
+
+@app.route("/api/patient/<patient_id>/recalibration_history", methods=["GET"])
+def get_recalibration_history_route(patient_id):
+    row = get_patient_row(patient_id)
+    if row is None:
+        return jsonify({"error": "Patient not found"}), 404
+
+    history = db.get_recalibration_history_records(patient_id)
+    return jsonify(sanitize_dict({"history": history}))
 
 
 @app.route("/api/patient/<patient_id>/recalibrate/save", methods=["POST"])

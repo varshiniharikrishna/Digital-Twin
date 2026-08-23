@@ -158,9 +158,112 @@ def check_deviation(predicted_row: dict, actual_entry: dict) -> dict:
     return result
 
 
+def process_weekly_stage_recalibration(patient_row: pd.Series, week: int, weekly_entry: dict,
+                                        train_pool: pd.DataFrame, pathways_table: pd.DataFrame,
+                                        pct_model, weeks_model, feature_fn) -> dict:
+    """
+    Performs dynamic weekly check-in recalibration at a specific timeline stage (Week W):
+      1. Pulls expected trajectory prediction at Week W.
+      2. Calculates Expected vs Real deltas for Pain, ROM, Strength, Balance, Speed.
+      3. Builds an updated profile using recorded check-in observations.
+      4. Re-predicts total discharge weeks and recovery % from updated Week W state.
+      5. Mines top similar historical patients from training pool.
+      6. Selects optimal treatment pathway and returns complete weekly stage comparison.
+    """
+    import similarity as sim
+
+    # Baseline predictions
+    X_orig = feature_fn(pd.DataFrame([patient_row]))
+    orig_pred_pct = float(pct_model.predict(X_orig)[0])
+    orig_pred_weeks = float(weeks_model.predict(X_orig)[0])
+    base_traj = build_predicted_trajectory(patient_row, orig_pred_pct, orig_pred_weeks)
+
+    pred_match = base_traj[base_traj["Week"] == week]
+    p_row = pred_match.iloc[0] if not pred_match.empty else base_traj.iloc[0]
+
+    # Calculate Expected vs Real for all 5 metrics
+    actual_pain = float(weekly_entry.get("Pain", patient_row.get("Pain_Score", 5.0)))
+    actual_rom = float(weekly_entry.get("ROM_deg", patient_row.get("Range_of_Motion_deg", 90.0)))
+    actual_quad = float(weekly_entry.get("Quadriceps_Strength_pct", patient_row.get("Quadriceps_Strength_pct", 50.0)))
+    actual_balance = float(weekly_entry.get("Balance_Score", patient_row.get("Balance_Score", 70.0)))
+    actual_speed = float(weekly_entry.get("Walking_Speed_mps", patient_row.get("Walking_Speed_mps", 1.0)))
+
+    metrics_map = {
+        "Pain": (float(p_row.get("Predicted_Pain", 5.0)), actual_pain, True),  # lower is better
+        "ROM_deg": (float(p_row.get("Predicted_ROM_deg", 90.0)), actual_rom, False), # higher is better
+        "Strength_pct": (float(p_row.get("Predicted_Strength_pct", 50.0)), actual_quad, False),
+        "Balance_Score": (75.0, actual_balance, False),
+        "Walking_Speed_mps": (float(p_row.get("Predicted_Walking_Speed_mps", 1.0)), actual_speed, False)
+    }
+
+    expected_vs_real = {}
+    flagged_reasons = []
+
+    for m_name, (exp_v, act_v, lower_better) in metrics_map.items():
+        denom = exp_v if exp_v != 0 else 1e-6
+        dev_pct = (act_v - exp_v) / denom * 100.0
+        is_flagged = abs(dev_pct) > config.DEVIATION_THRESHOLD_PCT
+
+        expected_vs_real[m_name] = {
+            "expected": round(exp_v, 1),
+            "actual": round(act_v, 1),
+            "pct_deviation": round(dev_pct, 1),
+            "flagged": is_flagged
+        }
+
+        if is_flagged:
+            if lower_better:
+                direction = "higher (worse) than expected" if dev_pct > 0 else "lower (better) than expected"
+            else:
+                direction = "lower (slower) than expected" if dev_pct < 0 else "higher (faster) than expected"
+            flagged_reasons.append(f"{m_name.replace('_', ' ')} is {direction} (actual {act_v:.1f} vs expected {exp_v:.1f}).")
+
+    # Build updated profile for re-prediction
+    updated_row = patient_row.copy()
+    updated_row["Pain_Score"] = actual_pain
+    updated_row["Range_of_Motion_deg"] = actual_rom
+    updated_row["Quadriceps_Strength_pct"] = actual_quad
+    updated_row["Hamstring_Strength_pct"] = float(weekly_entry.get("Hamstring_Strength_pct", actual_quad * 0.85))
+    updated_row["Balance_Score"] = actual_balance
+    updated_row["Walking_Speed_mps"] = actual_speed
+
+    X_up = feature_fn(pd.DataFrame([updated_row]))
+    new_pred_pct = float(pct_model.predict(X_up)[0])
+    new_pred_weeks = float(weeks_model.predict(X_up)[0])
+
+    new_neighbors = sim.find_similar_patients(updated_row, train_pool, top_k=5)
+    rec_pathway = sim.best_pathway_for_cohort(new_neighbors, pathways_table)
+
+    discharge_delta = new_pred_weeks - orig_pred_weeks
+
+    if flagged_reasons:
+        pathway_title = rec_pathway['Archetype_Label'] if rec_pathway is not None else 'Standard'
+        explanation = (
+            f"Week {week} Recalibration Note: " + " ".join(flagged_reasons) +
+            f" Recalibrated discharge timeline is {new_pred_weeks:.1f} weeks ({discharge_delta:+.1f} wks delta). "
+            f"Updated recommended treatment pathway is '{pathway_title}'."
+        )
+    else:
+        explanation = f"Week {week} Check-In: Patient metrics are on track with digital twin predictions. Prescribed pathway remains optimal."
+
+    return {
+        "week": week,
+        "expected_vs_real": expected_vs_real,
+        "old_predicted_pct": round(orig_pred_pct, 1),
+        "old_predicted_weeks": round(orig_pred_weeks, 1),
+        "new_predicted_pct": round(new_pred_pct, 1),
+        "new_predicted_weeks": round(new_pred_weeks, 1),
+        "discharge_delta": round(discharge_delta, 1),
+        "recommended_pathway": rec_pathway.to_dict() if rec_pathway is not None else None,
+        "explanation": explanation,
+        "new_neighbors": new_neighbors[["Patient_ID", "Similarity_Score", "Age", "Gender", "Injury_Type", "Severity", config.TARGET_RECOVERY_PCT, config.TARGET_RECOVERY_WEEKS]].to_dict(orient="records")
+    }
+
+
 def recalibrate(patient_row: pd.Series, current_state: dict, week: int,
                  train_pool: pd.DataFrame, pathways: pd.DataFrame,
                  pct_model, weeks_model, feature_fn, deviation: dict):
+
     """
     Performs Phase 6 recalibration:
       - builds an updated "as-of-now" profile using the entered actual values

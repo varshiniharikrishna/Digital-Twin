@@ -135,14 +135,34 @@ def save_weekly_progress_record(record_dict):
 def save_patient_recalibration_record(patient_id, week, recal_dict):
     """
     Persists a recalibration outcome record in MySQL or CSV.
+    Includes per-metric expected vs actual values and discharge timeline delta.
     """
+    evr = recal_dict.get("expected_vs_real", {})
+
+    def _ev(metric, key):
+        return float(evr[metric][key]) if metric in evr and key in evr[metric] else None
+
     rec_data = {
         "Patient_ID": patient_id,
         "Week": int(week),
+        "Old_Predicted_Weeks": float(recal_dict.get("old_predicted_weeks", 0.0)),
         "Recalibrated_Recovery_Pct": float(recal_dict.get("new_predicted_pct", 0.0)),
         "Recalibrated_Recovery_Weeks": float(recal_dict.get("new_predicted_weeks", 0.0)),
+        "Discharge_Delta": float(recal_dict.get("discharge_delta", 0.0)),
+        "Pain_Expected": _ev("Pain", "expected"),
+        "Pain_Actual": _ev("Pain", "actual"),
+        "Pain_Dev_Pct": _ev("Pain", "pct_deviation"),
+        "ROM_Expected": _ev("ROM_deg", "expected"),
+        "ROM_Actual": _ev("ROM_deg", "actual"),
+        "ROM_Dev_Pct": _ev("ROM_deg", "pct_deviation"),
+        "Strength_Expected": _ev("Strength_pct", "expected"),
+        "Strength_Actual": _ev("Strength_pct", "actual"),
+        "Strength_Dev_Pct": _ev("Strength_pct", "pct_deviation"),
         "Explanation": str(recal_dict.get("explanation", "")),
-        "Updated_Pathway": str(recal_dict.get("recommended_pathway", {}).get("Archetype_Label", "Standard") if isinstance(recal_dict.get("recommended_pathway"), dict) else "Standard")
+        "Updated_Pathway": str(
+            recal_dict.get("recommended_pathway", {}).get("Archetype_Label", "Standard")
+            if isinstance(recal_dict.get("recommended_pathway"), dict) else "Standard"
+        )
     }
 
     if config.DATA_SOURCE == "mysql":
@@ -208,6 +228,28 @@ def add_new_patient_record(patient_dict, injury_dict, assessment_dict):
                 df = pd.read_csv(csv_path)
                 df = pd.concat([df, pd.DataFrame([data])], ignore_index=True)
                 df.to_csv(csv_path, index=False)
+
+
+def get_recalibration_history_records(patient_id):
+    """
+    Retrieves the full chronological list of recalibration logs for a patient.
+    """
+    if config.DATA_SOURCE == "mysql":
+        engine = _get_engine()
+        from sqlalchemy import text
+        try:
+            with engine.connect() as conn:
+                df = pd.read_sql(text("SELECT * FROM `Recalibration_Log` WHERE `Patient_ID` = :pid ORDER BY `Week` ASC"), conn, params={"pid": patient_id})
+                return df.to_dict(orient="records")
+        except Exception:
+            return []
+    else:
+        csv_path = os.path.join(config.CSV_DIR, "Recalibration_Log.csv")
+        if os.path.exists(csv_path):
+            df = pd.read_csv(csv_path)
+            match = df[df["Patient_ID"] == patient_id].sort_values("Week")
+            return match.to_dict(orient="records")
+        return []
 
 
 if __name__ == "__main__":

@@ -676,51 +676,104 @@ elif page == "Weekly Recovery Timeline":
 # PAGE 6: SIMULATION & RECALIBRATION
 # ========================================================================
 elif page == "Simulation & Recalibration":
-    st.title(f"Digital Twin Recalibration Simulator — {patient_id}")
-    st.caption("Enter new clinical observations to re-simulate the patient's twin trajectory.")
+    st.title(f"Weekly Stage Check-In & Dynamic Recalibration — {patient_id}")
+    st.caption("Perform weekly check-in stage recalibrations, note recorded changes, compare Expected vs. Real outcomes, and view treatment pathway adaptations.")
 
     pred_pct, pred_weeks = predict_for_row(patient_row)
     predicted_traj = simmod.build_predicted_trajectory(patient_row, pred_pct, pred_weeks)
     max_w = int(predicted_traj["Week"].max())
 
-    rec_w = st.slider("Recalibration Week", 1, max_w, min(4, max_w))
+    rec_w = st.slider("Select Weekly Stage for Check-In Recalibration", 1, max_w, min(4, max_w))
+
+    p_match = predicted_traj[predicted_traj["Week"] == rec_w]
+    p_row = p_match.iloc[0] if not p_match.empty else predicted_traj.iloc[0]
+
+    st.markdown(f"#### Target Twin Predictions for Week {rec_w}")
+    exp_cols = st.columns(5)
+    exp_cols[0].metric("Expected Pain", f"{p_row['Predicted_Pain']:.1f}/10")
+    exp_cols[1].metric("Expected ROM", f"{p_row['Predicted_ROM_deg']:.1f}°")
+    exp_cols[2].metric("Expected Quad Strength", f"{p_row['Predicted_Strength_pct']:.1f}%")
+    exp_cols[3].metric("Expected Balance", "75.0")
+    exp_cols[4].metric("Expected Speed", f"{p_row['Predicted_Walking_Speed_mps']:.2f} m/s")
+
+    st.markdown("---")
+    st.markdown("### Enter Recorded Weekly Check-In Observations")
     c1, c2, c3 = st.columns(3)
     with c1:
-        p_in = st.number_input("Observed Pain (0-10)", 0.0, 10.0, 6.0, 0.5)
+        p_in = st.number_input("Recorded Pain (0-10)", 0.0, 10.0, float(p_row['Predicted_Pain']), 0.5)
+        quad_in = st.number_input("Recorded Quad Strength (%)", 0.0, 100.0, float(p_row['Predicted_Strength_pct']), 1.0)
     with c2:
-        rom_in = st.number_input("Observed ROM (deg)", 0.0, 150.0, 75.0, 1.0)
+        rom_in = st.number_input("Recorded ROM (deg)", 0.0, 150.0, float(p_row['Predicted_ROM_deg']), 1.0)
+        bal_in = st.number_input("Recorded Balance Score", 0.0, 100.0, 75.0, 1.0)
     with c3:
-        str_in = st.number_input("Observed Strength (%)", 0.0, 100.0, 50.0, 1.0)
+        speed_in = st.number_input("Recorded Speed (m/s)", 0.0, 3.0, float(p_row['Predicted_Walking_Speed_mps']), 0.1)
+        swelling_in = st.selectbox("Swelling Level", ["None", "Mild", "Moderate", "Severe"], index=0)
 
-    if st.button("Run Recalibration", type="primary"):
-        p_row = predicted_traj[predicted_traj["Week"] == rec_w].iloc[0]
-        cur_st = {"Pain": p_in, "ROM_deg": rom_in, "Strength_pct": str_in}
-        dev = simmod.check_deviation(p_row, cur_st)
-        res = simmod.recalibrate(
-            patient_row, cur_st, rec_w, train, tables["Recovery_Pathway"],
-            pct_model, weeks_model, get_feature_frame, dev
+    if st.button("Run Weekly Stage Recalibration", type="primary"):
+        weekly_entry = {
+            "Pain": p_in, "ROM_deg": rom_in, "Quadriceps_Strength_pct": quad_in,
+            "Balance_Score": bal_in, "Walking_Speed_mps": speed_in, "Swelling": swelling_in
+        }
+        res = simmod.process_weekly_stage_recalibration(
+            patient_row=patient_row, week=rec_w, weekly_entry=weekly_entry,
+            train_pool=train, pathways_table=tables["Recovery_Pathway"],
+            pct_model=pct_model, weeks_model=weeks_model, feature_fn=get_feature_frame
         )
         st.session_state["recal_result"] = res
-        
-        # Save to recalibration history
+
+        # Persist to database & session history
+        db.save_patient_recalibration_record(patient_id, rec_w, res)
         pw_label = res["recommended_pathway"]["Archetype_Label"] if res["recommended_pathway"] is not None else "Standard"
         st.session_state["recal_history"].append({
-            "week": rec_w,
-            "old_pct": pred_pct,
-            "old_wks": pred_weeks,
-            "new_pct": res["new_predicted_pct"],
-            "new_wks": res["new_predicted_weeks"],
-            "pathway": pw_label,
+            "Week": rec_w,
+            "Old_Discharge_wks": round(pred_weeks, 1),
+            "Recalibrated_Discharge_wks": res["new_predicted_weeks"],
+            "Delta_wks": res["discharge_delta"],
+            "Pain_Expected_Real": f"{p_row['Predicted_Pain']:.1f} / {p_in:.1f}",
+            "ROM_Expected_Real": f"{p_row['Predicted_ROM_deg']:.1f} / {rom_in:.1f}",
+            "Strength_Expected_Real": f"{p_row['Predicted_Strength_pct']:.1f} / {quad_in:.1f}",
+            "Updated_Pathway": pw_label,
+            "Notes": res["explanation"]
         })
 
-    if st.session_state["recal_result"]:
+    if st.session_state.get("recal_result"):
         res = st.session_state["recal_result"]
         st.markdown("---")
-        st.markdown("### Recalibration Outcome")
-        r1, r2 = st.columns(2)
-        r1.metric("Recalibrated Recovery %", f"{res['new_predicted_pct']:.1f}%", f"{res['new_predicted_pct'] - pred_pct:+.1f}% vs Original")
-        r2.metric("Recalibrated Recovery Weeks", f"{res['new_predicted_weeks']:.1f} wks", f"{res['new_predicted_weeks'] - pred_weeks:+.1f} wks vs Original")
-        st.info(res["explanation"])
+        st.markdown(f"### Week {rec_w} Dynamic Recalibration Outcome")
+        r1, r2, r3 = st.columns(3)
+        r1.metric("Old Discharge Timeline", f"{res['old_predicted_weeks']:.1f} wks")
+        r2.metric("Recalibrated Discharge Timeline", f"{res['new_predicted_weeks']:.1f} wks", f"{res['discharge_delta']:+.1f} wks delta")
+        r3.metric("Recalibrated Recovery %", f"{res['new_predicted_pct']:.1f}%", f"{res['new_predicted_pct'] - pred_pct:+.1f}% vs baseline")
+
+        st.markdown(f"#### Expected vs Real Outcome Comparison (Week {rec_w})")
+        evr_df = pd.DataFrame([
+            {
+                "Metric": k.replace("_", " "),
+                "Expected (Twin)": v["expected"],
+                "Actual (Recorded)": v["actual"],
+                "Deviation %": f"{v['pct_deviation']:+.1f}%",
+                "Status": "FLAGGED DEVIATION" if v["flagged"] else "On Track"
+            }
+            for k, v in res["expected_vs_real"].items()
+        ])
+        st.table(evr_df)
+
+        st.info(f"**Recalibration Rationale:** {res['explanation']}")
+
+        if res.get("recommended_pathway"):
+            st.success(f"**Updated Prescribed Pathway:** {res['recommended_pathway'].get('Archetype_Label', 'Standard Protocol')}")
+
+    # Display Session History Log
+    st.markdown("---")
+    st.markdown("### Weekly Stage-by-Stage Recalibration History Log")
+    db_history = db.get_recalibration_history_records(patient_id)
+    if db_history:
+        hist_df = pd.DataFrame(db_history)
+        st.dataframe(hist_df, width="stretch")
+    elif st.session_state.get("recal_history"):
+        st.dataframe(pd.DataFrame(st.session_state["recal_history"]), width="stretch")
+    else:
+        st.caption("No weekly stage check-ins recorded yet for this patient.")
 
 
 # ========================================================================
