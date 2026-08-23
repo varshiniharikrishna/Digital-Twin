@@ -242,17 +242,18 @@
                         <select id="rxSubtypeSelect" class="patient-dropdown" style="padding:10px;"></select>
                     </div>
 
-                    <div class="form-group" style="grid-column: span 2;">
-                        <label for="rxStageSelect">3. Stage of Recovery:</label>
-                        <select id="rxStageSelect" class="patient-dropdown" style="padding:10px;">
-                            <option value="Early Stage (Weeks 1-4)">Early Stage (Weeks 1-4)</option>
-                            <option value="Mid Stage (Weeks 5-12)" selected>Mid Stage (Weeks 5-12)</option>
-                            <option value="Late Stage / Sport Return (Weeks 13+)">Late Stage / Sport Return (Weeks 13+)</option>
-                        </select>
+                    <div class="form-group" style="grid-column: span 1;">
+                        <label for="rxStartWeek">3. Intervention Start Week:</label>
+                        <input type="number" id="rxStartWeek" min="1" max="52" value="4" style="padding:10px;">
+                    </div>
+
+                    <div class="form-group" style="grid-column: span 1;">
+                        <label for="rxDurationWeeks">4. Duration (Weeks):</label>
+                        <input type="number" id="rxDurationWeeks" min="1" max="12" value="4" style="padding:10px;">
                     </div>
 
                     <div class="form-group" style="grid-column: span 2;">
-                        <label for="rxIntensitySelect">4. Intervention Intensity:</label>
+                        <label for="rxIntensitySelect">5. Intervention Intensity:</label>
                         <select id="rxIntensitySelect" class="patient-dropdown" style="padding:10px;">
                             <option value="Gentle">Gentle</option>
                             <option value="Standard" selected>Standard</option>

@@ -446,14 +446,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const category = document.getElementById('rxCategorySelect').value;
         const exercise_type = document.getElementById('rxSubtypeSelect').value;
-        const stage = document.getElementById('rxStageSelect').value;
+        const start_week = parseInt(document.getElementById('rxStartWeek').value) || 4;
+        const duration_weeks = parseInt(document.getElementById('rxDurationWeeks').value) || 4;
         const intensity = document.getElementById('rxIntensitySelect').value;
 
         try {
             const res = await fetch(`/api/patient/${currentPatientId}/treatment/simulate`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ category, exercise_type, stage, intensity })
+                body: JSON.stringify({ category, exercise_type, start_week, duration_weeks, intensity })
             });
             const data = await res.json();
 

@@ -407,9 +407,12 @@ TREATMENT_TAXONOMY = {
 }
 
 
-def simulate_treatment_intervention(patient_row: pd.Series, category: str, exercise_type: str, stage: str, intensity: str = "Standard") -> dict:
+def simulate_treatment_intervention(patient_row: pd.Series, category: str, exercise_type: str, 
+                                     stage: str = None, intensity: str = "Standard",
+                                     start_week: int = 4, duration_weeks: int = 4) -> dict:
     """
-    Simulates how a patient's digital twin reacts to a specific clinical treatment intervention.
+    Simulates how a patient's digital twin reacts in real time to a specific clinical treatment intervention
+    applied at a specific timeline week (start_week) for a custom duration (duration_weeks).
     """
     cat_info = TREATMENT_TAXONOMY.get(category, TREATMENT_TAXONOMY["rom"])
     ex_info = cat_info["subtypes"].get(exercise_type, list(cat_info["subtypes"].values())[0])
@@ -418,43 +421,74 @@ def simulate_treatment_intervention(patient_row: pd.Series, category: str, exerc
     base_weeks = max(int(round(float(patient_row.get("Predicted_Recovery_Weeks", 16.0)))), 1)
     base_traj = build_predicted_trajectory(patient_row, base_pct, base_weeks)
 
+    start_week = max(int(start_week), 1)
+    duration_weeks = max(int(duration_weeks), 1)
+
+    # Determine stage automatically from start_week
+    if start_week <= 4:
+        stage_eval = "Early Stage (Weeks 1-4)"
+        stage_short = "Early Stage"
+    elif start_week <= 12:
+        stage_eval = "Mid Stage (Weeks 5-12)"
+        stage_short = "Mid Stage"
+    else:
+        stage_eval = "Late Stage / Sport Return (Weeks 13+)"
+        stage_short = "Late Stage"
+
     # Intensity multipliers
     int_mult = 1.3 if intensity == "Aggressive" else (0.7 if intensity == "Gentle" else 1.0)
     
-    # Overload check
-    is_early = "Early" in stage
+    # Overload check for start_week
+    is_early = start_week <= 4
     is_high_strain = ex_info["max_strain"] in ["High", "Moderate-High"]
     is_overload = is_early and is_high_strain
 
     if is_overload:
         appr_status = "warning"
-        appr_msg = f"HIGH STRAIN ALERT: {ex_info['name']} applied prematurely in Early Stage! High risk of joint swelling and pain flare-up (+2.5 weeks delay)."
+        appr_msg = f"HIGH STRAIN ALERT: {ex_info['name']} applied prematurely at Week {start_week}! High risk of joint swelling and pain flare-up (+2.5 weeks delay)."
         week_delta = +2.5
         pain_modifier = +1.8
         strength_mod = 0.5
-    elif ex_info["preferred_stage"] in stage or "Mid" in stage:
+    elif ex_info["preferred_stage"] in stage_eval or "Mid" in stage_eval:
         appr_status = "success"
-        appr_msg = f"HIGHLY APPROPRIATE: {ex_info['name']} matches current {stage} goals for {patient_row.get('Body_Part', 'injured joint')}."
+        appr_msg = f"HIGHLY APPROPRIATE: {ex_info['name']} starting at Week {start_week} matches recovery goals for {patient_row.get('Body_Part', 'injured joint')} ({stage_short})."
         week_delta = -1.5 * int_mult
         pain_modifier = ex_info["pain_impact"] * int_mult
         strength_mod = 1.2 * int_mult
     else:
         appr_status = "info"
-        appr_msg = f"MODERATE BENEFIT: {ex_info['name']} provides steady progress during {stage}."
+        appr_msg = f"MODERATE BENEFIT: {ex_info['name']} starting at Week {start_week} provides steady progress."
         week_delta = -0.5 * int_mult
         pain_modifier = ex_info["pain_impact"]
         strength_mod = 1.0
 
     new_weeks = max(int(round(base_weeks + week_delta)), 1)
     
-    # Build stimulated curves
-    rx_pain = np.clip(base_traj["Predicted_Pain"].values + pain_modifier, 0.5, 10.0)
-    rx_rom = np.clip(base_traj["Predicted_ROM_deg"].values + (ex_info["rom_boost"] * int_mult * 0.4), 0, 145.0)
-    rx_strength = np.clip(base_traj["Predicted_Strength_pct"].values + (ex_info["strength_boost"] * strength_mod * 0.4), 0, 100.0)
-    rx_speed = np.clip(base_traj["Predicted_Walking_Speed_mps"].values + (ex_info["speed_boost"] * int_mult * 0.3), 0.2, 1.8)
+    # Build stimulated curves starting at start_week
+    rx_pain = base_traj["Predicted_Pain"].values.copy()
+    rx_rom = base_traj["Predicted_ROM_deg"].values.copy()
+    rx_strength = base_traj["Predicted_Strength_pct"].values.copy()
+    rx_speed = base_traj["Predicted_Walking_Speed_mps"].values.copy()
+
+    n_total = len(rx_pain)
+    end_w = min(start_week - 1 + duration_weeks, n_total)
+
+    for idx in range(start_week - 1, n_total):
+        if idx < end_w:
+            weight = (idx - (start_week - 1) + 1) / float(duration_weeks)
+            rx_pain[idx] = np.clip(rx_pain[idx] + pain_modifier * weight, 0.5, 10.0)
+            rx_rom[idx] = np.clip(rx_rom[idx] + (ex_info["rom_boost"] * int_mult * 0.4 * weight), 0, 145.0)
+            rx_strength[idx] = np.clip(rx_strength[idx] + (ex_info["strength_boost"] * strength_mod * 0.4 * weight), 0, 100.0)
+            rx_speed[idx] = np.clip(rx_speed[idx] + (ex_info["speed_boost"] * int_mult * 0.3 * weight), 0.2, 1.8)
+        else:
+            carry = (end_w - (start_week - 1)) / float(duration_weeks)
+            rx_pain[idx] = np.clip(rx_pain[idx] + pain_modifier * 0.5 * carry, 0.5, 10.0)
+            rx_rom[idx] = np.clip(rx_rom[idx] + (ex_info["rom_boost"] * int_mult * 0.4 * carry), 0, 145.0)
+            rx_strength[idx] = np.clip(rx_strength[idx] + (ex_info["strength_boost"] * strength_mod * 0.4 * carry), 0, 100.0)
+            rx_speed[idx] = np.clip(rx_speed[idx] + (ex_info["speed_boost"] * int_mult * 0.3 * carry), 0.2, 1.8)
 
     rx_traj = pd.DataFrame({
-        "Week": range(1, len(rx_pain) + 1),
+        "Week": range(1, n_total + 1),
         "Predicted_Pain": rx_pain.round(1),
         "Predicted_ROM_deg": rx_rom.round(1),
         "Predicted_Strength_pct": rx_strength.round(1),
@@ -462,13 +496,16 @@ def simulate_treatment_intervention(patient_row: pd.Series, category: str, exerc
     })
 
     reaction_summary = (
-        f"For {patient_row.get('Patient_ID')} ({patient_row.get('Injury_Type')}), applying {ex_info['name']} "
-        f"at {intensity} intensity in {stage} results in a {rx_strength[-1]:.0f}% strength recovery "
+        f"For {patient_row.get('Patient_ID')} ({patient_row.get('Injury_Type')}), introducing {ex_info['name']} "
+        f"at Week {start_week} for {duration_weeks} weeks ({intensity} intensity) results in a {rx_strength[-1]:.0f}% strength recovery "
         f"and {rx_rom[-1]:.0f}° ROM. Discharge timeline estimated at {new_weeks} weeks ({week_delta:+.1f} wks vs standard)."
     )
 
     return {
         "exercise": ex_info,
+        "start_week": start_week,
+        "duration_weeks": duration_weeks,
+        "stage_eval": stage_short,
         "appropriateness": {"status": appr_status, "message": appr_msg},
         "impact": {
             "pain_delta": round(float(pain_modifier), 1),

@@ -301,8 +301,18 @@ def simulate_treatment_route(patient_id):
     exercise_type = str(data.get("exercise_type", "active_assisted_rom"))
     stage = str(data.get("stage", "Early Stage"))
     intensity = str(data.get("intensity", "Standard"))
+    start_week = int(data.get("start_week", 4))
+    duration_weeks = int(data.get("duration_weeks", 4))
 
-    res = simmod.simulate_treatment_intervention(row, category, exercise_type, stage, intensity)
+    res = simmod.simulate_treatment_intervention(
+        patient_row=row,
+        category=category,
+        exercise_type=exercise_type,
+        stage=stage,
+        intensity=intensity,
+        start_week=start_week,
+        duration_weeks=duration_weeks
+    )
     return jsonify(sanitize_dict(res))
 
 

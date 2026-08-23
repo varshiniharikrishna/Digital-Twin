@@ -523,13 +523,22 @@ elif page == "Treatment Clones":
             format_func=lambda k: f"{sub_map[k]['name']} ({sub_map[k]['preferred_stage']})"
         )
 
-    c_stg, c_int = st.columns(2)
-    with c_stg:
-        stage = st.selectbox("3. Stage of Recovery", ["Early Stage (Weeks 1-4)", "Mid Stage (Weeks 5-12)", "Late Stage / Sport Return (Weeks 13+)"], index=1)
+    c_w, c_dur, c_int = st.columns(3)
+    with c_w:
+        start_w = st.slider("3. Intervention Start Week", 1, 52, 4)
+    with c_dur:
+        dur_w = st.slider("4. Duration (Weeks)", 1, 12, 4)
     with c_int:
-        intensity = st.selectbox("4. Intervention Intensity", ["Gentle", "Standard", "Aggressive"], index=1)
+        intensity = st.selectbox("5. Intervention Intensity", ["Gentle", "Standard", "Aggressive"], index=1)
 
-    rx_res = simmod.simulate_treatment_intervention(patient_row, cat_key, sub_key, stage, intensity)
+    rx_res = simmod.simulate_treatment_intervention(
+        patient_row=patient_row,
+        category=cat_key,
+        exercise_type=sub_key,
+        intensity=intensity,
+        start_week=start_w,
+        duration_weeks=dur_w
+    )
 
     # Banner
     appr = rx_res["appropriateness"]
