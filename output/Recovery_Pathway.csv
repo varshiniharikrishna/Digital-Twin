@@ -1,135 +1,78 @@
-Pathway_ID,Cohort_ID,Body_Region,Archetype_Label,Sample_Size,Average_Recovery_Time_weeks,Success_Rate,Average_Pain_Reduction,Average_Recovery_Pct,Average_ROM_deg
-PW001,C001,Ankle,Fast_Recovery,4,18.0,0.75,3.2,92.5,40.9
-PW002,C002,Ankle,Fast_Recovery,5,10.0,0.2,3.0,85.7,38.0
-PW003,C003,Ankle,Fast_Recovery,5,4.0,0.0,1.5,69.8,28.9
-PW004,C004,Cervical Spine,Fast_Recovery,4,4.0,0.0,1.0,71.8,57.3
-PW005,C005,Elbow,Slow_Recovery,4,19.8,0.0,3.5,79.9,91.9
-PW006,C006,Foot,Fast_Recovery,6,5.0,0.17,1.3,77.1,29.6
-PW007,C007,Knee,Fast_Recovery,9,14.7,0.89,3.3,93.8,128.9
-PW008,C008,Knee,Cautious_Recovery,4,28.2,0.75,2.7,92.2,121.7
-PW009,C008,Knee,Fast_Recovery,4,19.0,0.75,4.7,92.5,113.0
-PW010,C008,Knee,Standard_Recovery,4,21.2,0.75,3.6,91.6,118.7
-PW011,C009,Knee,Cautious_Recovery,4,9.5,0.25,2.8,76.5,94.5
-PW012,C010,Knee,Fast_Recovery,5,8.0,0.2,3.2,81.8,100.6
-PW013,C011,Lumbar Spine,Fast_Recovery,6,7.5,0.17,2.8,84.9,50.9
-PW014,C012,Shoulder,Fast_Recovery,9,10.3,0.56,2.5,87.1,154.8
-PW015,C013,Shoulder,Slow_Recovery,4,40.0,0.25,2.8,86.5,130.6
-PW016,C014,Wrist,Fast_Recovery,7,5.6,0.0,1.8,75.1,60.9
-PW017,C017,Ankle,Fast_Recovery,5,6.6,0.2,2.1,81.5,40.2
-PW018,C019,Ankle,Standard_Recovery,5,5.6,0.0,1.2,69.8,30.5
-PW019,C020,Cervical Spine,Slow_Recovery,4,14.5,0.0,2.0,69.1,41.8
-PW020,C021,Elbow,Fast_Recovery,4,6.8,0.0,1.8,78.5,110.4
-PW021,C022,Elbow,Fast_Recovery,4,5.5,0.0,1.7,74.2,93.3
-PW022,C022,Elbow,Standard_Recovery,4,8.2,0.0,2.0,73.0,95.7
-PW023,C024,Hip,Fast_Recovery,4,7.2,0.0,2.3,78.6,95.2
-PW024,C025,Knee,Fast_Recovery,6,13.8,0.5,3.5,90.3,123.6
-PW025,C026,Knee,Cautious_Recovery,7,35.4,0.43,4.3,91.3,122.7
-PW026,C026,Knee,Slow_Recovery,4,40.2,0.5,3.9,88.5,118.6
-PW027,C026,Knee,Standard_Recovery,4,26.8,1.0,5.2,96.2,125.4
-PW028,C027,Knee,Fast_Recovery,5,5.0,0.0,1.5,74.1,109.1
-PW029,C028,Knee,Cautious_Recovery,6,13.0,0.33,2.6,79.1,98.6
-PW030,C028,Knee,Standard_Recovery,6,10.7,0.33,2.3,80.5,103.3
-PW031,C030,Lumbar Spine,Slow_Recovery,4,25.0,0.25,2.9,82.4,41.7
-PW032,C031,Lumbar Spine,Fast_Recovery,7,4.0,0.0,1.5,74.8,44.5
-PW033,C032,Lumbar Spine,Cautious_Recovery,5,7.0,0.0,1.7,69.3,37.1
-PW034,C033,Shoulder,Fast_Recovery,5,8.4,0.2,3.0,81.8,150.0
-PW035,C034,Shoulder,Cautious_Recovery,7,20.3,0.29,3.7,85.4,140.9
-PW036,C035,Shoulder,Cautious_Recovery,5,11.0,0.2,2.2,78.4,121.9
-PW037,C037,Wrist,Fast_Recovery,4,9.2,0.25,2.4,81.2,57.8
-PW038,C039,Wrist,Cautious_Recovery,4,6.5,0.0,1.4,66.8,46.8
-PW039,C039,Wrist,Slow_Recovery,4,8.8,0.0,1.5,73.5,49.4
-PW040,C040,Ankle,Cautious_Recovery,5,29.0,0.8,3.8,92.4,38.6
-PW041,C041,Ankle,Fast_Recovery,4,6.2,0.25,2.3,81.4,40.7
-PW042,C042,Ankle,Cautious_Recovery,8,14.5,0.0,3.0,78.2,33.4
-PW043,C045,Ankle,Slow_Recovery,5,9.4,0.0,0.5,59.1,22.3
-PW044,C047,Cervical Spine,Cautious_Recovery,6,7.5,0.0,1.7,68.4,51.7
-PW045,C047,Cervical Spine,Setback_Prone,4,6.0,0.0,0.2,54.2,39.1
-PW046,C050,Hand,Slow_Recovery,4,18.5,0.0,3.1,72.1,47.3
-PW047,C051,Hand,Cautious_Recovery,6,7.2,0.0,1.1,66.9,53.3
-PW048,C052,Knee,Standard_Recovery,4,19.8,1.0,3.0,94.7,130.7
-PW049,C053,Knee,Cautious_Recovery,9,31.8,0.44,3.5,90.1,117.5
-PW050,C053,Knee,Setback_Prone,6,29.7,0.0,-1.3,72.9,96.5
-PW051,C055,Knee,Cautious_Recovery,9,12.1,0.0,2.2,75.0,99.7
-PW052,C056,Knee,Slow_Recovery,4,20.0,0.0,3.3,75.9,86.9
-PW053,C058,Knee,Cautious_Recovery,4,18.8,0.25,3.3,82.6,105.3
-PW054,C060,Lumbar Spine,Cautious_Recovery,4,17.0,0.5,3.0,83.7,42.3
-PW055,C060,Lumbar Spine,Standard_Recovery,5,12.2,0.2,2.7,78.8,42.2
-PW056,C061,Lumbar Spine,Cautious_Recovery,9,6.6,0.0,1.1,67.0,34.4
-PW057,C062,Lumbar Spine,Standard_Recovery,4,6.8,0.0,1.5,66.2,31.6
-PW058,C063,Shoulder,Cautious_Recovery,6,19.8,0.17,4.5,87.2,143.5
-PW059,C064,Shoulder,Cautious_Recovery,4,13.2,0.25,1.7,80.4,139.3
-PW060,C064,Shoulder,Fast_Recovery,6,9.2,0.17,2.6,81.4,143.7
-PW061,C065,Shoulder,Cautious_Recovery,4,27.8,0.5,3.3,87.7,120.2
-PW062,C065,Shoulder,Setback_Prone,4,26.2,0.0,-0.6,71.6,105.7
-PW063,C065,Shoulder,Slow_Recovery,5,42.2,0.2,3.6,87.2,128.5
-PW064,C066,Wrist,Fast_Recovery,5,5.8,0.2,1.9,78.1,61.8
-PW065,C067,Wrist,Cautious_Recovery,5,12.6,0.0,3.2,74.1,51.3
-PW066,C068,Wrist,Standard_Recovery,4,5.8,0.0,1.8,65.9,42.5
-PW067,C069,Ankle,Slow_Recovery,5,36.8,0.2,1.3,86.5,39.7
-PW068,C070,Ankle,Cautious_Recovery,4,31.2,0.75,4.3,93.3,39.3
-PW069,C070,Ankle,Slow_Recovery,8,48.2,0.62,4.6,92.2,40.2
-PW070,C070,Ankle,Standard_Recovery,4,25.8,1.0,4.9,96.2,38.7
-PW071,C071,Ankle,Slow_Recovery,10,49.7,0.0,3.1,80.4,29.4
-PW072,C072,Ankle,Fast_Recovery,4,8.2,0.0,2.1,80.8,36.0
-PW073,C072,Ankle,Slow_Recovery,4,18.0,0.0,1.2,73.0,33.3
-PW074,C073,Ankle,Cautious_Recovery,6,17.0,0.17,3.0,75.4,29.5
-PW075,C073,Ankle,Slow_Recovery,13,24.2,0.08,2.7,79.1,32.4
-PW076,C074,Ankle,Slow_Recovery,7,31.4,0.0,2.9,76.5,28.1
-PW077,C075,Ankle,Fast_Recovery,8,4.0,0.0,1.2,73.0,35.0
-PW078,C075,Ankle,Slow_Recovery,11,8.2,0.0,0.9,71.9,34.0
-PW079,C076,Ankle,Cautious_Recovery,6,8.2,0.0,1.4,67.2,28.0
-PW080,C076,Ankle,Slow_Recovery,15,10.3,0.0,1.5,68.6,29.0
-PW081,C076,Ankle,Standard_Recovery,4,6.2,0.0,1.2,67.2,30.6
-PW082,C077,Ankle,Slow_Recovery,8,16.1,0.0,2.0,70.7,25.5
-PW083,C078,Cervical Spine,Standard_Recovery,4,12.0,0.25,2.8,79.0,52.4
-PW084,C079,Cervical Spine,Slow_Recovery,5,9.0,0.0,0.3,65.3,49.7
-PW085,C080,Cervical Spine,Slow_Recovery,8,11.2,0.0,1.3,71.2,50.4
-PW086,C081,Cervical Spine,Slow_Recovery,9,14.7,0.0,2.3,69.2,42.0
-PW087,C082,Elbow,Slow_Recovery,6,14.5,0.17,1.4,75.7,109.5
-PW088,C083,Elbow,Cautious_Recovery,4,16.2,0.0,2.1,78.7,101.7
-PW089,C083,Elbow,Slow_Recovery,4,21.8,0.25,2.7,83.4,98.5
-PW090,C084,Elbow,Slow_Recovery,7,12.0,0.0,0.7,74.1,100.6
-PW091,C087,Foot,Standard_Recovery,5,11.8,0.0,3.6,77.4,28.4
-PW092,C088,Foot,Slow_Recovery,6,11.8,0.0,1.3,71.9,27.1
-PW093,C089,Hand,Slow_Recovery,4,14.8,0.25,2.3,78.9,56.0
-PW094,C090,Hip,Slow_Recovery,7,25.9,0.14,2.5,85.2,96.7
-PW095,C091,Hip,Cautious_Recovery,4,29.5,0.5,4.3,88.2,88.8
-PW096,C093,Knee,Fast_Recovery,4,14.2,1.0,3.0,93.9,119.9
-PW097,C093,Knee,Slow_Recovery,9,32.2,0.11,1.4,83.9,117.4
-PW098,C094,Knee,Cautious_Recovery,6,37.2,0.5,3.0,90.4,113.8
-PW099,C094,Knee,Fast_Recovery,4,21.8,1.0,4.3,98.2,110.1
-PW100,C094,Knee,Slow_Recovery,22,43.1,0.41,2.6,88.6,108.6
-PW101,C094,Knee,Standard_Recovery,8,28.6,0.88,4.6,96.1,114.3
-PW102,C095,Knee,Slow_Recovery,10,50.7,0.6,3.3,87.7,95.2
-PW103,C097,Knee,Slow_Recovery,5,15.2,0.2,1.3,71.9,86.9
-PW104,C097,Knee,Standard_Recovery,6,8.5,0.0,1.2,72.2,83.0
-PW105,C098,Knee,Slow_Recovery,8,20.1,0.12,2.2,75.9,81.4
-PW106,C099,Knee,Slow_Recovery,10,14.4,0.0,1.6,78.5,110.3
-PW107,C100,Knee,Slow_Recovery,15,18.7,0.0,1.5,76.2,93.4
-PW108,C101,Knee,Slow_Recovery,14,25.6,0.07,1.8,73.1,81.9
-PW109,C102,Knee,Slow_Recovery,4,18.5,0.0,1.0,73.7,108.3
-PW110,C102,Knee,Standard_Recovery,4,10.0,0.25,2.4,83.1,114.6
-PW111,C103,Knee,Cautious_Recovery,4,19.5,0.25,2.3,81.1,97.9
-PW112,C103,Knee,Slow_Recovery,6,28.3,0.5,3.0,85.2,106.0
-PW113,C104,Knee,Slow_Recovery,8,38.4,0.25,3.6,85.9,92.6
-PW114,C105,Lumbar Spine,Slow_Recovery,8,24.2,0.12,2.5,80.7,37.8
-PW115,C105,Lumbar Spine,Standard_Recovery,4,15.0,0.25,3.2,84.8,42.3
-PW116,C106,Lumbar Spine,Slow_Recovery,5,7.6,0.0,0.6,68.4,35.8
-PW117,C107,Lumbar Spine,Cautious_Recovery,5,7.2,0.0,1.8,72.9,36.5
-PW118,C107,Lumbar Spine,Slow_Recovery,11,10.2,0.0,1.3,67.2,34.5
-PW119,C107,Lumbar Spine,Standard_Recovery,5,6.4,0.0,1.7,72.9,37.3
-PW120,C108,Lumbar Spine,Slow_Recovery,6,13.3,0.0,1.7,66.3,29.2
-PW121,C109,Shoulder,Fast_Recovery,7,8.7,0.57,2.7,89.3,153.0
-PW122,C109,Shoulder,Slow_Recovery,6,21.7,0.17,2.1,81.5,138.3
-PW123,C109,Shoulder,Standard_Recovery,4,12.2,0.25,3.2,85.5,147.5
-PW124,C110,Shoulder,Setback_Prone,6,22.5,0.0,0.0,73.1,121.7
-PW125,C110,Shoulder,Slow_Recovery,8,28.0,0.0,2.7,80.1,121.3
-PW126,C111,Shoulder,Slow_Recovery,9,40.6,0.33,3.5,86.9,120.0
-PW127,C112,Shoulder,Fast_Recovery,4,5.2,0.25,1.5,80.0,139.0
-PW128,C112,Shoulder,Slow_Recovery,7,12.4,0.0,2.0,77.5,136.8
-PW129,C113,Shoulder,Slow_Recovery,4,18.5,0.0,0.3,72.8,102.8
-PW130,C114,Thoracic Spine,Slow_Recovery,6,8.0,0.0,0.7,68.1,28.6
-PW131,C115,Wrist,Cautious_Recovery,5,14.2,0.0,2.8,74.8,54.0
-PW132,C115,Wrist,Slow_Recovery,8,20.9,0.0,2.4,76.9,49.2
-PW133,C116,Wrist,Slow_Recovery,4,5.8,0.0,1.1,67.8,48.4
-PW134,C117,Wrist,Slow_Recovery,6,9.3,0.0,2.0,69.2,45.4
+Pathway_ID,Cohort_ID,Archetype_Label,Sample_Size,Average_Recovery_Time_weeks,Success_Rate,Average_Pain_Reduction,Average_ROM_deg
+PW001,C001,Fast_Track,20,21.1,0.75,8.7,132.9
+PW002,C001,Slow_Comorbid_Track,4,36.8,0.5,8.3,131.1
+PW003,C002,Cautious_Track,7,37.6,1.0,8.4,128.5
+PW004,C002,Fast_Track,20,25.2,0.8,8.4,127.2
+PW005,C002,Slow_Comorbid_Track,4,50.8,0.75,8.1,122.6
+PW006,C002,Standard_Track,11,30.8,0.91,8.3,126.7
+PW007,C003,Fast_Track,9,32.6,0.78,7.4,115.7
+PW008,C003,Slow_Comorbid_Track,10,52.0,0.9,7.5,117.0
+PW009,C003,Standard_Track,7,40.3,0.86,7.5,115.5
+PW010,C005,Fast_Track,5,6.4,0.4,8.6,134.1
+PW011,C006,Fast_Track,7,8.0,1.0,8.4,127.8
+PW012,C007,Fast_Track,3,11.0,1.0,7.5,116.4
+PW013,C008,Fast_Track,8,15.4,1.0,8.3,127.4
+PW014,C010,Cautious_Track,7,27.6,1.0,8.9,136.5
+PW015,C010,Fast_Track,19,21.2,0.84,8.8,134.1
+PW016,C010,Slow_Comorbid_Track,3,40.0,1.0,9.3,138.9
+PW017,C010,Standard_Track,9,24.4,0.89,8.8,135.2
+PW018,C011,Cautious_Track,25,35.4,0.96,8.4,127.8
+PW019,C011,Fast_Track,9,26.0,1.0,8.4,129.5
+PW020,C011,Slow_Comorbid_Track,11,45.7,0.82,8.3,126.8
+PW021,C011,Standard_Track,10,34.2,0.8,8.3,129.0
+PW022,C012,Cautious_Track,4,48.5,1.0,7.5,115.3
+PW023,C012,Fast_Track,4,34.0,1.0,7.6,116.1
+PW024,C012,Slow_Comorbid_Track,18,51.5,0.67,7.3,114.3
+PW025,C012,Standard_Track,3,43.0,1.0,7.6,117.8
+PW026,C013,Cautious_Track,7,16.4,1.0,8.5,129.2
+PW027,C013,Fast_Track,3,11.3,1.0,8.5,127.1
+PW028,C014,Slow_Comorbid_Track,3,24.0,1.0,7.7,115.3
+PW029,C014,Standard_Track,4,17.8,0.5,7.1,111.5
+PW030,C015,Fast_Track,3,6.3,0.67,8.8,135.7
+PW031,C016,Cautious_Track,9,11.8,0.56,8.2,126.8
+PW032,C017,Cautious_Track,6,23.7,1.0,8.5,128.1
+PW033,C017,Standard_Track,3,21.0,0.33,8.2,125.6
+PW034,C018,Slow_Comorbid_Track,3,30.0,1.0,7.6,115.1
+PW035,C019,Fast_Track,3,12.0,1.0,9.2,139.0
+PW036,C020,Cautious_Track,3,31.3,1.0,8.9,135.0
+PW037,C020,Fast_Track,14,21.0,0.79,8.9,134.4
+PW038,C020,Slow_Comorbid_Track,17,36.9,0.76,8.8,133.2
+PW039,C020,Standard_Track,9,25.0,0.89,8.9,135.7
+PW040,C021,Cautious_Track,17,39.4,0.76,8.3,128.3
+PW041,C021,Slow_Comorbid_Track,17,46.8,0.71,8.2,124.6
+PW042,C021,Standard_Track,14,32.4,0.86,8.3,125.4
+PW043,C022,Slow_Comorbid_Track,17,51.5,0.88,7.5,116.3
+PW044,C023,Fast_Track,3,8.3,0.67,8.7,133.4
+PW045,C024,Cautious_Track,10,17.2,1.0,8.5,128.8
+PW046,C024,Standard_Track,3,12.3,0.67,8.3,129.7
+PW047,C026,Fast_Track,9,6.0,0.89,8.9,135.7
+PW048,C026,Standard_Track,3,7.3,0.67,8.6,128.5
+PW049,C027,Cautious_Track,5,9.8,0.6,8.3,128.0
+PW050,C027,Slow_Comorbid_Track,4,15.8,0.75,8.3,127.0
+PW051,C027,Standard_Track,3,10.7,1.0,8.6,127.9
+PW052,C028,Slow_Comorbid_Track,3,17.3,0.67,7.3,110.0
+PW053,C028,Standard_Track,3,11.7,1.0,7.3,113.5
+PW054,C029,Fast_Track,4,12.0,0.75,8.5,131.5
+PW055,C030,Cautious_Track,7,24.6,1.0,8.3,128.0
+PW056,C030,Slow_Comorbid_Track,3,29.3,0.67,8.3,129.5
+PW057,C030,Standard_Track,4,19.5,0.75,8.4,128.1
+PW058,C031,Cautious_Track,3,18.7,1.0,8.3,129.4
+PW059,C032,Fast_Track,18,21.1,0.94,9.0,136.3
+PW060,C032,Slow_Comorbid_Track,22,39.6,0.86,8.8,133.1
+PW061,C032,Standard_Track,6,23.5,0.83,8.9,135.8
+PW062,C033,Cautious_Track,12,39.2,1.0,8.5,129.8
+PW063,C033,Fast_Track,4,21.5,1.0,8.5,131.5
+PW064,C033,Slow_Comorbid_Track,26,48.1,0.81,8.3,127.2
+PW065,C033,Standard_Track,14,32.8,0.71,8.1,126.0
+PW066,C034,Slow_Comorbid_Track,19,51.6,0.63,7.4,114.4
+PW067,C034,Standard_Track,3,42.0,0.67,7.2,115.9
+PW068,C035,Slow_Comorbid_Track,3,18.3,1.0,9.0,132.5
+PW069,C036,Slow_Comorbid_Track,5,23.0,0.4,7.9,124.6
+PW070,C037,Slow_Comorbid_Track,6,24.0,1.0,7.5,115.0
+PW071,C038,Fast_Track,5,6.2,1.0,9.0,135.2
+PW072,C038,Slow_Comorbid_Track,8,11.2,1.0,9.0,135.7
+PW073,C039,Slow_Comorbid_Track,8,15.9,0.88,8.3,126.9
+PW074,C040,Slow_Comorbid_Track,7,17.9,0.57,7.1,113.3
+PW075,C041,Slow_Comorbid_Track,5,28.8,0.8,8.1,124.2
+PW076,C041,Standard_Track,4,24.5,1.0,8.3,126.6
+PW077,C042,Slow_Comorbid_Track,5,30.0,0.6,7.3,114.3

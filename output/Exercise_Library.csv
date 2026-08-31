@@ -1,49 +1,21 @@
-Exercise_ID,Exercise_Name,Target_Region,Target_Muscle_or_Function,Difficulty,Exercise_Category,Recovery_Phase,Typical_Duration_min,Contraindication
-EX001,Quad Sets,Knee,Quadriceps Strength,Easy,Standard Physiotherapy,Early,10,Severe swelling
-EX002,Straight Leg Raise,Knee,Quadriceps Strength,Easy,Standard Physiotherapy,Early,10,ROM < 30 deg
-EX003,Heel Slides,Knee,Hamstring Strength,Easy,Standard Physiotherapy,Early,10,Pain score > 7
-EX004,Bridge,Knee,Glute Strength,Moderate,Strength Training,Mid,10,Pain score > 6
-EX005,Single Leg Balance,Knee,Balance Score,Moderate,Balance Training,Mid,10,Weight bearing restricted
-EX006,Step Ups,Knee,Quadriceps Strength,Hard,Strength Training,Late,15,Strength < 60%
-EX007,Single Leg Hop,Knee,Balance Score,Hard,Return to Activity Drills,Late,15,Strength < 80%
-EX008,Pendulum Exercise,Shoulder,Shoulder Strength,Easy,Standard Physiotherapy,Early,8,Pain score > 7
-EX009,Assisted Shoulder Flexion,Shoulder,Shoulder Strength,Easy,Standard Physiotherapy,Early,10,ROM < 30 deg
-EX010,External Rotation,Shoulder,Shoulder Strength,Moderate,Strength Training,Mid,10,Pain score > 6
-EX011,Scapular Retraction,Shoulder,Functional Reach Score,Moderate,Strength Training,Mid,10,
-EX012,Shoulder Stabilization Drills,Shoulder,Functional Reach Score,Hard,Functional Training,Late,15,Strength < 70%
-EX013,Elbow ROM Stretch,Elbow,Arm Strength,Easy,Standard Physiotherapy,Early,8,Pain score > 7
-EX014,Forearm Isometrics,Elbow,Grip Strength,Easy,Standard Physiotherapy,Early,8,
-EX015,Resistance Band Elbow Flexion,Elbow,Arm Strength,Moderate,Strength Training,Mid,10,Pain score > 6
-EX016,Grip and Forearm Strengthening,Elbow,Grip Strength,Hard,Strength Training,Late,10,Strength < 60%
-EX017,Wrist Flexion,Wrist,Grip Strength,Easy,Standard Physiotherapy,Early,8,Pain score > 7
-EX018,Wrist Extension,Wrist,Grip Strength,Easy,Standard Physiotherapy,Early,8,Pain score > 7
-EX019,Grip Training,Wrist,Grip Strength,Moderate,Strength Training,Mid,10,ROM < 30 deg
-EX020,Dexterity Exercises,Wrist,Dexterity Score,Hard,Functional Training,Late,10,Strength < 60%
-EX021,Tendon Gliding,Hand,Hand Function Score,Easy,Standard Physiotherapy,Early,8,Pain score > 7
-EX022,Finger Mobility Drills,Hand,Hand Function Score,Easy,Standard Physiotherapy,Early,8,
-EX023,Hand Grip Training,Hand,Grip Strength,Moderate,Strength Training,Mid,10,ROM < 30 deg
-EX024,Dexterity Drills,Hand,Dexterity Score,Hard,Functional Training,Late,10,Strength < 60%
-EX025,Hip Isometrics,Hip,Hip Strength,Easy,Standard Physiotherapy,Early,10,Pain score > 7
-EX026,Hip Abduction,Hip,Hip Strength,Moderate,Strength Training,Mid,10,Weight bearing restricted
-EX027,Single Leg Balance (Hip),Hip,Functional Mobility Score,Moderate,Balance Training,Mid,10,Weight bearing restricted
-EX028,Functional Mobility Drills,Hip,Functional Mobility Score,Hard,Functional Training,Late,15,Strength < 70%
-EX029,Ankle Pumps,Ankle,Calf Strength,Easy,Standard Physiotherapy,Early,5,
-EX030,Ankle Alphabet,Ankle,Ankle ROM,Easy,Standard Physiotherapy,Early,8,Pain score > 7
-EX031,Calf Raises,Ankle,Calf Strength,Moderate,Strength Training,Mid,10,Weight bearing restricted
-EX032,Balance Board Training,Ankle,Balance Score,Moderate,Balance Training,Mid,10,Weight bearing restricted
-EX033,Agility Ladder Drills,Ankle,Balance Score,Hard,Return to Activity Drills,Late,15,Strength < 70%
-EX034,Toe Curls,Foot,Foot Strength,Easy,Standard Physiotherapy,Early,6,Pain score > 7
-EX035,Plantar Fascia Stretch,Foot,Foot Strength,Easy,Standard Physiotherapy,Early,8,
-EX036,Foot Strengthening,Foot,Foot Strength,Moderate,Strength Training,Mid,10,Weight bearing restricted
-EX037,Balance and Gait Training,Foot,Balance Score,Hard,Functional Training,Late,15,Strength < 60%
-EX038,Chin Tucks,Cervical Spine,Neck Strength,Easy,Standard Physiotherapy,Early,6,Pain score > 7
-EX039,Cervical ROM Exercises,Cervical Spine,Cervical ROM,Easy,Standard Physiotherapy,Early,8,
-EX040,Postural Exercises (Neck),Cervical Spine,Posture Score,Moderate,Functional Training,Mid,10,
-EX041,Neck Stabilization,Cervical Spine,Neck Strength,Hard,Strength Training,Late,10,Pain score > 6
-EX042,Thoracic Mobility Drills,Thoracic Spine,Thoracic ROM,Easy,Standard Physiotherapy,Early,8,Pain score > 7
-EX043,Postural Training,Thoracic Spine,Posture Score,Moderate,Functional Training,Mid,10,
-EX044,Core Activation (Thoracic),Thoracic Spine,Core Strength,Hard,Strength Training,Late,10,Pain score > 6
-EX045,Pelvic Tilts,Lumbar Spine,Core Strength,Easy,Standard Physiotherapy,Early,8,Pain score > 7
-EX046,Core Activation (Lumbar),Lumbar Spine,Core Strength,Easy,Standard Physiotherapy,Early,8,Pain score > 7
-EX047,Controlled Mobility Drills,Lumbar Spine,Functional Mobility Score,Moderate,Functional Training,Mid,10,
-EX048,Spinal Stabilization,Lumbar Spine,Core Strength,Hard,Strength Training,Late,10,Pain score > 6
+Exercise_ID,Exercise_Name,Target_Muscle,Difficulty,Exercise_Category,Suitable_Recovery_State,Typical_Duration_min,Contraindication
+EX001,Quad Sets,Quadriceps,Easy,Standard Physiotherapy,Early Recovery,10,Severe swelling
+EX002,Straight Leg Raise,Quadriceps,Easy,Standard Physiotherapy,Early Recovery,10,ROM < 30 deg
+EX003,Ankle Pumps,Calf,Easy,Standard Physiotherapy,Early Recovery,5,
+EX004,Heel Slides,Hamstring,Easy,Standard Physiotherapy,Early Recovery,10,Pain score > 7
+EX005,Pool Walking,Full Body,Easy,Hydrotherapy,Early-Mid Recovery,20,Open wound
+EX006,Aqua Jogging,Full Body,Moderate,Hydrotherapy,Mid Recovery,20,Open wound
+EX007,Water Resistance Kicks,Quadriceps,Moderate,Hydrotherapy,Mid Recovery,15,Open wound
+EX008,Single Leg Balance,Stabilizers,Moderate,Balance Training,Mid Recovery,10,Weight bearing restricted
+EX009,Bosu Ball Squats,Stabilizers,Moderate,Balance Training,Mid Recovery,15,ROM < 90 deg
+EX010,Tandem Stance,Stabilizers,Easy,Balance Training,Early-Mid Recovery,10,
+EX011,Bridge,Glutes,Moderate,Strength Training,Mid Recovery,10,Pain score > 6
+EX012,Leg Press (Light),Quadriceps,Moderate,Low-Impact Strength Training,Mid Recovery,15,ROM < 90 deg
+EX013,Wall Sits,Quadriceps,Moderate,Strength Training,Mid Recovery,10,Pain score > 6
+EX014,Resistance Band Squats,Quadriceps,Moderate,Strength Training,Mid-Late Recovery,15,ROM < 100 deg
+EX015,Step Ups,Quadriceps,Hard,Strength Training,Late Recovery,15,Strength < 60%
+EX016,Lateral Band Walks,Hip Abductors,Moderate,Functional Training,Mid-Late Recovery,10,
+EX017,Agility Ladder Drills,Full Body,Hard,Functional Training,Late Recovery,20,Strength < 70%
+EX018,Single Leg Hop,Full Body,Hard,Return to Sport Drills,Late Recovery,15,Strength < 80%
+EX019,Cutting Drills,Full Body,Hard,Return to Sport Drills,Late Recovery,20,Strength < 85%
+EX020,Sport-Specific Drills,Full Body,Hard,Return to Sport Drills,Late Recovery,25,Strength < 85%

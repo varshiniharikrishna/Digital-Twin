@@ -1,533 +1,266 @@
 Pathway_ID,Step_Order,Exercise_Category,Week_Offset
-PW001,1,Standard Physiotherapy,0.0
-PW001,2,Balance Training,2.7
-PW001,3,Strength Training,6.3
-PW001,4,Functional Training,9.9
-PW001,5,Return to Activity Drills,13.5
-PW002,1,Standard Physiotherapy,0.0
-PW002,2,Balance Training,1.5
-PW002,3,Strength Training,3.5
-PW002,4,Functional Training,5.5
-PW002,5,Return to Activity Drills,7.5
-PW003,1,Standard Physiotherapy,0.0
-PW003,2,Balance Training,0.6
-PW003,3,Strength Training,1.4
-PW003,4,Functional Training,2.2
-PW003,5,Return to Activity Drills,3.0
-PW004,1,Standard Physiotherapy,0.0
-PW004,2,Balance Training,0.6
-PW004,3,Strength Training,1.4
-PW004,4,Functional Training,2.2
-PW004,5,Return to Activity Drills,3.0
-PW005,1,Standard Physiotherapy,0.0
-PW005,2,Balance Training,5.9
-PW005,3,Strength Training,11.8
-PW006,1,Standard Physiotherapy,0.0
-PW006,2,Balance Training,0.8
-PW006,3,Strength Training,1.8
-PW006,4,Functional Training,2.8
-PW006,5,Return to Activity Drills,3.8
-PW007,1,Standard Physiotherapy,0.0
-PW007,2,Balance Training,2.2
-PW007,3,Strength Training,5.1
-PW007,4,Functional Training,8.1
-PW007,5,Return to Activity Drills,11.0
-PW008,1,Standard Physiotherapy,0.0
-PW008,2,Balance Training,7.1
-PW008,3,Strength Training,14.1
-PW008,4,Functional Training,21.2
-PW009,1,Standard Physiotherapy,0.0
-PW009,2,Balance Training,2.9
-PW009,3,Strength Training,6.6
-PW009,4,Functional Training,10.5
-PW009,5,Return to Activity Drills,14.2
-PW010,1,Standard Physiotherapy,0.0
-PW010,2,Balance Training,4.2
-PW010,3,Strength Training,8.5
-PW010,4,Functional Training,13.8
-PW010,5,Return to Activity Drills,18.1
-PW011,1,Standard Physiotherapy,0.0
-PW011,2,Balance Training,2.4
-PW011,3,Strength Training,4.8
-PW011,4,Functional Training,7.1
-PW012,1,Standard Physiotherapy,0.0
-PW012,2,Balance Training,1.2
-PW012,3,Strength Training,2.8
-PW012,4,Functional Training,4.4
-PW012,5,Return to Activity Drills,6.0
-PW013,1,Standard Physiotherapy,0.0
-PW013,2,Balance Training,1.1
-PW013,3,Strength Training,2.6
-PW013,4,Functional Training,4.1
-PW013,5,Return to Activity Drills,5.6
-PW014,1,Standard Physiotherapy,0.0
-PW014,2,Balance Training,1.6
-PW014,3,Strength Training,3.6
-PW014,4,Functional Training,5.7
-PW014,5,Return to Activity Drills,7.8
-PW015,1,Standard Physiotherapy,0.0
-PW015,2,Balance Training,12.0
-PW015,3,Strength Training,24.0
-PW016,1,Standard Physiotherapy,0.0
-PW016,2,Balance Training,0.8
-PW016,3,Strength Training,1.9
-PW016,4,Functional Training,3.1
-PW016,5,Return to Activity Drills,4.2
-PW017,1,Standard Physiotherapy,0.0
-PW017,2,Balance Training,1.0
-PW017,3,Strength Training,2.3
-PW017,4,Functional Training,3.6
-PW017,5,Return to Activity Drills,4.9
-PW018,1,Standard Physiotherapy,0.0
-PW018,2,Balance Training,1.1
-PW018,3,Strength Training,2.2
-PW018,4,Functional Training,3.6
-PW018,5,Return to Activity Drills,4.8
-PW019,1,Standard Physiotherapy,0.0
-PW019,2,Balance Training,4.3
-PW019,3,Strength Training,8.7
-PW020,1,Standard Physiotherapy,0.0
-PW020,2,Balance Training,1.0
-PW020,3,Strength Training,2.4
-PW020,4,Functional Training,3.7
-PW020,5,Return to Activity Drills,5.1
-PW021,1,Standard Physiotherapy,0.0
-PW021,2,Balance Training,0.8
-PW021,3,Strength Training,1.9
-PW021,4,Functional Training,3.0
-PW021,5,Return to Activity Drills,4.1
-PW022,1,Standard Physiotherapy,0.0
-PW022,2,Balance Training,1.7
-PW022,3,Strength Training,3.3
-PW022,4,Functional Training,5.4
-PW022,5,Return to Activity Drills,7.0
-PW023,1,Standard Physiotherapy,0.0
-PW023,2,Balance Training,1.1
-PW023,3,Strength Training,2.5
-PW023,4,Functional Training,4.0
-PW023,5,Return to Activity Drills,5.4
-PW024,1,Standard Physiotherapy,0.0
-PW024,2,Balance Training,2.1
-PW024,3,Strength Training,4.8
-PW024,4,Functional Training,7.6
-PW024,5,Return to Activity Drills,10.4
-PW025,1,Standard Physiotherapy,0.0
-PW025,2,Balance Training,8.9
-PW025,3,Strength Training,17.7
-PW025,4,Functional Training,26.6
-PW026,1,Standard Physiotherapy,0.0
-PW026,2,Balance Training,12.1
-PW026,3,Strength Training,24.1
-PW027,1,Standard Physiotherapy,0.0
-PW027,2,Balance Training,5.4
-PW027,3,Strength Training,10.7
-PW027,4,Functional Training,17.4
-PW027,5,Return to Activity Drills,22.7
-PW028,1,Standard Physiotherapy,0.0
-PW028,2,Balance Training,0.8
-PW028,3,Strength Training,1.8
-PW028,4,Functional Training,2.8
-PW028,5,Return to Activity Drills,3.8
-PW029,1,Standard Physiotherapy,0.0
-PW029,2,Balance Training,3.2
-PW029,3,Strength Training,6.5
-PW029,4,Functional Training,9.8
-PW030,1,Standard Physiotherapy,0.0
-PW030,2,Balance Training,2.1
-PW030,3,Strength Training,4.3
-PW030,4,Functional Training,6.9
-PW030,5,Return to Activity Drills,9.1
-PW031,1,Standard Physiotherapy,0.0
-PW031,2,Balance Training,7.5
-PW031,3,Strength Training,15.0
-PW032,1,Standard Physiotherapy,0.0
-PW032,2,Balance Training,0.6
-PW032,3,Strength Training,1.4
-PW032,4,Functional Training,2.2
-PW032,5,Return to Activity Drills,3.0
-PW033,1,Standard Physiotherapy,0.0
-PW033,2,Balance Training,1.8
-PW033,3,Strength Training,3.5
-PW033,4,Functional Training,5.2
-PW034,1,Standard Physiotherapy,0.0
-PW034,2,Balance Training,1.3
-PW034,3,Strength Training,2.9
-PW034,4,Functional Training,4.6
-PW034,5,Return to Activity Drills,6.3
-PW035,1,Standard Physiotherapy,0.0
-PW035,2,Balance Training,5.1
-PW035,3,Strength Training,10.1
-PW035,4,Functional Training,15.2
-PW036,1,Standard Physiotherapy,0.0
-PW036,2,Balance Training,2.8
-PW036,3,Strength Training,5.5
-PW036,4,Functional Training,8.2
-PW037,1,Standard Physiotherapy,0.0
-PW037,2,Balance Training,1.4
-PW037,3,Strength Training,3.2
-PW037,4,Functional Training,5.1
-PW037,5,Return to Activity Drills,6.9
-PW038,1,Standard Physiotherapy,0.0
-PW038,2,Balance Training,1.6
-PW038,3,Strength Training,3.2
-PW038,4,Functional Training,4.9
-PW039,1,Standard Physiotherapy,0.0
-PW039,2,Balance Training,2.6
-PW039,3,Strength Training,5.2
-PW040,1,Standard Physiotherapy,0.0
-PW040,2,Balance Training,7.2
-PW040,3,Strength Training,14.5
-PW040,4,Functional Training,21.8
-PW041,1,Standard Physiotherapy,0.0
-PW041,2,Balance Training,0.9
-PW041,3,Strength Training,2.2
-PW041,4,Functional Training,3.4
-PW041,5,Return to Activity Drills,4.7
-PW042,1,Standard Physiotherapy,0.0
-PW042,2,Balance Training,3.6
-PW042,3,Strength Training,7.2
-PW042,4,Functional Training,10.9
-PW043,1,Standard Physiotherapy,0.0
-PW043,2,Balance Training,2.8
-PW043,3,Strength Training,5.6
-PW044,1,Standard Physiotherapy,0.0
-PW044,2,Balance Training,1.9
-PW044,3,Strength Training,3.8
-PW044,4,Functional Training,5.6
-PW045,1,Standard Physiotherapy,0.0
-PW045,2,Balance Training,1.2
-PW045,3,Strength Training,2.7
-PW045,4,Functional Training,4.2
-PW046,1,Standard Physiotherapy,0.0
-PW046,2,Balance Training,5.5
-PW046,3,Strength Training,11.1
-PW047,1,Standard Physiotherapy,0.0
-PW047,2,Balance Training,1.8
-PW047,3,Strength Training,3.6
-PW047,4,Functional Training,5.4
-PW048,1,Standard Physiotherapy,0.0
-PW048,2,Balance Training,4.0
-PW048,3,Strength Training,7.9
-PW048,4,Functional Training,12.8
-PW048,5,Return to Activity Drills,16.8
-PW049,1,Standard Physiotherapy,0.0
-PW049,2,Balance Training,7.9
-PW049,3,Strength Training,15.9
-PW049,4,Functional Training,23.8
-PW050,1,Standard Physiotherapy,0.0
-PW050,2,Balance Training,5.9
-PW050,3,Strength Training,13.4
-PW050,4,Functional Training,20.8
-PW051,1,Standard Physiotherapy,0.0
-PW051,2,Balance Training,3.0
-PW051,3,Strength Training,6.1
-PW051,4,Functional Training,9.1
-PW052,1,Standard Physiotherapy,0.0
-PW052,2,Balance Training,6.0
-PW052,3,Strength Training,12.0
-PW053,1,Standard Physiotherapy,0.0
-PW053,2,Balance Training,4.7
-PW053,3,Strength Training,9.4
-PW053,4,Functional Training,14.1
-PW054,1,Standard Physiotherapy,0.0
-PW054,2,Balance Training,4.2
-PW054,3,Strength Training,8.5
-PW054,4,Functional Training,12.8
-PW055,1,Standard Physiotherapy,0.0
-PW055,2,Balance Training,2.4
-PW055,3,Strength Training,4.9
-PW055,4,Functional Training,7.9
-PW055,5,Return to Activity Drills,10.4
-PW056,1,Standard Physiotherapy,0.0
-PW056,2,Balance Training,1.6
-PW056,3,Strength Training,3.3
-PW056,4,Functional Training,4.9
-PW057,1,Standard Physiotherapy,0.0
-PW057,2,Balance Training,1.4
-PW057,3,Strength Training,2.7
-PW057,4,Functional Training,4.4
-PW057,5,Return to Activity Drills,5.7
-PW058,1,Standard Physiotherapy,0.0
-PW058,2,Balance Training,5.0
-PW058,3,Strength Training,9.9
-PW058,4,Functional Training,14.9
-PW059,1,Standard Physiotherapy,0.0
-PW059,2,Balance Training,3.3
-PW059,3,Strength Training,6.6
-PW059,4,Functional Training,9.9
-PW060,1,Standard Physiotherapy,0.0
-PW060,2,Balance Training,1.4
-PW060,3,Strength Training,3.2
-PW060,4,Functional Training,5.0
-PW060,5,Return to Activity Drills,6.9
-PW061,1,Standard Physiotherapy,0.0
-PW061,2,Balance Training,6.9
-PW061,3,Strength Training,13.9
-PW061,4,Functional Training,20.8
-PW062,1,Standard Physiotherapy,0.0
-PW062,2,Balance Training,5.2
-PW062,3,Strength Training,11.8
-PW062,4,Functional Training,18.4
-PW063,1,Standard Physiotherapy,0.0
-PW063,2,Balance Training,12.7
-PW063,3,Strength Training,25.3
-PW064,1,Standard Physiotherapy,0.0
-PW064,2,Balance Training,0.9
-PW064,3,Strength Training,2.0
-PW064,4,Functional Training,3.2
-PW064,5,Return to Activity Drills,4.3
-PW065,1,Standard Physiotherapy,0.0
-PW065,2,Balance Training,3.1
-PW065,3,Strength Training,6.3
-PW065,4,Functional Training,9.4
-PW066,1,Standard Physiotherapy,0.0
-PW066,2,Balance Training,1.2
-PW066,3,Strength Training,2.3
-PW066,4,Functional Training,3.7
-PW066,5,Return to Activity Drills,4.9
-PW067,1,Standard Physiotherapy,0.0
-PW067,2,Balance Training,11.0
-PW067,3,Strength Training,22.1
-PW068,1,Standard Physiotherapy,0.0
-PW068,2,Balance Training,7.8
-PW068,3,Strength Training,15.6
-PW068,4,Functional Training,23.4
-PW069,1,Standard Physiotherapy,0.0
-PW069,2,Balance Training,14.5
-PW069,3,Strength Training,28.9
-PW070,1,Standard Physiotherapy,0.0
-PW070,2,Balance Training,5.2
-PW070,3,Strength Training,10.3
-PW070,4,Functional Training,16.7
-PW070,5,Return to Activity Drills,21.9
-PW071,1,Standard Physiotherapy,0.0
-PW071,2,Balance Training,14.9
-PW071,3,Strength Training,29.8
-PW072,1,Standard Physiotherapy,0.0
-PW072,2,Balance Training,1.2
-PW072,3,Strength Training,2.9
-PW072,4,Functional Training,4.5
-PW072,5,Return to Activity Drills,6.2
-PW073,1,Standard Physiotherapy,0.0
-PW073,2,Balance Training,5.4
-PW073,3,Strength Training,10.8
-PW074,1,Standard Physiotherapy,0.0
-PW074,2,Balance Training,4.2
-PW074,3,Strength Training,8.5
-PW074,4,Functional Training,12.8
-PW075,1,Standard Physiotherapy,0.0
-PW075,2,Balance Training,7.3
-PW075,3,Strength Training,14.5
-PW076,1,Standard Physiotherapy,0.0
-PW076,2,Balance Training,9.4
-PW076,3,Strength Training,18.9
-PW077,1,Standard Physiotherapy,0.0
-PW077,2,Balance Training,0.6
-PW077,3,Strength Training,1.4
-PW077,4,Functional Training,2.2
-PW077,5,Return to Activity Drills,3.0
-PW078,1,Standard Physiotherapy,0.0
-PW078,2,Balance Training,2.5
-PW078,3,Strength Training,4.9
-PW079,1,Standard Physiotherapy,0.0
-PW079,2,Balance Training,2.0
-PW079,3,Strength Training,4.1
-PW079,4,Functional Training,6.1
-PW080,1,Standard Physiotherapy,0.0
-PW080,2,Balance Training,3.1
-PW080,3,Strength Training,6.2
-PW081,1,Standard Physiotherapy,0.0
-PW081,2,Balance Training,1.2
-PW081,3,Strength Training,2.5
-PW081,4,Functional Training,4.1
-PW081,5,Return to Activity Drills,5.3
-PW082,1,Standard Physiotherapy,0.0
-PW082,2,Balance Training,4.8
-PW082,3,Strength Training,9.7
-PW083,1,Standard Physiotherapy,0.0
-PW083,2,Balance Training,2.4
-PW083,3,Strength Training,4.8
-PW083,4,Functional Training,7.8
-PW083,5,Return to Activity Drills,10.2
-PW084,1,Standard Physiotherapy,0.0
-PW084,2,Balance Training,2.7
-PW084,3,Strength Training,5.4
-PW085,1,Standard Physiotherapy,0.0
-PW085,2,Balance Training,3.4
-PW085,3,Strength Training,6.8
-PW086,1,Standard Physiotherapy,0.0
-PW086,2,Balance Training,4.4
-PW086,3,Strength Training,8.8
-PW087,1,Standard Physiotherapy,0.0
-PW087,2,Balance Training,4.3
-PW087,3,Strength Training,8.7
-PW088,1,Standard Physiotherapy,0.0
-PW088,2,Balance Training,4.1
-PW088,3,Strength Training,8.1
-PW088,4,Functional Training,12.2
-PW089,1,Standard Physiotherapy,0.0
-PW089,2,Balance Training,6.5
-PW089,3,Strength Training,13.0
-PW090,1,Standard Physiotherapy,0.0
-PW090,2,Balance Training,3.6
-PW090,3,Strength Training,7.2
-PW091,1,Standard Physiotherapy,0.0
-PW091,2,Balance Training,2.4
-PW091,3,Strength Training,4.7
-PW091,4,Functional Training,7.7
-PW091,5,Return to Activity Drills,10.0
-PW092,1,Standard Physiotherapy,0.0
-PW092,2,Balance Training,3.6
-PW092,3,Strength Training,7.1
-PW093,1,Standard Physiotherapy,0.0
-PW093,2,Balance Training,4.4
-PW093,3,Strength Training,8.8
-PW094,1,Standard Physiotherapy,0.0
-PW094,2,Balance Training,7.8
-PW094,3,Strength Training,15.5
-PW095,1,Standard Physiotherapy,0.0
-PW095,2,Balance Training,7.4
-PW095,3,Strength Training,14.8
-PW095,4,Functional Training,22.1
-PW096,1,Standard Physiotherapy,0.0
-PW096,2,Balance Training,2.1
-PW096,3,Strength Training,5.0
-PW096,4,Functional Training,7.8
-PW096,5,Return to Activity Drills,10.7
-PW097,1,Standard Physiotherapy,0.0
-PW097,2,Balance Training,9.7
-PW097,3,Strength Training,19.3
-PW098,1,Standard Physiotherapy,0.0
-PW098,2,Balance Training,9.3
-PW098,3,Strength Training,18.6
-PW098,4,Functional Training,27.9
-PW099,1,Standard Physiotherapy,0.0
-PW099,2,Balance Training,3.3
-PW099,3,Strength Training,7.6
-PW099,4,Functional Training,12.0
-PW099,5,Return to Activity Drills,16.3
-PW100,1,Standard Physiotherapy,0.0
-PW100,2,Balance Training,12.9
-PW100,3,Strength Training,25.9
-PW101,1,Standard Physiotherapy,0.0
-PW101,2,Balance Training,5.7
-PW101,3,Strength Training,11.5
-PW101,4,Functional Training,18.6
-PW101,5,Return to Activity Drills,24.3
-PW102,1,Standard Physiotherapy,0.0
-PW102,2,Balance Training,15.2
-PW102,3,Strength Training,30.4
-PW103,1,Standard Physiotherapy,0.0
-PW103,2,Balance Training,4.6
-PW103,3,Strength Training,9.1
-PW104,1,Standard Physiotherapy,0.0
-PW104,2,Balance Training,1.7
-PW104,3,Strength Training,3.4
-PW104,4,Functional Training,5.5
-PW104,5,Return to Activity Drills,7.2
-PW105,1,Standard Physiotherapy,0.0
-PW105,2,Balance Training,6.0
-PW105,3,Strength Training,12.1
-PW106,1,Standard Physiotherapy,0.0
-PW106,2,Balance Training,4.3
-PW106,3,Strength Training,8.6
-PW107,1,Standard Physiotherapy,0.0
-PW107,2,Balance Training,5.6
-PW107,3,Strength Training,11.2
-PW108,1,Standard Physiotherapy,0.0
-PW108,2,Balance Training,7.7
-PW108,3,Strength Training,15.3
-PW109,1,Standard Physiotherapy,0.0
-PW109,2,Balance Training,5.5
-PW109,3,Strength Training,11.1
-PW110,1,Standard Physiotherapy,0.0
-PW110,2,Balance Training,2.0
-PW110,3,Strength Training,4.0
-PW110,4,Functional Training,6.5
-PW110,5,Return to Activity Drills,8.5
-PW111,1,Standard Physiotherapy,0.0
-PW111,2,Balance Training,4.9
-PW111,3,Strength Training,9.8
-PW111,4,Functional Training,14.6
-PW112,1,Standard Physiotherapy,0.0
-PW112,2,Balance Training,8.5
-PW112,3,Strength Training,17.0
-PW113,1,Standard Physiotherapy,0.0
-PW113,2,Balance Training,11.5
-PW113,3,Strength Training,23.0
-PW114,1,Standard Physiotherapy,0.0
-PW114,2,Balance Training,7.3
-PW114,3,Strength Training,14.5
-PW115,1,Standard Physiotherapy,0.0
-PW115,2,Balance Training,3.0
-PW115,3,Strength Training,6.0
-PW115,4,Functional Training,9.8
-PW115,5,Return to Activity Drills,12.8
-PW116,1,Standard Physiotherapy,0.0
-PW116,2,Balance Training,2.3
-PW116,3,Strength Training,4.6
-PW117,1,Standard Physiotherapy,0.0
-PW117,2,Balance Training,1.8
-PW117,3,Strength Training,3.6
-PW117,4,Functional Training,5.4
-PW118,1,Standard Physiotherapy,0.0
-PW118,2,Balance Training,3.1
-PW118,3,Strength Training,6.1
-PW119,1,Standard Physiotherapy,0.0
-PW119,2,Balance Training,1.3
-PW119,3,Strength Training,2.6
-PW119,4,Functional Training,4.2
-PW119,5,Return to Activity Drills,5.4
-PW120,1,Standard Physiotherapy,0.0
-PW120,2,Balance Training,4.0
-PW120,3,Strength Training,8.0
-PW121,1,Standard Physiotherapy,0.0
-PW121,2,Balance Training,1.3
-PW121,3,Strength Training,3.0
-PW121,4,Functional Training,4.8
-PW121,5,Return to Activity Drills,6.5
-PW122,1,Standard Physiotherapy,0.0
-PW122,2,Balance Training,6.5
-PW122,3,Strength Training,13.0
-PW123,1,Standard Physiotherapy,0.0
-PW123,2,Balance Training,2.5
-PW123,3,Strength Training,4.9
-PW123,4,Functional Training,8.0
-PW123,5,Return to Activity Drills,10.4
-PW124,1,Standard Physiotherapy,0.0
-PW124,2,Balance Training,4.5
-PW124,3,Strength Training,10.1
-PW124,4,Functional Training,15.7
-PW125,1,Standard Physiotherapy,0.0
-PW125,2,Balance Training,8.4
-PW125,3,Strength Training,16.8
-PW126,1,Standard Physiotherapy,0.0
-PW126,2,Balance Training,12.2
-PW126,3,Strength Training,24.3
-PW127,1,Standard Physiotherapy,0.0
-PW127,2,Balance Training,0.8
-PW127,3,Strength Training,1.8
-PW127,4,Functional Training,2.9
-PW127,5,Return to Activity Drills,3.9
-PW128,1,Standard Physiotherapy,0.0
-PW128,2,Balance Training,3.7
-PW128,3,Strength Training,7.5
-PW129,1,Standard Physiotherapy,0.0
-PW129,2,Balance Training,5.5
-PW129,3,Strength Training,11.1
-PW130,1,Standard Physiotherapy,0.0
-PW130,2,Balance Training,2.4
-PW130,3,Strength Training,4.8
-PW131,1,Standard Physiotherapy,0.0
-PW131,2,Balance Training,3.5
-PW131,3,Strength Training,7.1
-PW131,4,Functional Training,10.6
-PW132,1,Standard Physiotherapy,0.0
-PW132,2,Balance Training,6.3
-PW132,3,Strength Training,12.5
-PW133,1,Standard Physiotherapy,0.0
-PW133,2,Balance Training,1.7
-PW133,3,Strength Training,3.4
-PW134,1,Standard Physiotherapy,0.0
-PW134,2,Balance Training,2.8
-PW134,3,Strength Training,5.6
+PW001,1,Standard Physiotherapy,1
+PW001,2,Hydrotherapy,4
+PW001,3,Strength Training,10
+PW001,4,Return to Sport Drills,15
+PW002,1,Standard Physiotherapy,1
+PW002,2,Balance Training,15
+PW002,3,Low-Impact Strength Training,26
+PW003,1,Standard Physiotherapy,1
+PW003,2,Hydrotherapy,9
+PW003,3,Balance Training,21
+PW003,4,Strength Training,30
+PW004,1,Standard Physiotherapy,1
+PW004,2,Hydrotherapy,5
+PW004,3,Strength Training,11
+PW004,4,Return to Sport Drills,18
+PW005,1,Standard Physiotherapy,1
+PW005,2,Balance Training,20
+PW005,3,Low-Impact Strength Training,36
+PW006,1,Standard Physiotherapy,1
+PW006,2,Strength Training,11
+PW006,3,Functional Training,20
+PW007,1,Standard Physiotherapy,1
+PW007,2,Hydrotherapy,7
+PW007,3,Strength Training,15
+PW007,4,Return to Sport Drills,23
+PW008,1,Standard Physiotherapy,1
+PW008,2,Balance Training,21
+PW008,3,Low-Impact Strength Training,36
+PW009,1,Standard Physiotherapy,1
+PW009,2,Strength Training,14
+PW009,3,Functional Training,26
+PW010,1,Standard Physiotherapy,1
+PW010,2,Hydrotherapy,1
+PW010,3,Strength Training,3
+PW010,4,Return to Sport Drills,4
+PW011,1,Standard Physiotherapy,1
+PW011,2,Hydrotherapy,2
+PW011,3,Strength Training,4
+PW011,4,Return to Sport Drills,6
+PW012,1,Standard Physiotherapy,1
+PW012,2,Hydrotherapy,2
+PW012,3,Strength Training,5
+PW012,4,Return to Sport Drills,8
+PW013,1,Standard Physiotherapy,1
+PW013,2,Hydrotherapy,3
+PW013,3,Strength Training,7
+PW013,4,Return to Sport Drills,11
+PW014,1,Standard Physiotherapy,1
+PW014,2,Hydrotherapy,7
+PW014,3,Balance Training,15
+PW014,4,Strength Training,22
+PW015,1,Standard Physiotherapy,1
+PW015,2,Hydrotherapy,4
+PW015,3,Strength Training,10
+PW015,4,Return to Sport Drills,15
+PW016,1,Standard Physiotherapy,1
+PW016,2,Balance Training,16
+PW016,3,Low-Impact Strength Training,28
+PW017,1,Standard Physiotherapy,1
+PW017,2,Strength Training,9
+PW017,3,Functional Training,16
+PW018,1,Standard Physiotherapy,1
+PW018,2,Hydrotherapy,9
+PW018,3,Balance Training,19
+PW018,4,Strength Training,28
+PW019,1,Standard Physiotherapy,1
+PW019,2,Hydrotherapy,5
+PW019,3,Strength Training,12
+PW019,4,Return to Sport Drills,18
+PW020,1,Standard Physiotherapy,1
+PW020,2,Balance Training,18
+PW020,3,Low-Impact Strength Training,32
+PW021,1,Standard Physiotherapy,1
+PW021,2,Strength Training,12
+PW021,3,Functional Training,22
+PW022,1,Standard Physiotherapy,1
+PW022,2,Hydrotherapy,12
+PW022,3,Balance Training,27
+PW022,4,Strength Training,39
+PW023,1,Standard Physiotherapy,1
+PW023,2,Hydrotherapy,7
+PW023,3,Strength Training,15
+PW023,4,Return to Sport Drills,24
+PW024,1,Standard Physiotherapy,1
+PW024,2,Balance Training,21
+PW024,3,Low-Impact Strength Training,36
+PW025,1,Standard Physiotherapy,1
+PW025,2,Strength Training,15
+PW025,3,Functional Training,28
+PW026,1,Standard Physiotherapy,1
+PW026,2,Hydrotherapy,4
+PW026,3,Balance Training,9
+PW026,4,Strength Training,13
+PW027,1,Standard Physiotherapy,1
+PW027,2,Hydrotherapy,2
+PW027,3,Strength Training,5
+PW027,4,Return to Sport Drills,8
+PW028,1,Standard Physiotherapy,1
+PW028,2,Balance Training,10
+PW028,3,Low-Impact Strength Training,17
+PW029,1,Standard Physiotherapy,1
+PW029,2,Strength Training,6
+PW029,3,Functional Training,12
+PW030,1,Standard Physiotherapy,1
+PW030,2,Hydrotherapy,1
+PW030,3,Strength Training,3
+PW030,4,Return to Sport Drills,4
+PW031,1,Standard Physiotherapy,1
+PW031,2,Hydrotherapy,3
+PW031,3,Balance Training,6
+PW031,4,Strength Training,9
+PW032,1,Standard Physiotherapy,1
+PW032,2,Hydrotherapy,6
+PW032,3,Balance Training,13
+PW032,4,Strength Training,19
+PW033,1,Standard Physiotherapy,1
+PW033,2,Strength Training,7
+PW033,3,Functional Training,14
+PW034,1,Standard Physiotherapy,1
+PW034,2,Balance Training,12
+PW034,3,Low-Impact Strength Training,21
+PW035,1,Standard Physiotherapy,1
+PW035,2,Hydrotherapy,2
+PW035,3,Strength Training,5
+PW035,4,Return to Sport Drills,8
+PW036,1,Standard Physiotherapy,1
+PW036,2,Hydrotherapy,8
+PW036,3,Balance Training,17
+PW036,4,Strength Training,25
+PW037,1,Standard Physiotherapy,1
+PW037,2,Hydrotherapy,4
+PW037,3,Strength Training,9
+PW037,4,Return to Sport Drills,15
+PW038,1,Standard Physiotherapy,1
+PW038,2,Balance Training,15
+PW038,3,Low-Impact Strength Training,26
+PW039,1,Standard Physiotherapy,1
+PW039,2,Strength Training,9
+PW039,3,Functional Training,16
+PW040,1,Standard Physiotherapy,1
+PW040,2,Hydrotherapy,10
+PW040,3,Balance Training,22
+PW040,4,Strength Training,32
+PW041,1,Standard Physiotherapy,1
+PW041,2,Balance Training,19
+PW041,3,Low-Impact Strength Training,33
+PW042,1,Standard Physiotherapy,1
+PW042,2,Strength Training,11
+PW042,3,Functional Training,21
+PW043,1,Standard Physiotherapy,1
+PW043,2,Balance Training,21
+PW043,3,Low-Impact Strength Training,36
+PW044,1,Standard Physiotherapy,1
+PW044,2,Hydrotherapy,2
+PW044,3,Strength Training,4
+PW044,4,Return to Sport Drills,6
+PW045,1,Standard Physiotherapy,1
+PW045,2,Hydrotherapy,4
+PW045,3,Balance Training,9
+PW045,4,Strength Training,14
+PW046,1,Standard Physiotherapy,1
+PW046,2,Strength Training,4
+PW046,3,Functional Training,8
+PW047,1,Standard Physiotherapy,1
+PW047,2,Hydrotherapy,1
+PW047,3,Strength Training,3
+PW047,4,Return to Sport Drills,4
+PW048,1,Standard Physiotherapy,1
+PW048,2,Strength Training,3
+PW048,3,Functional Training,5
+PW049,1,Standard Physiotherapy,1
+PW049,2,Hydrotherapy,2
+PW049,3,Balance Training,5
+PW049,4,Strength Training,8
+PW050,1,Standard Physiotherapy,1
+PW050,2,Balance Training,6
+PW050,3,Low-Impact Strength Training,11
+PW051,1,Standard Physiotherapy,1
+PW051,2,Strength Training,4
+PW051,3,Functional Training,7
+PW052,1,Standard Physiotherapy,1
+PW052,2,Balance Training,7
+PW052,3,Low-Impact Strength Training,12
+PW053,1,Standard Physiotherapy,1
+PW053,2,Strength Training,4
+PW053,3,Functional Training,8
+PW054,1,Standard Physiotherapy,1
+PW054,2,Hydrotherapy,2
+PW054,3,Strength Training,5
+PW054,4,Return to Sport Drills,8
+PW055,1,Standard Physiotherapy,1
+PW055,2,Hydrotherapy,6
+PW055,3,Balance Training,14
+PW055,4,Strength Training,20
+PW056,1,Standard Physiotherapy,1
+PW056,2,Balance Training,12
+PW056,3,Low-Impact Strength Training,21
+PW057,1,Standard Physiotherapy,1
+PW057,2,Strength Training,7
+PW057,3,Functional Training,13
+PW058,1,Standard Physiotherapy,1
+PW058,2,Hydrotherapy,5
+PW058,3,Balance Training,10
+PW058,4,Strength Training,15
+PW059,1,Standard Physiotherapy,1
+PW059,2,Hydrotherapy,4
+PW059,3,Strength Training,10
+PW059,4,Return to Sport Drills,15
+PW060,1,Standard Physiotherapy,1
+PW060,2,Balance Training,16
+PW060,3,Low-Impact Strength Training,28
+PW061,1,Standard Physiotherapy,1
+PW061,2,Strength Training,8
+PW061,3,Functional Training,15
+PW062,1,Standard Physiotherapy,1
+PW062,2,Hydrotherapy,10
+PW062,3,Balance Training,22
+PW062,4,Strength Training,31
+PW063,1,Standard Physiotherapy,1
+PW063,2,Hydrotherapy,4
+PW063,3,Strength Training,10
+PW063,4,Return to Sport Drills,15
+PW064,1,Standard Physiotherapy,1
+PW064,2,Balance Training,19
+PW064,3,Low-Impact Strength Training,34
+PW065,1,Standard Physiotherapy,1
+PW065,2,Strength Training,11
+PW065,3,Functional Training,21
+PW066,1,Standard Physiotherapy,1
+PW066,2,Balance Training,21
+PW066,3,Low-Impact Strength Training,36
+PW067,1,Standard Physiotherapy,1
+PW067,2,Strength Training,15
+PW067,3,Functional Training,27
+PW068,1,Standard Physiotherapy,1
+PW068,2,Balance Training,7
+PW068,3,Low-Impact Strength Training,13
+PW069,1,Standard Physiotherapy,1
+PW069,2,Balance Training,9
+PW069,3,Low-Impact Strength Training,16
+PW070,1,Standard Physiotherapy,1
+PW070,2,Balance Training,10
+PW070,3,Low-Impact Strength Training,17
+PW071,1,Standard Physiotherapy,1
+PW071,2,Hydrotherapy,1
+PW071,3,Strength Training,3
+PW071,4,Return to Sport Drills,4
+PW072,1,Standard Physiotherapy,1
+PW072,2,Balance Training,4
+PW072,3,Low-Impact Strength Training,8
+PW073,1,Standard Physiotherapy,1
+PW073,2,Balance Training,6
+PW073,3,Low-Impact Strength Training,11
+PW074,1,Standard Physiotherapy,1
+PW074,2,Balance Training,7
+PW074,3,Low-Impact Strength Training,12
+PW075,1,Standard Physiotherapy,1
+PW075,2,Balance Training,12
+PW075,3,Low-Impact Strength Training,20
+PW076,1,Standard Physiotherapy,1
+PW076,2,Strength Training,9
+PW076,3,Functional Training,16
+PW077,1,Standard Physiotherapy,1
+PW077,2,Balance Training,12
+PW077,3,Low-Impact Strength Training,21

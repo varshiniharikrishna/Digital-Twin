@@ -1,241 +1,184 @@
 """
 pdf_generator.py
 ----------------
-Generates a PDF report for a Patient's Digital Twin using ReportLab.
-Includes patient demographics, weekly twin state, flagged pressure points,
-expected vs actual metrics, treatment clone options, and recalibration history.
+ReportLab PDF Generator for Clinical Digital Twin Progress Reports.
+Generates printable, zero-emoji PDF reports containing patient demographics,
+treating doctor details, weekly progression, Normalized Pain Index, pressure points,
+and active therapy plans.
 """
 
-import os
 import io
-import pandas as pd
 from reportlab.lib.pagesizes import letter
-from reportlab.platypus import (
-    SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, HRFlowable
-)
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib import colors
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, HRFlowable
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+
+import simulation as simmod
 
 
-def generate_twin_pdf(patient_id: str, patient_row: pd.Series, week_data: dict,
-                      pressure_points: list, expected_vs_actual: dict,
-                      treatment_clones: list = None, recal_history: list = None) -> bytes:
-    """
-    Generates a PDF report and returns the PDF bytes. Also saves a copy to ./output/
-    """
+def generate_twin_pdf(patient_id: str, patient_row, week_data: dict, pressure_points: list,
+                      expected_vs_actual: dict, treatment_clones: list, recal_history: list, doctor_row=None) -> bytes:
+    """Generates a downloadable PDF clinical report for a patient digital twin."""
     buffer = io.BytesIO()
-    doc = SimpleDocTemplate(
-        buffer, pagesize=letter,
-        rightMargin=36, leftMargin=36, topMargin=36, bottomMargin=36
-    )
-
-    styles = getSampleStyleSheet()
-    
-    # Custom non-blue palette
-    PRIMARY_COLOR = colors.HexColor("#10B981")     # Emerald Green
-    SECONDARY_COLOR = colors.HexColor("#0F172A")   # Dark Slate
-    ACCENT_COLOR = colors.HexColor("#D97706")      # Warm Amber
-    ALERT_COLOR = colors.HexColor("#E11D48")       # Crimson Red
-    BG_LIGHT = colors.HexColor("#F8FAFC")          # Light Slate BG
-    TEXT_DARK = colors.HexColor("#1E293B")
-
-    title_style = ParagraphStyle(
-        'DocTitle',
-        parent=styles['Heading1'],
-        fontName='Helvetica-Bold',
-        fontSize=20,
-        leading=24,
-        textColor=SECONDARY_COLOR,
-        spaceAfter=6
-    )
-    subtitle_style = ParagraphStyle(
-        'DocSubtitle',
-        parent=styles['Normal'],
-        fontName='Helvetica',
-        fontSize=10,
-        leading=14,
-        textColor=colors.HexColor("#64748B"),
-        spaceAfter=12
-    )
-    section_style = ParagraphStyle(
-        'SectionHeading',
-        parent=styles['Heading2'],
-        fontName='Helvetica-Bold',
-        fontSize=13,
-        leading=17,
-        textColor=PRIMARY_COLOR,
-        spaceBefore=12,
-        spaceAfter=8
-    )
-    body_style = ParagraphStyle(
-        'BodyText',
-        parent=styles['Normal'],
-        fontName='Helvetica',
-        fontSize=9,
-        leading=13,
-        textColor=TEXT_DARK
-    )
-    bold_body_style = ParagraphStyle(
-        'BoldBodyText',
-        parent=body_style,
-        fontName='Helvetica-Bold'
-    )
-
+    doc = SimpleDocTemplate(buffer, pagesize=letter, rightMargin=36, leftMargin=36, topMargin=36, bottomMargin=36)
     story = []
 
-    # Title Banner
-    story.append(Paragraph(f"Dynamic Digital Twin Clinical Report", title_style))
-    story.append(Paragraph(f"Patient ID: <b>{patient_id}</b> | Generated for Rehabilitation Tracking", subtitle_style))
-    story.append(HRFlowable(width="100%", thickness=2, color=PRIMARY_COLOR, spaceAfter=12))
+    styles = getSampleStyleSheet()
 
-    # Patient Demographics & Baseline Table
-    story.append(Paragraph("1. Patient Profile & Clinical Baseline", section_style))
-    demographics_data = [
+    title_style = ParagraphStyle(
+        "DocTitle",
+        parent=styles["Heading1"],
+        fontName="Helvetica-Bold",
+        fontSize=18,
+        leading=22,
+        textColor=colors.HexColor("#0F172A"),
+        spaceAfter=4,
+    )
+    subtitle_style = ParagraphStyle(
+        "DocSubtitle",
+        parent=styles["Normal"],
+        fontName="Helvetica",
+        fontSize=10,
+        leading=13,
+        textColor=colors.HexColor("#64748B"),
+        spaceAfter=12,
+    )
+    heading_style = ParagraphStyle(
+        "DocHeading",
+        parent=styles["Heading2"],
+        fontName="Helvetica-Bold",
+        fontSize=12,
+        leading=15,
+        textColor=colors.HexColor("#0F172A"),
+        spaceBefore=10,
+        spaceAfter=6,
+    )
+    text_style = ParagraphStyle(
+        "DocText",
+        parent=styles["Normal"],
+        fontName="Helvetica",
+        fontSize=9,
+        leading=12,
+        textColor=colors.HexColor("#334155"),
+    )
+    bold_text_style = ParagraphStyle(
+        "DocTextBold",
+        parent=text_style,
+        fontName="Helvetica-Bold",
+    )
+
+    # Document Header
+    story.append(Paragraph("Dynamic Digital Twin — Clinical Progress Report", title_style))
+    story.append(Paragraph("Personalized Human Orthopaedic Rehabilitation & Predictive Pathway Analysis", subtitle_style))
+    story.append(HRFlowable(width="100%", thickness=1, color=colors.HexColor("#E2E8F0"), spaceAfter=12))
+
+    # Patient & Doctor Info Table
+    doc_name = doctor_row.get("Doctor_Name", "Dr. Unassigned") if doctor_row is not None else "Attending Specialist"
+    doc_spec = doctor_row.get("Specialization", "Orthopaedic Rehabilitation") if doctor_row is not None else "Orthopaedics"
+
+    info_data = [
         [
-            Paragraph("<b>Age:</b>", body_style), Paragraph(str(patient_row.get("Age", "N/A")), body_style),
-            Paragraph("<b>Gender:</b>", body_style), Paragraph(str(patient_row.get("Gender", "N/A")), body_style),
+            Paragraph("<b>Patient ID:</b>", text_style), Paragraph(str(patient_id), text_style),
+            Paragraph("<b>Treating Doctor:</b>", text_style), Paragraph(str(doc_name), text_style)
         ],
         [
-            Paragraph("<b>Injury Type:</b>", body_style), Paragraph(str(patient_row.get("Injury_Type", "N/A")), body_style),
-            Paragraph("<b>Severity:</b>", body_style), Paragraph(str(patient_row.get("Severity", "N/A")), body_style),
+            Paragraph("<b>Age / Gender:</b>", text_style), Paragraph(f"{patient_row.get('Age', '-')} yrs / {patient_row.get('Gender', '-')}", text_style),
+            Paragraph("<b>Specialization:</b>", text_style), Paragraph(str(doc_spec), text_style)
         ],
         [
-            Paragraph("<b>Surgery Required:</b>", body_style), Paragraph("Yes" if patient_row.get("Surgery_Required") else "No", body_style),
-            Paragraph("<b>BMI:</b>", body_style), Paragraph(str(patient_row.get("BMI", "N/A")), body_style),
+            Paragraph("<b>Injury Type:</b>", text_style), Paragraph(str(patient_row.get("Injury_Type", "-")), text_style),
+            Paragraph("<b>Body Region / Part:</b>", text_style), Paragraph(f"{patient_row.get('Body_Region', '-')} / {patient_row.get('Body_Part', '-')}", text_style)
         ],
         [
-            Paragraph("<b>Activity Level:</b>", body_style), Paragraph(str(patient_row.get("Activity_Level", "N/A")), body_style),
-            Paragraph("<b>Smoking Status:</b>", body_style), Paragraph(str(patient_row.get("Smoking_Status", "N/A")), body_style),
+            Paragraph("<b>Severity:</b>", text_style), Paragraph(str(patient_row.get("Severity", "-")), text_style),
+            Paragraph("<b>Report Stage:</b>", text_style), Paragraph(f"Week {week_data.get('Week', 1)} Review", bold_text_style)
         ],
     ]
-    demo_table = Table(demographics_data, colWidths=[110, 150, 110, 150])
-    demo_table.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, -1), BG_LIGHT),
-        ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor("#CBD5E1")),
-        ('PADDING', (0, 0), (-1, -1), 5),
+    t_info = Table(info_data, colWidths=[110, 160, 110, 160])
+    t_info.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, -1), colors.HexColor('#F8FAFC')),
+        ('BOX', (0, 0), (-1, -1), 1, colors.HexColor('#E2E8F0')),
+        ('INNERGRID', (0, 0), (-1, -1), 0.5, colors.HexColor('#E2E8F0')),
+        ('PADDING', (0, 0), (-1, -1), 6),
     ]))
-    story.append(demo_table)
-    story.append(Spacer(1, 10))
+    story.append(t_info)
+    story.append(Spacer(1, 12))
 
-    # Selected Week Twin State
-    week_num = week_data.get("Week", "N/A")
-    story.append(Paragraph(f"2. Twin Recovery State — Week {week_num}", section_style))
-    state_table_data = [
-        [Paragraph("<b>Metric</b>", bold_body_style), Paragraph("<b>Recorded Value</b>", bold_body_style), Paragraph("<b>Status / Target</b>", bold_body_style)],
-        [Paragraph("Pain Score", body_style), Paragraph(f"{week_data.get('Pain', 'N/A')} / 10", body_style), Paragraph("Target <= 2.0", body_style)],
-        [Paragraph("Range of Motion (ROM)", body_style), Paragraph(f"{week_data.get('ROM_deg', 'N/A')}°", body_style), Paragraph("Target >= 120°", body_style)],
-        [Paragraph("Quadriceps Strength", body_style), Paragraph(f"{week_data.get('Quadriceps_Strength_pct', 'N/A')}%", body_style), Paragraph("Target >= 80%", body_style)],
-        [Paragraph("Hamstring Strength", body_style), Paragraph(f"{week_data.get('Hamstring_Strength_pct', 'N/A')}%", body_style), Paragraph("Target >= 80%", body_style)],
-        [Paragraph("Balance Score", body_style), Paragraph(f"{week_data.get('Balance_Score', 'N/A')}", body_style), Paragraph("Target >= 75", body_style)],
-        [Paragraph("Walking Speed", body_style), Paragraph(f"{week_data.get('Walking_Speed_mps', 'N/A')} m/s", body_style), Paragraph("Target >= 1.2 m/s", body_style)],
-        [Paragraph("Swelling", body_style), Paragraph(str(week_data.get("Swelling", "N/A")), body_style), Paragraph("Target: None", body_style)],
-        [Paragraph("Compliance", body_style), Paragraph(f"{week_data.get('Compliance_pct', 'N/A')}%", body_style), Paragraph("Target >= 80%", body_style)],
+    # Normalized Pain Index (NPI) & Weekly Observations
+    raw_pain = float(week_data.get("Pain", patient_row.get("Pain_Score", 5.0)))
+    sev_str = str(patient_row.get("Severity", "Moderate"))
+    swell_str = str(week_data.get("Swelling", "Mild"))
+    comorb_val = float(patient_row.get("Comorbidity_Score", 0.0))
+    npi = simmod.calculate_normalized_pain_index(raw_pain, sev_str, swell_str, comorb_val)
+
+    story.append(Paragraph("Weekly Physiological Metrics & Normalized Pain Index (NPI)", heading_style))
+
+    metrics_data = [
+        [
+            Paragraph("<b>Metric</b>", bold_text_style),
+            Paragraph("<b>Recorded Value</b>", bold_text_style),
+            Paragraph("<b>Clinical Target / Threshold</b>", bold_text_style)
+        ],
+        [Paragraph("Pain Score (0-10)", text_style), Paragraph(f"{raw_pain:.1f} / 10", text_style), Paragraph("Target <= 2.0", text_style)],
+        [Paragraph("Normalized Pain Index (NPI)", bold_text_style), Paragraph(f"<b>{npi['npi_score']:.3f}</b> ({npi['category']})", bold_text_style), Paragraph("Normalized Scale [0.0 - 1.0]", text_style)],
+        [Paragraph("Primary ROM (Degrees)", text_style), Paragraph(f"{week_data.get('ROM_deg', 0):.1f}°", text_style), Paragraph("Target >= 120°", text_style)],
+        [Paragraph("Primary Strength (%)", text_style), Paragraph(f"{week_data.get('Quadriceps_Strength_pct', 0):.1f}%", text_style), Paragraph("Target >= 85%", text_style)],
+        [Paragraph("Function / Balance Score", text_style), Paragraph(f"{week_data.get('Balance_Score', 0):.1f}", text_style), Paragraph("Target >= 75", text_style)],
+        [Paragraph("Walking Speed (m/s)", text_style), Paragraph(f"{week_data.get('Walking_Speed_mps', 0):.2f} m/s", text_style), Paragraph("Target >= 1.2 m/s", text_style)],
+        [Paragraph("Swelling / Compliance", text_style), Paragraph(f"{week_data.get('Swelling', '-')} / {week_data.get('Compliance_pct', '-')}%", text_style), Paragraph("Target <= Mild / >= 80%", text_style)],
     ]
-    state_table = Table(state_table_data, colWidths=[180, 160, 180])
-    state_table.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), SECONDARY_COLOR),
-        ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-        ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor("#CBD5E1")),
+    t_metrics = Table(metrics_data, colWidths=[180, 180, 180])
+    t_metrics.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#F8FAFC')),
+        ('BOX', (0, 0), (-1, -1), 1, colors.HexColor('#E2E8F0')),
+        ('INNERGRID', (0, 0), (-1, -1), 0.5, colors.HexColor('#E2E8F0')),
         ('PADDING', (0, 0), (-1, -1), 5),
     ]))
-    story.append(state_table)
-    story.append(Spacer(1, 10))
+    story.append(t_metrics)
+    story.append(Spacer(1, 12))
 
-    # Pressure Points & Concerns
-    story.append(Paragraph("3. Pressure Points & Flagged Recovery Concerns", section_style))
+    # Pressure Points & Flags
     if pressure_points:
-        pp_rows = [[Paragraph("<b>Concern Category</b>", bold_body_style), Paragraph("<b>Actual Value</b>", bold_body_style), Paragraph("<b>Clinical Flag</b>", bold_body_style)]]
+        story.append(Paragraph("Flagged Recovery Pressure Points", heading_style))
+        pp_data = [[Paragraph("<b>Category</b>", bold_text_style), Paragraph("<b>Observation</b>", bold_text_style), Paragraph("<b>Clinical Risk Flag</b>", bold_text_style)]]
         for pp in pressure_points:
-            pp_rows.append([
-                Paragraph(pp.get("Category", "N/A"), body_style),
-                Paragraph(str(pp.get("Actual", "N/A")), body_style),
-                Paragraph(f"<font color='#E11D48'><b>{pp.get('Flag', 'N/A')}</b></font>", body_style)
-            ])
-        pp_table = Table(pp_rows, colWidths=[160, 160, 200])
-        pp_table.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor("#FEF2F2")),
-            ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor("#FCA5A5")),
+            pp_data.append([Paragraph(str(pp.get("Category", "-")), text_style), Paragraph(str(pp.get("Actual", "-")), text_style), Paragraph(str(pp.get("Flag", "-")), text_style)])
+        t_pp = Table(pp_data, colWidths=[140, 140, 260])
+        t_pp.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#FEF2F2')),
+            ('BOX', (0, 0), (-1, -1), 1, colors.HexColor('#FCA5A5')),
+            ('INNERGRID', (0, 0), (-1, -1), 0.5, colors.HexColor('#FCA5A5')),
             ('PADDING', (0, 0), (-1, -1), 5),
         ]))
-        story.append(pp_table)
-    else:
-        story.append(Paragraph("<font color='#10B981'><b>✓ No critical recovery flags detected for Week {}</b></font>".format(week_num), body_style))
-    
-    story.append(Spacer(1, 10))
+        story.append(t_pp)
+        story.append(Spacer(1, 12))
 
-    # Expected vs Actual Comparison
-    if expected_vs_actual:
-        story.append(Paragraph(f"4. Twin Expected vs. Actual Comparison (Week {week_num})", section_style))
-        eva_rows = [[Paragraph("<b>Metric</b>", bold_body_style), Paragraph("<b>Expected (Twin)</b>", bold_body_style), Paragraph("<b>Actual (Recorded)</b>", bold_body_style), Paragraph("<b>Deviation</b>", bold_body_style)]]
-        for metric, d in expected_vs_actual.items():
-            dev_val = d.get("pct_deviation", 0.0)
-            dev_str = f"{dev_val:+.1f}%"
-            dev_color = "#E11D48" if d.get("flagged") else "#10B981"
-            eva_rows.append([
-                Paragraph(metric, body_style),
-                Paragraph(f"{d.get('predicted', 0.0):.1f}", body_style),
-                Paragraph(f"{d.get('actual', 0.0):.1f}", body_style),
-                Paragraph(f"<font color='{dev_color}'><b>{dev_str}</b></font>", body_style)
-            ])
-        eva_table = Table(eva_rows, colWidths=[140, 120, 120, 140])
-        eva_table.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (-1, 0), BG_LIGHT),
-            ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor("#CBD5E1")),
-            ('PADDING', (0, 0), (-1, -1), 5),
-        ]))
-        story.append(eva_table)
-        story.append(Spacer(1, 10))
-
-    # Treatment Clones Comparison
+    # Treatment Clones Comparison Table
     if treatment_clones:
-        story.append(Paragraph("5. Treatment Pathway Clones & Reaction Analysis", section_style))
-        tc_rows = [[Paragraph("<b>Pathway Option</b>", bold_body_style), Paragraph("<b>Est. Duration</b>", bold_body_style), Paragraph("<b>Predicted Recovery</b>", bold_body_style), Paragraph("<b>Reaction Profile</b>", bold_body_style)]]
-        for tc in treatment_clones:
-            tc_rows.append([
-                Paragraph(f"<b>{tc.get('name', 'N/A')}</b>", body_style),
-                Paragraph(f"{tc.get('weeks', 'N/A')} weeks", body_style),
-                Paragraph(f"{tc.get('recovery_pct', 'N/A'):.0f}%", body_style),
-                Paragraph(tc.get('reaction', 'N/A'), body_style)
+        story.append(Paragraph("Simulated Treatment Clones & Physiological Reactions", heading_style))
+        cl_data = [[
+            Paragraph("<b>Treatment Protocol</b>", bold_text_style),
+            Paragraph("<b>Est. Duration</b>", bold_text_style),
+            Paragraph("<b>Final ROM</b>", bold_text_style),
+            Paragraph("<b>Final Strength</b>", bold_text_style),
+            Paragraph("<b>Recovery %</b>", bold_text_style)
+        ]]
+        for cl in treatment_clones:
+            cl_data.append([
+                Paragraph(str(cl.get("name", "-")), text_style),
+                Paragraph(f"{cl.get('weeks', 0):.1f} wks", text_style),
+                Paragraph(f"{cl.get('final_rom', 0):.1f}°", text_style),
+                Paragraph(f"{cl.get('final_strength', 0):.1f}%", text_style),
+                Paragraph(f"<b>{cl.get('recovery_pct', 0):.1f}%</b>", bold_text_style),
             ])
-        tc_table = Table(tc_rows, colWidths=[150, 90, 110, 170])
-        tc_table.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor("#F0FDF4")),
-            ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor("#86EFAC")),
+        t_cl = Table(cl_data, colWidths=[170, 90, 90, 90, 100])
+        t_cl.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#F8FAFC')),
+            ('BOX', (0, 0), (-1, -1), 1, colors.HexColor('#E2E8F0')),
+            ('INNERGRID', (0, 0), (-1, -1), 0.5, colors.HexColor('#E2E8F0')),
             ('PADDING', (0, 0), (-1, -1), 5),
         ]))
-        story.append(tc_table)
-        story.append(Spacer(1, 10))
-
-    # Recalibration History
-    if recal_history:
-        story.append(Paragraph("6. Recalibration History", section_style))
-        rh_rows = [[Paragraph("<b>Week</b>", bold_body_style), Paragraph("<b>Original Pred</b>", bold_body_style), Paragraph("<b>Recalibrated Pred</b>", bold_body_style), Paragraph("<b>Updated Pathway</b>", bold_body_style)]]
-        for item in recal_history:
-            rh_rows.append([
-                Paragraph(f"Week {item.get('week')}", body_style),
-                Paragraph(f"{item.get('old_pct', 0):.0f}% ({item.get('old_wks', 0):.0f}w)", body_style),
-                Paragraph(f"{item.get('new_pct', 0):.0f}% ({item.get('new_wks', 0):.0f}w)", body_style),
-                Paragraph(item.get('pathway', 'N/A'), body_style)
-            ])
-        rh_table = Table(rh_rows, colWidths=[80, 130, 130, 180])
-        rh_table.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor("#FFFBEB")),
-            ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor("#FDE68A")),
-            ('PADDING', (0, 0), (-1, -1), 5),
-        ]))
-        story.append(rh_table)
-
-    story.append(Spacer(1, 15))
-    story.append(HRFlowable(width="100%", thickness=1, color=colors.HexColor("#CBD5E1"), spaceAfter=8))
-    story.append(Paragraph("<i>Confidential Clinical Digital Twin Simulation Report — Orthopaedic Rehabilitation Department</i>", subtitle_style))
+        story.append(t_cl)
 
     doc.build(story)
-    pdf_bytes = buffer.getvalue()
-
-    # Save to disk in output directory as well
-    os.makedirs("output", exist_ok=True)
-    file_path = os.path.join("output", f"Digital_Twin_Report_{patient_id}.pdf")
-    with open(file_path, "wb") as f:
-        f.write(pdf_bytes)
-
-    return pdf_bytes
+    return buffer.getvalue()

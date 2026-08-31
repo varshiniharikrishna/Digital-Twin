@@ -20,6 +20,7 @@ MYSQL_CONFIG = {
 CSV_DIR = os.environ.get("DT_CSV_DIR", "data")
 
 TABLE_NAMES = [
+    "Doctor",
     "Patient",
     "Injury",
     "Initial_Assessment",

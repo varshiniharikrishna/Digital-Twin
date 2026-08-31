@@ -1,10 +1,11 @@
 """
 import_to_mysql.py
 -------------------
-Loads the 14 generated CSVs from ./output/ into a MySQL database (DigitalTwinDB),
-creating VARCHAR primary keys and foreign keys for relational integrity.
+Loads the 15 generated CSVs (14 original + Doctor) from ./output/ into a
+MySQL database (DigitalTwinDB), creating VARCHAR primary keys and foreign
+keys for relational integrity, including Patient -> Doctor.
 
-Rerun-safe: drops all 14 tables (in reverse dependency order, with FK checks
+Rerun-safe: drops all 15 tables (in reverse dependency order, with FK checks
 disabled for the whole session) before recreating anything, so you can run
 this script as many times as you want without leftover-constraint errors.
 """
@@ -20,6 +21,7 @@ import config
 OUT_DIR = "output"
 
 TABLE_ORDER = [
+    "Doctor",
     "Patient",
     "Injury",
     "Initial_Assessment",
@@ -37,6 +39,7 @@ TABLE_ORDER = [
 ]
 
 PRIMARY_KEYS = {
+    "Doctor": "Doctor_ID",
     "Patient": "Patient_ID",
     "Injury": "Injury_ID",
     "Initial_Assessment": "Assessment_ID",
@@ -53,6 +56,8 @@ PRIMARY_KEYS = {
 }
 
 FOREIGN_KEYS = [
+    # Every patient is now linked to the doctor treating them.
+    ("Patient", "Assigned_Doctor_ID", "Doctor", "Doctor_ID"),
     ("Injury", "Patient_ID", "Patient", "Patient_ID"),
     ("Initial_Assessment", "Patient_ID", "Patient", "Patient_ID"),
     ("Weekly_Progress", "Patient_ID", "Patient", "Patient_ID"),
@@ -138,7 +143,7 @@ def main():
 
         conn.execute(text("SET FOREIGN_KEY_CHECKS=1"))
 
-    print("\nMySQL Import complete. All 14 tables loaded successfully.")
+    print("\nMySQL Import complete. All 15 tables loaded successfully.")
 
 
 if __name__ == "__main__":

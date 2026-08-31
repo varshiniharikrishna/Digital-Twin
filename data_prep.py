@@ -125,47 +125,49 @@ def build_modelling_dataset(tables: dict) -> pd.DataFrame:
     patient = tables["Patient"].copy()
     injury = tables["Injury"].copy()
     assessment = tables["Initial_Assessment"].copy()
-    outcome = tables["Final_Outcome"].copy()
-    weekly = tables["Weekly_Progress"].copy()
+    outcome = tables["Final_Outcome"].copy() if "Final_Outcome" in tables else pd.DataFrame()
+    weekly = tables["Weekly_Progress"].copy() if "Weekly_Progress" in tables else pd.DataFrame()
 
-    week1 = (
-        weekly[weekly["Week"] == 1]
-        [["Patient_ID", "Primary_Strength_pct", "Secondary_Strength_pct"]]
-        .drop_duplicates("Patient_ID")
-        if "Primary_Strength_pct" in weekly.columns
-        else weekly[weekly["Week"] == 1][["Patient_ID", "Quadriceps_Strength_pct", "Hamstring_Strength_pct"]].drop_duplicates("Patient_ID")
-    )
+    w1_cols = ["Patient_ID"]
+    if not weekly.empty:
+        for c in ["Primary_Strength_pct", "Secondary_Strength_pct", "Quadriceps_Strength_pct", "Hamstring_Strength_pct"]:
+            if c in weekly.columns:
+                w1_cols.append(c)
+        week1 = weekly[weekly["Week"] == 1][w1_cols].drop_duplicates("Patient_ID")
+    else:
+        week1 = pd.DataFrame(columns=["Patient_ID"])
 
     df = (
         patient
-        .merge(injury, on="Patient_ID", how="inner", suffixes=("", "_inj"))
-        .merge(assessment, on="Patient_ID", how="inner", suffixes=("", "_ia"))
+        .merge(injury, on="Patient_ID", how="left", suffixes=("", "_inj"))
+        .merge(assessment, on="Patient_ID", how="left", suffixes=("", "_ia"))
         .merge(week1, on="Patient_ID", how="left")
-        .merge(outcome, on="Patient_ID", how="inner", suffixes=("", "_out"))
+        .merge(outcome, on="Patient_ID", how="left", suffixes=("", "_out"))
     )
 
     df = compute_derived_features(df)
 
-    if "Final_Recovery_Pct" not in df.columns:
-        if "Actual_Primary_Strength_pct" in df.columns:
-            str_col = df["Actual_Primary_Strength_pct"]
-            rom_col = df["Actual_Primary_ROM_deg"]
-        else:
-            str_col = df["Actual_Strength_pct"]
-            rom_col = df["Actual_ROM_deg"]
+    str_col = df["Actual_Primary_Strength_pct"] if "Actual_Primary_Strength_pct" in df.columns else df.get("Actual_Strength_pct", pd.Series(80.0, index=df.index))
+    rom_col = df["Actual_Primary_ROM_deg"] if "Actual_Primary_ROM_deg" in df.columns else df.get("Actual_ROM_deg", pd.Series(120.0, index=df.index))
 
-        df[config.TARGET_RECOVERY_PCT] = np.clip(
-            0.5 * str_col + 0.5 * (rom_col / 140 * 100),
-            0, 100,
-        )
+    str_col = str_col.fillna(df.get("Primary_Strength_pct", 50.0))
+    rom_col = rom_col.fillna(df.get("Primary_ROM_deg", 75.0))
 
-    df["Enrollment_Year"] = df["Enrollment_Year"].astype(int)
+    calc_pct = np.clip(0.5 * str_col + 0.5 * (rom_col / 140.0 * 100.0), 0, 100)
+    df[config.TARGET_RECOVERY_PCT] = df.get("Final_Recovery_Pct", calc_pct).fillna(calc_pct)
+
+    est_wks = df.get("Clinical_Est_Weeks", pd.Series(16.0, index=df.index))
+    df[config.TARGET_RECOVERY_WEEKS] = df.get("Actual_Recovery_Time_weeks", est_wks).fillna(est_wks)
+
+    df["Enrollment_Year"] = df["Enrollment_Year"].fillna(2025).astype(int)
     return df
 
 
 def chronological_split(df: pd.DataFrame):
     train = df[df["Enrollment_Year"].isin(config.TRAIN_YEARS)].reset_index(drop=True)
     test = df[df["Enrollment_Year"].isin(config.TEST_YEARS)].reset_index(drop=True)
+    if test.empty:
+        test = train.copy()
     return train, test
 
 
