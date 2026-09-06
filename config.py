@@ -17,7 +17,7 @@ MYSQL_CONFIG = {
     "database": os.environ.get("DT_MYSQL_DB", "DigitalTwinDB"),
 }
 
-CSV_DIR = os.environ.get("DT_CSV_DIR", "output" if os.path.exists("output") else "data")
+CSV_DIR = os.environ.get("DT_CSV_DIR", "data")
 
 TABLE_NAMES = [
     "Doctor",

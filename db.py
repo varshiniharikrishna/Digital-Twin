@@ -17,13 +17,13 @@ import config
 
 def _load_from_csv():
     tables = {}
-    csv_dir = config.CSV_DIR if os.path.exists(config.CSV_DIR) else ("output" if os.path.exists("output") else "data")
     for name in config.TABLE_NAMES:
-        path = os.path.join(csv_dir, f"{name}.csv")
+        path = os.path.join(config.CSV_DIR, f"{name}.csv")
         if not os.path.exists(path):
             raise FileNotFoundError(
                 f"Expected CSV not found: {path}. "
-                f"Make sure your CSVs are present in '{csv_dir}/' or run python import_to_mysql.py."
+                f"Make sure your generator's ./output CSVs are copied into "
+                f"'{config.CSV_DIR}/' or switch DT_DATA_SOURCE to 'mysql'."
             )
         tables[name] = pd.read_csv(path)
     return tables
@@ -64,20 +64,13 @@ def _load_from_mysql():
 
 
 def load_all_tables():
-    """Returns dict {table_name: DataFrame} for all 15 tables with automatic CSV fallback."""
+    """Returns dict {table_name: DataFrame} for all 14 tables."""
     if config.DATA_SOURCE == "mysql":
-        try:
-            tables = _load_from_mysql()
-        except Exception as e:
-            print(f"Notice: MySQL table load error ({e}). Falling back to local CSV files...")
-            tables = _load_from_csv()
+        tables = _load_from_mysql()
     elif config.DATA_SOURCE == "csv":
         tables = _load_from_csv()
     else:
-        try:
-            tables = _load_from_mysql()
-        except Exception:
-            tables = _load_from_csv()
+        raise ValueError(f"Unknown DATA_SOURCE: {config.DATA_SOURCE!r}")
 
     # normalize date columns so downstream code can rely on real dtypes
     if "Enrollment_Date" in tables["Patient"].columns:
