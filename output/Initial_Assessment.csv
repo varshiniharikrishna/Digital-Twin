@@ -1,804 +1,803 @@
-Assessment_ID,Patient_ID,Pain_Score,Swelling,Range_of_Motion_deg,Muscle_Strength_pct,Balance_Score,Walking_Speed_mps,Weight_Bearing_Level,Recovery_Goal,Primary_ROM_deg,Primary_Strength_pct,Secondary_Strength_pct,Function_Score
-IA00001,P00001,10.0,Moderate,38.0,39.0,33.0,0.58,Full Weight-Bearing,Return to Sport,,,,
-IA00002,P00002,4.0,Mild,63.0,46.0,52.0,0.26,Partial Weight-Bearing,Climb Stairs,,,,
-IA00003,P00003,7.0,Mild,43.0,34.0,48.0,0.69,Full Weight-Bearing,Walk Normally,,,,
-IA00004,P00004,5.0,Moderate,47.0,45.0,36.0,0.39,Full Weight-Bearing,Return to Sport,,,,
-IA00005,P00005,5.0,,63.0,44.0,54.0,0.75,Partial Weight-Bearing,Return to Work,,,,
-IA00006,P00006,7.0,Mild,63.0,51.0,56.0,0.63,Non-Weight-Bearing,Climb Stairs,,,,
-IA00007,P00007,9.0,Severe,48.0,43.0,43.0,0.45,Full Weight-Bearing,Return to Sport,,,,
-IA00008,P00008,7.0,Moderate,56.0,35.0,45.0,0.58,Partial Weight-Bearing,Return to Sport,,,,
-IA00009,P00009,7.0,Mild,49.0,48.0,61.0,0.76,Non-Weight-Bearing,Return to Work,,,,
-IA00010,P00010,5.0,Moderate,48.0,63.0,48.0,0.53,Non-Weight-Bearing,Climb Stairs,,,,
-IA00011,P00011,8.0,Moderate,51.0,33.0,60.0,0.38,Full Weight-Bearing,Return to Work,,,,
-IA00012,P00012,6.0,,62.0,46.0,48.0,0.79,Partial Weight-Bearing,Return to Sport,,,,
-IA00013,P00013,5.0,,64.0,61.0,83.0,0.57,Full Weight-Bearing,Climb Stairs,,,,
-IA00014,P00014,6.0,Moderate,39.0,34.0,65.0,0.58,Full Weight-Bearing,Return to Sport,,,,
-IA00015,P00015,5.0,,73.0,53.0,56.0,1.0,Partial Weight-Bearing,Return to Sport,,,,
-IA00016,P00016,8.0,Mild,73.0,39.0,49.0,0.42,Partial Weight-Bearing,Climb Stairs,,,,
-IA00017,P00017,4.0,Mild,60.0,48.0,62.0,0.75,Full Weight-Bearing,Climb Stairs,,,,
-IA00018,P00018,5.0,Mild,68.0,42.0,59.0,0.56,Partial Weight-Bearing,Return to Sport,,,,
-IA00019,P00019,7.0,Mild,57.0,54.0,65.0,0.95,Non-Weight-Bearing,Return to Sport,,,,
-IA00020,P00020,7.0,Severe,28.0,46.0,28.0,0.42,Partial Weight-Bearing,Climb Stairs,,,,
-IA00021,P00021,4.0,Mild,49.0,54.0,57.0,0.58,Full Weight-Bearing,Return to Sport,,,,
-IA00022,P00022,8.0,Mild,48.0,48.0,27.0,0.5,Full Weight-Bearing,Return to Sport,,,,
-IA00023,P00023,6.0,Severe,43.0,32.0,42.0,0.5,Partial Weight-Bearing,Return to Sport,,,,
-IA00024,P00024,6.0,Mild,62.0,21.0,69.0,0.69,Partial Weight-Bearing,Return to Sport,,,,
-IA00025,P00025,5.0,Moderate,76.0,49.0,35.0,0.52,Partial Weight-Bearing,Return to Work,,,,
-IA00026,P00026,5.0,,56.0,32.0,41.0,0.95,Full Weight-Bearing,Return to Sport,,,,
-IA00027,P00027,5.0,Moderate,53.0,26.0,55.0,0.69,Non-Weight-Bearing,Walk Normally,,,,
-IA00028,P00028,7.0,Moderate,49.0,43.0,69.0,0.78,Full Weight-Bearing,Climb Stairs,,,,
-IA00029,P00029,6.0,Moderate,45.0,48.0,56.0,0.6,Full Weight-Bearing,Return to Sport,,,,
-IA00030,P00030,9.0,Moderate,47.0,30.0,21.0,0.54,Partial Weight-Bearing,Climb Stairs,,,,
-IA00031,P00031,7.0,Moderate,46.0,50.0,24.0,0.47,Full Weight-Bearing,Return to Sport,,,,
-IA00032,P00032,10.0,Severe,28.0,40.0,45.0,0.72,Full Weight-Bearing,Return to Work,,,,
-IA00033,P00033,4.0,Mild,58.0,43.0,38.0,0.67,Full Weight-Bearing,Climb Stairs,,,,
-IA00034,P00034,5.0,Severe,34.0,49.0,46.0,0.5,Non-Weight-Bearing,Climb Stairs,,,,
-IA00035,P00035,10.0,Severe,46.0,51.0,46.0,0.43,Full Weight-Bearing,Walk Normally,,,,
-IA00036,P00036,6.0,,83.0,60.0,54.0,0.72,Partial Weight-Bearing,Return to Work,,,,
-IA00037,P00037,7.0,Mild,63.0,37.0,74.0,0.69,Full Weight-Bearing,Climb Stairs,,,,
-IA00038,P00038,6.0,,72.0,49.0,67.0,0.92,Partial Weight-Bearing,Walk Normally,,,,
-IA00039,P00039,6.0,Mild,65.0,41.0,75.0,0.7,Partial Weight-Bearing,Return to Sport,,,,
-IA00040,P00040,5.0,,71.0,55.0,71.0,0.82,Full Weight-Bearing,Return to Sport,,,,
-IA00041,P00041,5.0,Mild,64.0,34.0,50.0,0.68,Partial Weight-Bearing,Return to Sport,,,,
-IA00042,P00042,6.0,,75.0,52.0,58.0,0.85,Non-Weight-Bearing,Return to Sport,,,,
-IA00043,P00043,6.0,Mild,69.0,58.0,56.0,0.54,Full Weight-Bearing,Return to Work,,,,
-IA00044,P00044,7.0,Mild,72.0,35.0,68.0,0.66,Partial Weight-Bearing,Return to Work,,,,
-IA00045,P00045,8.0,Moderate,45.0,32.0,44.0,0.45,Full Weight-Bearing,Return to Sport,,,,
-IA00046,P00046,8.0,Severe,39.0,30.0,65.0,0.5,Full Weight-Bearing,Return to Work,,,,
-IA00047,P00047,6.0,Severe,53.0,34.0,35.0,0.36,Non-Weight-Bearing,Climb Stairs,,,,
-IA00048,P00048,9.0,Mild,66.0,40.0,55.0,0.58,Partial Weight-Bearing,Walk Normally,,,,
-IA00049,P00049,4.0,,71.0,52.0,57.0,0.62,Full Weight-Bearing,Return to Work,,,,
-IA00050,P00050,8.0,Severe,61.0,28.0,39.0,0.44,Full Weight-Bearing,Climb Stairs,,,,
-IA00051,P00051,5.0,Mild,75.0,41.0,86.0,0.63,Partial Weight-Bearing,Walk Normally,,,,
-IA00052,P00052,7.0,Severe,44.0,30.0,39.0,0.61,Full Weight-Bearing,Return to Sport,,,,
-IA00053,P00053,7.0,Moderate,46.0,43.0,48.0,0.72,Partial Weight-Bearing,Return to Sport,,,,
-IA00054,P00054,7.0,Moderate,72.0,42.0,44.0,0.67,Partial Weight-Bearing,Return to Work,,,,
-IA00055,P00055,6.0,Mild,78.0,56.0,60.0,0.75,Full Weight-Bearing,Return to Sport,,,,
-IA00056,P00056,4.0,Mild,88.0,59.0,59.0,0.49,Partial Weight-Bearing,Return to Sport,,,,
-IA00057,P00057,6.0,Moderate,80.0,52.0,39.0,0.58,Partial Weight-Bearing,Return to Sport,,,,
-IA00058,P00058,5.0,Mild,45.0,39.0,47.0,0.54,Partial Weight-Bearing,Walk Normally,,,,
-IA00059,P00059,7.0,Moderate,33.0,19.0,51.0,0.54,Full Weight-Bearing,Walk Normally,,,,
-IA00060,P00060,6.0,Mild,29.0,58.0,64.0,0.74,Partial Weight-Bearing,Return to Work,,,,
-IA00061,P00061,9.0,Mild,67.0,49.0,52.0,0.7,Partial Weight-Bearing,Walk Normally,,,,
-IA00062,P00062,5.0,,77.0,45.0,61.0,0.99,Non-Weight-Bearing,Return to Work,,,,
-IA00063,P00063,3.0,Mild,59.0,48.0,48.0,0.56,Non-Weight-Bearing,Walk Normally,,,,
-IA00064,P00064,7.0,Mild,58.0,66.0,54.0,0.71,Full Weight-Bearing,Walk Normally,,,,
-IA00065,P00065,7.0,Moderate,57.0,62.0,41.0,0.81,Partial Weight-Bearing,Return to Sport,,,,
-IA00066,P00066,6.0,Mild,60.0,48.0,33.0,0.67,Non-Weight-Bearing,Return to Sport,,,,
-IA00067,P00067,7.0,Severe,54.0,46.0,36.0,0.46,Full Weight-Bearing,Return to Work,,,,
-IA00068,P00068,5.0,Moderate,61.0,33.0,63.0,0.93,Non-Weight-Bearing,Climb Stairs,,,,
-IA00069,P00069,8.0,,77.0,55.0,55.0,0.89,Partial Weight-Bearing,Walk Normally,,,,
-IA00070,P00070,7.0,Severe,45.0,32.0,40.0,0.47,Full Weight-Bearing,Return to Work,,,,
-IA00071,P00071,4.0,Moderate,70.0,48.0,48.0,0.55,Full Weight-Bearing,Return to Work,,,,
-IA00072,P00072,7.0,Moderate,64.0,61.0,67.0,0.85,Non-Weight-Bearing,Return to Sport,,,,
-IA00073,P00073,8.0,Mild,46.0,47.0,41.0,0.68,Full Weight-Bearing,Climb Stairs,,,,
-IA00074,P00074,8.0,Moderate,60.0,26.0,47.0,0.5,Partial Weight-Bearing,Climb Stairs,,,,
-IA00075,P00075,4.0,Mild,82.0,42.0,59.0,0.9,Full Weight-Bearing,Return to Work,,,,
-IA00076,P00076,5.0,Mild,63.0,61.0,53.0,0.78,Partial Weight-Bearing,Return to Sport,,,,
-IA00077,P00077,6.0,Moderate,49.0,40.0,47.0,0.58,Full Weight-Bearing,Return to Sport,,,,
-IA00078,P00078,7.0,,87.0,59.0,61.0,0.93,Partial Weight-Bearing,Walk Normally,,,,
-IA00079,P00079,7.0,Moderate,30.0,32.0,54.0,0.57,Full Weight-Bearing,Return to Sport,,,,
-IA00080,P00080,4.0,Moderate,70.0,48.0,52.0,0.73,Full Weight-Bearing,Return to Sport,,,,
-IA00081,P00081,5.0,,65.0,45.0,81.0,0.69,Full Weight-Bearing,Climb Stairs,,,,
-IA00082,P00082,5.0,Mild,81.0,59.0,61.0,1.07,Full Weight-Bearing,Walk Normally,,,,
-IA00083,P00083,7.0,Severe,47.0,23.0,24.0,0.31,Partial Weight-Bearing,Return to Sport,,,,
-IA00084,P00084,6.0,Moderate,34.0,31.0,52.0,0.55,Non-Weight-Bearing,Walk Normally,,,,
-IA00085,P00085,4.0,Mild,65.0,49.0,65.0,0.6,Partial Weight-Bearing,Return to Sport,,,,
-IA00086,P00086,6.0,Mild,80.0,22.0,60.0,0.79,Non-Weight-Bearing,Walk Normally,,,,
-IA00087,P00087,5.0,,68.0,52.0,57.0,0.71,Full Weight-Bearing,Climb Stairs,,,,
-IA00088,P00088,6.0,,64.0,46.0,35.0,0.82,Full Weight-Bearing,Return to Work,,,,
-IA00089,P00089,7.0,Moderate,52.0,43.0,29.0,0.7,Partial Weight-Bearing,Return to Sport,,,,
-IA00090,P00090,5.0,,76.0,55.0,80.0,0.66,Non-Weight-Bearing,Return to Work,,,,
-IA00091,P00091,4.0,Mild,88.0,73.0,53.0,0.8,Full Weight-Bearing,Return to Work,,,,
-IA00092,P00092,5.0,Mild,49.0,58.0,72.0,1.01,Partial Weight-Bearing,Climb Stairs,,,,
-IA00093,P00093,8.0,Mild,86.0,48.0,33.0,0.45,Partial Weight-Bearing,Return to Work,,,,
-IA00094,P00094,8.0,Mild,60.0,50.0,39.0,0.52,Partial Weight-Bearing,Return to Sport,,,,
-IA00095,P00095,5.0,Moderate,64.0,54.0,60.0,0.78,Non-Weight-Bearing,Return to Sport,,,,
-IA00096,P00096,6.0,Moderate,54.0,50.0,51.0,0.66,Full Weight-Bearing,Return to Work,,,,
-IA00097,P00097,8.0,Moderate,46.0,38.0,50.0,0.52,Non-Weight-Bearing,Walk Normally,,,,
-IA00098,P00098,9.0,Moderate,60.0,52.0,52.0,0.8,Partial Weight-Bearing,Return to Sport,,,,
-IA00099,P00099,10.0,Severe,36.0,11.0,42.0,0.38,Non-Weight-Bearing,Return to Sport,,,,
-IA00100,P00100,5.0,Mild,50.0,66.0,44.0,0.57,Partial Weight-Bearing,Return to Sport,,,,
-IA00101,P00101,7.0,Mild,82.0,71.0,46.0,0.7,Partial Weight-Bearing,Return to Sport,,,,
-IA00102,P00102,7.0,Severe,30.0,37.0,61.0,0.45,Non-Weight-Bearing,Return to Sport,,,,
-IA00103,P00103,8.0,Mild,62.0,31.0,71.0,0.85,Full Weight-Bearing,Return to Work,,,,
-IA00104,P00104,7.0,Moderate,54.0,57.0,40.0,0.39,Full Weight-Bearing,Return to Sport,,,,
-IA00105,P00105,3.0,Mild,60.0,48.0,47.0,0.62,Non-Weight-Bearing,Return to Work,,,,
-IA00106,P00106,7.0,Mild,78.0,50.0,48.0,0.45,Non-Weight-Bearing,Return to Sport,,,,
-IA00107,P00107,9.0,Moderate,36.0,22.0,48.0,0.71,Full Weight-Bearing,Return to Sport,,,,
-IA00108,P00108,5.0,Mild,59.0,77.0,58.0,0.71,Non-Weight-Bearing,Return to Work,,,,
-IA00109,P00109,5.0,Mild,68.0,41.0,66.0,0.75,Partial Weight-Bearing,Return to Sport,,,,
-IA00110,P00110,3.0,Mild,62.0,56.0,59.0,0.56,Non-Weight-Bearing,Return to Sport,,,,
-IA00111,P00111,7.0,Moderate,58.0,24.0,51.0,0.61,Partial Weight-Bearing,Return to Work,,,,
-IA00112,P00112,8.0,Moderate,48.0,35.0,73.0,0.63,Full Weight-Bearing,Return to Sport,,,,
-IA00113,P00113,5.0,Mild,60.0,41.0,46.0,0.69,Non-Weight-Bearing,Return to Sport,,,,
-IA00114,P00114,7.0,Severe,45.0,46.0,64.0,0.48,Full Weight-Bearing,Return to Work,,,,
-IA00115,P00115,6.0,Moderate,51.0,41.0,69.0,0.42,Full Weight-Bearing,Walk Normally,,,,
-IA00116,P00116,5.0,Mild,64.0,56.0,58.0,0.6,Full Weight-Bearing,Climb Stairs,,,,
-IA00117,P00117,5.0,,69.0,45.0,37.0,0.82,Full Weight-Bearing,Return to Sport,,,,
-IA00118,P00118,3.0,,65.0,52.0,60.0,0.65,Full Weight-Bearing,Return to Sport,,,,
-IA00119,P00119,8.0,Moderate,73.0,42.0,46.0,0.75,Partial Weight-Bearing,Walk Normally,,,,
-IA00120,P00120,5.0,Mild,69.0,60.0,60.0,0.93,Full Weight-Bearing,Climb Stairs,,,,
-IA00121,P00121,4.0,Mild,81.0,59.0,47.0,0.72,Non-Weight-Bearing,Return to Sport,,,,
-IA00122,P00122,4.0,Moderate,58.0,42.0,53.0,0.61,Full Weight-Bearing,Return to Work,,,,
-IA00123,P00123,8.0,Moderate,71.0,48.0,64.0,0.63,Partial Weight-Bearing,Climb Stairs,,,,
-IA00124,P00124,6.0,Mild,77.0,62.0,74.0,0.97,Non-Weight-Bearing,Walk Normally,,,,
-IA00125,P00125,6.0,Moderate,58.0,36.0,47.0,0.96,Partial Weight-Bearing,Walk Normally,,,,
-IA00126,P00126,7.0,Moderate,57.0,49.0,39.0,0.49,Partial Weight-Bearing,Climb Stairs,,,,
-IA00127,P00127,9.0,Severe,44.0,51.0,48.0,0.62,Partial Weight-Bearing,Climb Stairs,,,,
-IA00128,P00128,6.0,Mild,36.0,28.0,73.0,0.85,Non-Weight-Bearing,Return to Sport,,,,
-IA00129,P00129,5.0,,77.0,60.0,61.0,0.65,Partial Weight-Bearing,Return to Work,,,,
-IA00130,P00130,4.0,,72.0,62.0,65.0,0.71,Partial Weight-Bearing,Walk Normally,,,,
-IA00131,P00131,6.0,,78.0,70.0,57.0,0.71,Partial Weight-Bearing,Return to Work,,,,
-IA00132,P00132,8.0,Moderate,57.0,52.0,46.0,0.63,Non-Weight-Bearing,Return to Work,,,,
-IA00133,P00133,6.0,Moderate,65.0,46.0,60.0,0.6,Partial Weight-Bearing,Return to Sport,,,,
-IA00134,P00134,8.0,Mild,44.0,49.0,51.0,0.62,Partial Weight-Bearing,Walk Normally,,,,
-IA00135,P00135,7.0,Mild,46.0,38.0,57.0,0.78,Partial Weight-Bearing,Walk Normally,,,,
-IA00136,P00136,7.0,Moderate,33.0,41.0,58.0,0.37,Non-Weight-Bearing,Walk Normally,,,,
-IA00137,P00137,8.0,,69.0,42.0,64.0,0.65,Full Weight-Bearing,Return to Work,,,,
-IA00138,P00138,7.0,,62.0,70.0,67.0,0.9,Partial Weight-Bearing,Return to Sport,,,,
-IA00139,P00139,8.0,Mild,49.0,50.0,42.0,0.73,Partial Weight-Bearing,Climb Stairs,,,,
-IA00140,P00140,5.0,Mild,61.0,36.0,41.0,0.49,Partial Weight-Bearing,Return to Work,,,,
-IA00141,P00141,10.0,Severe,42.0,38.0,43.0,0.58,Full Weight-Bearing,Return to Work,,,,
-IA00142,P00142,5.0,,56.0,67.0,60.0,1.0,Partial Weight-Bearing,Return to Sport,,,,
-IA00143,P00143,6.0,Moderate,83.0,55.0,46.0,0.64,Partial Weight-Bearing,Return to Work,,,,
-IA00144,P00144,2.0,Mild,70.0,46.0,63.0,0.65,Partial Weight-Bearing,Return to Sport,,,,
-IA00145,P00145,7.0,Mild,47.0,14.0,63.0,0.78,Partial Weight-Bearing,Walk Normally,,,,
-IA00146,P00146,4.0,Mild,63.0,59.0,74.0,1.06,Partial Weight-Bearing,Return to Sport,,,,
-IA00147,P00147,7.0,Mild,56.0,36.0,69.0,0.52,Full Weight-Bearing,Climb Stairs,,,,
-IA00148,P00148,3.0,,68.0,61.0,44.0,0.81,Full Weight-Bearing,Return to Sport,,,,
-IA00149,P00149,7.0,Mild,83.0,65.0,46.0,0.96,Partial Weight-Bearing,Return to Sport,,,,
-IA00150,P00150,7.0,Moderate,57.0,56.0,49.0,0.67,Non-Weight-Bearing,Return to Sport,,,,
-IA00151,P00151,9.0,Mild,77.0,62.0,53.0,0.39,Partial Weight-Bearing,Return to Work,,,,
-IA00152,P00152,5.0,Moderate,54.0,57.0,49.0,0.72,Full Weight-Bearing,Walk Normally,,,,
-IA00153,P00153,8.0,Moderate,62.0,62.0,45.0,0.5,Full Weight-Bearing,Climb Stairs,,,,
-IA00154,P00154,5.0,Moderate,56.0,49.0,40.0,0.31,Partial Weight-Bearing,Climb Stairs,,,,
-IA00155,P00155,5.0,Mild,82.0,70.0,66.0,0.54,Non-Weight-Bearing,Walk Normally,,,,
-IA00156,P00156,5.0,Moderate,71.0,45.0,36.0,0.83,Non-Weight-Bearing,Return to Sport,,,,
-IA00157,P00157,7.0,Severe,43.0,22.0,72.0,0.37,Full Weight-Bearing,Return to Sport,,,,
-IA00158,P00158,6.0,Mild,58.0,70.0,52.0,0.7,Partial Weight-Bearing,Walk Normally,,,,
-IA00159,P00159,5.0,Mild,33.0,46.0,65.0,0.74,Partial Weight-Bearing,Return to Work,,,,
-IA00160,P00160,5.0,Mild,56.0,57.0,45.0,0.67,Partial Weight-Bearing,Return to Sport,,,,
-IA00161,P00161,4.0,Mild,81.0,49.0,67.0,0.84,Partial Weight-Bearing,Climb Stairs,,,,
-IA00162,P00162,6.0,Mild,67.0,55.0,53.0,0.71,Full Weight-Bearing,Return to Work,,,,
-IA00163,P00163,8.0,Moderate,57.0,21.0,62.0,0.67,Partial Weight-Bearing,Return to Work,,,,
-IA00164,P00164,8.0,Moderate,63.0,31.0,42.0,0.39,Partial Weight-Bearing,Return to Sport,,,,
-IA00165,P00165,9.0,Moderate,42.0,34.0,63.0,0.37,Full Weight-Bearing,Return to Work,,,,
-IA00166,P00166,3.0,,63.0,60.0,42.0,0.78,Partial Weight-Bearing,Climb Stairs,,,,
-IA00167,P00167,4.0,Mild,65.0,66.0,71.0,0.78,Full Weight-Bearing,Walk Normally,,,,
-IA00168,P00168,7.0,Mild,47.0,34.0,53.0,0.71,Full Weight-Bearing,Climb Stairs,,,,
-IA00169,P00169,7.0,Mild,64.0,52.0,40.0,0.82,Non-Weight-Bearing,Return to Sport,,,,
-IA00170,P00170,5.0,Moderate,61.0,57.0,75.0,0.7,Non-Weight-Bearing,Return to Work,,,,
-IA00171,P00171,7.0,Moderate,64.0,68.0,74.0,0.53,Non-Weight-Bearing,Climb Stairs,,,,
-IA00172,P00172,6.0,Moderate,54.0,52.0,27.0,0.32,Full Weight-Bearing,Climb Stairs,,,,
-IA00173,P00173,6.0,Severe,45.0,30.0,46.0,0.38,Full Weight-Bearing,Return to Work,,,,
-IA00174,P00174,7.0,Mild,36.0,32.0,60.0,0.45,Partial Weight-Bearing,Climb Stairs,,,,
-IA00175,P00175,5.0,,74.0,73.0,65.0,0.69,Full Weight-Bearing,Return to Sport,,,,
-IA00176,P00176,6.0,Mild,59.0,52.0,70.0,0.69,Full Weight-Bearing,Return to Sport,,,,
-IA00177,P00177,5.0,Mild,47.0,45.0,68.0,0.66,Full Weight-Bearing,Return to Work,,,,
-IA00178,P00178,4.0,Mild,69.0,39.0,63.0,1.08,Partial Weight-Bearing,Climb Stairs,,,,
-IA00179,P00179,4.0,,67.0,46.0,87.0,0.87,Non-Weight-Bearing,Return to Work,,,,
-IA00180,P00180,8.0,Moderate,76.0,51.0,63.0,0.94,Full Weight-Bearing,Walk Normally,,,,
-IA00181,P00181,7.0,Mild,47.0,49.0,48.0,0.76,Full Weight-Bearing,Walk Normally,,,,
-IA00182,P00182,9.0,Moderate,49.0,16.0,37.0,0.66,Full Weight-Bearing,Return to Work,,,,
-IA00183,P00183,7.0,Moderate,47.0,51.0,67.0,0.6,Full Weight-Bearing,Climb Stairs,,,,
-IA00184,P00184,4.0,,64.0,39.0,50.0,0.64,Partial Weight-Bearing,Walk Normally,,,,
-IA00185,P00185,4.0,Mild,61.0,59.0,47.0,0.58,Full Weight-Bearing,Return to Sport,,,,
-IA00186,P00186,5.0,Mild,56.0,47.0,49.0,0.65,Partial Weight-Bearing,Return to Work,,,,
-IA00187,P00187,7.0,Severe,46.0,30.0,48.0,0.41,Partial Weight-Bearing,Climb Stairs,,,,
-IA00188,P00188,5.0,Moderate,61.0,55.0,50.0,0.5,Partial Weight-Bearing,Walk Normally,,,,
-IA00189,P00189,7.0,Mild,53.0,49.0,36.0,0.71,Non-Weight-Bearing,Walk Normally,,,,
-IA00190,P00190,9.0,Severe,55.0,48.0,58.0,0.35,Non-Weight-Bearing,Return to Sport,,,,
-IA00191,P00191,9.0,Moderate,55.0,46.0,47.0,0.42,Full Weight-Bearing,Walk Normally,,,,
-IA00192,P00192,4.0,Mild,69.0,56.0,84.0,0.63,Full Weight-Bearing,Return to Sport,,,,
-IA00193,P00193,8.0,Moderate,62.0,42.0,56.0,0.61,Partial Weight-Bearing,Return to Sport,,,,
-IA00194,P00194,8.0,Moderate,60.0,48.0,67.0,0.5,Partial Weight-Bearing,Return to Work,,,,
-IA00195,P00195,6.0,Moderate,64.0,62.0,60.0,0.62,Non-Weight-Bearing,Walk Normally,,,,
-IA00196,P00196,8.0,Moderate,49.0,30.0,60.0,0.59,Partial Weight-Bearing,Return to Work,,,,
-IA00197,P00197,7.0,Mild,75.0,61.0,67.0,0.89,Partial Weight-Bearing,Walk Normally,,,,
-IA00198,P00198,6.0,Moderate,55.0,36.0,55.0,0.55,Partial Weight-Bearing,Return to Sport,,,,
-IA00199,P00199,5.0,Mild,59.0,34.0,73.0,0.6,Full Weight-Bearing,Walk Normally,,,,
-IA00200,P00200,4.0,Mild,56.0,57.0,90.0,0.71,Partial Weight-Bearing,Return to Sport,,,,
-IA00201,P00201,3.0,Moderate,41.0,49.0,49.0,0.75,Full Weight-Bearing,Climb Stairs,,,,
-IA00202,P00202,7.0,Severe,64.0,34.0,54.0,0.63,Full Weight-Bearing,Return to Work,,,,
-IA00203,P00203,5.0,Moderate,36.0,30.0,52.0,0.7,Non-Weight-Bearing,Climb Stairs,,,,
-IA00204,P00204,5.0,Mild,70.0,48.0,58.0,0.83,Partial Weight-Bearing,Climb Stairs,,,,
-IA00205,P00205,6.0,,62.0,58.0,61.0,1.06,Non-Weight-Bearing,Return to Work,,,,
-IA00206,P00206,4.0,Moderate,70.0,36.0,26.0,0.58,Partial Weight-Bearing,Climb Stairs,,,,
-IA00207,P00207,7.0,Mild,36.0,31.0,50.0,0.87,Full Weight-Bearing,Walk Normally,,,,
-IA00208,P00208,8.0,Severe,44.0,32.0,56.0,0.46,Partial Weight-Bearing,Climb Stairs,,,,
-IA00209,P00209,6.0,Mild,73.0,52.0,43.0,0.8,Partial Weight-Bearing,Walk Normally,,,,
-IA00210,P00210,7.0,Moderate,53.0,39.0,55.0,0.61,Partial Weight-Bearing,Return to Sport,,,,
-IA00211,P00211,6.0,Severe,43.0,26.0,46.0,0.2,Partial Weight-Bearing,Climb Stairs,,,,
-IA00212,P00212,7.0,Moderate,39.0,46.0,50.0,0.51,Full Weight-Bearing,Climb Stairs,,,,
-IA00213,P00213,6.0,Moderate,45.0,54.0,63.0,0.47,Partial Weight-Bearing,Return to Sport,,,,
-IA00214,P00214,7.0,Mild,72.0,33.0,60.0,0.38,Full Weight-Bearing,Return to Work,,,,
-IA00215,P00215,8.0,Severe,43.0,36.0,49.0,0.63,Non-Weight-Bearing,Return to Sport,,,,
-IA00216,P00216,5.0,Mild,57.0,58.0,64.0,0.96,Non-Weight-Bearing,Climb Stairs,,,,
-IA00217,P00217,4.0,Moderate,61.0,32.0,54.0,0.61,Partial Weight-Bearing,Return to Work,,,,
-IA00218,P00218,7.0,Mild,45.0,57.0,32.0,0.78,Full Weight-Bearing,Return to Sport,,,,
-IA00219,P00219,7.0,Mild,62.0,61.0,47.0,0.87,Partial Weight-Bearing,Return to Work,,,,
-IA00220,P00220,7.0,Severe,42.0,33.0,22.0,0.53,Full Weight-Bearing,Return to Work,,,,
-IA00221,P00221,8.0,Severe,49.0,32.0,52.0,0.5,Non-Weight-Bearing,Climb Stairs,,,,
-IA00222,P00222,7.0,Mild,64.0,65.0,71.0,0.76,Partial Weight-Bearing,Return to Work,,,,
-IA00223,P00223,6.0,,54.0,53.0,71.0,0.88,Partial Weight-Bearing,Climb Stairs,,,,
-IA00224,P00224,7.0,Severe,42.0,11.0,50.0,0.63,Partial Weight-Bearing,Walk Normally,,,,
-IA00225,P00225,4.0,Mild,64.0,44.0,64.0,0.72,Partial Weight-Bearing,Climb Stairs,,,,
-IA00226,P00226,6.0,Severe,50.0,40.0,25.0,0.56,Non-Weight-Bearing,Walk Normally,,,,
-IA00227,P00227,6.0,Moderate,58.0,52.0,51.0,0.64,Full Weight-Bearing,Return to Sport,,,,
-IA00228,P00228,9.0,Severe,55.0,26.0,27.0,0.26,Partial Weight-Bearing,Return to Sport,,,,
-IA00229,P00229,5.0,Mild,56.0,42.0,48.0,0.78,Partial Weight-Bearing,Walk Normally,,,,
-IA00230,P00230,4.0,Mild,71.0,65.0,79.0,0.61,Partial Weight-Bearing,Return to Work,,,,
-IA00231,P00231,4.0,Mild,65.0,54.0,73.0,0.89,Non-Weight-Bearing,Return to Work,,,,
-IA00232,P00232,6.0,Mild,68.0,30.0,60.0,0.76,Partial Weight-Bearing,Return to Work,,,,
-IA00233,P00233,5.0,Mild,73.0,67.0,58.0,0.63,Partial Weight-Bearing,Return to Sport,,,,
-IA00234,P00234,6.0,Moderate,40.0,33.0,32.0,0.41,Non-Weight-Bearing,Walk Normally,,,,
-IA00235,P00235,8.0,Moderate,43.0,56.0,54.0,0.97,Partial Weight-Bearing,Walk Normally,,,,
-IA00236,P00236,6.0,Mild,69.0,31.0,65.0,0.64,Partial Weight-Bearing,Return to Sport,,,,
-IA00237,P00237,8.0,,63.0,54.0,65.0,0.62,Full Weight-Bearing,Walk Normally,,,,
-IA00238,P00238,6.0,Moderate,47.0,40.0,25.0,0.62,Full Weight-Bearing,Walk Normally,,,,
-IA00239,P00239,8.0,Mild,82.0,44.0,53.0,0.53,Partial Weight-Bearing,Return to Work,,,,
-IA00240,P00240,9.0,Moderate,54.0,23.0,21.0,0.21,Full Weight-Bearing,Return to Sport,,,,
-IA00241,P00241,7.0,Moderate,62.0,11.0,54.0,0.58,Partial Weight-Bearing,Return to Work,,,,
-IA00242,P00242,6.0,Mild,53.0,60.0,44.0,0.51,Full Weight-Bearing,Return to Work,,,,
-IA00243,P00243,6.0,Moderate,57.0,37.0,29.0,0.55,Non-Weight-Bearing,Climb Stairs,,,,
-IA00244,P00244,5.0,Mild,58.0,57.0,62.0,0.53,Non-Weight-Bearing,Return to Sport,,,,
-IA00245,P00245,6.0,Mild,62.0,54.0,59.0,0.76,Partial Weight-Bearing,Return to Sport,,,,
-IA00246,P00246,5.0,Mild,90.0,61.0,63.0,0.83,Non-Weight-Bearing,Return to Work,,,,
-IA00247,P00247,3.0,,67.0,52.0,86.0,0.41,Full Weight-Bearing,Return to Sport,,,,
-IA00248,P00248,9.0,Moderate,58.0,50.0,60.0,0.71,Partial Weight-Bearing,Return to Sport,,,,
-IA00249,P00249,6.0,Moderate,49.0,59.0,44.0,0.61,Non-Weight-Bearing,Return to Work,,,,
-IA00250,P00250,6.0,Mild,67.0,46.0,58.0,0.86,Partial Weight-Bearing,Climb Stairs,,,,
-IA00251,P00251,7.0,Severe,40.0,54.0,41.0,0.56,Partial Weight-Bearing,Climb Stairs,,,,
-IA00252,P00252,6.0,Moderate,68.0,30.0,67.0,0.76,Full Weight-Bearing,Return to Sport,,,,
-IA00253,P00253,5.0,Mild,54.0,39.0,63.0,0.69,Full Weight-Bearing,Walk Normally,,,,
-IA00254,P00254,6.0,Mild,63.0,55.0,57.0,0.53,Partial Weight-Bearing,Return to Work,,,,
-IA00255,P00255,5.0,,64.0,47.0,43.0,0.8,Full Weight-Bearing,Return to Sport,,,,
-IA00256,P00256,8.0,Severe,53.0,55.0,45.0,0.45,Partial Weight-Bearing,Return to Sport,,,,
-IA00257,P00257,6.0,Moderate,58.0,58.0,51.0,0.85,Non-Weight-Bearing,Return to Sport,,,,
-IA00258,P00258,7.0,Mild,53.0,61.0,40.0,0.63,Partial Weight-Bearing,Climb Stairs,,,,
-IA00259,P00259,6.0,Mild,54.0,54.0,49.0,0.47,Partial Weight-Bearing,Return to Sport,,,,
-IA00260,P00260,7.0,Mild,49.0,36.0,57.0,0.53,Non-Weight-Bearing,Return to Work,,,,
-IA00261,P00261,6.0,Mild,66.0,28.0,52.0,0.79,Partial Weight-Bearing,Return to Sport,,,,
-IA00262,P00262,6.0,,60.0,70.0,43.0,0.77,Full Weight-Bearing,Return to Sport,,,,
-IA00263,P00263,7.0,Mild,55.0,30.0,49.0,0.62,Full Weight-Bearing,Return to Work,,,,
-IA00264,P00264,7.0,Severe,49.0,51.0,38.0,0.66,Full Weight-Bearing,Return to Work,,,,
-IA00265,P00265,5.0,Mild,86.0,62.0,62.0,0.66,Partial Weight-Bearing,Climb Stairs,,,,
-IA00266,P00266,6.0,Moderate,58.0,44.0,53.0,0.31,Partial Weight-Bearing,Return to Work,,,,
-IA00267,P00267,5.0,Mild,68.0,59.0,55.0,0.67,Full Weight-Bearing,Return to Sport,,,,
-IA00268,P00268,6.0,Moderate,61.0,50.0,47.0,0.69,Partial Weight-Bearing,Walk Normally,,,,
-IA00269,P00269,4.0,,49.0,53.0,61.0,0.76,Partial Weight-Bearing,Return to Sport,,,,
-IA00270,P00270,8.0,Severe,34.0,49.0,56.0,0.27,Partial Weight-Bearing,Walk Normally,,,,
-IA00271,P00271,6.0,Mild,66.0,69.0,63.0,0.95,Partial Weight-Bearing,Climb Stairs,,,,
-IA00272,P00272,9.0,Mild,51.0,47.0,69.0,0.67,Full Weight-Bearing,Return to Work,,,,
-IA00273,P00273,4.0,Mild,54.0,49.0,74.0,0.86,Partial Weight-Bearing,Return to Sport,,,,
-IA00274,P00274,7.0,Mild,67.0,58.0,70.0,0.71,Non-Weight-Bearing,Walk Normally,,,,
-IA00275,P00275,3.0,,73.0,35.0,76.0,0.61,Full Weight-Bearing,Return to Work,,,,
-IA00276,P00276,7.0,Mild,59.0,49.0,71.0,0.7,Partial Weight-Bearing,Walk Normally,,,,
-IA00277,P00277,6.0,Severe,39.0,42.0,30.0,0.64,Partial Weight-Bearing,Return to Sport,,,,
-IA00278,P00278,4.0,,71.0,47.0,68.0,0.97,Partial Weight-Bearing,Walk Normally,,,,
-IA00279,P00279,8.0,Moderate,51.0,45.0,59.0,0.61,Full Weight-Bearing,Return to Sport,,,,
-IA00280,P00280,5.0,Moderate,55.0,45.0,69.0,0.73,Partial Weight-Bearing,Walk Normally,,,,
-IA00281,P00281,5.0,Mild,62.0,40.0,43.0,0.39,Partial Weight-Bearing,Walk Normally,,,,
-IA00282,P00282,6.0,Mild,50.0,55.0,60.0,0.65,Partial Weight-Bearing,Walk Normally,,,,
-IA00283,P00283,6.0,Mild,71.0,44.0,61.0,0.66,Full Weight-Bearing,Walk Normally,,,,
-IA00284,P00284,5.0,Mild,69.0,54.0,74.0,0.84,Partial Weight-Bearing,Walk Normally,,,,
-IA00285,P00285,5.0,,82.0,35.0,43.0,0.97,Partial Weight-Bearing,Return to Sport,,,,
-IA00286,P00286,6.0,Mild,71.0,48.0,43.0,0.51,Partial Weight-Bearing,Return to Sport,,,,
-IA00287,P00287,7.0,Moderate,61.0,45.0,30.0,0.64,Full Weight-Bearing,Walk Normally,,,,
-IA00288,P00288,9.0,Severe,46.0,30.0,46.0,0.54,Non-Weight-Bearing,Return to Work,,,,
-IA00289,P00289,3.0,,66.0,59.0,87.0,0.94,Partial Weight-Bearing,Climb Stairs,,,,
-IA00290,P00290,9.0,Moderate,28.0,34.0,43.0,0.25,Partial Weight-Bearing,Return to Sport,,,,
-IA00291,P00291,4.0,Mild,57.0,66.0,61.0,0.47,Partial Weight-Bearing,Walk Normally,,,,
-IA00292,P00292,7.0,Moderate,56.0,51.0,59.0,0.66,Partial Weight-Bearing,Climb Stairs,,,,
-IA00293,P00293,5.0,Moderate,57.0,50.0,51.0,0.27,Partial Weight-Bearing,Walk Normally,,,,
-IA00294,P00294,5.0,,84.0,58.0,64.0,0.82,Partial Weight-Bearing,Climb Stairs,,,,
-IA00295,P00295,8.0,Mild,83.0,50.0,65.0,0.89,Full Weight-Bearing,Return to Work,,,,
-IA00296,P00296,6.0,Mild,51.0,42.0,42.0,0.84,Non-Weight-Bearing,Return to Sport,,,,
-IA00297,P00297,4.0,Mild,78.0,57.0,59.0,0.71,Full Weight-Bearing,Walk Normally,,,,
-IA00298,P00298,6.0,Moderate,53.0,43.0,61.0,0.67,Partial Weight-Bearing,Walk Normally,,,,
-IA00299,P00299,5.0,Severe,53.0,46.0,55.0,0.6,Full Weight-Bearing,Walk Normally,,,,
-IA00300,P00300,8.0,Mild,66.0,46.0,68.0,0.47,Partial Weight-Bearing,Return to Sport,,,,
-IA00301,P00301,5.0,,82.0,59.0,64.0,0.94,Partial Weight-Bearing,Climb Stairs,,,,
-IA00302,P00302,4.0,,65.0,41.0,64.0,0.84,Non-Weight-Bearing,Return to Sport,,,,
-IA00303,P00303,4.0,,80.0,64.0,69.0,0.71,Partial Weight-Bearing,Climb Stairs,,,,
-IA00304,P00304,6.0,Mild,39.0,39.0,45.0,0.67,Full Weight-Bearing,Climb Stairs,,,,
-IA00305,P00305,7.0,Moderate,71.0,35.0,44.0,0.63,Partial Weight-Bearing,Return to Sport,,,,
-IA00306,P00306,4.0,Mild,70.0,71.0,59.0,0.92,Full Weight-Bearing,Return to Work,,,,
-IA00307,P00307,6.0,,70.0,62.0,45.0,0.75,Partial Weight-Bearing,Return to Work,,,,
-IA00308,P00308,6.0,Mild,38.0,55.0,57.0,0.68,Partial Weight-Bearing,Walk Normally,,,,
-IA00309,P00309,5.0,Mild,54.0,50.0,65.0,0.56,Full Weight-Bearing,Return to Work,,,,
-IA00310,P00310,6.0,Moderate,72.0,44.0,43.0,0.51,Partial Weight-Bearing,Return to Work,,,,
-IA00311,P00311,10.0,Severe,42.0,32.0,49.0,0.53,Full Weight-Bearing,Return to Sport,,,,
-IA00312,P00312,3.0,,77.0,63.0,52.0,0.67,Partial Weight-Bearing,Walk Normally,,,,
-IA00313,P00313,5.0,Mild,58.0,56.0,40.0,0.77,Partial Weight-Bearing,Walk Normally,,,,
-IA00314,P00314,9.0,Severe,57.0,34.0,69.0,0.59,Full Weight-Bearing,Climb Stairs,,,,
-IA00315,P00315,6.0,Mild,60.0,66.0,40.0,0.54,Non-Weight-Bearing,Return to Work,,,,
-IA00316,P00316,6.0,Moderate,37.0,33.0,29.0,0.53,Non-Weight-Bearing,Walk Normally,,,,
-IA00317,P00317,9.0,Severe,47.0,21.0,47.0,0.38,Non-Weight-Bearing,Return to Sport,,,,
-IA00318,P00318,8.0,Mild,74.0,28.0,55.0,0.41,Partial Weight-Bearing,Walk Normally,,,,
-IA00319,P00319,7.0,Moderate,63.0,28.0,60.0,0.56,Partial Weight-Bearing,Climb Stairs,,,,
-IA00320,P00320,5.0,Moderate,57.0,41.0,76.0,0.64,Non-Weight-Bearing,Walk Normally,,,,
-IA00321,P00321,6.0,Moderate,81.0,43.0,43.0,0.73,Non-Weight-Bearing,Return to Sport,,,,
-IA00322,P00322,7.0,Mild,70.0,52.0,45.0,0.67,Partial Weight-Bearing,Return to Sport,,,,
-IA00323,P00323,4.0,Mild,66.0,45.0,71.0,0.79,Partial Weight-Bearing,Climb Stairs,,,,
-IA00324,P00324,9.0,Severe,49.0,43.0,55.0,0.35,Non-Weight-Bearing,Return to Sport,,,,
-IA00325,P00325,7.0,,77.0,55.0,70.0,0.74,Non-Weight-Bearing,Walk Normally,,,,
-IA00326,P00326,5.0,Mild,78.0,55.0,53.0,1.05,Full Weight-Bearing,Return to Sport,,,,
-IA00327,P00327,7.0,Moderate,36.0,39.0,66.0,0.36,Full Weight-Bearing,Walk Normally,,,,
-IA00328,P00328,7.0,,74.0,69.0,70.0,0.73,Partial Weight-Bearing,Return to Sport,,,,
-IA00329,P00329,9.0,Mild,56.0,30.0,54.0,0.49,Partial Weight-Bearing,Return to Sport,,,,
-IA00330,P00330,7.0,Mild,65.0,58.0,53.0,0.77,Non-Weight-Bearing,Climb Stairs,,,,
-IA00331,P00331,4.0,Moderate,56.0,43.0,53.0,0.58,Partial Weight-Bearing,Return to Sport,,,,
-IA00332,P00332,6.0,Moderate,42.0,53.0,72.0,0.74,Partial Weight-Bearing,Return to Sport,,,,
-IA00333,P00333,6.0,,52.0,55.0,47.0,0.84,Full Weight-Bearing,Walk Normally,,,,
-IA00334,P00334,4.0,,82.0,55.0,50.0,0.6,Full Weight-Bearing,Return to Sport,,,,
-IA00335,P00335,9.0,Mild,63.0,42.0,44.0,0.56,Partial Weight-Bearing,Return to Sport,,,,
-IA00336,P00336,8.0,Moderate,34.0,59.0,47.0,0.65,Non-Weight-Bearing,Walk Normally,,,,
-IA00337,P00337,5.0,Mild,52.0,45.0,52.0,0.76,Full Weight-Bearing,Walk Normally,,,,
-IA00338,P00338,5.0,Mild,79.0,75.0,72.0,1.16,Full Weight-Bearing,Walk Normally,,,,
-IA00339,P00339,4.0,,67.0,58.0,66.0,0.91,Non-Weight-Bearing,Return to Work,,,,
-IA00340,P00340,5.0,,82.0,55.0,61.0,0.65,Full Weight-Bearing,Walk Normally,,,,
-IA00341,P00341,5.0,,80.0,54.0,63.0,0.79,Non-Weight-Bearing,Walk Normally,,,,
-IA00342,P00342,9.0,Moderate,32.0,41.0,51.0,0.53,Full Weight-Bearing,Return to Work,,,,
-IA00343,P00343,4.0,Mild,69.0,49.0,40.0,0.72,Non-Weight-Bearing,Walk Normally,,,,
-IA00344,P00344,2.0,,66.0,56.0,73.0,0.87,Partial Weight-Bearing,Climb Stairs,,,,
-IA00345,P00345,5.0,Severe,32.0,35.0,34.0,0.16,Partial Weight-Bearing,Walk Normally,,,,
-IA00346,P00346,5.0,Mild,43.0,48.0,47.0,0.73,Partial Weight-Bearing,Climb Stairs,,,,
-IA00347,P00347,5.0,Mild,50.0,49.0,56.0,0.58,Partial Weight-Bearing,Return to Work,,,,
-IA00348,P00348,6.0,Moderate,52.0,49.0,51.0,0.63,Partial Weight-Bearing,Return to Sport,,,,
-IA00349,P00349,6.0,Severe,49.0,36.0,50.0,0.72,Full Weight-Bearing,Return to Work,,,,
-IA00350,P00350,3.0,Mild,80.0,71.0,62.0,0.61,Non-Weight-Bearing,Walk Normally,,,,
-IA00351,P00351,4.0,,75.0,59.0,57.0,0.84,Full Weight-Bearing,Climb Stairs,,,,
-IA00352,P00352,6.0,Moderate,54.0,61.0,62.0,0.62,Non-Weight-Bearing,Walk Normally,,,,
-IA00353,P00353,7.0,Moderate,43.0,35.0,52.0,0.53,Full Weight-Bearing,Return to Sport,,,,
-IA00354,P00354,7.0,Moderate,52.0,45.0,48.0,0.26,Non-Weight-Bearing,Return to Sport,,,,
-IA00355,P00355,7.0,Moderate,57.0,38.0,60.0,0.85,Partial Weight-Bearing,Return to Work,,,,
-IA00356,P00356,6.0,Moderate,42.0,49.0,36.0,0.47,Partial Weight-Bearing,Climb Stairs,,,,
-IA00357,P00357,6.0,Moderate,77.0,38.0,78.0,0.57,Full Weight-Bearing,Return to Work,,,,
-IA00358,P00358,5.0,Mild,35.0,50.0,39.0,0.6,Partial Weight-Bearing,Return to Sport,,,,
-IA00359,P00359,8.0,Severe,27.0,32.0,45.0,0.44,Non-Weight-Bearing,Return to Sport,,,,
-IA00360,P00360,5.0,,74.0,60.0,57.0,0.62,Full Weight-Bearing,Return to Sport,,,,
-IA00361,P00361,6.0,,67.0,53.0,56.0,0.82,Non-Weight-Bearing,Return to Sport,,,,
-IA00362,P00362,5.0,Mild,44.0,37.0,47.0,0.56,Partial Weight-Bearing,Walk Normally,,,,
-IA00363,P00363,7.0,Moderate,35.0,32.0,35.0,0.6,Partial Weight-Bearing,Return to Work,,,,
-IA00364,P00364,4.0,,61.0,70.0,74.0,0.88,Full Weight-Bearing,Return to Work,,,,
-IA00365,P00365,6.0,Severe,55.0,40.0,30.0,0.74,Full Weight-Bearing,Walk Normally,,,,
-IA00366,P00366,6.0,Mild,70.0,32.0,64.0,0.62,Full Weight-Bearing,Return to Sport,,,,
-IA00367,P00367,8.0,Moderate,74.0,56.0,60.0,0.53,Non-Weight-Bearing,Climb Stairs,,,,
-IA00368,P00368,5.0,Moderate,42.0,36.0,47.0,0.43,Non-Weight-Bearing,Climb Stairs,,,,
-IA00369,P00369,7.0,Severe,32.0,42.0,50.0,0.83,Full Weight-Bearing,Climb Stairs,,,,
-IA00370,P00370,3.0,Mild,56.0,61.0,58.0,0.9,Partial Weight-Bearing,Walk Normally,,,,
-IA00371,P00371,4.0,Moderate,71.0,51.0,39.0,0.55,Partial Weight-Bearing,Return to Sport,,,,
-IA00372,P00372,4.0,Mild,74.0,74.0,47.0,1.05,Full Weight-Bearing,Return to Sport,,,,
-IA00373,P00373,7.0,Moderate,47.0,27.0,52.0,0.7,Non-Weight-Bearing,Return to Work,,,,
-IA00374,P00374,7.0,Moderate,48.0,41.0,51.0,0.3,Partial Weight-Bearing,Climb Stairs,,,,
-IA00375,P00375,5.0,Mild,69.0,68.0,63.0,0.69,Full Weight-Bearing,Return to Work,,,,
-IA00376,P00376,3.0,,59.0,49.0,55.0,0.78,Partial Weight-Bearing,Return to Sport,,,,
-IA00377,P00377,5.0,Moderate,63.0,38.0,50.0,0.49,Full Weight-Bearing,Walk Normally,,,,
-IA00378,P00378,7.0,Moderate,56.0,42.0,48.0,0.64,Partial Weight-Bearing,Return to Sport,,,,
-IA00379,P00379,6.0,Moderate,34.0,38.0,23.0,0.61,Partial Weight-Bearing,Return to Work,,,,
-IA00380,P00380,6.0,Mild,64.0,31.0,53.0,0.44,Full Weight-Bearing,Return to Sport,,,,
-IA00381,P00381,7.0,Mild,54.0,51.0,58.0,0.69,Full Weight-Bearing,Climb Stairs,,,,
-IA00382,P00382,5.0,Mild,60.0,31.0,53.0,0.83,Full Weight-Bearing,Return to Sport,,,,
-IA00383,P00383,7.0,Moderate,57.0,58.0,73.0,0.71,Partial Weight-Bearing,Return to Sport,,,,
-IA00384,P00384,3.0,Mild,79.0,60.0,48.0,0.79,Partial Weight-Bearing,Return to Sport,,,,
-IA00385,P00385,6.0,,72.0,74.0,52.0,0.7,Partial Weight-Bearing,Walk Normally,,,,
-IA00386,P00386,7.0,Mild,49.0,52.0,54.0,0.77,Partial Weight-Bearing,Return to Work,,,,
-IA00387,P00387,6.0,Moderate,61.0,42.0,55.0,0.47,Full Weight-Bearing,Return to Work,,,,
-IA00388,P00388,6.0,,74.0,47.0,37.0,0.84,Full Weight-Bearing,Climb Stairs,,,,
-IA00389,P00389,6.0,Moderate,63.0,47.0,59.0,0.65,Partial Weight-Bearing,Walk Normally,,,,
-IA00390,P00390,4.0,Mild,80.0,55.0,63.0,0.97,Full Weight-Bearing,Climb Stairs,,,,
-IA00391,P00391,8.0,Mild,52.0,57.0,27.0,0.56,Partial Weight-Bearing,Return to Sport,,,,
-IA00392,P00392,7.0,,77.0,46.0,59.0,0.73,Full Weight-Bearing,Return to Work,,,,
-IA00393,P00393,5.0,Moderate,41.0,65.0,42.0,0.46,Partial Weight-Bearing,Climb Stairs,,,,
-IA00394,P00394,5.0,,69.0,68.0,55.0,0.87,Full Weight-Bearing,Walk Normally,,,,
-IA00395,P00395,8.0,Moderate,55.0,43.0,36.0,0.59,Full Weight-Bearing,Return to Sport,,,,
-IA00396,P00396,5.0,,84.0,73.0,65.0,0.67,Partial Weight-Bearing,Return to Sport,,,,
-IA00397,P00397,7.0,Mild,56.0,37.0,73.0,0.53,Full Weight-Bearing,Walk Normally,,,,
-IA00398,P00398,8.0,Moderate,52.0,37.0,47.0,0.58,Partial Weight-Bearing,Return to Work,,,,
-IA00399,P00399,4.0,Mild,52.0,42.0,34.0,0.63,Full Weight-Bearing,Climb Stairs,,,,
-IA00400,P00400,7.0,Mild,54.0,63.0,55.0,0.5,Non-Weight-Bearing,Walk Normally,,,,
-IA00401,P00401,6.0,Mild,50.0,29.0,50.0,0.78,Non-Weight-Bearing,Walk Normally,,,,
-IA00402,P00402,5.0,Moderate,83.0,31.0,39.0,0.63,Full Weight-Bearing,Climb Stairs,,,,
-IA00403,P00403,5.0,Moderate,51.0,39.0,56.0,0.79,Full Weight-Bearing,Return to Sport,,,,
-IA00404,P00404,5.0,Moderate,59.0,58.0,63.0,0.6,Full Weight-Bearing,Return to Sport,,,,
-IA00405,P00405,7.0,Mild,59.0,55.0,44.0,0.65,Partial Weight-Bearing,Climb Stairs,,,,
-IA00406,P00406,9.0,Severe,30.0,36.0,24.0,0.52,Non-Weight-Bearing,Return to Sport,,,,
-IA00407,P00407,8.0,Moderate,41.0,45.0,20.0,0.71,Partial Weight-Bearing,Return to Sport,,,,
-IA00408,P00408,6.0,,74.0,54.0,52.0,1.0,Full Weight-Bearing,Walk Normally,,,,
-IA00409,P00409,7.0,Moderate,59.0,49.0,50.0,0.82,Full Weight-Bearing,Return to Sport,,,,
-IA00410,P00410,5.0,,47.0,72.0,54.0,0.71,Full Weight-Bearing,Return to Work,,,,
-IA00411,P00411,7.0,Mild,52.0,43.0,44.0,0.5,Partial Weight-Bearing,Return to Work,,,,
-IA00412,P00412,6.0,Mild,80.0,47.0,67.0,0.91,Full Weight-Bearing,Return to Work,,,,
-IA00413,P00413,3.0,,76.0,60.0,66.0,1.01,Partial Weight-Bearing,Return to Work,,,,
-IA00414,P00414,5.0,Moderate,70.0,52.0,54.0,0.82,Full Weight-Bearing,Return to Sport,,,,
-IA00415,P00415,6.0,Moderate,36.0,36.0,54.0,0.5,Partial Weight-Bearing,Walk Normally,,,,
-IA00416,P00416,6.0,Mild,83.0,65.0,52.0,0.91,Partial Weight-Bearing,Climb Stairs,,,,
-IA00417,P00417,8.0,Moderate,58.0,43.0,39.0,0.76,Partial Weight-Bearing,Return to Sport,,,,
-IA00418,P00418,3.0,Mild,74.0,46.0,46.0,0.67,Full Weight-Bearing,Return to Work,,,,
-IA00419,P00419,9.0,Severe,46.0,39.0,37.0,0.53,Partial Weight-Bearing,Return to Sport,,,,
-IA00420,P00420,6.0,Moderate,38.0,48.0,27.0,0.66,Non-Weight-Bearing,Walk Normally,,,,
-IA00421,P00421,6.0,,78.0,71.0,53.0,0.68,Full Weight-Bearing,Climb Stairs,,,,
-IA00422,P00422,6.0,Mild,66.0,59.0,73.0,0.7,Full Weight-Bearing,Return to Work,,,,
-IA00423,P00423,8.0,Mild,54.0,42.0,62.0,0.54,Partial Weight-Bearing,Climb Stairs,,,,
-IA00424,P00424,5.0,Mild,55.0,60.0,66.0,0.56,Non-Weight-Bearing,Walk Normally,,,,
-IA00425,P00425,6.0,Moderate,62.0,45.0,46.0,0.52,Partial Weight-Bearing,Return to Sport,,,,
-IA00426,P00426,7.0,Severe,41.0,43.0,61.0,0.49,Non-Weight-Bearing,Walk Normally,,,,
-IA00427,P00427,8.0,Severe,62.0,42.0,31.0,0.61,Partial Weight-Bearing,Climb Stairs,,,,
-IA00428,P00428,5.0,,66.0,40.0,48.0,0.99,Non-Weight-Bearing,Walk Normally,,,,
-IA00429,P00429,7.0,Mild,49.0,20.0,65.0,0.85,Partial Weight-Bearing,Climb Stairs,,,,
-IA00430,P00430,6.0,Mild,71.0,58.0,52.0,0.86,Partial Weight-Bearing,Return to Sport,,,,
-IA00431,P00431,4.0,Mild,69.0,59.0,52.0,0.69,Non-Weight-Bearing,Return to Sport,,,,
-IA00432,P00432,4.0,Mild,69.0,55.0,67.0,0.59,Partial Weight-Bearing,Return to Work,,,,
-IA00433,P00433,4.0,,57.0,62.0,55.0,0.94,Partial Weight-Bearing,Return to Sport,,,,
-IA00434,P00434,6.0,Moderate,53.0,64.0,42.0,0.86,Partial Weight-Bearing,Climb Stairs,,,,
-IA00435,P00435,5.0,Severe,50.0,49.0,34.0,0.73,Non-Weight-Bearing,Walk Normally,,,,
-IA00436,P00436,6.0,Severe,33.0,45.0,48.0,0.57,Partial Weight-Bearing,Return to Work,,,,
-IA00437,P00437,2.0,Mild,65.0,46.0,62.0,0.5,Full Weight-Bearing,Return to Sport,,,,
-IA00438,P00438,5.0,Moderate,54.0,37.0,70.0,0.7,Full Weight-Bearing,Return to Sport,,,,
-IA00439,P00439,7.0,,71.0,31.0,57.0,0.88,Partial Weight-Bearing,Return to Work,,,,
-IA00440,P00440,3.0,,85.0,61.0,56.0,0.99,Full Weight-Bearing,Climb Stairs,,,,
-IA00441,P00441,6.0,Mild,67.0,66.0,77.0,1.01,Full Weight-Bearing,Walk Normally,,,,
-IA00442,P00442,10.0,Moderate,51.0,57.0,64.0,0.79,Full Weight-Bearing,Walk Normally,,,,
-IA00443,P00443,8.0,Mild,85.0,52.0,54.0,0.56,Partial Weight-Bearing,Walk Normally,,,,
-IA00444,P00444,8.0,Severe,42.0,33.0,25.0,0.35,Non-Weight-Bearing,Return to Work,,,,
-IA00445,P00445,9.0,Severe,44.0,29.0,34.0,0.58,Partial Weight-Bearing,Climb Stairs,,,,
-IA00446,P00446,3.0,Mild,66.0,47.0,47.0,0.68,Partial Weight-Bearing,Return to Work,,,,
-IA00447,P00447,4.0,Mild,55.0,43.0,52.0,0.87,Partial Weight-Bearing,Return to Work,,,,
-IA00448,P00448,5.0,Mild,71.0,45.0,54.0,0.54,Full Weight-Bearing,Walk Normally,,,,
-IA00449,P00449,7.0,Mild,67.0,63.0,71.0,0.74,Partial Weight-Bearing,Climb Stairs,,,,
-IA00450,P00450,8.0,Moderate,62.0,32.0,33.0,0.7,Partial Weight-Bearing,Climb Stairs,,,,
-IA00451,P00451,4.0,,81.0,53.0,46.0,0.77,Full Weight-Bearing,Return to Work,,,,
-IA00452,P00452,5.0,Mild,80.0,36.0,63.0,0.66,Partial Weight-Bearing,Climb Stairs,,,,
-IA00453,P00453,5.0,,72.0,58.0,66.0,0.49,Partial Weight-Bearing,Return to Sport,,,,
-IA00454,P00454,5.0,Mild,74.0,55.0,29.0,0.72,Full Weight-Bearing,Return to Work,,,,
-IA00455,P00455,7.0,Severe,57.0,31.0,23.0,0.42,Partial Weight-Bearing,Climb Stairs,,,,
-IA00456,P00456,4.0,Mild,59.0,46.0,57.0,0.97,Non-Weight-Bearing,Return to Work,,,,
-IA00457,P00457,7.0,Moderate,83.0,45.0,68.0,0.53,Partial Weight-Bearing,Walk Normally,,,,
-IA00458,P00458,8.0,Moderate,41.0,30.0,67.0,0.57,Partial Weight-Bearing,Walk Normally,,,,
-IA00459,P00459,6.0,Mild,54.0,44.0,47.0,0.46,Full Weight-Bearing,Climb Stairs,,,,
-IA00460,P00460,7.0,Moderate,46.0,65.0,50.0,0.72,Partial Weight-Bearing,Climb Stairs,,,,
-IA00461,P00461,9.0,Severe,34.0,37.0,34.0,0.16,Full Weight-Bearing,Return to Sport,,,,
-IA00462,P00462,6.0,Mild,80.0,60.0,68.0,1.11,Non-Weight-Bearing,Walk Normally,,,,
-IA00463,P00463,4.0,Mild,93.0,50.0,78.0,0.78,Full Weight-Bearing,Climb Stairs,,,,
-IA00464,P00464,6.0,Moderate,52.0,37.0,67.0,0.23,Non-Weight-Bearing,Return to Work,,,,
-IA00465,P00465,5.0,Mild,61.0,45.0,52.0,0.54,Full Weight-Bearing,Return to Sport,,,,
-IA00466,P00466,8.0,Moderate,48.0,60.0,34.0,0.37,Non-Weight-Bearing,Return to Sport,,,,
-IA00467,P00467,4.0,,80.0,52.0,60.0,0.7,Full Weight-Bearing,Walk Normally,,,,
-IA00468,P00468,8.0,Moderate,80.0,49.0,69.0,0.6,Full Weight-Bearing,Return to Sport,,,,
-IA00469,P00469,7.0,Moderate,73.0,37.0,47.0,0.55,Partial Weight-Bearing,Return to Sport,,,,
-IA00470,P00470,9.0,Moderate,44.0,10.0,22.0,0.38,Non-Weight-Bearing,Walk Normally,,,,
-IA00471,P00471,6.0,,75.0,47.0,56.0,0.63,Partial Weight-Bearing,Climb Stairs,,,,
-IA00472,P00472,5.0,,76.0,79.0,57.0,0.92,Partial Weight-Bearing,Walk Normally,,,,
-IA00473,P00473,7.0,Severe,46.0,41.0,22.0,0.68,Partial Weight-Bearing,Walk Normally,,,,
-IA00474,P00474,8.0,Moderate,47.0,61.0,55.0,0.61,Partial Weight-Bearing,Return to Work,,,,
-IA00475,P00475,5.0,,62.0,52.0,66.0,0.8,Full Weight-Bearing,Walk Normally,,,,
-IA00476,P00476,3.0,Mild,81.0,31.0,82.0,0.63,Full Weight-Bearing,Climb Stairs,,,,
-IA00477,P00477,9.0,Moderate,59.0,24.0,28.0,0.51,Partial Weight-Bearing,Return to Sport,,,,
-IA00478,P00478,6.0,Moderate,56.0,49.0,61.0,0.68,Non-Weight-Bearing,Return to Work,,,,
-IA00479,P00479,8.0,Moderate,61.0,47.0,64.0,0.62,Non-Weight-Bearing,Return to Work,,,,
-IA00480,P00480,8.0,Severe,58.0,35.0,50.0,0.56,Full Weight-Bearing,Return to Sport,,,,
-IA00481,P00481,5.0,Mild,53.0,50.0,48.0,0.85,Full Weight-Bearing,Climb Stairs,,,,
-IA00482,P00482,7.0,,66.0,64.0,47.0,0.64,Partial Weight-Bearing,Climb Stairs,,,,
-IA00483,P00483,4.0,Moderate,78.0,40.0,53.0,0.83,Non-Weight-Bearing,Walk Normally,,,,
-IA00484,P00484,7.0,Severe,49.0,38.0,45.0,0.47,Partial Weight-Bearing,Climb Stairs,,,,
-IA00485,P00485,4.0,,59.0,57.0,53.0,1.05,Partial Weight-Bearing,Return to Sport,,,,
-IA00486,P00486,3.0,Moderate,59.0,41.0,67.0,0.71,Full Weight-Bearing,Walk Normally,,,,
-IA00487,P00487,6.0,Mild,80.0,46.0,55.0,1.1,Full Weight-Bearing,Return to Work,,,,
-IA00488,P00488,4.0,,45.0,51.0,37.0,0.98,Non-Weight-Bearing,Return to Sport,,,,
-IA00489,P00489,9.0,Severe,48.0,54.0,41.0,0.53,Partial Weight-Bearing,Return to Sport,,,,
-IA00490,P00490,6.0,,66.0,66.0,66.0,0.69,Non-Weight-Bearing,Return to Sport,,,,
-IA00491,P00491,6.0,Mild,54.0,65.0,64.0,0.69,Full Weight-Bearing,Return to Work,,,,
-IA00492,P00492,7.0,Severe,47.0,27.0,48.0,0.58,Full Weight-Bearing,Return to Sport,,,,
-IA00493,P00493,5.0,Moderate,57.0,31.0,70.0,0.67,Non-Weight-Bearing,Return to Sport,,,,
-IA00494,P00494,6.0,Moderate,58.0,56.0,39.0,0.56,Partial Weight-Bearing,Climb Stairs,,,,
-IA00495,P00495,9.0,Severe,43.0,44.0,39.0,0.62,Full Weight-Bearing,Climb Stairs,,,,
-IA00496,P00496,5.0,,60.0,56.0,79.0,0.81,Full Weight-Bearing,Walk Normally,,,,
-IA00497,P00497,5.0,Moderate,43.0,41.0,28.0,0.78,Partial Weight-Bearing,Return to Work,,,,
-IA00498,P00498,5.0,Mild,51.0,30.0,51.0,0.5,Partial Weight-Bearing,Return to Sport,,,,
-IA00499,P00499,5.0,Mild,79.0,64.0,75.0,0.95,Full Weight-Bearing,Climb Stairs,,,,
-IA00500,P00500,5.0,Moderate,60.0,57.0,67.0,0.73,Full Weight-Bearing,Climb Stairs,,,,
-IA00501,P00501,6.0,Moderate,57.0,38.0,60.0,0.83,Full Weight-Bearing,Return to Sport,,,,
-IA00502,P00502,7.0,Moderate,36.0,27.0,52.0,0.65,Non-Weight-Bearing,Return to Work,,,,
-IA00503,P00503,7.0,Moderate,42.0,47.0,32.0,0.49,Partial Weight-Bearing,Walk Normally,,,,
-IA00504,P00504,8.0,Moderate,53.0,29.0,60.0,0.48,Non-Weight-Bearing,Return to Sport,,,,
-IA00505,P00505,7.0,Moderate,63.0,63.0,38.0,0.92,Full Weight-Bearing,Return to Sport,,,,
-IA00506,P00506,8.0,,65.0,54.0,46.0,0.76,Full Weight-Bearing,Return to Sport,,,,
-IA00507,P00507,8.0,Severe,20.0,31.0,49.0,0.61,Non-Weight-Bearing,Return to Work,,,,
-IA00508,P00508,8.0,Moderate,51.0,45.0,46.0,0.59,Full Weight-Bearing,Return to Sport,,,,
-IA00509,P00509,5.0,Mild,53.0,41.0,54.0,0.37,Full Weight-Bearing,Return to Work,,,,
-IA00510,P00510,5.0,Severe,37.0,46.0,49.0,0.32,Partial Weight-Bearing,Return to Sport,,,,
-IA00511,P00511,5.0,,66.0,64.0,81.0,0.86,Partial Weight-Bearing,Return to Work,,,,
-IA00512,P00512,6.0,,78.0,66.0,65.0,0.91,Full Weight-Bearing,Return to Work,,,,
-IA00513,P00513,7.0,Mild,58.0,47.0,45.0,0.71,Non-Weight-Bearing,Return to Sport,,,,
-IA00514,P00514,8.0,Moderate,68.0,40.0,60.0,0.82,Full Weight-Bearing,Return to Sport,,,,
-IA00515,P00515,2.0,Mild,55.0,55.0,50.0,0.86,Partial Weight-Bearing,Return to Work,,,,
-IA00516,P00516,8.0,Moderate,55.0,41.0,63.0,0.53,Full Weight-Bearing,Return to Sport,,,,
-IA00517,P00517,8.0,Moderate,27.0,50.0,45.0,0.59,Full Weight-Bearing,Return to Sport,,,,
-IA00518,P00518,4.0,Mild,54.0,55.0,57.0,0.68,Full Weight-Bearing,Return to Work,,,,
-IA00519,P00519,6.0,,60.0,54.0,39.0,0.71,Full Weight-Bearing,Return to Work,,,,
-IA00520,P00520,6.0,Moderate,71.0,36.0,25.0,0.72,Non-Weight-Bearing,Climb Stairs,,,,
-IA00521,P00521,8.0,Severe,50.0,50.0,26.0,0.51,Partial Weight-Bearing,Return to Work,,,,
-IA00522,P00522,9.0,Moderate,56.0,36.0,65.0,0.41,Full Weight-Bearing,Walk Normally,,,,
-IA00523,P00523,6.0,,66.0,54.0,46.0,0.77,Partial Weight-Bearing,Climb Stairs,,,,
-IA00524,P00524,5.0,Moderate,36.0,50.0,53.0,0.71,Full Weight-Bearing,Return to Sport,,,,
-IA00525,P00525,7.0,Severe,35.0,30.0,36.0,0.71,Partial Weight-Bearing,Climb Stairs,,,,
-IA00526,P00526,4.0,Moderate,61.0,42.0,49.0,0.68,Non-Weight-Bearing,Climb Stairs,,,,
-IA00527,P00527,7.0,Mild,76.0,43.0,51.0,0.66,Partial Weight-Bearing,Walk Normally,,,,
-IA00528,P00528,7.0,Mild,74.0,42.0,80.0,0.59,Full Weight-Bearing,Return to Work,,,,
-IA00529,P00529,5.0,Mild,54.0,48.0,59.0,0.91,Partial Weight-Bearing,Walk Normally,,,,
-IA00530,P00530,4.0,,68.0,47.0,65.0,0.96,Partial Weight-Bearing,Climb Stairs,,,,
-IA00531,P00531,4.0,,70.0,49.0,76.0,0.91,Partial Weight-Bearing,Walk Normally,,,,
-IA00532,P00532,7.0,Moderate,66.0,28.0,36.0,0.16,Full Weight-Bearing,Return to Sport,,,,
-IA00533,P00533,6.0,Mild,82.0,49.0,73.0,0.81,Partial Weight-Bearing,Return to Sport,,,,
-IA00534,P00534,7.0,Severe,49.0,27.0,55.0,0.48,Partial Weight-Bearing,Return to Work,,,,
-IA00535,P00535,7.0,Moderate,59.0,47.0,63.0,0.75,Partial Weight-Bearing,Walk Normally,,,,
-IA00536,P00536,9.0,Severe,49.0,33.0,42.0,0.43,Partial Weight-Bearing,Climb Stairs,,,,
-IA00537,P00537,6.0,,75.0,55.0,55.0,0.77,Non-Weight-Bearing,Walk Normally,,,,
-IA00538,P00538,5.0,Mild,54.0,69.0,42.0,0.74,Full Weight-Bearing,Return to Work,,,,
-IA00539,P00539,8.0,Mild,50.0,43.0,42.0,0.53,Partial Weight-Bearing,Climb Stairs,,,,
-IA00540,P00540,9.0,Moderate,56.0,41.0,33.0,0.41,Full Weight-Bearing,Return to Sport,,,,
-IA00541,P00541,7.0,Mild,70.0,62.0,64.0,0.83,Full Weight-Bearing,Walk Normally,,,,
-IA00542,P00542,5.0,Mild,79.0,54.0,57.0,1.0,Partial Weight-Bearing,Climb Stairs,,,,
-IA00543,P00543,6.0,Severe,62.0,38.0,49.0,0.62,Full Weight-Bearing,Return to Sport,,,,
-IA00544,P00544,4.0,,75.0,55.0,66.0,0.96,Full Weight-Bearing,Walk Normally,,,,
-IA00545,P00545,5.0,Moderate,62.0,47.0,39.0,0.66,Non-Weight-Bearing,Return to Sport,,,,
-IA00546,P00546,5.0,,102.0,49.0,47.0,1.02,Full Weight-Bearing,Return to Sport,,,,
-IA00547,P00547,6.0,,72.0,50.0,57.0,0.54,Full Weight-Bearing,Return to Work,,,,
-IA00548,P00548,8.0,Moderate,47.0,45.0,43.0,0.95,Non-Weight-Bearing,Return to Work,,,,
-IA00549,P00549,6.0,Moderate,55.0,25.0,41.0,0.97,Partial Weight-Bearing,Climb Stairs,,,,
-IA00550,P00550,6.0,Moderate,74.0,60.0,72.0,0.72,Partial Weight-Bearing,Return to Sport,,,,
-IA00551,P00551,6.0,Moderate,45.0,67.0,34.0,0.77,Partial Weight-Bearing,Return to Work,,,,
-IA00552,P00552,5.0,Moderate,50.0,47.0,76.0,0.64,Partial Weight-Bearing,Climb Stairs,,,,
-IA00553,P00553,8.0,Moderate,57.0,42.0,47.0,0.47,Partial Weight-Bearing,Return to Work,,,,
-IA00554,P00554,5.0,Mild,67.0,66.0,72.0,0.71,Full Weight-Bearing,Return to Sport,,,,
-IA00555,P00555,6.0,Moderate,57.0,32.0,62.0,0.64,Non-Weight-Bearing,Return to Sport,,,,
-IA00556,P00556,7.0,Mild,69.0,54.0,59.0,0.73,Partial Weight-Bearing,Climb Stairs,,,,
-IA00557,P00557,8.0,Severe,39.0,31.0,64.0,0.56,Full Weight-Bearing,Return to Work,,,,
-IA00558,P00558,7.0,Mild,43.0,68.0,39.0,0.95,Partial Weight-Bearing,Return to Sport,,,,
-IA00559,P00559,5.0,Moderate,44.0,43.0,50.0,0.67,Partial Weight-Bearing,Return to Sport,,,,
-IA00560,P00560,7.0,Moderate,64.0,54.0,42.0,0.43,Non-Weight-Bearing,Walk Normally,,,,
-IA00561,P00561,7.0,Moderate,61.0,43.0,32.0,0.9,Partial Weight-Bearing,Return to Work,,,,
-IA00562,P00562,7.0,Severe,39.0,57.0,36.0,0.32,Partial Weight-Bearing,Climb Stairs,,,,
-IA00563,P00563,7.0,Mild,46.0,40.0,74.0,0.57,Partial Weight-Bearing,Return to Work,,,,
-IA00564,P00564,7.0,Moderate,55.0,57.0,50.0,0.69,Full Weight-Bearing,Climb Stairs,,,,
-IA00565,P00565,6.0,Mild,81.0,61.0,84.0,0.86,Partial Weight-Bearing,Return to Work,,,,
-IA00566,P00566,5.0,Moderate,50.0,49.0,77.0,0.43,Full Weight-Bearing,Walk Normally,,,,
-IA00567,P00567,7.0,,63.0,57.0,96.0,0.69,Full Weight-Bearing,Return to Sport,,,,
-IA00568,P00568,7.0,Severe,34.0,28.0,67.0,0.28,Partial Weight-Bearing,Climb Stairs,,,,
-IA00569,P00569,6.0,Moderate,54.0,19.0,80.0,0.74,Non-Weight-Bearing,Climb Stairs,,,,
-IA00570,P00570,4.0,,73.0,66.0,64.0,0.98,Full Weight-Bearing,Walk Normally,,,,
-IA00571,P00571,4.0,,91.0,50.0,63.0,0.62,Partial Weight-Bearing,Return to Sport,,,,
-IA00572,P00572,4.0,Moderate,60.0,57.0,56.0,0.8,Partial Weight-Bearing,Climb Stairs,,,,
-IA00573,P00573,8.0,Moderate,45.0,39.0,44.0,0.64,Non-Weight-Bearing,Return to Work,,,,
-IA00574,P00574,9.0,Mild,67.0,57.0,54.0,0.55,Full Weight-Bearing,Walk Normally,,,,
-IA00575,P00575,3.0,Mild,77.0,63.0,69.0,0.5,Partial Weight-Bearing,Return to Work,,,,
-IA00576,P00576,5.0,Mild,52.0,20.0,46.0,0.49,Non-Weight-Bearing,Walk Normally,,,,
-IA00577,P00577,8.0,Moderate,69.0,41.0,27.0,0.41,Partial Weight-Bearing,Return to Sport,,,,
-IA00578,P00578,7.0,Moderate,46.0,32.0,48.0,0.73,Full Weight-Bearing,Return to Sport,,,,
-IA00579,P00579,6.0,Mild,72.0,67.0,52.0,0.78,Partial Weight-Bearing,Walk Normally,,,,
-IA00580,P00580,6.0,Mild,64.0,51.0,45.0,0.5,Full Weight-Bearing,Return to Sport,,,,
-IA00581,P00581,7.0,Moderate,49.0,41.0,42.0,0.52,Partial Weight-Bearing,Climb Stairs,,,,
-IA00582,P00582,7.0,Moderate,61.0,32.0,40.0,0.31,Partial Weight-Bearing,Climb Stairs,,,,
-IA00583,P00583,3.0,Mild,52.0,36.0,65.0,0.73,Partial Weight-Bearing,Walk Normally,,,,
-IA00584,P00584,5.0,Moderate,66.0,41.0,50.0,0.5,Non-Weight-Bearing,Return to Work,,,,
-IA00585,P00585,7.0,Mild,60.0,27.0,66.0,0.53,Partial Weight-Bearing,Return to Work,,,,
-IA00586,P00586,7.0,Mild,80.0,49.0,62.0,0.86,Full Weight-Bearing,Walk Normally,,,,
-IA00587,P00587,7.0,,68.0,40.0,59.0,1.06,Non-Weight-Bearing,Return to Sport,,,,
-IA00588,P00588,7.0,Mild,54.0,31.0,54.0,0.98,Full Weight-Bearing,Return to Sport,,,,
-IA00589,P00589,2.0,,77.0,56.0,45.0,0.64,Non-Weight-Bearing,Climb Stairs,,,,
-IA00590,P00590,5.0,Mild,62.0,50.0,56.0,0.56,Partial Weight-Bearing,Walk Normally,,,,
-IA00591,P00591,9.0,Moderate,38.0,35.0,54.0,0.58,Partial Weight-Bearing,Climb Stairs,,,,
-IA00592,P00592,10.0,Moderate,59.0,30.0,56.0,0.68,Full Weight-Bearing,Climb Stairs,,,,
-IA00593,P00593,7.0,Mild,77.0,46.0,44.0,0.48,Non-Weight-Bearing,Climb Stairs,,,,
-IA00594,P00594,5.0,Mild,69.0,52.0,42.0,0.81,Non-Weight-Bearing,Return to Sport,,,,
-IA00595,P00595,5.0,Mild,53.0,37.0,46.0,0.58,Partial Weight-Bearing,Return to Sport,,,,
-IA00596,P00596,6.0,Mild,62.0,44.0,69.0,0.36,Partial Weight-Bearing,Walk Normally,,,,
-IA00597,P00597,5.0,,77.0,40.0,63.0,0.6,Partial Weight-Bearing,Return to Work,,,,
-IA00598,P00598,9.0,Severe,30.0,42.0,35.0,0.41,Full Weight-Bearing,Climb Stairs,,,,
-IA00599,P00599,5.0,,74.0,49.0,43.0,0.81,Non-Weight-Bearing,Climb Stairs,,,,
-IA00600,P00600,5.0,,77.0,59.0,52.0,0.95,Full Weight-Bearing,Climb Stairs,,,,
-IA00601,P00601,6.0,Mild,34.0,54.0,43.0,0.7,Non-Weight-Bearing,Walk Normally,,,,
-IA00602,P00602,7.0,Moderate,60.0,48.0,63.0,0.79,Full Weight-Bearing,Return to Sport,,,,
-IA00603,P00603,7.0,Mild,65.0,53.0,64.0,0.65,Full Weight-Bearing,Return to Sport,,,,
-IA00604,P00604,5.0,Moderate,64.0,24.0,39.0,0.54,Full Weight-Bearing,Return to Sport,,,,
-IA00605,P00605,6.0,Moderate,54.0,30.0,53.0,0.47,Full Weight-Bearing,Return to Sport,,,,
-IA00606,P00606,7.0,,67.0,66.0,68.0,0.9,Full Weight-Bearing,Return to Sport,,,,
-IA00607,P00607,4.0,Moderate,48.0,50.0,38.0,0.8,Non-Weight-Bearing,Climb Stairs,,,,
-IA00608,P00608,7.0,,52.0,73.0,59.0,0.78,Non-Weight-Bearing,Return to Sport,,,,
-IA00609,P00609,4.0,Moderate,69.0,62.0,56.0,0.51,Non-Weight-Bearing,Return to Sport,,,,
-IA00610,P00610,5.0,Mild,65.0,48.0,54.0,0.7,Partial Weight-Bearing,Return to Sport,,,,
-IA00611,P00611,7.0,Moderate,70.0,42.0,31.0,0.72,Partial Weight-Bearing,Return to Sport,,,,
-IA00612,P00612,5.0,,63.0,45.0,62.0,0.98,Partial Weight-Bearing,Return to Sport,,,,
-IA00613,P00613,6.0,Severe,54.0,30.0,52.0,0.4,Full Weight-Bearing,Return to Sport,,,,
-IA00614,P00614,7.0,Moderate,43.0,41.0,71.0,0.55,Partial Weight-Bearing,Return to Sport,,,,
-IA00615,P00615,7.0,Severe,37.0,29.0,36.0,0.61,Non-Weight-Bearing,Return to Work,,,,
-IA00616,P00616,6.0,Mild,59.0,36.0,45.0,0.59,Partial Weight-Bearing,Return to Sport,,,,
-IA00617,P00617,7.0,Moderate,53.0,39.0,41.0,0.43,Full Weight-Bearing,Return to Sport,,,,
-IA00618,P00618,6.0,Moderate,75.0,62.0,55.0,0.84,Partial Weight-Bearing,Walk Normally,,,,
-IA00619,P00619,5.0,Mild,56.0,54.0,53.0,0.44,Partial Weight-Bearing,Return to Sport,,,,
-IA00620,P00620,9.0,Mild,49.0,42.0,59.0,0.96,Non-Weight-Bearing,Walk Normally,,,,
-IA00621,P00621,7.0,Severe,37.0,45.0,30.0,0.41,Full Weight-Bearing,Walk Normally,,,,
-IA00622,P00622,6.0,Mild,51.0,48.0,57.0,0.78,Partial Weight-Bearing,Return to Work,,,,
-IA00623,P00623,5.0,Mild,80.0,45.0,43.0,0.63,Partial Weight-Bearing,Return to Work,,,,
-IA00624,P00624,9.0,Moderate,66.0,44.0,50.0,0.69,Non-Weight-Bearing,Climb Stairs,,,,
-IA00625,P00625,4.0,Mild,69.0,43.0,72.0,0.61,Non-Weight-Bearing,Return to Sport,,,,
-IA00626,P00626,7.0,Moderate,56.0,52.0,35.0,0.78,Full Weight-Bearing,Walk Normally,,,,
-IA00627,P00627,7.0,Severe,46.0,36.0,41.0,0.45,Partial Weight-Bearing,Return to Sport,,,,
-IA00628,P00628,4.0,Mild,65.0,38.0,37.0,0.56,Full Weight-Bearing,Climb Stairs,,,,
-IA00629,P00629,5.0,Mild,53.0,37.0,54.0,0.92,Partial Weight-Bearing,Return to Sport,,,,
-IA00630,P00630,7.0,Moderate,55.0,48.0,65.0,0.65,Full Weight-Bearing,Climb Stairs,,,,
-IA00631,P00631,6.0,Moderate,39.0,39.0,46.0,0.4,Partial Weight-Bearing,Return to Sport,,,,
-IA00632,P00632,5.0,,66.0,52.0,59.0,0.58,Full Weight-Bearing,Walk Normally,,,,
-IA00633,P00633,7.0,Mild,70.0,44.0,76.0,1.08,Non-Weight-Bearing,Return to Sport,,,,
-IA00634,P00634,5.0,Mild,62.0,68.0,64.0,0.72,Partial Weight-Bearing,Walk Normally,,,,
-IA00635,P00635,4.0,Mild,61.0,55.0,62.0,0.96,Partial Weight-Bearing,Climb Stairs,,,,
-IA00636,P00636,5.0,Mild,61.0,25.0,61.0,0.71,Full Weight-Bearing,Walk Normally,,,,
-IA00637,P00637,6.0,Mild,56.0,58.0,17.0,0.67,Full Weight-Bearing,Return to Sport,,,,
-IA00638,P00638,5.0,Mild,62.0,53.0,59.0,0.83,Partial Weight-Bearing,Return to Sport,,,,
-IA00639,P00639,8.0,Moderate,47.0,37.0,31.0,0.83,Non-Weight-Bearing,Return to Work,,,,
-IA00640,P00640,7.0,Moderate,53.0,56.0,42.0,0.32,Non-Weight-Bearing,Walk Normally,,,,
-IA00641,P00641,8.0,Mild,58.0,62.0,70.0,0.68,Non-Weight-Bearing,Climb Stairs,,,,
-IA00642,P00642,5.0,,81.0,65.0,56.0,0.76,Full Weight-Bearing,Walk Normally,,,,
-IA00643,P00643,4.0,Mild,57.0,57.0,83.0,0.77,Partial Weight-Bearing,Climb Stairs,,,,
-IA00644,P00644,6.0,Mild,92.0,41.0,43.0,0.82,Non-Weight-Bearing,Climb Stairs,,,,
-IA00645,P00645,8.0,Moderate,57.0,25.0,39.0,0.61,Partial Weight-Bearing,Return to Sport,,,,
-IA00646,P00646,7.0,Moderate,62.0,54.0,61.0,0.68,Non-Weight-Bearing,Walk Normally,,,,
-IA00647,P00647,5.0,,62.0,68.0,56.0,0.8,Full Weight-Bearing,Walk Normally,,,,
-IA00648,P00648,7.0,Mild,69.0,37.0,56.0,0.45,Partial Weight-Bearing,Return to Sport,,,,
-IA00649,P00649,5.0,,69.0,52.0,59.0,0.86,Full Weight-Bearing,Climb Stairs,,,,
-IA00650,P00650,4.0,Mild,54.0,39.0,50.0,0.76,Full Weight-Bearing,Return to Sport,,,,
-IA00651,P00651,6.0,,64.0,49.0,56.0,0.72,Partial Weight-Bearing,Return to Sport,,,,
-IA00652,P00652,6.0,,67.0,66.0,62.0,1.08,Partial Weight-Bearing,Return to Work,,,,
-IA00653,P00653,7.0,Mild,74.0,57.0,68.0,1.0,Full Weight-Bearing,Return to Work,,,,
-IA00654,P00654,5.0,Mild,60.0,43.0,71.0,0.78,Full Weight-Bearing,Return to Sport,,,,
-IA00655,P00655,8.0,Moderate,46.0,62.0,42.0,0.62,Non-Weight-Bearing,Climb Stairs,,,,
-IA00656,P00656,7.0,Moderate,51.0,31.0,47.0,0.65,Full Weight-Bearing,Return to Sport,,,,
-IA00657,P00657,5.0,,62.0,60.0,54.0,0.97,Partial Weight-Bearing,Climb Stairs,,,,
-IA00658,P00658,8.0,Moderate,41.0,25.0,62.0,0.74,Partial Weight-Bearing,Walk Normally,,,,
-IA00659,P00659,7.0,Severe,51.0,33.0,52.0,0.62,Partial Weight-Bearing,Climb Stairs,,,,
-IA00660,P00660,6.0,Moderate,65.0,46.0,29.0,0.56,Full Weight-Bearing,Walk Normally,,,,
-IA00661,P00661,6.0,Mild,78.0,63.0,37.0,0.79,Partial Weight-Bearing,Walk Normally,,,,
-IA00662,P00662,8.0,Moderate,58.0,42.0,42.0,0.74,Partial Weight-Bearing,Return to Work,,,,
-IA00663,P00663,6.0,Severe,50.0,31.0,47.0,0.63,Non-Weight-Bearing,Return to Sport,,,,
-IA00664,P00664,7.0,Severe,44.0,32.0,44.0,0.49,Partial Weight-Bearing,Return to Sport,,,,
-IA00665,P00665,6.0,Moderate,41.0,34.0,58.0,0.56,Non-Weight-Bearing,Walk Normally,,,,
-IA00666,P00666,5.0,Mild,56.0,51.0,50.0,0.89,Full Weight-Bearing,Walk Normally,,,,
-IA00667,P00667,5.0,Severe,42.0,38.0,61.0,0.34,Partial Weight-Bearing,Return to Sport,,,,
-IA00668,P00668,5.0,Mild,60.0,59.0,69.0,0.66,Full Weight-Bearing,Walk Normally,,,,
-IA00669,P00669,6.0,Mild,64.0,54.0,61.0,0.6,Full Weight-Bearing,Walk Normally,,,,
-IA00670,P00670,7.0,Moderate,47.0,33.0,58.0,0.36,Full Weight-Bearing,Climb Stairs,,,,
-IA00671,P00671,5.0,Mild,59.0,67.0,40.0,0.99,Full Weight-Bearing,Return to Work,,,,
-IA00672,P00672,7.0,Mild,51.0,55.0,51.0,0.84,Partial Weight-Bearing,Walk Normally,,,,
-IA00673,P00673,7.0,,85.0,69.0,62.0,0.79,Partial Weight-Bearing,Walk Normally,,,,
-IA00674,P00674,4.0,Mild,54.0,59.0,67.0,0.87,Non-Weight-Bearing,Walk Normally,,,,
-IA00675,P00675,3.0,,68.0,69.0,39.0,0.8,Non-Weight-Bearing,Return to Sport,,,,
-IA00676,P00676,6.0,Mild,46.0,41.0,49.0,0.47,Partial Weight-Bearing,Climb Stairs,,,,
-IA00677,P00677,9.0,Mild,50.0,43.0,57.0,0.98,Full Weight-Bearing,Return to Work,,,,
-IA00678,P00678,5.0,Mild,56.0,57.0,58.0,0.86,Full Weight-Bearing,Return to Work,,,,
-IA00679,P00679,7.0,Moderate,48.0,53.0,66.0,0.7,Partial Weight-Bearing,Return to Work,,,,
-IA00680,P00680,9.0,Severe,52.0,32.0,53.0,0.37,Full Weight-Bearing,Walk Normally,,,,
-IA00681,P00681,3.0,Moderate,72.0,35.0,51.0,0.62,Partial Weight-Bearing,Climb Stairs,,,,
-IA00682,P00682,8.0,Moderate,54.0,33.0,52.0,0.4,Non-Weight-Bearing,Return to Sport,,,,
-IA00683,P00683,7.0,Moderate,68.0,38.0,50.0,0.66,Non-Weight-Bearing,Return to Work,,,,
-IA00684,P00684,5.0,Mild,56.0,72.0,62.0,0.85,Partial Weight-Bearing,Walk Normally,,,,
-IA00685,P00685,7.0,Moderate,44.0,43.0,54.0,0.45,Partial Weight-Bearing,Return to Sport,,,,
-IA00686,P00686,7.0,Severe,51.0,27.0,43.0,0.28,Partial Weight-Bearing,Return to Work,,,,
-IA00687,P00687,5.0,Mild,79.0,45.0,64.0,1.12,Non-Weight-Bearing,Walk Normally,,,,
-IA00688,P00688,6.0,Mild,76.0,37.0,64.0,0.69,Partial Weight-Bearing,Return to Work,,,,
-IA00689,P00689,6.0,Mild,69.0,39.0,61.0,0.72,Full Weight-Bearing,Climb Stairs,,,,
-IA00690,P00690,5.0,Mild,79.0,53.0,75.0,0.74,Non-Weight-Bearing,Return to Work,,,,
-IA00691,P00691,8.0,Mild,84.0,56.0,80.0,0.42,Full Weight-Bearing,Walk Normally,,,,
-IA00692,P00692,3.0,,71.0,45.0,68.0,0.79,Partial Weight-Bearing,Walk Normally,,,,
-IA00693,P00693,3.0,Mild,67.0,78.0,54.0,0.75,Partial Weight-Bearing,Climb Stairs,,,,
-IA00694,P00694,9.0,Severe,48.0,26.0,50.0,0.61,Non-Weight-Bearing,Return to Sport,,,,
-IA00695,P00695,6.0,Moderate,49.0,31.0,58.0,0.79,Full Weight-Bearing,Return to Sport,,,,
-IA00696,P00696,7.0,Severe,47.0,52.0,51.0,0.61,Partial Weight-Bearing,Return to Work,,,,
-IA00697,P00697,6.0,Moderate,41.0,58.0,70.0,0.8,Partial Weight-Bearing,Return to Work,,,,
-IA00698,P00698,8.0,Moderate,41.0,33.0,24.0,0.77,Full Weight-Bearing,Return to Work,,,,
-IA00699,P00699,6.0,Mild,57.0,49.0,70.0,0.71,Full Weight-Bearing,Return to Sport,,,,
-IA00700,P00700,7.0,Moderate,67.0,49.0,74.0,0.81,Full Weight-Bearing,Return to Sport,,,,
-IA00701,P00701,4.0,,81.0,56.0,67.0,0.87,Full Weight-Bearing,Return to Work,,,,
-IA00702,P00702,6.0,Moderate,48.0,32.0,59.0,0.36,Non-Weight-Bearing,Return to Sport,,,,
-IA00703,P00703,3.0,Mild,79.0,20.0,49.0,0.63,Full Weight-Bearing,Walk Normally,,,,
-IA00704,P00704,8.0,Mild,59.0,37.0,52.0,0.52,Partial Weight-Bearing,Return to Sport,,,,
-IA00705,P00705,6.0,Mild,60.0,63.0,60.0,0.68,Full Weight-Bearing,Return to Work,,,,
-IA00706,P00706,6.0,Mild,54.0,74.0,68.0,0.68,Partial Weight-Bearing,Walk Normally,,,,
-IA00707,P00707,8.0,Severe,40.0,32.0,53.0,0.59,Non-Weight-Bearing,Return to Sport,,,,
-IA00708,P00708,8.0,Severe,56.0,25.0,52.0,0.65,Partial Weight-Bearing,Walk Normally,,,,
-IA00709,P00709,6.0,Mild,60.0,48.0,63.0,0.83,Full Weight-Bearing,Return to Sport,,,,
-IA00710,P00710,7.0,Moderate,59.0,49.0,61.0,0.89,Partial Weight-Bearing,Climb Stairs,,,,
-IA00711,P00711,5.0,Mild,60.0,51.0,40.0,0.4,Full Weight-Bearing,Climb Stairs,,,,
-IA00712,P00712,6.0,Severe,32.0,10.0,54.0,0.32,Non-Weight-Bearing,Climb Stairs,,,,
-IA00713,P00713,6.0,Mild,57.0,77.0,74.0,1.09,Non-Weight-Bearing,Walk Normally,,,,
-IA00714,P00714,5.0,Moderate,72.0,56.0,52.0,0.8,Partial Weight-Bearing,Return to Sport,,,,
-IA00715,P00715,7.0,Mild,81.0,53.0,78.0,0.83,Partial Weight-Bearing,Return to Sport,,,,
-IA00716,P00716,5.0,,69.0,48.0,49.0,0.8,Full Weight-Bearing,Return to Work,,,,
-IA00717,P00717,6.0,Severe,62.0,45.0,44.0,0.49,Full Weight-Bearing,Walk Normally,,,,
-IA00718,P00718,6.0,Moderate,45.0,50.0,44.0,0.36,Full Weight-Bearing,Walk Normally,,,,
-IA00719,P00719,5.0,,60.0,56.0,77.0,0.68,Partial Weight-Bearing,Walk Normally,,,,
-IA00720,P00720,5.0,,89.0,60.0,80.0,0.78,Partial Weight-Bearing,Return to Work,,,,
-IA00721,P00721,7.0,Mild,64.0,44.0,51.0,0.54,Full Weight-Bearing,Climb Stairs,,,,
-IA00722,P00722,6.0,Mild,55.0,49.0,66.0,0.56,Full Weight-Bearing,Return to Sport,,,,
-IA00723,P00723,4.0,Moderate,57.0,52.0,72.0,1.03,Full Weight-Bearing,Climb Stairs,,,,
-IA00724,P00724,3.0,Moderate,50.0,48.0,52.0,0.61,Partial Weight-Bearing,Walk Normally,,,,
-IA00725,P00725,7.0,Severe,49.0,38.0,46.0,0.54,Full Weight-Bearing,Climb Stairs,,,,
-IA00726,P00726,7.0,Mild,60.0,59.0,61.0,0.69,Non-Weight-Bearing,Return to Work,,,,
-IA00727,P00727,7.0,Moderate,46.0,19.0,34.0,0.59,Full Weight-Bearing,Climb Stairs,,,,
-IA00728,P00728,7.0,Mild,58.0,47.0,61.0,0.73,Full Weight-Bearing,Return to Work,,,,
-IA00729,P00729,6.0,Mild,61.0,45.0,78.0,0.84,Full Weight-Bearing,Walk Normally,,,,
-IA00730,P00730,7.0,Mild,65.0,48.0,54.0,0.87,Non-Weight-Bearing,Walk Normally,,,,
-IA00731,P00731,6.0,Mild,60.0,51.0,70.0,0.61,Full Weight-Bearing,Climb Stairs,,,,
-IA00732,P00732,6.0,Mild,83.0,68.0,66.0,0.78,Non-Weight-Bearing,Climb Stairs,,,,
-IA00733,P00733,3.0,Mild,92.0,54.0,58.0,0.77,Partial Weight-Bearing,Return to Sport,,,,
-IA00734,P00734,7.0,Severe,65.0,17.0,47.0,0.47,Full Weight-Bearing,Walk Normally,,,,
-IA00735,P00735,8.0,Mild,65.0,41.0,73.0,0.73,Partial Weight-Bearing,Return to Sport,,,,
-IA00736,P00736,8.0,Severe,43.0,36.0,51.0,0.6,Partial Weight-Bearing,Return to Sport,,,,
-IA00737,P00737,7.0,Mild,57.0,45.0,61.0,0.73,Full Weight-Bearing,Return to Work,,,,
-IA00738,P00738,4.0,Mild,62.0,51.0,71.0,0.7,Full Weight-Bearing,Return to Sport,,,,
-IA00739,P00739,7.0,,66.0,60.0,57.0,0.81,Partial Weight-Bearing,Return to Work,,,,
-IA00740,P00740,5.0,Moderate,71.0,44.0,39.0,0.33,Partial Weight-Bearing,Walk Normally,,,,
-IA00741,P00741,4.0,Mild,38.0,33.0,73.0,0.77,Full Weight-Bearing,Climb Stairs,,,,
-IA00742,P00742,7.0,Severe,43.0,31.0,46.0,0.57,Partial Weight-Bearing,Return to Work,,,,
-IA00743,P00743,4.0,Moderate,54.0,29.0,55.0,0.35,Non-Weight-Bearing,Climb Stairs,,,,
-IA00744,P00744,4.0,Mild,62.0,52.0,51.0,0.84,Partial Weight-Bearing,Return to Work,,,,
-IA00745,P00745,10.0,Mild,56.0,52.0,57.0,0.75,Full Weight-Bearing,Return to Sport,,,,
-IA00746,P00746,6.0,Moderate,64.0,49.0,39.0,0.83,Partial Weight-Bearing,Walk Normally,,,,
-IA00747,P00747,4.0,Mild,73.0,53.0,53.0,0.73,Non-Weight-Bearing,Climb Stairs,,,,
-IA00748,P00748,5.0,Mild,57.0,51.0,52.0,0.85,Full Weight-Bearing,Climb Stairs,,,,
-IA00749,P00749,5.0,Mild,44.0,60.0,41.0,0.79,Full Weight-Bearing,Climb Stairs,,,,
-IA00750,P00750,9.0,Severe,37.0,42.0,40.0,0.45,Partial Weight-Bearing,Climb Stairs,,,,
-IA00751,P00751,5.0,Mild,43.0,46.0,24.0,0.71,Full Weight-Bearing,Return to Sport,,,,
-IA00752,P00752,7.0,Moderate,43.0,51.0,38.0,0.56,Full Weight-Bearing,Return to Sport,,,,
-IA00753,P00753,4.0,,60.0,48.0,69.0,0.97,Partial Weight-Bearing,Return to Work,,,,
-IA00754,P00754,10.0,Moderate,58.0,14.0,48.0,0.26,Partial Weight-Bearing,Walk Normally,,,,
-IA00755,P00755,6.0,Mild,67.0,49.0,47.0,0.92,Partial Weight-Bearing,Climb Stairs,,,,
-IA00756,P00756,5.0,Mild,70.0,62.0,67.0,0.8,Full Weight-Bearing,Walk Normally,,,,
-IA00757,P00757,5.0,,60.0,56.0,49.0,0.94,Full Weight-Bearing,Return to Work,,,,
-IA00758,P00758,7.0,Moderate,52.0,34.0,53.0,0.38,Non-Weight-Bearing,Return to Work,,,,
-IA00759,P00759,5.0,Moderate,77.0,37.0,51.0,0.66,Full Weight-Bearing,Return to Sport,,,,
-IA00760,P00760,4.0,,61.0,35.0,56.0,0.81,Full Weight-Bearing,Return to Work,,,,
-IA00761,P00761,7.0,Mild,87.0,69.0,59.0,0.87,Partial Weight-Bearing,Return to Sport,,,,
-IA00762,P00762,7.0,Severe,50.0,33.0,75.0,0.34,Full Weight-Bearing,Walk Normally,,,,
-IA00763,P00763,3.0,Moderate,58.0,41.0,43.0,0.75,Full Weight-Bearing,Return to Work,,,,
-IA00764,P00764,3.0,Mild,74.0,48.0,63.0,0.52,Full Weight-Bearing,Return to Sport,,,,
-IA00765,P00765,9.0,Moderate,50.0,48.0,53.0,0.4,Full Weight-Bearing,Return to Sport,,,,
-IA00766,P00766,5.0,,89.0,64.0,48.0,0.57,Non-Weight-Bearing,Climb Stairs,,,,
-IA00767,P00767,6.0,Mild,63.0,35.0,33.0,0.77,Full Weight-Bearing,Return to Work,,,,
-IA00768,P00768,7.0,,75.0,67.0,53.0,0.86,Partial Weight-Bearing,Return to Sport,,,,
-IA00769,P00769,5.0,Moderate,54.0,44.0,61.0,0.72,Full Weight-Bearing,Climb Stairs,,,,
-IA00770,P00770,8.0,Severe,54.0,29.0,40.0,0.72,Full Weight-Bearing,Walk Normally,,,,
-IA00771,P00771,5.0,Mild,48.0,42.0,49.0,0.6,Full Weight-Bearing,Walk Normally,,,,
-IA00772,P00772,7.0,Moderate,59.0,37.0,63.0,0.74,Full Weight-Bearing,Climb Stairs,,,,
-IA00773,P00773,7.0,Moderate,75.0,22.0,34.0,0.51,Full Weight-Bearing,Walk Normally,,,,
-IA00774,P00774,7.0,Moderate,21.0,43.0,43.0,0.49,Partial Weight-Bearing,Climb Stairs,,,,
-IA00775,P00775,7.0,Mild,60.0,43.0,34.0,0.85,Partial Weight-Bearing,Climb Stairs,,,,
-IA00776,P00776,7.0,Mild,61.0,51.0,56.0,0.96,Non-Weight-Bearing,Return to Work,,,,
-IA00777,P00777,7.0,Severe,44.0,38.0,47.0,0.44,Full Weight-Bearing,Return to Work,,,,
-IA00778,P00778,4.0,Mild,68.0,60.0,70.0,0.93,Partial Weight-Bearing,Return to Sport,,,,
-IA00779,P00779,7.0,Mild,71.0,35.0,46.0,0.85,Partial Weight-Bearing,Climb Stairs,,,,
-IA00780,P00780,6.0,Mild,67.0,46.0,58.0,0.85,Partial Weight-Bearing,Climb Stairs,,,,
-IA00781,P00781,7.0,Moderate,48.0,41.0,29.0,0.54,Partial Weight-Bearing,Return to Sport,,,,
-IA00782,P00782,4.0,Mild,65.0,42.0,57.0,0.75,Partial Weight-Bearing,Climb Stairs,,,,
-IA00783,P00783,6.0,Mild,90.0,59.0,78.0,0.26,Full Weight-Bearing,Climb Stairs,,,,
-IA00784,P00784,6.0,Moderate,55.0,31.0,48.0,0.88,Full Weight-Bearing,Return to Sport,,,,
-IA00785,P00785,5.0,Mild,76.0,55.0,44.0,0.7,Partial Weight-Bearing,Walk Normally,,,,
-IA00786,P00786,6.0,Moderate,51.0,61.0,44.0,0.61,Full Weight-Bearing,Walk Normally,,,,
-IA00787,P00787,7.0,Mild,67.0,53.0,33.0,0.62,Non-Weight-Bearing,Walk Normally,,,,
-IA00788,P00788,5.0,Mild,77.0,36.0,44.0,0.68,Non-Weight-Bearing,Return to Work,,,,
-IA00789,P00789,9.0,Moderate,50.0,43.0,52.0,0.54,Partial Weight-Bearing,Return to Sport,,,,
-IA00790,P00790,7.0,,60.0,73.0,43.0,0.79,Full Weight-Bearing,Climb Stairs,,,,
-IA00791,P00791,8.0,Moderate,38.0,63.0,48.0,0.39,Non-Weight-Bearing,Climb Stairs,,,,
-IA00792,P00792,8.0,Mild,75.0,50.0,52.0,0.67,Partial Weight-Bearing,Walk Normally,,,,
-IA00793,P00793,5.0,Mild,62.0,41.0,54.0,0.8,Partial Weight-Bearing,Walk Normally,,,,
-IA00794,P00794,6.0,Mild,76.0,59.0,63.0,0.94,Non-Weight-Bearing,Return to Sport,,,,
-IA00795,P00795,8.0,Moderate,49.0,61.0,41.0,0.45,Partial Weight-Bearing,Return to Sport,,,,
-IA00796,P00796,8.0,Mild,68.0,43.0,62.0,0.53,Partial Weight-Bearing,Walk Normally,,,,
-IA00797,P00797,6.0,Mild,63.0,65.0,52.0,0.91,Full Weight-Bearing,Return to Sport,,,,
-IA00798,P00798,8.0,Moderate,36.0,27.0,39.0,0.4,Partial Weight-Bearing,Return to Work,,,,
-IA00799,P00799,9.0,Moderate,51.0,49.0,46.0,0.51,Non-Weight-Bearing,Climb Stairs,,,,
-IA00800,P00800,7.0,Moderate,40.0,10.0,52.0,0.41,Non-Weight-Bearing,Return to Sport,,,,
-IA00801,P00801,7.5,Mild,,,,0.9,Full Weight-Bearing,Return to Sport,65.0,40.0,34.0,65.0
-IA00802,P00802,7.5,Mild,,,,0.9,Full Weight-Bearing,Return to Sport,65.0,40.0,34.0,65.0
-IA00803,P00803,7.5,Mild,,,,0.9,Full Weight-Bearing,Return to Sport,65.0,40.0,34.0,65.0
+Assessment_ID,Patient_ID,Pain_Score,Swelling,Range_of_Motion_deg,Muscle_Strength_pct,Balance_Score,Walking_Speed_mps,Weight_Bearing_Level,Recovery_Goal
+IA00001,P00001,10.0,Moderate,38.0,39.0,33.0,0.58,Full Weight-Bearing,Return to Sport
+IA00002,P00002,4.0,Mild,63.0,46.0,52.0,0.26,Partial Weight-Bearing,Climb Stairs
+IA00003,P00003,7.0,Mild,43.0,34.0,48.0,0.69,Full Weight-Bearing,Walk Normally
+IA00004,P00004,5.0,Moderate,47.0,45.0,36.0,0.39,Full Weight-Bearing,Return to Sport
+IA00005,P00005,5.0,,63.0,44.0,54.0,0.75,Partial Weight-Bearing,Return to Work
+IA00006,P00006,7.0,Mild,63.0,51.0,56.0,0.63,Non-Weight-Bearing,Climb Stairs
+IA00007,P00007,9.0,Severe,48.0,43.0,43.0,0.45,Full Weight-Bearing,Return to Sport
+IA00008,P00008,7.0,Moderate,56.0,35.0,45.0,0.58,Partial Weight-Bearing,Return to Sport
+IA00009,P00009,7.0,Mild,49.0,48.0,61.0,0.76,Non-Weight-Bearing,Return to Work
+IA00010,P00010,5.0,Moderate,48.0,63.0,48.0,0.53,Non-Weight-Bearing,Climb Stairs
+IA00011,P00011,8.0,Moderate,51.0,33.0,60.0,0.38,Full Weight-Bearing,Return to Work
+IA00012,P00012,6.0,,62.0,46.0,48.0,0.79,Partial Weight-Bearing,Return to Sport
+IA00013,P00013,5.0,,64.0,61.0,83.0,0.57,Full Weight-Bearing,Climb Stairs
+IA00014,P00014,6.0,Moderate,39.0,34.0,65.0,0.58,Full Weight-Bearing,Return to Sport
+IA00015,P00015,5.0,,73.0,53.0,56.0,1.0,Partial Weight-Bearing,Return to Sport
+IA00016,P00016,8.0,Mild,73.0,39.0,49.0,0.42,Partial Weight-Bearing,Climb Stairs
+IA00017,P00017,4.0,Mild,60.0,48.0,62.0,0.75,Full Weight-Bearing,Climb Stairs
+IA00018,P00018,5.0,Mild,68.0,42.0,59.0,0.56,Partial Weight-Bearing,Return to Sport
+IA00019,P00019,7.0,Mild,57.0,54.0,65.0,0.95,Non-Weight-Bearing,Return to Sport
+IA00020,P00020,7.0,Severe,28.0,46.0,28.0,0.42,Partial Weight-Bearing,Climb Stairs
+IA00021,P00021,4.0,Mild,49.0,54.0,57.0,0.58,Full Weight-Bearing,Return to Sport
+IA00022,P00022,8.0,Mild,48.0,48.0,27.0,0.5,Full Weight-Bearing,Return to Sport
+IA00023,P00023,6.0,Severe,43.0,32.0,42.0,0.5,Partial Weight-Bearing,Return to Sport
+IA00024,P00024,6.0,Mild,62.0,21.0,69.0,0.69,Partial Weight-Bearing,Return to Sport
+IA00025,P00025,5.0,Moderate,76.0,49.0,35.0,0.52,Partial Weight-Bearing,Return to Work
+IA00026,P00026,5.0,,56.0,32.0,41.0,0.95,Full Weight-Bearing,Return to Sport
+IA00027,P00027,5.0,Moderate,53.0,26.0,55.0,0.69,Non-Weight-Bearing,Walk Normally
+IA00028,P00028,7.0,Moderate,49.0,43.0,69.0,0.78,Full Weight-Bearing,Climb Stairs
+IA00029,P00029,6.0,Moderate,45.0,48.0,56.0,0.6,Full Weight-Bearing,Return to Sport
+IA00030,P00030,9.0,Moderate,47.0,30.0,21.0,0.54,Partial Weight-Bearing,Climb Stairs
+IA00031,P00031,7.0,Moderate,46.0,50.0,24.0,0.47,Full Weight-Bearing,Return to Sport
+IA00032,P00032,10.0,Severe,28.0,40.0,45.0,0.72,Full Weight-Bearing,Return to Work
+IA00033,P00033,4.0,Mild,58.0,43.0,38.0,0.67,Full Weight-Bearing,Climb Stairs
+IA00034,P00034,5.0,Severe,34.0,49.0,46.0,0.5,Non-Weight-Bearing,Climb Stairs
+IA00035,P00035,10.0,Severe,46.0,51.0,46.0,0.43,Full Weight-Bearing,Walk Normally
+IA00036,P00036,6.0,,83.0,60.0,54.0,0.72,Partial Weight-Bearing,Return to Work
+IA00037,P00037,7.0,Mild,63.0,37.0,74.0,0.69,Full Weight-Bearing,Climb Stairs
+IA00038,P00038,6.0,,72.0,49.0,67.0,0.92,Partial Weight-Bearing,Walk Normally
+IA00039,P00039,6.0,Mild,65.0,41.0,75.0,0.7,Partial Weight-Bearing,Return to Sport
+IA00040,P00040,5.0,,71.0,55.0,71.0,0.82,Full Weight-Bearing,Return to Sport
+IA00041,P00041,5.0,Mild,64.0,34.0,50.0,0.68,Partial Weight-Bearing,Return to Sport
+IA00042,P00042,6.0,,75.0,52.0,58.0,0.85,Non-Weight-Bearing,Return to Sport
+IA00043,P00043,6.0,Mild,69.0,58.0,56.0,0.54,Full Weight-Bearing,Return to Work
+IA00044,P00044,7.0,Mild,72.0,35.0,68.0,0.66,Partial Weight-Bearing,Return to Work
+IA00045,P00045,8.0,Moderate,45.0,32.0,44.0,0.45,Full Weight-Bearing,Return to Sport
+IA00046,P00046,8.0,Severe,39.0,30.0,65.0,0.5,Full Weight-Bearing,Return to Work
+IA00047,P00047,6.0,Severe,53.0,34.0,35.0,0.36,Non-Weight-Bearing,Climb Stairs
+IA00048,P00048,9.0,Mild,66.0,40.0,55.0,0.58,Partial Weight-Bearing,Walk Normally
+IA00049,P00049,4.0,,71.0,52.0,57.0,0.62,Full Weight-Bearing,Return to Work
+IA00050,P00050,8.0,Severe,61.0,28.0,39.0,0.44,Full Weight-Bearing,Climb Stairs
+IA00051,P00051,5.0,Mild,75.0,41.0,86.0,0.63,Partial Weight-Bearing,Walk Normally
+IA00052,P00052,7.0,Severe,44.0,30.0,39.0,0.61,Full Weight-Bearing,Return to Sport
+IA00053,P00053,7.0,Moderate,46.0,43.0,48.0,0.72,Partial Weight-Bearing,Return to Sport
+IA00054,P00054,7.0,Moderate,72.0,42.0,44.0,0.67,Partial Weight-Bearing,Return to Work
+IA00055,P00055,6.0,Mild,78.0,56.0,60.0,0.75,Full Weight-Bearing,Return to Sport
+IA00056,P00056,4.0,Mild,88.0,59.0,59.0,0.49,Partial Weight-Bearing,Return to Sport
+IA00057,P00057,6.0,Moderate,80.0,52.0,39.0,0.58,Partial Weight-Bearing,Return to Sport
+IA00058,P00058,5.0,Mild,45.0,39.0,47.0,0.54,Partial Weight-Bearing,Walk Normally
+IA00059,P00059,7.0,Moderate,33.0,19.0,51.0,0.54,Full Weight-Bearing,Walk Normally
+IA00060,P00060,6.0,Mild,29.0,58.0,64.0,0.74,Partial Weight-Bearing,Return to Work
+IA00061,P00061,9.0,Mild,67.0,49.0,52.0,0.7,Partial Weight-Bearing,Walk Normally
+IA00062,P00062,5.0,,77.0,45.0,61.0,0.99,Non-Weight-Bearing,Return to Work
+IA00063,P00063,3.0,Mild,59.0,48.0,48.0,0.56,Non-Weight-Bearing,Walk Normally
+IA00064,P00064,7.0,Mild,58.0,66.0,54.0,0.71,Full Weight-Bearing,Walk Normally
+IA00065,P00065,7.0,Moderate,57.0,62.0,41.0,0.81,Partial Weight-Bearing,Return to Sport
+IA00066,P00066,6.0,Mild,60.0,48.0,33.0,0.67,Non-Weight-Bearing,Return to Sport
+IA00067,P00067,7.0,Severe,54.0,46.0,36.0,0.46,Full Weight-Bearing,Return to Work
+IA00068,P00068,5.0,Moderate,61.0,33.0,63.0,0.93,Non-Weight-Bearing,Climb Stairs
+IA00069,P00069,8.0,,77.0,55.0,55.0,0.89,Partial Weight-Bearing,Walk Normally
+IA00070,P00070,7.0,Severe,45.0,32.0,40.0,0.47,Full Weight-Bearing,Return to Work
+IA00071,P00071,4.0,Moderate,70.0,48.0,48.0,0.55,Full Weight-Bearing,Return to Work
+IA00072,P00072,7.0,Moderate,64.0,61.0,67.0,0.85,Non-Weight-Bearing,Return to Sport
+IA00073,P00073,8.0,Mild,46.0,47.0,41.0,0.68,Full Weight-Bearing,Climb Stairs
+IA00074,P00074,8.0,Moderate,60.0,26.0,47.0,0.5,Partial Weight-Bearing,Climb Stairs
+IA00075,P00075,4.0,Mild,82.0,42.0,59.0,0.9,Full Weight-Bearing,Return to Work
+IA00076,P00076,5.0,Mild,63.0,61.0,53.0,0.78,Partial Weight-Bearing,Return to Sport
+IA00077,P00077,6.0,Moderate,49.0,40.0,47.0,0.58,Full Weight-Bearing,Return to Sport
+IA00078,P00078,7.0,,87.0,59.0,61.0,0.93,Partial Weight-Bearing,Walk Normally
+IA00079,P00079,7.0,Moderate,30.0,32.0,54.0,0.57,Full Weight-Bearing,Return to Sport
+IA00080,P00080,4.0,Moderate,70.0,48.0,52.0,0.73,Full Weight-Bearing,Return to Sport
+IA00081,P00081,5.0,,65.0,45.0,81.0,0.69,Full Weight-Bearing,Climb Stairs
+IA00082,P00082,5.0,Mild,81.0,59.0,61.0,1.07,Full Weight-Bearing,Walk Normally
+IA00083,P00083,7.0,Severe,47.0,23.0,24.0,0.31,Partial Weight-Bearing,Return to Sport
+IA00084,P00084,6.0,Moderate,34.0,31.0,52.0,0.55,Non-Weight-Bearing,Walk Normally
+IA00085,P00085,4.0,Mild,65.0,49.0,65.0,0.6,Partial Weight-Bearing,Return to Sport
+IA00086,P00086,6.0,Mild,80.0,22.0,60.0,0.79,Non-Weight-Bearing,Walk Normally
+IA00087,P00087,5.0,,68.0,52.0,57.0,0.71,Full Weight-Bearing,Climb Stairs
+IA00088,P00088,6.0,,64.0,46.0,35.0,0.82,Full Weight-Bearing,Return to Work
+IA00089,P00089,7.0,Moderate,52.0,43.0,29.0,0.7,Partial Weight-Bearing,Return to Sport
+IA00090,P00090,5.0,,76.0,55.0,80.0,0.66,Non-Weight-Bearing,Return to Work
+IA00091,P00091,4.0,Mild,88.0,73.0,53.0,0.8,Full Weight-Bearing,Return to Work
+IA00092,P00092,5.0,Mild,49.0,58.0,72.0,1.01,Partial Weight-Bearing,Climb Stairs
+IA00093,P00093,8.0,Mild,86.0,48.0,33.0,0.45,Partial Weight-Bearing,Return to Work
+IA00094,P00094,8.0,Mild,60.0,50.0,39.0,0.52,Partial Weight-Bearing,Return to Sport
+IA00095,P00095,5.0,Moderate,64.0,54.0,60.0,0.78,Non-Weight-Bearing,Return to Sport
+IA00096,P00096,6.0,Moderate,54.0,50.0,51.0,0.66,Full Weight-Bearing,Return to Work
+IA00097,P00097,8.0,Moderate,46.0,38.0,50.0,0.52,Non-Weight-Bearing,Walk Normally
+IA00098,P00098,9.0,Moderate,60.0,52.0,52.0,0.8,Partial Weight-Bearing,Return to Sport
+IA00099,P00099,10.0,Severe,36.0,11.0,42.0,0.38,Non-Weight-Bearing,Return to Sport
+IA00100,P00100,5.0,Mild,50.0,66.0,44.0,0.57,Partial Weight-Bearing,Return to Sport
+IA00101,P00101,7.0,Mild,82.0,71.0,46.0,0.7,Partial Weight-Bearing,Return to Sport
+IA00102,P00102,7.0,Severe,30.0,37.0,61.0,0.45,Non-Weight-Bearing,Return to Sport
+IA00103,P00103,8.0,Mild,62.0,31.0,71.0,0.85,Full Weight-Bearing,Return to Work
+IA00104,P00104,7.0,Moderate,54.0,57.0,40.0,0.39,Full Weight-Bearing,Return to Sport
+IA00105,P00105,3.0,Mild,60.0,48.0,47.0,0.62,Non-Weight-Bearing,Return to Work
+IA00106,P00106,7.0,Mild,78.0,50.0,48.0,0.45,Non-Weight-Bearing,Return to Sport
+IA00107,P00107,9.0,Moderate,36.0,22.0,48.0,0.71,Full Weight-Bearing,Return to Sport
+IA00108,P00108,5.0,Mild,59.0,77.0,58.0,0.71,Non-Weight-Bearing,Return to Work
+IA00109,P00109,5.0,Mild,68.0,41.0,66.0,0.75,Partial Weight-Bearing,Return to Sport
+IA00110,P00110,3.0,Mild,62.0,56.0,59.0,0.56,Non-Weight-Bearing,Return to Sport
+IA00111,P00111,7.0,Moderate,58.0,24.0,51.0,0.61,Partial Weight-Bearing,Return to Work
+IA00112,P00112,8.0,Moderate,48.0,35.0,73.0,0.63,Full Weight-Bearing,Return to Sport
+IA00113,P00113,5.0,Mild,60.0,41.0,46.0,0.69,Non-Weight-Bearing,Return to Sport
+IA00114,P00114,7.0,Severe,45.0,46.0,64.0,0.48,Full Weight-Bearing,Return to Work
+IA00115,P00115,6.0,Moderate,51.0,41.0,69.0,0.42,Full Weight-Bearing,Walk Normally
+IA00116,P00116,5.0,Mild,64.0,56.0,58.0,0.6,Full Weight-Bearing,Climb Stairs
+IA00117,P00117,5.0,,69.0,45.0,37.0,0.82,Full Weight-Bearing,Return to Sport
+IA00118,P00118,3.0,,65.0,52.0,60.0,0.65,Full Weight-Bearing,Return to Sport
+IA00119,P00119,8.0,Moderate,73.0,42.0,46.0,0.75,Partial Weight-Bearing,Walk Normally
+IA00120,P00120,5.0,Mild,69.0,60.0,60.0,0.93,Full Weight-Bearing,Climb Stairs
+IA00121,P00121,4.0,Mild,81.0,59.0,47.0,0.72,Non-Weight-Bearing,Return to Sport
+IA00122,P00122,4.0,Moderate,58.0,42.0,53.0,0.61,Full Weight-Bearing,Return to Work
+IA00123,P00123,8.0,Moderate,71.0,48.0,64.0,0.63,Partial Weight-Bearing,Climb Stairs
+IA00124,P00124,6.0,Mild,77.0,62.0,74.0,0.97,Non-Weight-Bearing,Walk Normally
+IA00125,P00125,6.0,Moderate,58.0,36.0,47.0,0.96,Partial Weight-Bearing,Walk Normally
+IA00126,P00126,7.0,Moderate,57.0,49.0,39.0,0.49,Partial Weight-Bearing,Climb Stairs
+IA00127,P00127,9.0,Severe,44.0,51.0,48.0,0.62,Partial Weight-Bearing,Climb Stairs
+IA00128,P00128,6.0,Mild,36.0,28.0,73.0,0.85,Non-Weight-Bearing,Return to Sport
+IA00129,P00129,5.0,,77.0,60.0,61.0,0.65,Partial Weight-Bearing,Return to Work
+IA00130,P00130,4.0,,72.0,62.0,65.0,0.71,Partial Weight-Bearing,Walk Normally
+IA00131,P00131,6.0,,78.0,70.0,57.0,0.71,Partial Weight-Bearing,Return to Work
+IA00132,P00132,8.0,Moderate,57.0,52.0,46.0,0.63,Non-Weight-Bearing,Return to Work
+IA00133,P00133,6.0,Moderate,65.0,46.0,60.0,0.6,Partial Weight-Bearing,Return to Sport
+IA00134,P00134,8.0,Mild,44.0,49.0,51.0,0.62,Partial Weight-Bearing,Walk Normally
+IA00135,P00135,7.0,Mild,46.0,38.0,57.0,0.78,Partial Weight-Bearing,Walk Normally
+IA00136,P00136,7.0,Moderate,33.0,41.0,58.0,0.37,Non-Weight-Bearing,Walk Normally
+IA00137,P00137,8.0,,69.0,42.0,64.0,0.65,Full Weight-Bearing,Return to Work
+IA00138,P00138,7.0,,62.0,70.0,67.0,0.9,Partial Weight-Bearing,Return to Sport
+IA00139,P00139,8.0,Mild,49.0,50.0,42.0,0.73,Partial Weight-Bearing,Climb Stairs
+IA00140,P00140,5.0,Mild,61.0,36.0,41.0,0.49,Partial Weight-Bearing,Return to Work
+IA00141,P00141,10.0,Severe,42.0,38.0,43.0,0.58,Full Weight-Bearing,Return to Work
+IA00142,P00142,5.0,,56.0,67.0,60.0,1.0,Partial Weight-Bearing,Return to Sport
+IA00143,P00143,6.0,Moderate,83.0,55.0,46.0,0.64,Partial Weight-Bearing,Return to Work
+IA00144,P00144,2.0,Mild,70.0,46.0,63.0,0.65,Partial Weight-Bearing,Return to Sport
+IA00145,P00145,7.0,Mild,47.0,14.0,63.0,0.78,Partial Weight-Bearing,Walk Normally
+IA00146,P00146,4.0,Mild,63.0,59.0,74.0,1.06,Partial Weight-Bearing,Return to Sport
+IA00147,P00147,7.0,Mild,56.0,36.0,69.0,0.52,Full Weight-Bearing,Climb Stairs
+IA00148,P00148,3.0,,68.0,61.0,44.0,0.81,Full Weight-Bearing,Return to Sport
+IA00149,P00149,7.0,Mild,83.0,65.0,46.0,0.96,Partial Weight-Bearing,Return to Sport
+IA00150,P00150,7.0,Moderate,57.0,56.0,49.0,0.67,Non-Weight-Bearing,Return to Sport
+IA00151,P00151,9.0,Mild,77.0,62.0,53.0,0.39,Partial Weight-Bearing,Return to Work
+IA00152,P00152,5.0,Moderate,54.0,57.0,49.0,0.72,Full Weight-Bearing,Walk Normally
+IA00153,P00153,8.0,Moderate,62.0,62.0,45.0,0.5,Full Weight-Bearing,Climb Stairs
+IA00154,P00154,5.0,Moderate,56.0,49.0,40.0,0.31,Partial Weight-Bearing,Climb Stairs
+IA00155,P00155,5.0,Mild,82.0,70.0,66.0,0.54,Non-Weight-Bearing,Walk Normally
+IA00156,P00156,5.0,Moderate,71.0,45.0,36.0,0.83,Non-Weight-Bearing,Return to Sport
+IA00157,P00157,7.0,Severe,43.0,22.0,72.0,0.37,Full Weight-Bearing,Return to Sport
+IA00158,P00158,6.0,Mild,58.0,70.0,52.0,0.7,Partial Weight-Bearing,Walk Normally
+IA00159,P00159,5.0,Mild,33.0,46.0,65.0,0.74,Partial Weight-Bearing,Return to Work
+IA00160,P00160,5.0,Mild,56.0,57.0,45.0,0.67,Partial Weight-Bearing,Return to Sport
+IA00161,P00161,4.0,Mild,81.0,49.0,67.0,0.84,Partial Weight-Bearing,Climb Stairs
+IA00162,P00162,6.0,Mild,67.0,55.0,53.0,0.71,Full Weight-Bearing,Return to Work
+IA00163,P00163,8.0,Moderate,57.0,21.0,62.0,0.67,Partial Weight-Bearing,Return to Work
+IA00164,P00164,8.0,Moderate,63.0,31.0,42.0,0.39,Partial Weight-Bearing,Return to Sport
+IA00165,P00165,9.0,Moderate,42.0,34.0,63.0,0.37,Full Weight-Bearing,Return to Work
+IA00166,P00166,3.0,,63.0,60.0,42.0,0.78,Partial Weight-Bearing,Climb Stairs
+IA00167,P00167,4.0,Mild,65.0,66.0,71.0,0.78,Full Weight-Bearing,Walk Normally
+IA00168,P00168,7.0,Mild,47.0,34.0,53.0,0.71,Full Weight-Bearing,Climb Stairs
+IA00169,P00169,7.0,Mild,64.0,52.0,40.0,0.82,Non-Weight-Bearing,Return to Sport
+IA00170,P00170,5.0,Moderate,61.0,57.0,75.0,0.7,Non-Weight-Bearing,Return to Work
+IA00171,P00171,7.0,Moderate,64.0,68.0,74.0,0.53,Non-Weight-Bearing,Climb Stairs
+IA00172,P00172,6.0,Moderate,54.0,52.0,27.0,0.32,Full Weight-Bearing,Climb Stairs
+IA00173,P00173,6.0,Severe,45.0,30.0,46.0,0.38,Full Weight-Bearing,Return to Work
+IA00174,P00174,7.0,Mild,36.0,32.0,60.0,0.45,Partial Weight-Bearing,Climb Stairs
+IA00175,P00175,5.0,,74.0,73.0,65.0,0.69,Full Weight-Bearing,Return to Sport
+IA00176,P00176,6.0,Mild,59.0,52.0,70.0,0.69,Full Weight-Bearing,Return to Sport
+IA00177,P00177,5.0,Mild,47.0,45.0,68.0,0.66,Full Weight-Bearing,Return to Work
+IA00178,P00178,4.0,Mild,69.0,39.0,63.0,1.08,Partial Weight-Bearing,Climb Stairs
+IA00179,P00179,4.0,,67.0,46.0,87.0,0.87,Non-Weight-Bearing,Return to Work
+IA00180,P00180,8.0,Moderate,76.0,51.0,63.0,0.94,Full Weight-Bearing,Walk Normally
+IA00181,P00181,7.0,Mild,47.0,49.0,48.0,0.76,Full Weight-Bearing,Walk Normally
+IA00182,P00182,9.0,Moderate,49.0,16.0,37.0,0.66,Full Weight-Bearing,Return to Work
+IA00183,P00183,7.0,Moderate,47.0,51.0,67.0,0.6,Full Weight-Bearing,Climb Stairs
+IA00184,P00184,4.0,,64.0,39.0,50.0,0.64,Partial Weight-Bearing,Walk Normally
+IA00185,P00185,4.0,Mild,61.0,59.0,47.0,0.58,Full Weight-Bearing,Return to Sport
+IA00186,P00186,5.0,Mild,56.0,47.0,49.0,0.65,Partial Weight-Bearing,Return to Work
+IA00187,P00187,7.0,Severe,46.0,30.0,48.0,0.41,Partial Weight-Bearing,Climb Stairs
+IA00188,P00188,5.0,Moderate,61.0,55.0,50.0,0.5,Partial Weight-Bearing,Walk Normally
+IA00189,P00189,7.0,Mild,53.0,49.0,36.0,0.71,Non-Weight-Bearing,Walk Normally
+IA00190,P00190,9.0,Severe,55.0,48.0,58.0,0.35,Non-Weight-Bearing,Return to Sport
+IA00191,P00191,9.0,Moderate,55.0,46.0,47.0,0.42,Full Weight-Bearing,Walk Normally
+IA00192,P00192,4.0,Mild,69.0,56.0,84.0,0.63,Full Weight-Bearing,Return to Sport
+IA00193,P00193,8.0,Moderate,62.0,42.0,56.0,0.61,Partial Weight-Bearing,Return to Sport
+IA00194,P00194,8.0,Moderate,60.0,48.0,67.0,0.5,Partial Weight-Bearing,Return to Work
+IA00195,P00195,6.0,Moderate,64.0,62.0,60.0,0.62,Non-Weight-Bearing,Walk Normally
+IA00196,P00196,8.0,Moderate,49.0,30.0,60.0,0.59,Partial Weight-Bearing,Return to Work
+IA00197,P00197,7.0,Mild,75.0,61.0,67.0,0.89,Partial Weight-Bearing,Walk Normally
+IA00198,P00198,6.0,Moderate,55.0,36.0,55.0,0.55,Partial Weight-Bearing,Return to Sport
+IA00199,P00199,5.0,Mild,59.0,34.0,73.0,0.6,Full Weight-Bearing,Walk Normally
+IA00200,P00200,4.0,Mild,56.0,57.0,90.0,0.71,Partial Weight-Bearing,Return to Sport
+IA00201,P00201,3.0,Moderate,41.0,49.0,49.0,0.75,Full Weight-Bearing,Climb Stairs
+IA00202,P00202,7.0,Severe,64.0,34.0,54.0,0.63,Full Weight-Bearing,Return to Work
+IA00203,P00203,5.0,Moderate,36.0,30.0,52.0,0.7,Non-Weight-Bearing,Climb Stairs
+IA00204,P00204,5.0,Mild,70.0,48.0,58.0,0.83,Partial Weight-Bearing,Climb Stairs
+IA00205,P00205,6.0,,62.0,58.0,61.0,1.06,Non-Weight-Bearing,Return to Work
+IA00206,P00206,4.0,Moderate,70.0,36.0,26.0,0.58,Partial Weight-Bearing,Climb Stairs
+IA00207,P00207,7.0,Mild,36.0,31.0,50.0,0.87,Full Weight-Bearing,Walk Normally
+IA00208,P00208,8.0,Severe,44.0,32.0,56.0,0.46,Partial Weight-Bearing,Climb Stairs
+IA00209,P00209,6.0,Mild,73.0,52.0,43.0,0.8,Partial Weight-Bearing,Walk Normally
+IA00210,P00210,7.0,Moderate,53.0,39.0,55.0,0.61,Partial Weight-Bearing,Return to Sport
+IA00211,P00211,6.0,Severe,43.0,26.0,46.0,0.2,Partial Weight-Bearing,Climb Stairs
+IA00212,P00212,7.0,Moderate,39.0,46.0,50.0,0.51,Full Weight-Bearing,Climb Stairs
+IA00213,P00213,6.0,Moderate,45.0,54.0,63.0,0.47,Partial Weight-Bearing,Return to Sport
+IA00214,P00214,7.0,Mild,72.0,33.0,60.0,0.38,Full Weight-Bearing,Return to Work
+IA00215,P00215,8.0,Severe,43.0,36.0,49.0,0.63,Non-Weight-Bearing,Return to Sport
+IA00216,P00216,5.0,Mild,57.0,58.0,64.0,0.96,Non-Weight-Bearing,Climb Stairs
+IA00217,P00217,4.0,Moderate,61.0,32.0,54.0,0.61,Partial Weight-Bearing,Return to Work
+IA00218,P00218,7.0,Mild,45.0,57.0,32.0,0.78,Full Weight-Bearing,Return to Sport
+IA00219,P00219,7.0,Mild,62.0,61.0,47.0,0.87,Partial Weight-Bearing,Return to Work
+IA00220,P00220,7.0,Severe,42.0,33.0,22.0,0.53,Full Weight-Bearing,Return to Work
+IA00221,P00221,8.0,Severe,49.0,32.0,52.0,0.5,Non-Weight-Bearing,Climb Stairs
+IA00222,P00222,7.0,Mild,64.0,65.0,71.0,0.76,Partial Weight-Bearing,Return to Work
+IA00223,P00223,6.0,,54.0,53.0,71.0,0.88,Partial Weight-Bearing,Climb Stairs
+IA00224,P00224,7.0,Severe,42.0,11.0,50.0,0.63,Partial Weight-Bearing,Walk Normally
+IA00225,P00225,4.0,Mild,64.0,44.0,64.0,0.72,Partial Weight-Bearing,Climb Stairs
+IA00226,P00226,6.0,Severe,50.0,40.0,25.0,0.56,Non-Weight-Bearing,Walk Normally
+IA00227,P00227,6.0,Moderate,58.0,52.0,51.0,0.64,Full Weight-Bearing,Return to Sport
+IA00228,P00228,9.0,Severe,55.0,26.0,27.0,0.26,Partial Weight-Bearing,Return to Sport
+IA00229,P00229,5.0,Mild,56.0,42.0,48.0,0.78,Partial Weight-Bearing,Walk Normally
+IA00230,P00230,4.0,Mild,71.0,65.0,79.0,0.61,Partial Weight-Bearing,Return to Work
+IA00231,P00231,4.0,Mild,65.0,54.0,73.0,0.89,Non-Weight-Bearing,Return to Work
+IA00232,P00232,6.0,Mild,68.0,30.0,60.0,0.76,Partial Weight-Bearing,Return to Work
+IA00233,P00233,5.0,Mild,73.0,67.0,58.0,0.63,Partial Weight-Bearing,Return to Sport
+IA00234,P00234,6.0,Moderate,40.0,33.0,32.0,0.41,Non-Weight-Bearing,Walk Normally
+IA00235,P00235,8.0,Moderate,43.0,56.0,54.0,0.97,Partial Weight-Bearing,Walk Normally
+IA00236,P00236,6.0,Mild,69.0,31.0,65.0,0.64,Partial Weight-Bearing,Return to Sport
+IA00237,P00237,8.0,,63.0,54.0,65.0,0.62,Full Weight-Bearing,Walk Normally
+IA00238,P00238,6.0,Moderate,47.0,40.0,25.0,0.62,Full Weight-Bearing,Walk Normally
+IA00239,P00239,8.0,Mild,82.0,44.0,53.0,0.53,Partial Weight-Bearing,Return to Work
+IA00240,P00240,9.0,Moderate,54.0,23.0,21.0,0.21,Full Weight-Bearing,Return to Sport
+IA00241,P00241,7.0,Moderate,62.0,11.0,54.0,0.58,Partial Weight-Bearing,Return to Work
+IA00242,P00242,6.0,Mild,53.0,60.0,44.0,0.51,Full Weight-Bearing,Return to Work
+IA00243,P00243,6.0,Moderate,57.0,37.0,29.0,0.55,Non-Weight-Bearing,Climb Stairs
+IA00244,P00244,5.0,Mild,58.0,57.0,62.0,0.53,Non-Weight-Bearing,Return to Sport
+IA00245,P00245,6.0,Mild,62.0,54.0,59.0,0.76,Partial Weight-Bearing,Return to Sport
+IA00246,P00246,5.0,Mild,90.0,61.0,63.0,0.83,Non-Weight-Bearing,Return to Work
+IA00247,P00247,3.0,,67.0,52.0,86.0,0.41,Full Weight-Bearing,Return to Sport
+IA00248,P00248,9.0,Moderate,58.0,50.0,60.0,0.71,Partial Weight-Bearing,Return to Sport
+IA00249,P00249,6.0,Moderate,49.0,59.0,44.0,0.61,Non-Weight-Bearing,Return to Work
+IA00250,P00250,6.0,Mild,67.0,46.0,58.0,0.86,Partial Weight-Bearing,Climb Stairs
+IA00251,P00251,7.0,Severe,40.0,54.0,41.0,0.56,Partial Weight-Bearing,Climb Stairs
+IA00252,P00252,6.0,Moderate,68.0,30.0,67.0,0.76,Full Weight-Bearing,Return to Sport
+IA00253,P00253,5.0,Mild,54.0,39.0,63.0,0.69,Full Weight-Bearing,Walk Normally
+IA00254,P00254,6.0,Mild,63.0,55.0,57.0,0.53,Partial Weight-Bearing,Return to Work
+IA00255,P00255,5.0,,64.0,47.0,43.0,0.8,Full Weight-Bearing,Return to Sport
+IA00256,P00256,8.0,Severe,53.0,55.0,45.0,0.45,Partial Weight-Bearing,Return to Sport
+IA00257,P00257,6.0,Moderate,58.0,58.0,51.0,0.85,Non-Weight-Bearing,Return to Sport
+IA00258,P00258,7.0,Mild,53.0,61.0,40.0,0.63,Partial Weight-Bearing,Climb Stairs
+IA00259,P00259,6.0,Mild,54.0,54.0,49.0,0.47,Partial Weight-Bearing,Return to Sport
+IA00260,P00260,7.0,Mild,49.0,36.0,57.0,0.53,Non-Weight-Bearing,Return to Work
+IA00261,P00261,6.0,Mild,66.0,28.0,52.0,0.79,Partial Weight-Bearing,Return to Sport
+IA00262,P00262,6.0,,60.0,70.0,43.0,0.77,Full Weight-Bearing,Return to Sport
+IA00263,P00263,7.0,Mild,55.0,30.0,49.0,0.62,Full Weight-Bearing,Return to Work
+IA00264,P00264,7.0,Severe,49.0,51.0,38.0,0.66,Full Weight-Bearing,Return to Work
+IA00265,P00265,5.0,Mild,86.0,62.0,62.0,0.66,Partial Weight-Bearing,Climb Stairs
+IA00266,P00266,6.0,Moderate,58.0,44.0,53.0,0.31,Partial Weight-Bearing,Return to Work
+IA00267,P00267,5.0,Mild,68.0,59.0,55.0,0.67,Full Weight-Bearing,Return to Sport
+IA00268,P00268,6.0,Moderate,61.0,50.0,47.0,0.69,Partial Weight-Bearing,Walk Normally
+IA00269,P00269,4.0,,49.0,53.0,61.0,0.76,Partial Weight-Bearing,Return to Sport
+IA00270,P00270,8.0,Severe,34.0,49.0,56.0,0.27,Partial Weight-Bearing,Walk Normally
+IA00271,P00271,6.0,Mild,66.0,69.0,63.0,0.95,Partial Weight-Bearing,Climb Stairs
+IA00272,P00272,9.0,Mild,51.0,47.0,69.0,0.67,Full Weight-Bearing,Return to Work
+IA00273,P00273,4.0,Mild,54.0,49.0,74.0,0.86,Partial Weight-Bearing,Return to Sport
+IA00274,P00274,7.0,Mild,67.0,58.0,70.0,0.71,Non-Weight-Bearing,Walk Normally
+IA00275,P00275,3.0,,73.0,35.0,76.0,0.61,Full Weight-Bearing,Return to Work
+IA00276,P00276,7.0,Mild,59.0,49.0,71.0,0.7,Partial Weight-Bearing,Walk Normally
+IA00277,P00277,6.0,Severe,39.0,42.0,30.0,0.64,Partial Weight-Bearing,Return to Sport
+IA00278,P00278,4.0,,71.0,47.0,68.0,0.97,Partial Weight-Bearing,Walk Normally
+IA00279,P00279,8.0,Moderate,51.0,45.0,59.0,0.61,Full Weight-Bearing,Return to Sport
+IA00280,P00280,5.0,Moderate,55.0,45.0,69.0,0.73,Partial Weight-Bearing,Walk Normally
+IA00281,P00281,5.0,Mild,62.0,40.0,43.0,0.39,Partial Weight-Bearing,Walk Normally
+IA00282,P00282,6.0,Mild,50.0,55.0,60.0,0.65,Partial Weight-Bearing,Walk Normally
+IA00283,P00283,6.0,Mild,71.0,44.0,61.0,0.66,Full Weight-Bearing,Walk Normally
+IA00284,P00284,5.0,Mild,69.0,54.0,74.0,0.84,Partial Weight-Bearing,Walk Normally
+IA00285,P00285,5.0,,82.0,35.0,43.0,0.97,Partial Weight-Bearing,Return to Sport
+IA00286,P00286,6.0,Mild,71.0,48.0,43.0,0.51,Partial Weight-Bearing,Return to Sport
+IA00287,P00287,7.0,Moderate,61.0,45.0,30.0,0.64,Full Weight-Bearing,Walk Normally
+IA00288,P00288,9.0,Severe,46.0,30.0,46.0,0.54,Non-Weight-Bearing,Return to Work
+IA00289,P00289,3.0,,66.0,59.0,87.0,0.94,Partial Weight-Bearing,Climb Stairs
+IA00290,P00290,9.0,Moderate,28.0,34.0,43.0,0.25,Partial Weight-Bearing,Return to Sport
+IA00291,P00291,4.0,Mild,57.0,66.0,61.0,0.47,Partial Weight-Bearing,Walk Normally
+IA00292,P00292,7.0,Moderate,56.0,51.0,59.0,0.66,Partial Weight-Bearing,Climb Stairs
+IA00293,P00293,5.0,Moderate,57.0,50.0,51.0,0.27,Partial Weight-Bearing,Walk Normally
+IA00294,P00294,5.0,,84.0,58.0,64.0,0.82,Partial Weight-Bearing,Climb Stairs
+IA00295,P00295,8.0,Mild,83.0,50.0,65.0,0.89,Full Weight-Bearing,Return to Work
+IA00296,P00296,6.0,Mild,51.0,42.0,42.0,0.84,Non-Weight-Bearing,Return to Sport
+IA00297,P00297,4.0,Mild,78.0,57.0,59.0,0.71,Full Weight-Bearing,Walk Normally
+IA00298,P00298,6.0,Moderate,53.0,43.0,61.0,0.67,Partial Weight-Bearing,Walk Normally
+IA00299,P00299,5.0,Severe,53.0,46.0,55.0,0.6,Full Weight-Bearing,Walk Normally
+IA00300,P00300,8.0,Mild,66.0,46.0,68.0,0.47,Partial Weight-Bearing,Return to Sport
+IA00301,P00301,5.0,,82.0,59.0,64.0,0.94,Partial Weight-Bearing,Climb Stairs
+IA00302,P00302,4.0,,65.0,41.0,64.0,0.84,Non-Weight-Bearing,Return to Sport
+IA00303,P00303,4.0,,80.0,64.0,69.0,0.71,Partial Weight-Bearing,Climb Stairs
+IA00304,P00304,6.0,Mild,39.0,39.0,45.0,0.67,Full Weight-Bearing,Climb Stairs
+IA00305,P00305,7.0,Moderate,71.0,35.0,44.0,0.63,Partial Weight-Bearing,Return to Sport
+IA00306,P00306,4.0,Mild,70.0,71.0,59.0,0.92,Full Weight-Bearing,Return to Work
+IA00307,P00307,6.0,,70.0,62.0,45.0,0.75,Partial Weight-Bearing,Return to Work
+IA00308,P00308,6.0,Mild,38.0,55.0,57.0,0.68,Partial Weight-Bearing,Walk Normally
+IA00309,P00309,5.0,Mild,54.0,50.0,65.0,0.56,Full Weight-Bearing,Return to Work
+IA00310,P00310,6.0,Moderate,72.0,44.0,43.0,0.51,Partial Weight-Bearing,Return to Work
+IA00311,P00311,10.0,Severe,42.0,32.0,49.0,0.53,Full Weight-Bearing,Return to Sport
+IA00312,P00312,3.0,,77.0,63.0,52.0,0.67,Partial Weight-Bearing,Walk Normally
+IA00313,P00313,5.0,Mild,58.0,56.0,40.0,0.77,Partial Weight-Bearing,Walk Normally
+IA00314,P00314,9.0,Severe,57.0,34.0,69.0,0.59,Full Weight-Bearing,Climb Stairs
+IA00315,P00315,6.0,Mild,60.0,66.0,40.0,0.54,Non-Weight-Bearing,Return to Work
+IA00316,P00316,6.0,Moderate,37.0,33.0,29.0,0.53,Non-Weight-Bearing,Walk Normally
+IA00317,P00317,9.0,Severe,47.0,21.0,47.0,0.38,Non-Weight-Bearing,Return to Sport
+IA00318,P00318,8.0,Mild,74.0,28.0,55.0,0.41,Partial Weight-Bearing,Walk Normally
+IA00319,P00319,7.0,Moderate,63.0,28.0,60.0,0.56,Partial Weight-Bearing,Climb Stairs
+IA00320,P00320,5.0,Moderate,57.0,41.0,76.0,0.64,Non-Weight-Bearing,Walk Normally
+IA00321,P00321,6.0,Moderate,81.0,43.0,43.0,0.73,Non-Weight-Bearing,Return to Sport
+IA00322,P00322,7.0,Mild,70.0,52.0,45.0,0.67,Partial Weight-Bearing,Return to Sport
+IA00323,P00323,4.0,Mild,66.0,45.0,71.0,0.79,Partial Weight-Bearing,Climb Stairs
+IA00324,P00324,9.0,Severe,49.0,43.0,55.0,0.35,Non-Weight-Bearing,Return to Sport
+IA00325,P00325,7.0,,77.0,55.0,70.0,0.74,Non-Weight-Bearing,Walk Normally
+IA00326,P00326,5.0,Mild,78.0,55.0,53.0,1.05,Full Weight-Bearing,Return to Sport
+IA00327,P00327,7.0,Moderate,36.0,39.0,66.0,0.36,Full Weight-Bearing,Walk Normally
+IA00328,P00328,7.0,,74.0,69.0,70.0,0.73,Partial Weight-Bearing,Return to Sport
+IA00329,P00329,9.0,Mild,56.0,30.0,54.0,0.49,Partial Weight-Bearing,Return to Sport
+IA00330,P00330,7.0,Mild,65.0,58.0,53.0,0.77,Non-Weight-Bearing,Climb Stairs
+IA00331,P00331,4.0,Moderate,56.0,43.0,53.0,0.58,Partial Weight-Bearing,Return to Sport
+IA00332,P00332,6.0,Moderate,42.0,53.0,72.0,0.74,Partial Weight-Bearing,Return to Sport
+IA00333,P00333,6.0,,52.0,55.0,47.0,0.84,Full Weight-Bearing,Walk Normally
+IA00334,P00334,4.0,,82.0,55.0,50.0,0.6,Full Weight-Bearing,Return to Sport
+IA00335,P00335,9.0,Mild,63.0,42.0,44.0,0.56,Partial Weight-Bearing,Return to Sport
+IA00336,P00336,8.0,Moderate,34.0,59.0,47.0,0.65,Non-Weight-Bearing,Walk Normally
+IA00337,P00337,5.0,Mild,52.0,45.0,52.0,0.76,Full Weight-Bearing,Walk Normally
+IA00338,P00338,5.0,Mild,79.0,75.0,72.0,1.16,Full Weight-Bearing,Walk Normally
+IA00339,P00339,4.0,,67.0,58.0,66.0,0.91,Non-Weight-Bearing,Return to Work
+IA00340,P00340,5.0,,82.0,55.0,61.0,0.65,Full Weight-Bearing,Walk Normally
+IA00341,P00341,5.0,,80.0,54.0,63.0,0.79,Non-Weight-Bearing,Walk Normally
+IA00342,P00342,9.0,Moderate,32.0,41.0,51.0,0.53,Full Weight-Bearing,Return to Work
+IA00343,P00343,4.0,Mild,69.0,49.0,40.0,0.72,Non-Weight-Bearing,Walk Normally
+IA00344,P00344,2.0,,66.0,56.0,73.0,0.87,Partial Weight-Bearing,Climb Stairs
+IA00345,P00345,5.0,Severe,32.0,35.0,34.0,0.16,Partial Weight-Bearing,Walk Normally
+IA00346,P00346,5.0,Mild,43.0,48.0,47.0,0.73,Partial Weight-Bearing,Climb Stairs
+IA00347,P00347,5.0,Mild,50.0,49.0,56.0,0.58,Partial Weight-Bearing,Return to Work
+IA00348,P00348,6.0,Moderate,52.0,49.0,51.0,0.63,Partial Weight-Bearing,Return to Sport
+IA00349,P00349,6.0,Severe,49.0,36.0,50.0,0.72,Full Weight-Bearing,Return to Work
+IA00350,P00350,3.0,Mild,80.0,71.0,62.0,0.61,Non-Weight-Bearing,Walk Normally
+IA00351,P00351,4.0,,75.0,59.0,57.0,0.84,Full Weight-Bearing,Climb Stairs
+IA00352,P00352,6.0,Moderate,54.0,61.0,62.0,0.62,Non-Weight-Bearing,Walk Normally
+IA00353,P00353,7.0,Moderate,43.0,35.0,52.0,0.53,Full Weight-Bearing,Return to Sport
+IA00354,P00354,7.0,Moderate,52.0,45.0,48.0,0.26,Non-Weight-Bearing,Return to Sport
+IA00355,P00355,7.0,Moderate,57.0,38.0,60.0,0.85,Partial Weight-Bearing,Return to Work
+IA00356,P00356,6.0,Moderate,42.0,49.0,36.0,0.47,Partial Weight-Bearing,Climb Stairs
+IA00357,P00357,6.0,Moderate,77.0,38.0,78.0,0.57,Full Weight-Bearing,Return to Work
+IA00358,P00358,5.0,Mild,35.0,50.0,39.0,0.6,Partial Weight-Bearing,Return to Sport
+IA00359,P00359,8.0,Severe,27.0,32.0,45.0,0.44,Non-Weight-Bearing,Return to Sport
+IA00360,P00360,5.0,,74.0,60.0,57.0,0.62,Full Weight-Bearing,Return to Sport
+IA00361,P00361,6.0,,67.0,53.0,56.0,0.82,Non-Weight-Bearing,Return to Sport
+IA00362,P00362,5.0,Mild,44.0,37.0,47.0,0.56,Partial Weight-Bearing,Walk Normally
+IA00363,P00363,7.0,Moderate,35.0,32.0,35.0,0.6,Partial Weight-Bearing,Return to Work
+IA00364,P00364,4.0,,61.0,70.0,74.0,0.88,Full Weight-Bearing,Return to Work
+IA00365,P00365,6.0,Severe,55.0,40.0,30.0,0.74,Full Weight-Bearing,Walk Normally
+IA00366,P00366,6.0,Mild,70.0,32.0,64.0,0.62,Full Weight-Bearing,Return to Sport
+IA00367,P00367,8.0,Moderate,74.0,56.0,60.0,0.53,Non-Weight-Bearing,Climb Stairs
+IA00368,P00368,5.0,Moderate,42.0,36.0,47.0,0.43,Non-Weight-Bearing,Climb Stairs
+IA00369,P00369,7.0,Severe,32.0,42.0,50.0,0.83,Full Weight-Bearing,Climb Stairs
+IA00370,P00370,3.0,Mild,56.0,61.0,58.0,0.9,Partial Weight-Bearing,Walk Normally
+IA00371,P00371,4.0,Moderate,71.0,51.0,39.0,0.55,Partial Weight-Bearing,Return to Sport
+IA00372,P00372,4.0,Mild,74.0,74.0,47.0,1.05,Full Weight-Bearing,Return to Sport
+IA00373,P00373,7.0,Moderate,47.0,27.0,52.0,0.7,Non-Weight-Bearing,Return to Work
+IA00374,P00374,7.0,Moderate,48.0,41.0,51.0,0.3,Partial Weight-Bearing,Climb Stairs
+IA00375,P00375,5.0,Mild,69.0,68.0,63.0,0.69,Full Weight-Bearing,Return to Work
+IA00376,P00376,3.0,,59.0,49.0,55.0,0.78,Partial Weight-Bearing,Return to Sport
+IA00377,P00377,5.0,Moderate,63.0,38.0,50.0,0.49,Full Weight-Bearing,Walk Normally
+IA00378,P00378,7.0,Moderate,56.0,42.0,48.0,0.64,Partial Weight-Bearing,Return to Sport
+IA00379,P00379,6.0,Moderate,34.0,38.0,23.0,0.61,Partial Weight-Bearing,Return to Work
+IA00380,P00380,6.0,Mild,64.0,31.0,53.0,0.44,Full Weight-Bearing,Return to Sport
+IA00381,P00381,7.0,Mild,54.0,51.0,58.0,0.69,Full Weight-Bearing,Climb Stairs
+IA00382,P00382,5.0,Mild,60.0,31.0,53.0,0.83,Full Weight-Bearing,Return to Sport
+IA00383,P00383,7.0,Moderate,57.0,58.0,73.0,0.71,Partial Weight-Bearing,Return to Sport
+IA00384,P00384,3.0,Mild,79.0,60.0,48.0,0.79,Partial Weight-Bearing,Return to Sport
+IA00385,P00385,6.0,,72.0,74.0,52.0,0.7,Partial Weight-Bearing,Walk Normally
+IA00386,P00386,7.0,Mild,49.0,52.0,54.0,0.77,Partial Weight-Bearing,Return to Work
+IA00387,P00387,6.0,Moderate,61.0,42.0,55.0,0.47,Full Weight-Bearing,Return to Work
+IA00388,P00388,6.0,,74.0,47.0,37.0,0.84,Full Weight-Bearing,Climb Stairs
+IA00389,P00389,6.0,Moderate,63.0,47.0,59.0,0.65,Partial Weight-Bearing,Walk Normally
+IA00390,P00390,4.0,Mild,80.0,55.0,63.0,0.97,Full Weight-Bearing,Climb Stairs
+IA00391,P00391,8.0,Mild,52.0,57.0,27.0,0.56,Partial Weight-Bearing,Return to Sport
+IA00392,P00392,7.0,,77.0,46.0,59.0,0.73,Full Weight-Bearing,Return to Work
+IA00393,P00393,5.0,Moderate,41.0,65.0,42.0,0.46,Partial Weight-Bearing,Climb Stairs
+IA00394,P00394,5.0,,69.0,68.0,55.0,0.87,Full Weight-Bearing,Walk Normally
+IA00395,P00395,8.0,Moderate,55.0,43.0,36.0,0.59,Full Weight-Bearing,Return to Sport
+IA00396,P00396,5.0,,84.0,73.0,65.0,0.67,Partial Weight-Bearing,Return to Sport
+IA00397,P00397,7.0,Mild,56.0,37.0,73.0,0.53,Full Weight-Bearing,Walk Normally
+IA00398,P00398,8.0,Moderate,52.0,37.0,47.0,0.58,Partial Weight-Bearing,Return to Work
+IA00399,P00399,4.0,Mild,52.0,42.0,34.0,0.63,Full Weight-Bearing,Climb Stairs
+IA00400,P00400,7.0,Mild,54.0,63.0,55.0,0.5,Non-Weight-Bearing,Walk Normally
+IA00401,P00401,6.0,Mild,50.0,29.0,50.0,0.78,Non-Weight-Bearing,Walk Normally
+IA00402,P00402,5.0,Moderate,83.0,31.0,39.0,0.63,Full Weight-Bearing,Climb Stairs
+IA00403,P00403,5.0,Moderate,51.0,39.0,56.0,0.79,Full Weight-Bearing,Return to Sport
+IA00404,P00404,5.0,Moderate,59.0,58.0,63.0,0.6,Full Weight-Bearing,Return to Sport
+IA00405,P00405,7.0,Mild,59.0,55.0,44.0,0.65,Partial Weight-Bearing,Climb Stairs
+IA00406,P00406,9.0,Severe,30.0,36.0,24.0,0.52,Non-Weight-Bearing,Return to Sport
+IA00407,P00407,8.0,Moderate,41.0,45.0,20.0,0.71,Partial Weight-Bearing,Return to Sport
+IA00408,P00408,6.0,,74.0,54.0,52.0,1.0,Full Weight-Bearing,Walk Normally
+IA00409,P00409,7.0,Moderate,59.0,49.0,50.0,0.82,Full Weight-Bearing,Return to Sport
+IA00410,P00410,5.0,,47.0,72.0,54.0,0.71,Full Weight-Bearing,Return to Work
+IA00411,P00411,7.0,Mild,52.0,43.0,44.0,0.5,Partial Weight-Bearing,Return to Work
+IA00412,P00412,6.0,Mild,80.0,47.0,67.0,0.91,Full Weight-Bearing,Return to Work
+IA00413,P00413,3.0,,76.0,60.0,66.0,1.01,Partial Weight-Bearing,Return to Work
+IA00414,P00414,5.0,Moderate,70.0,52.0,54.0,0.82,Full Weight-Bearing,Return to Sport
+IA00415,P00415,6.0,Moderate,36.0,36.0,54.0,0.5,Partial Weight-Bearing,Walk Normally
+IA00416,P00416,6.0,Mild,83.0,65.0,52.0,0.91,Partial Weight-Bearing,Climb Stairs
+IA00417,P00417,8.0,Moderate,58.0,43.0,39.0,0.76,Partial Weight-Bearing,Return to Sport
+IA00418,P00418,3.0,Mild,74.0,46.0,46.0,0.67,Full Weight-Bearing,Return to Work
+IA00419,P00419,9.0,Severe,46.0,39.0,37.0,0.53,Partial Weight-Bearing,Return to Sport
+IA00420,P00420,6.0,Moderate,38.0,48.0,27.0,0.66,Non-Weight-Bearing,Walk Normally
+IA00421,P00421,6.0,,78.0,71.0,53.0,0.68,Full Weight-Bearing,Climb Stairs
+IA00422,P00422,6.0,Mild,66.0,59.0,73.0,0.7,Full Weight-Bearing,Return to Work
+IA00423,P00423,8.0,Mild,54.0,42.0,62.0,0.54,Partial Weight-Bearing,Climb Stairs
+IA00424,P00424,5.0,Mild,55.0,60.0,66.0,0.56,Non-Weight-Bearing,Walk Normally
+IA00425,P00425,6.0,Moderate,62.0,45.0,46.0,0.52,Partial Weight-Bearing,Return to Sport
+IA00426,P00426,7.0,Severe,41.0,43.0,61.0,0.49,Non-Weight-Bearing,Walk Normally
+IA00427,P00427,8.0,Severe,62.0,42.0,31.0,0.61,Partial Weight-Bearing,Climb Stairs
+IA00428,P00428,5.0,,66.0,40.0,48.0,0.99,Non-Weight-Bearing,Walk Normally
+IA00429,P00429,7.0,Mild,49.0,20.0,65.0,0.85,Partial Weight-Bearing,Climb Stairs
+IA00430,P00430,6.0,Mild,71.0,58.0,52.0,0.86,Partial Weight-Bearing,Return to Sport
+IA00431,P00431,4.0,Mild,69.0,59.0,52.0,0.69,Non-Weight-Bearing,Return to Sport
+IA00432,P00432,4.0,Mild,69.0,55.0,67.0,0.59,Partial Weight-Bearing,Return to Work
+IA00433,P00433,4.0,,57.0,62.0,55.0,0.94,Partial Weight-Bearing,Return to Sport
+IA00434,P00434,6.0,Moderate,53.0,64.0,42.0,0.86,Partial Weight-Bearing,Climb Stairs
+IA00435,P00435,5.0,Severe,50.0,49.0,34.0,0.73,Non-Weight-Bearing,Walk Normally
+IA00436,P00436,6.0,Severe,33.0,45.0,48.0,0.57,Partial Weight-Bearing,Return to Work
+IA00437,P00437,2.0,Mild,65.0,46.0,62.0,0.5,Full Weight-Bearing,Return to Sport
+IA00438,P00438,5.0,Moderate,54.0,37.0,70.0,0.7,Full Weight-Bearing,Return to Sport
+IA00439,P00439,7.0,,71.0,31.0,57.0,0.88,Partial Weight-Bearing,Return to Work
+IA00440,P00440,3.0,,85.0,61.0,56.0,0.99,Full Weight-Bearing,Climb Stairs
+IA00441,P00441,6.0,Mild,67.0,66.0,77.0,1.01,Full Weight-Bearing,Walk Normally
+IA00442,P00442,10.0,Moderate,51.0,57.0,64.0,0.79,Full Weight-Bearing,Walk Normally
+IA00443,P00443,8.0,Mild,85.0,52.0,54.0,0.56,Partial Weight-Bearing,Walk Normally
+IA00444,P00444,8.0,Severe,42.0,33.0,25.0,0.35,Non-Weight-Bearing,Return to Work
+IA00445,P00445,9.0,Severe,44.0,29.0,34.0,0.58,Partial Weight-Bearing,Climb Stairs
+IA00446,P00446,3.0,Mild,66.0,47.0,47.0,0.68,Partial Weight-Bearing,Return to Work
+IA00447,P00447,4.0,Mild,55.0,43.0,52.0,0.87,Partial Weight-Bearing,Return to Work
+IA00448,P00448,5.0,Mild,71.0,45.0,54.0,0.54,Full Weight-Bearing,Walk Normally
+IA00449,P00449,7.0,Mild,67.0,63.0,71.0,0.74,Partial Weight-Bearing,Climb Stairs
+IA00450,P00450,8.0,Moderate,62.0,32.0,33.0,0.7,Partial Weight-Bearing,Climb Stairs
+IA00451,P00451,4.0,,81.0,53.0,46.0,0.77,Full Weight-Bearing,Return to Work
+IA00452,P00452,5.0,Mild,80.0,36.0,63.0,0.66,Partial Weight-Bearing,Climb Stairs
+IA00453,P00453,5.0,,72.0,58.0,66.0,0.49,Partial Weight-Bearing,Return to Sport
+IA00454,P00454,5.0,Mild,74.0,55.0,29.0,0.72,Full Weight-Bearing,Return to Work
+IA00455,P00455,7.0,Severe,57.0,31.0,23.0,0.42,Partial Weight-Bearing,Climb Stairs
+IA00456,P00456,4.0,Mild,59.0,46.0,57.0,0.97,Non-Weight-Bearing,Return to Work
+IA00457,P00457,7.0,Moderate,83.0,45.0,68.0,0.53,Partial Weight-Bearing,Walk Normally
+IA00458,P00458,8.0,Moderate,41.0,30.0,67.0,0.57,Partial Weight-Bearing,Walk Normally
+IA00459,P00459,6.0,Mild,54.0,44.0,47.0,0.46,Full Weight-Bearing,Climb Stairs
+IA00460,P00460,7.0,Moderate,46.0,65.0,50.0,0.72,Partial Weight-Bearing,Climb Stairs
+IA00461,P00461,9.0,Severe,34.0,37.0,34.0,0.16,Full Weight-Bearing,Return to Sport
+IA00462,P00462,6.0,Mild,80.0,60.0,68.0,1.11,Non-Weight-Bearing,Walk Normally
+IA00463,P00463,4.0,Mild,93.0,50.0,78.0,0.78,Full Weight-Bearing,Climb Stairs
+IA00464,P00464,6.0,Moderate,52.0,37.0,67.0,0.23,Non-Weight-Bearing,Return to Work
+IA00465,P00465,5.0,Mild,61.0,45.0,52.0,0.54,Full Weight-Bearing,Return to Sport
+IA00466,P00466,8.0,Moderate,48.0,60.0,34.0,0.37,Non-Weight-Bearing,Return to Sport
+IA00467,P00467,4.0,,80.0,52.0,60.0,0.7,Full Weight-Bearing,Walk Normally
+IA00468,P00468,8.0,Moderate,80.0,49.0,69.0,0.6,Full Weight-Bearing,Return to Sport
+IA00469,P00469,7.0,Moderate,73.0,37.0,47.0,0.55,Partial Weight-Bearing,Return to Sport
+IA00470,P00470,9.0,Moderate,44.0,10.0,22.0,0.38,Non-Weight-Bearing,Walk Normally
+IA00471,P00471,6.0,,75.0,47.0,56.0,0.63,Partial Weight-Bearing,Climb Stairs
+IA00472,P00472,5.0,,76.0,79.0,57.0,0.92,Partial Weight-Bearing,Walk Normally
+IA00473,P00473,7.0,Severe,46.0,41.0,22.0,0.68,Partial Weight-Bearing,Walk Normally
+IA00474,P00474,8.0,Moderate,47.0,61.0,55.0,0.61,Partial Weight-Bearing,Return to Work
+IA00475,P00475,5.0,,62.0,52.0,66.0,0.8,Full Weight-Bearing,Walk Normally
+IA00476,P00476,3.0,Mild,81.0,31.0,82.0,0.63,Full Weight-Bearing,Climb Stairs
+IA00477,P00477,9.0,Moderate,59.0,24.0,28.0,0.51,Partial Weight-Bearing,Return to Sport
+IA00478,P00478,6.0,Moderate,56.0,49.0,61.0,0.68,Non-Weight-Bearing,Return to Work
+IA00479,P00479,8.0,Moderate,61.0,47.0,64.0,0.62,Non-Weight-Bearing,Return to Work
+IA00480,P00480,8.0,Severe,58.0,35.0,50.0,0.56,Full Weight-Bearing,Return to Sport
+IA00481,P00481,5.0,Mild,53.0,50.0,48.0,0.85,Full Weight-Bearing,Climb Stairs
+IA00482,P00482,7.0,,66.0,64.0,47.0,0.64,Partial Weight-Bearing,Climb Stairs
+IA00483,P00483,4.0,Moderate,78.0,40.0,53.0,0.83,Non-Weight-Bearing,Walk Normally
+IA00484,P00484,7.0,Severe,49.0,38.0,45.0,0.47,Partial Weight-Bearing,Climb Stairs
+IA00485,P00485,4.0,,59.0,57.0,53.0,1.05,Partial Weight-Bearing,Return to Sport
+IA00486,P00486,3.0,Moderate,59.0,41.0,67.0,0.71,Full Weight-Bearing,Walk Normally
+IA00487,P00487,6.0,Mild,80.0,46.0,55.0,1.1,Full Weight-Bearing,Return to Work
+IA00488,P00488,4.0,,45.0,51.0,37.0,0.98,Non-Weight-Bearing,Return to Sport
+IA00489,P00489,9.0,Severe,48.0,54.0,41.0,0.53,Partial Weight-Bearing,Return to Sport
+IA00490,P00490,6.0,,66.0,66.0,66.0,0.69,Non-Weight-Bearing,Return to Sport
+IA00491,P00491,6.0,Mild,54.0,65.0,64.0,0.69,Full Weight-Bearing,Return to Work
+IA00492,P00492,7.0,Severe,47.0,27.0,48.0,0.58,Full Weight-Bearing,Return to Sport
+IA00493,P00493,5.0,Moderate,57.0,31.0,70.0,0.67,Non-Weight-Bearing,Return to Sport
+IA00494,P00494,6.0,Moderate,58.0,56.0,39.0,0.56,Partial Weight-Bearing,Climb Stairs
+IA00495,P00495,9.0,Severe,43.0,44.0,39.0,0.62,Full Weight-Bearing,Climb Stairs
+IA00496,P00496,5.0,,60.0,56.0,79.0,0.81,Full Weight-Bearing,Walk Normally
+IA00497,P00497,5.0,Moderate,43.0,41.0,28.0,0.78,Partial Weight-Bearing,Return to Work
+IA00498,P00498,5.0,Mild,51.0,30.0,51.0,0.5,Partial Weight-Bearing,Return to Sport
+IA00499,P00499,5.0,Mild,79.0,64.0,75.0,0.95,Full Weight-Bearing,Climb Stairs
+IA00500,P00500,5.0,Moderate,60.0,57.0,67.0,0.73,Full Weight-Bearing,Climb Stairs
+IA00501,P00501,6.0,Moderate,57.0,38.0,60.0,0.83,Full Weight-Bearing,Return to Sport
+IA00502,P00502,7.0,Moderate,36.0,27.0,52.0,0.65,Non-Weight-Bearing,Return to Work
+IA00503,P00503,7.0,Moderate,42.0,47.0,32.0,0.49,Partial Weight-Bearing,Walk Normally
+IA00504,P00504,8.0,Moderate,53.0,29.0,60.0,0.48,Non-Weight-Bearing,Return to Sport
+IA00505,P00505,7.0,Moderate,63.0,63.0,38.0,0.92,Full Weight-Bearing,Return to Sport
+IA00506,P00506,8.0,,65.0,54.0,46.0,0.76,Full Weight-Bearing,Return to Sport
+IA00507,P00507,8.0,Severe,20.0,31.0,49.0,0.61,Non-Weight-Bearing,Return to Work
+IA00508,P00508,8.0,Moderate,51.0,45.0,46.0,0.59,Full Weight-Bearing,Return to Sport
+IA00509,P00509,5.0,Mild,53.0,41.0,54.0,0.37,Full Weight-Bearing,Return to Work
+IA00510,P00510,5.0,Severe,37.0,46.0,49.0,0.32,Partial Weight-Bearing,Return to Sport
+IA00511,P00511,5.0,,66.0,64.0,81.0,0.86,Partial Weight-Bearing,Return to Work
+IA00512,P00512,6.0,,78.0,66.0,65.0,0.91,Full Weight-Bearing,Return to Work
+IA00513,P00513,7.0,Mild,58.0,47.0,45.0,0.71,Non-Weight-Bearing,Return to Sport
+IA00514,P00514,8.0,Moderate,68.0,40.0,60.0,0.82,Full Weight-Bearing,Return to Sport
+IA00515,P00515,2.0,Mild,55.0,55.0,50.0,0.86,Partial Weight-Bearing,Return to Work
+IA00516,P00516,8.0,Moderate,55.0,41.0,63.0,0.53,Full Weight-Bearing,Return to Sport
+IA00517,P00517,8.0,Moderate,27.0,50.0,45.0,0.59,Full Weight-Bearing,Return to Sport
+IA00518,P00518,4.0,Mild,54.0,55.0,57.0,0.68,Full Weight-Bearing,Return to Work
+IA00519,P00519,6.0,,60.0,54.0,39.0,0.71,Full Weight-Bearing,Return to Work
+IA00520,P00520,6.0,Moderate,71.0,36.0,25.0,0.72,Non-Weight-Bearing,Climb Stairs
+IA00521,P00521,8.0,Severe,50.0,50.0,26.0,0.51,Partial Weight-Bearing,Return to Work
+IA00522,P00522,9.0,Moderate,56.0,36.0,65.0,0.41,Full Weight-Bearing,Walk Normally
+IA00523,P00523,6.0,,66.0,54.0,46.0,0.77,Partial Weight-Bearing,Climb Stairs
+IA00524,P00524,5.0,Moderate,36.0,50.0,53.0,0.71,Full Weight-Bearing,Return to Sport
+IA00525,P00525,7.0,Severe,35.0,30.0,36.0,0.71,Partial Weight-Bearing,Climb Stairs
+IA00526,P00526,4.0,Moderate,61.0,42.0,49.0,0.68,Non-Weight-Bearing,Climb Stairs
+IA00527,P00527,7.0,Mild,76.0,43.0,51.0,0.66,Partial Weight-Bearing,Walk Normally
+IA00528,P00528,7.0,Mild,74.0,42.0,80.0,0.59,Full Weight-Bearing,Return to Work
+IA00529,P00529,5.0,Mild,54.0,48.0,59.0,0.91,Partial Weight-Bearing,Walk Normally
+IA00530,P00530,4.0,,68.0,47.0,65.0,0.96,Partial Weight-Bearing,Climb Stairs
+IA00531,P00531,4.0,,70.0,49.0,76.0,0.91,Partial Weight-Bearing,Walk Normally
+IA00532,P00532,7.0,Moderate,66.0,28.0,36.0,0.16,Full Weight-Bearing,Return to Sport
+IA00533,P00533,6.0,Mild,82.0,49.0,73.0,0.81,Partial Weight-Bearing,Return to Sport
+IA00534,P00534,7.0,Severe,49.0,27.0,55.0,0.48,Partial Weight-Bearing,Return to Work
+IA00535,P00535,7.0,Moderate,59.0,47.0,63.0,0.75,Partial Weight-Bearing,Walk Normally
+IA00536,P00536,9.0,Severe,49.0,33.0,42.0,0.43,Partial Weight-Bearing,Climb Stairs
+IA00537,P00537,6.0,,75.0,55.0,55.0,0.77,Non-Weight-Bearing,Walk Normally
+IA00538,P00538,5.0,Mild,54.0,69.0,42.0,0.74,Full Weight-Bearing,Return to Work
+IA00539,P00539,8.0,Mild,50.0,43.0,42.0,0.53,Partial Weight-Bearing,Climb Stairs
+IA00540,P00540,9.0,Moderate,56.0,41.0,33.0,0.41,Full Weight-Bearing,Return to Sport
+IA00541,P00541,7.0,Mild,70.0,62.0,64.0,0.83,Full Weight-Bearing,Walk Normally
+IA00542,P00542,5.0,Mild,79.0,54.0,57.0,1.0,Partial Weight-Bearing,Climb Stairs
+IA00543,P00543,6.0,Severe,62.0,38.0,49.0,0.62,Full Weight-Bearing,Return to Sport
+IA00544,P00544,4.0,,75.0,55.0,66.0,0.96,Full Weight-Bearing,Walk Normally
+IA00545,P00545,5.0,Moderate,62.0,47.0,39.0,0.66,Non-Weight-Bearing,Return to Sport
+IA00546,P00546,5.0,,102.0,49.0,47.0,1.02,Full Weight-Bearing,Return to Sport
+IA00547,P00547,6.0,,72.0,50.0,57.0,0.54,Full Weight-Bearing,Return to Work
+IA00548,P00548,8.0,Moderate,47.0,45.0,43.0,0.95,Non-Weight-Bearing,Return to Work
+IA00549,P00549,6.0,Moderate,55.0,25.0,41.0,0.97,Partial Weight-Bearing,Climb Stairs
+IA00550,P00550,6.0,Moderate,74.0,60.0,72.0,0.72,Partial Weight-Bearing,Return to Sport
+IA00551,P00551,6.0,Moderate,45.0,67.0,34.0,0.77,Partial Weight-Bearing,Return to Work
+IA00552,P00552,5.0,Moderate,50.0,47.0,76.0,0.64,Partial Weight-Bearing,Climb Stairs
+IA00553,P00553,8.0,Moderate,57.0,42.0,47.0,0.47,Partial Weight-Bearing,Return to Work
+IA00554,P00554,5.0,Mild,67.0,66.0,72.0,0.71,Full Weight-Bearing,Return to Sport
+IA00555,P00555,6.0,Moderate,57.0,32.0,62.0,0.64,Non-Weight-Bearing,Return to Sport
+IA00556,P00556,7.0,Mild,69.0,54.0,59.0,0.73,Partial Weight-Bearing,Climb Stairs
+IA00557,P00557,8.0,Severe,39.0,31.0,64.0,0.56,Full Weight-Bearing,Return to Work
+IA00558,P00558,7.0,Mild,43.0,68.0,39.0,0.95,Partial Weight-Bearing,Return to Sport
+IA00559,P00559,5.0,Moderate,44.0,43.0,50.0,0.67,Partial Weight-Bearing,Return to Sport
+IA00560,P00560,7.0,Moderate,64.0,54.0,42.0,0.43,Non-Weight-Bearing,Walk Normally
+IA00561,P00561,7.0,Moderate,61.0,43.0,32.0,0.9,Partial Weight-Bearing,Return to Work
+IA00562,P00562,7.0,Severe,39.0,57.0,36.0,0.32,Partial Weight-Bearing,Climb Stairs
+IA00563,P00563,7.0,Mild,46.0,40.0,74.0,0.57,Partial Weight-Bearing,Return to Work
+IA00564,P00564,7.0,Moderate,55.0,57.0,50.0,0.69,Full Weight-Bearing,Climb Stairs
+IA00565,P00565,6.0,Mild,81.0,61.0,84.0,0.86,Partial Weight-Bearing,Return to Work
+IA00566,P00566,5.0,Moderate,50.0,49.0,77.0,0.43,Full Weight-Bearing,Walk Normally
+IA00567,P00567,7.0,,63.0,57.0,96.0,0.69,Full Weight-Bearing,Return to Sport
+IA00568,P00568,7.0,Severe,34.0,28.0,67.0,0.28,Partial Weight-Bearing,Climb Stairs
+IA00569,P00569,6.0,Moderate,54.0,19.0,80.0,0.74,Non-Weight-Bearing,Climb Stairs
+IA00570,P00570,4.0,,73.0,66.0,64.0,0.98,Full Weight-Bearing,Walk Normally
+IA00571,P00571,4.0,,91.0,50.0,63.0,0.62,Partial Weight-Bearing,Return to Sport
+IA00572,P00572,4.0,Moderate,60.0,57.0,56.0,0.8,Partial Weight-Bearing,Climb Stairs
+IA00573,P00573,8.0,Moderate,45.0,39.0,44.0,0.64,Non-Weight-Bearing,Return to Work
+IA00574,P00574,9.0,Mild,67.0,57.0,54.0,0.55,Full Weight-Bearing,Walk Normally
+IA00575,P00575,3.0,Mild,77.0,63.0,69.0,0.5,Partial Weight-Bearing,Return to Work
+IA00576,P00576,5.0,Mild,52.0,20.0,46.0,0.49,Non-Weight-Bearing,Walk Normally
+IA00577,P00577,8.0,Moderate,69.0,41.0,27.0,0.41,Partial Weight-Bearing,Return to Sport
+IA00578,P00578,7.0,Moderate,46.0,32.0,48.0,0.73,Full Weight-Bearing,Return to Sport
+IA00579,P00579,6.0,Mild,72.0,67.0,52.0,0.78,Partial Weight-Bearing,Walk Normally
+IA00580,P00580,6.0,Mild,64.0,51.0,45.0,0.5,Full Weight-Bearing,Return to Sport
+IA00581,P00581,7.0,Moderate,49.0,41.0,42.0,0.52,Partial Weight-Bearing,Climb Stairs
+IA00582,P00582,7.0,Moderate,61.0,32.0,40.0,0.31,Partial Weight-Bearing,Climb Stairs
+IA00583,P00583,3.0,Mild,52.0,36.0,65.0,0.73,Partial Weight-Bearing,Walk Normally
+IA00584,P00584,5.0,Moderate,66.0,41.0,50.0,0.5,Non-Weight-Bearing,Return to Work
+IA00585,P00585,7.0,Mild,60.0,27.0,66.0,0.53,Partial Weight-Bearing,Return to Work
+IA00586,P00586,7.0,Mild,80.0,49.0,62.0,0.86,Full Weight-Bearing,Walk Normally
+IA00587,P00587,7.0,,68.0,40.0,59.0,1.06,Non-Weight-Bearing,Return to Sport
+IA00588,P00588,7.0,Mild,54.0,31.0,54.0,0.98,Full Weight-Bearing,Return to Sport
+IA00589,P00589,2.0,,77.0,56.0,45.0,0.64,Non-Weight-Bearing,Climb Stairs
+IA00590,P00590,5.0,Mild,62.0,50.0,56.0,0.56,Partial Weight-Bearing,Walk Normally
+IA00591,P00591,9.0,Moderate,38.0,35.0,54.0,0.58,Partial Weight-Bearing,Climb Stairs
+IA00592,P00592,10.0,Moderate,59.0,30.0,56.0,0.68,Full Weight-Bearing,Climb Stairs
+IA00593,P00593,7.0,Mild,77.0,46.0,44.0,0.48,Non-Weight-Bearing,Climb Stairs
+IA00594,P00594,5.0,Mild,69.0,52.0,42.0,0.81,Non-Weight-Bearing,Return to Sport
+IA00595,P00595,5.0,Mild,53.0,37.0,46.0,0.58,Partial Weight-Bearing,Return to Sport
+IA00596,P00596,6.0,Mild,62.0,44.0,69.0,0.36,Partial Weight-Bearing,Walk Normally
+IA00597,P00597,5.0,,77.0,40.0,63.0,0.6,Partial Weight-Bearing,Return to Work
+IA00598,P00598,9.0,Severe,30.0,42.0,35.0,0.41,Full Weight-Bearing,Climb Stairs
+IA00599,P00599,5.0,,74.0,49.0,43.0,0.81,Non-Weight-Bearing,Climb Stairs
+IA00600,P00600,5.0,,77.0,59.0,52.0,0.95,Full Weight-Bearing,Climb Stairs
+IA00601,P00601,6.0,Mild,34.0,54.0,43.0,0.7,Non-Weight-Bearing,Walk Normally
+IA00602,P00602,7.0,Moderate,60.0,48.0,63.0,0.79,Full Weight-Bearing,Return to Sport
+IA00603,P00603,7.0,Mild,65.0,53.0,64.0,0.65,Full Weight-Bearing,Return to Sport
+IA00604,P00604,5.0,Moderate,64.0,24.0,39.0,0.54,Full Weight-Bearing,Return to Sport
+IA00605,P00605,6.0,Moderate,54.0,30.0,53.0,0.47,Full Weight-Bearing,Return to Sport
+IA00606,P00606,7.0,,67.0,66.0,68.0,0.9,Full Weight-Bearing,Return to Sport
+IA00607,P00607,4.0,Moderate,48.0,50.0,38.0,0.8,Non-Weight-Bearing,Climb Stairs
+IA00608,P00608,7.0,,52.0,73.0,59.0,0.78,Non-Weight-Bearing,Return to Sport
+IA00609,P00609,4.0,Moderate,69.0,62.0,56.0,0.51,Non-Weight-Bearing,Return to Sport
+IA00610,P00610,5.0,Mild,65.0,48.0,54.0,0.7,Partial Weight-Bearing,Return to Sport
+IA00611,P00611,7.0,Moderate,70.0,42.0,31.0,0.72,Partial Weight-Bearing,Return to Sport
+IA00612,P00612,5.0,,63.0,45.0,62.0,0.98,Partial Weight-Bearing,Return to Sport
+IA00613,P00613,6.0,Severe,54.0,30.0,52.0,0.4,Full Weight-Bearing,Return to Sport
+IA00614,P00614,7.0,Moderate,43.0,41.0,71.0,0.55,Partial Weight-Bearing,Return to Sport
+IA00615,P00615,7.0,Severe,37.0,29.0,36.0,0.61,Non-Weight-Bearing,Return to Work
+IA00616,P00616,6.0,Mild,59.0,36.0,45.0,0.59,Partial Weight-Bearing,Return to Sport
+IA00617,P00617,7.0,Moderate,53.0,39.0,41.0,0.43,Full Weight-Bearing,Return to Sport
+IA00618,P00618,6.0,Moderate,75.0,62.0,55.0,0.84,Partial Weight-Bearing,Walk Normally
+IA00619,P00619,5.0,Mild,56.0,54.0,53.0,0.44,Partial Weight-Bearing,Return to Sport
+IA00620,P00620,9.0,Mild,49.0,42.0,59.0,0.96,Non-Weight-Bearing,Walk Normally
+IA00621,P00621,7.0,Severe,37.0,45.0,30.0,0.41,Full Weight-Bearing,Walk Normally
+IA00622,P00622,6.0,Mild,51.0,48.0,57.0,0.78,Partial Weight-Bearing,Return to Work
+IA00623,P00623,5.0,Mild,80.0,45.0,43.0,0.63,Partial Weight-Bearing,Return to Work
+IA00624,P00624,9.0,Moderate,66.0,44.0,50.0,0.69,Non-Weight-Bearing,Climb Stairs
+IA00625,P00625,4.0,Mild,69.0,43.0,72.0,0.61,Non-Weight-Bearing,Return to Sport
+IA00626,P00626,7.0,Moderate,56.0,52.0,35.0,0.78,Full Weight-Bearing,Walk Normally
+IA00627,P00627,7.0,Severe,46.0,36.0,41.0,0.45,Partial Weight-Bearing,Return to Sport
+IA00628,P00628,4.0,Mild,65.0,38.0,37.0,0.56,Full Weight-Bearing,Climb Stairs
+IA00629,P00629,5.0,Mild,53.0,37.0,54.0,0.92,Partial Weight-Bearing,Return to Sport
+IA00630,P00630,7.0,Moderate,55.0,48.0,65.0,0.65,Full Weight-Bearing,Climb Stairs
+IA00631,P00631,6.0,Moderate,39.0,39.0,46.0,0.4,Partial Weight-Bearing,Return to Sport
+IA00632,P00632,5.0,,66.0,52.0,59.0,0.58,Full Weight-Bearing,Walk Normally
+IA00633,P00633,7.0,Mild,70.0,44.0,76.0,1.08,Non-Weight-Bearing,Return to Sport
+IA00634,P00634,5.0,Mild,62.0,68.0,64.0,0.72,Partial Weight-Bearing,Walk Normally
+IA00635,P00635,4.0,Mild,61.0,55.0,62.0,0.96,Partial Weight-Bearing,Climb Stairs
+IA00636,P00636,5.0,Mild,61.0,25.0,61.0,0.71,Full Weight-Bearing,Walk Normally
+IA00637,P00637,6.0,Mild,56.0,58.0,17.0,0.67,Full Weight-Bearing,Return to Sport
+IA00638,P00638,5.0,Mild,62.0,53.0,59.0,0.83,Partial Weight-Bearing,Return to Sport
+IA00639,P00639,8.0,Moderate,47.0,37.0,31.0,0.83,Non-Weight-Bearing,Return to Work
+IA00640,P00640,7.0,Moderate,53.0,56.0,42.0,0.32,Non-Weight-Bearing,Walk Normally
+IA00641,P00641,8.0,Mild,58.0,62.0,70.0,0.68,Non-Weight-Bearing,Climb Stairs
+IA00642,P00642,5.0,,81.0,65.0,56.0,0.76,Full Weight-Bearing,Walk Normally
+IA00643,P00643,4.0,Mild,57.0,57.0,83.0,0.77,Partial Weight-Bearing,Climb Stairs
+IA00644,P00644,6.0,Mild,92.0,41.0,43.0,0.82,Non-Weight-Bearing,Climb Stairs
+IA00645,P00645,8.0,Moderate,57.0,25.0,39.0,0.61,Partial Weight-Bearing,Return to Sport
+IA00646,P00646,7.0,Moderate,62.0,54.0,61.0,0.68,Non-Weight-Bearing,Walk Normally
+IA00647,P00647,5.0,,62.0,68.0,56.0,0.8,Full Weight-Bearing,Walk Normally
+IA00648,P00648,7.0,Mild,69.0,37.0,56.0,0.45,Partial Weight-Bearing,Return to Sport
+IA00649,P00649,5.0,,69.0,52.0,59.0,0.86,Full Weight-Bearing,Climb Stairs
+IA00650,P00650,4.0,Mild,54.0,39.0,50.0,0.76,Full Weight-Bearing,Return to Sport
+IA00651,P00651,6.0,,64.0,49.0,56.0,0.72,Partial Weight-Bearing,Return to Sport
+IA00652,P00652,6.0,,67.0,66.0,62.0,1.08,Partial Weight-Bearing,Return to Work
+IA00653,P00653,7.0,Mild,74.0,57.0,68.0,1.0,Full Weight-Bearing,Return to Work
+IA00654,P00654,5.0,Mild,60.0,43.0,71.0,0.78,Full Weight-Bearing,Return to Sport
+IA00655,P00655,8.0,Moderate,46.0,62.0,42.0,0.62,Non-Weight-Bearing,Climb Stairs
+IA00656,P00656,7.0,Moderate,51.0,31.0,47.0,0.65,Full Weight-Bearing,Return to Sport
+IA00657,P00657,5.0,,62.0,60.0,54.0,0.97,Partial Weight-Bearing,Climb Stairs
+IA00658,P00658,8.0,Moderate,41.0,25.0,62.0,0.74,Partial Weight-Bearing,Walk Normally
+IA00659,P00659,7.0,Severe,51.0,33.0,52.0,0.62,Partial Weight-Bearing,Climb Stairs
+IA00660,P00660,6.0,Moderate,65.0,46.0,29.0,0.56,Full Weight-Bearing,Walk Normally
+IA00661,P00661,6.0,Mild,78.0,63.0,37.0,0.79,Partial Weight-Bearing,Walk Normally
+IA00662,P00662,8.0,Moderate,58.0,42.0,42.0,0.74,Partial Weight-Bearing,Return to Work
+IA00663,P00663,6.0,Severe,50.0,31.0,47.0,0.63,Non-Weight-Bearing,Return to Sport
+IA00664,P00664,7.0,Severe,44.0,32.0,44.0,0.49,Partial Weight-Bearing,Return to Sport
+IA00665,P00665,6.0,Moderate,41.0,34.0,58.0,0.56,Non-Weight-Bearing,Walk Normally
+IA00666,P00666,5.0,Mild,56.0,51.0,50.0,0.89,Full Weight-Bearing,Walk Normally
+IA00667,P00667,5.0,Severe,42.0,38.0,61.0,0.34,Partial Weight-Bearing,Return to Sport
+IA00668,P00668,5.0,Mild,60.0,59.0,69.0,0.66,Full Weight-Bearing,Walk Normally
+IA00669,P00669,6.0,Mild,64.0,54.0,61.0,0.6,Full Weight-Bearing,Walk Normally
+IA00670,P00670,7.0,Moderate,47.0,33.0,58.0,0.36,Full Weight-Bearing,Climb Stairs
+IA00671,P00671,5.0,Mild,59.0,67.0,40.0,0.99,Full Weight-Bearing,Return to Work
+IA00672,P00672,7.0,Mild,51.0,55.0,51.0,0.84,Partial Weight-Bearing,Walk Normally
+IA00673,P00673,7.0,,85.0,69.0,62.0,0.79,Partial Weight-Bearing,Walk Normally
+IA00674,P00674,4.0,Mild,54.0,59.0,67.0,0.87,Non-Weight-Bearing,Walk Normally
+IA00675,P00675,3.0,,68.0,69.0,39.0,0.8,Non-Weight-Bearing,Return to Sport
+IA00676,P00676,6.0,Mild,46.0,41.0,49.0,0.47,Partial Weight-Bearing,Climb Stairs
+IA00677,P00677,9.0,Mild,50.0,43.0,57.0,0.98,Full Weight-Bearing,Return to Work
+IA00678,P00678,5.0,Mild,56.0,57.0,58.0,0.86,Full Weight-Bearing,Return to Work
+IA00679,P00679,7.0,Moderate,48.0,53.0,66.0,0.7,Partial Weight-Bearing,Return to Work
+IA00680,P00680,9.0,Severe,52.0,32.0,53.0,0.37,Full Weight-Bearing,Walk Normally
+IA00681,P00681,3.0,Moderate,72.0,35.0,51.0,0.62,Partial Weight-Bearing,Climb Stairs
+IA00682,P00682,8.0,Moderate,54.0,33.0,52.0,0.4,Non-Weight-Bearing,Return to Sport
+IA00683,P00683,7.0,Moderate,68.0,38.0,50.0,0.66,Non-Weight-Bearing,Return to Work
+IA00684,P00684,5.0,Mild,56.0,72.0,62.0,0.85,Partial Weight-Bearing,Walk Normally
+IA00685,P00685,7.0,Moderate,44.0,43.0,54.0,0.45,Partial Weight-Bearing,Return to Sport
+IA00686,P00686,7.0,Severe,51.0,27.0,43.0,0.28,Partial Weight-Bearing,Return to Work
+IA00687,P00687,5.0,Mild,79.0,45.0,64.0,1.12,Non-Weight-Bearing,Walk Normally
+IA00688,P00688,6.0,Mild,76.0,37.0,64.0,0.69,Partial Weight-Bearing,Return to Work
+IA00689,P00689,6.0,Mild,69.0,39.0,61.0,0.72,Full Weight-Bearing,Climb Stairs
+IA00690,P00690,5.0,Mild,79.0,53.0,75.0,0.74,Non-Weight-Bearing,Return to Work
+IA00691,P00691,8.0,Mild,84.0,56.0,80.0,0.42,Full Weight-Bearing,Walk Normally
+IA00692,P00692,3.0,,71.0,45.0,68.0,0.79,Partial Weight-Bearing,Walk Normally
+IA00693,P00693,3.0,Mild,67.0,78.0,54.0,0.75,Partial Weight-Bearing,Climb Stairs
+IA00694,P00694,9.0,Severe,48.0,26.0,50.0,0.61,Non-Weight-Bearing,Return to Sport
+IA00695,P00695,6.0,Moderate,49.0,31.0,58.0,0.79,Full Weight-Bearing,Return to Sport
+IA00696,P00696,7.0,Severe,47.0,52.0,51.0,0.61,Partial Weight-Bearing,Return to Work
+IA00697,P00697,6.0,Moderate,41.0,58.0,70.0,0.8,Partial Weight-Bearing,Return to Work
+IA00698,P00698,8.0,Moderate,41.0,33.0,24.0,0.77,Full Weight-Bearing,Return to Work
+IA00699,P00699,6.0,Mild,57.0,49.0,70.0,0.71,Full Weight-Bearing,Return to Sport
+IA00700,P00700,7.0,Moderate,67.0,49.0,74.0,0.81,Full Weight-Bearing,Return to Sport
+IA00701,P00701,4.0,,81.0,56.0,67.0,0.87,Full Weight-Bearing,Return to Work
+IA00702,P00702,6.0,Moderate,48.0,32.0,59.0,0.36,Non-Weight-Bearing,Return to Sport
+IA00703,P00703,3.0,Mild,79.0,20.0,49.0,0.63,Full Weight-Bearing,Walk Normally
+IA00704,P00704,8.0,Mild,59.0,37.0,52.0,0.52,Partial Weight-Bearing,Return to Sport
+IA00705,P00705,6.0,Mild,60.0,63.0,60.0,0.68,Full Weight-Bearing,Return to Work
+IA00706,P00706,6.0,Mild,54.0,74.0,68.0,0.68,Partial Weight-Bearing,Walk Normally
+IA00707,P00707,8.0,Severe,40.0,32.0,53.0,0.59,Non-Weight-Bearing,Return to Sport
+IA00708,P00708,8.0,Severe,56.0,25.0,52.0,0.65,Partial Weight-Bearing,Walk Normally
+IA00709,P00709,6.0,Mild,60.0,48.0,63.0,0.83,Full Weight-Bearing,Return to Sport
+IA00710,P00710,7.0,Moderate,59.0,49.0,61.0,0.89,Partial Weight-Bearing,Climb Stairs
+IA00711,P00711,5.0,Mild,60.0,51.0,40.0,0.4,Full Weight-Bearing,Climb Stairs
+IA00712,P00712,6.0,Severe,32.0,10.0,54.0,0.32,Non-Weight-Bearing,Climb Stairs
+IA00713,P00713,6.0,Mild,57.0,77.0,74.0,1.09,Non-Weight-Bearing,Walk Normally
+IA00714,P00714,5.0,Moderate,72.0,56.0,52.0,0.8,Partial Weight-Bearing,Return to Sport
+IA00715,P00715,7.0,Mild,81.0,53.0,78.0,0.83,Partial Weight-Bearing,Return to Sport
+IA00716,P00716,5.0,,69.0,48.0,49.0,0.8,Full Weight-Bearing,Return to Work
+IA00717,P00717,6.0,Severe,62.0,45.0,44.0,0.49,Full Weight-Bearing,Walk Normally
+IA00718,P00718,6.0,Moderate,45.0,50.0,44.0,0.36,Full Weight-Bearing,Walk Normally
+IA00719,P00719,5.0,,60.0,56.0,77.0,0.68,Partial Weight-Bearing,Walk Normally
+IA00720,P00720,5.0,,89.0,60.0,80.0,0.78,Partial Weight-Bearing,Return to Work
+IA00721,P00721,7.0,Mild,64.0,44.0,51.0,0.54,Full Weight-Bearing,Climb Stairs
+IA00722,P00722,6.0,Mild,55.0,49.0,66.0,0.56,Full Weight-Bearing,Return to Sport
+IA00723,P00723,4.0,Moderate,57.0,52.0,72.0,1.03,Full Weight-Bearing,Climb Stairs
+IA00724,P00724,3.0,Moderate,50.0,48.0,52.0,0.61,Partial Weight-Bearing,Walk Normally
+IA00725,P00725,7.0,Severe,49.0,38.0,46.0,0.54,Full Weight-Bearing,Climb Stairs
+IA00726,P00726,7.0,Mild,60.0,59.0,61.0,0.69,Non-Weight-Bearing,Return to Work
+IA00727,P00727,7.0,Moderate,46.0,19.0,34.0,0.59,Full Weight-Bearing,Climb Stairs
+IA00728,P00728,7.0,Mild,58.0,47.0,61.0,0.73,Full Weight-Bearing,Return to Work
+IA00729,P00729,6.0,Mild,61.0,45.0,78.0,0.84,Full Weight-Bearing,Walk Normally
+IA00730,P00730,7.0,Mild,65.0,48.0,54.0,0.87,Non-Weight-Bearing,Walk Normally
+IA00731,P00731,6.0,Mild,60.0,51.0,70.0,0.61,Full Weight-Bearing,Climb Stairs
+IA00732,P00732,6.0,Mild,83.0,68.0,66.0,0.78,Non-Weight-Bearing,Climb Stairs
+IA00733,P00733,3.0,Mild,92.0,54.0,58.0,0.77,Partial Weight-Bearing,Return to Sport
+IA00734,P00734,7.0,Severe,65.0,17.0,47.0,0.47,Full Weight-Bearing,Walk Normally
+IA00735,P00735,8.0,Mild,65.0,41.0,73.0,0.73,Partial Weight-Bearing,Return to Sport
+IA00736,P00736,8.0,Severe,43.0,36.0,51.0,0.6,Partial Weight-Bearing,Return to Sport
+IA00737,P00737,7.0,Mild,57.0,45.0,61.0,0.73,Full Weight-Bearing,Return to Work
+IA00738,P00738,4.0,Mild,62.0,51.0,71.0,0.7,Full Weight-Bearing,Return to Sport
+IA00739,P00739,7.0,,66.0,60.0,57.0,0.81,Partial Weight-Bearing,Return to Work
+IA00740,P00740,5.0,Moderate,71.0,44.0,39.0,0.33,Partial Weight-Bearing,Walk Normally
+IA00741,P00741,4.0,Mild,38.0,33.0,73.0,0.77,Full Weight-Bearing,Climb Stairs
+IA00742,P00742,7.0,Severe,43.0,31.0,46.0,0.57,Partial Weight-Bearing,Return to Work
+IA00743,P00743,4.0,Moderate,54.0,29.0,55.0,0.35,Non-Weight-Bearing,Climb Stairs
+IA00744,P00744,4.0,Mild,62.0,52.0,51.0,0.84,Partial Weight-Bearing,Return to Work
+IA00745,P00745,10.0,Mild,56.0,52.0,57.0,0.75,Full Weight-Bearing,Return to Sport
+IA00746,P00746,6.0,Moderate,64.0,49.0,39.0,0.83,Partial Weight-Bearing,Walk Normally
+IA00747,P00747,4.0,Mild,73.0,53.0,53.0,0.73,Non-Weight-Bearing,Climb Stairs
+IA00748,P00748,5.0,Mild,57.0,51.0,52.0,0.85,Full Weight-Bearing,Climb Stairs
+IA00749,P00749,5.0,Mild,44.0,60.0,41.0,0.79,Full Weight-Bearing,Climb Stairs
+IA00750,P00750,9.0,Severe,37.0,42.0,40.0,0.45,Partial Weight-Bearing,Climb Stairs
+IA00751,P00751,5.0,Mild,43.0,46.0,24.0,0.71,Full Weight-Bearing,Return to Sport
+IA00752,P00752,7.0,Moderate,43.0,51.0,38.0,0.56,Full Weight-Bearing,Return to Sport
+IA00753,P00753,4.0,,60.0,48.0,69.0,0.97,Partial Weight-Bearing,Return to Work
+IA00754,P00754,10.0,Moderate,58.0,14.0,48.0,0.26,Partial Weight-Bearing,Walk Normally
+IA00755,P00755,6.0,Mild,67.0,49.0,47.0,0.92,Partial Weight-Bearing,Climb Stairs
+IA00756,P00756,5.0,Mild,70.0,62.0,67.0,0.8,Full Weight-Bearing,Walk Normally
+IA00757,P00757,5.0,,60.0,56.0,49.0,0.94,Full Weight-Bearing,Return to Work
+IA00758,P00758,7.0,Moderate,52.0,34.0,53.0,0.38,Non-Weight-Bearing,Return to Work
+IA00759,P00759,5.0,Moderate,77.0,37.0,51.0,0.66,Full Weight-Bearing,Return to Sport
+IA00760,P00760,4.0,,61.0,35.0,56.0,0.81,Full Weight-Bearing,Return to Work
+IA00761,P00761,7.0,Mild,87.0,69.0,59.0,0.87,Partial Weight-Bearing,Return to Sport
+IA00762,P00762,7.0,Severe,50.0,33.0,75.0,0.34,Full Weight-Bearing,Walk Normally
+IA00763,P00763,3.0,Moderate,58.0,41.0,43.0,0.75,Full Weight-Bearing,Return to Work
+IA00764,P00764,3.0,Mild,74.0,48.0,63.0,0.52,Full Weight-Bearing,Return to Sport
+IA00765,P00765,9.0,Moderate,50.0,48.0,53.0,0.4,Full Weight-Bearing,Return to Sport
+IA00766,P00766,5.0,,89.0,64.0,48.0,0.57,Non-Weight-Bearing,Climb Stairs
+IA00767,P00767,6.0,Mild,63.0,35.0,33.0,0.77,Full Weight-Bearing,Return to Work
+IA00768,P00768,7.0,,75.0,67.0,53.0,0.86,Partial Weight-Bearing,Return to Sport
+IA00769,P00769,5.0,Moderate,54.0,44.0,61.0,0.72,Full Weight-Bearing,Climb Stairs
+IA00770,P00770,8.0,Severe,54.0,29.0,40.0,0.72,Full Weight-Bearing,Walk Normally
+IA00771,P00771,5.0,Mild,48.0,42.0,49.0,0.6,Full Weight-Bearing,Walk Normally
+IA00772,P00772,7.0,Moderate,59.0,37.0,63.0,0.74,Full Weight-Bearing,Climb Stairs
+IA00773,P00773,7.0,Moderate,75.0,22.0,34.0,0.51,Full Weight-Bearing,Walk Normally
+IA00774,P00774,7.0,Moderate,21.0,43.0,43.0,0.49,Partial Weight-Bearing,Climb Stairs
+IA00775,P00775,7.0,Mild,60.0,43.0,34.0,0.85,Partial Weight-Bearing,Climb Stairs
+IA00776,P00776,7.0,Mild,61.0,51.0,56.0,0.96,Non-Weight-Bearing,Return to Work
+IA00777,P00777,7.0,Severe,44.0,38.0,47.0,0.44,Full Weight-Bearing,Return to Work
+IA00778,P00778,4.0,Mild,68.0,60.0,70.0,0.93,Partial Weight-Bearing,Return to Sport
+IA00779,P00779,7.0,Mild,71.0,35.0,46.0,0.85,Partial Weight-Bearing,Climb Stairs
+IA00780,P00780,6.0,Mild,67.0,46.0,58.0,0.85,Partial Weight-Bearing,Climb Stairs
+IA00781,P00781,7.0,Moderate,48.0,41.0,29.0,0.54,Partial Weight-Bearing,Return to Sport
+IA00782,P00782,4.0,Mild,65.0,42.0,57.0,0.75,Partial Weight-Bearing,Climb Stairs
+IA00783,P00783,6.0,Mild,90.0,59.0,78.0,0.26,Full Weight-Bearing,Climb Stairs
+IA00784,P00784,6.0,Moderate,55.0,31.0,48.0,0.88,Full Weight-Bearing,Return to Sport
+IA00785,P00785,5.0,Mild,76.0,55.0,44.0,0.7,Partial Weight-Bearing,Walk Normally
+IA00786,P00786,6.0,Moderate,51.0,61.0,44.0,0.61,Full Weight-Bearing,Walk Normally
+IA00787,P00787,7.0,Mild,67.0,53.0,33.0,0.62,Non-Weight-Bearing,Walk Normally
+IA00788,P00788,5.0,Mild,77.0,36.0,44.0,0.68,Non-Weight-Bearing,Return to Work
+IA00789,P00789,9.0,Moderate,50.0,43.0,52.0,0.54,Partial Weight-Bearing,Return to Sport
+IA00790,P00790,7.0,,60.0,73.0,43.0,0.79,Full Weight-Bearing,Climb Stairs
+IA00791,P00791,8.0,Moderate,38.0,63.0,48.0,0.39,Non-Weight-Bearing,Climb Stairs
+IA00792,P00792,8.0,Mild,75.0,50.0,52.0,0.67,Partial Weight-Bearing,Walk Normally
+IA00793,P00793,5.0,Mild,62.0,41.0,54.0,0.8,Partial Weight-Bearing,Walk Normally
+IA00794,P00794,6.0,Mild,76.0,59.0,63.0,0.94,Non-Weight-Bearing,Return to Sport
+IA00795,P00795,8.0,Moderate,49.0,61.0,41.0,0.45,Partial Weight-Bearing,Return to Sport
+IA00796,P00796,8.0,Mild,68.0,43.0,62.0,0.53,Partial Weight-Bearing,Walk Normally
+IA00797,P00797,6.0,Mild,63.0,65.0,52.0,0.91,Full Weight-Bearing,Return to Sport
+IA00798,P00798,8.0,Moderate,36.0,27.0,39.0,0.4,Partial Weight-Bearing,Return to Work
+IA00799,P00799,9.0,Moderate,51.0,49.0,46.0,0.51,Non-Weight-Bearing,Climb Stairs
+IA00800,P00800,7.0,Moderate,40.0,10.0,52.0,0.41,Non-Weight-Bearing,Return to Sport
+IA00801,P00801,7.0,Mild,75.0,50.0,65.0,0.9,Full Weight-Bearing,Return to Sport
+IA00802,P00802,5.5,Mild,75.0,50.0,65.0,0.9,Full Weight-Bearing,Return to Sport

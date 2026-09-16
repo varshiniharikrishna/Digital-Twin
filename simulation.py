@@ -6,14 +6,125 @@ Phase 5 (weekly recovery simulation) + Phase 6 (recalibration) + Treatment Clone
 This module provides:
   - forward-simulated predicted trajectory curves (Pain, ROM, Strength, Walking Speed)
   - actual trajectory retrieval from Weekly_Progress
-  - 2-3 Treatment Clones (Standard Physio vs Hydrotherapy/Aggressive vs Cautious Track)
-    to show how different treatment pathways cause different patient reactions
+  - Common Normalized Pain Index (NPI) calculation
+  - 6 Treatment Protocol Twins (Standard, ROM Focus, Strength Focus, Balance/Proprioception, Hydrotherapy, Functional/Agility)
   - deviation checking & live recalibration
 """
 
 import numpy as np
 import pandas as pd
 import config
+
+SEVERITY_MULT_NPI = {"Mild": 0.0, "Moderate": 0.15, "Severe": 0.30}
+SWELLING_MULT_NPI = {"None": 0.0, "Mild": 0.10, "Moderate": 0.20, "Severe": 0.35}
+
+
+def calculate_normalized_pain_index(pain_score: float, severity: str = "Moderate", swelling: str = "Mild", comorbidity_score: float = 0.0) -> dict:
+    """
+    Calculates the Common Normalized Pain Index (NPI):
+    NPI = (Pain / 10.0) * (1.0 + 0.15 * Sev + 0.10 * Swell + 0.10 * Comorbid)
+    """
+    raw_pain = float(pain_score)
+    sev_mult = SEVERITY_MULT_NPI.get(str(severity), 0.15)
+    swell_mult = SWELLING_MULT_NPI.get(str(swelling), 0.10)
+    comorb_val = float(comorbidity_score) if comorbidity_score is not None else 0.0
+
+    multiplier = 1.0 + sev_mult + swell_mult + min(0.30, 0.08 * comorb_val)
+    npi_score = round(min(1.0, (raw_pain / 10.0) * multiplier), 3)
+    npi_pct = round(npi_score * 100.0, 1)
+
+    if npi_score < 0.25:
+        category = "Mild / Minimal Pain"
+        color = "#10B981"
+    elif npi_score < 0.55:
+        category = "Moderate Discomfort"
+        color = "#F59E0B"
+    elif npi_score < 0.75:
+        category = "High Pain / Inflammation Risk"
+        color = "#E11D48"
+    else:
+        category = "Severe / Critical Pain Exacerbation"
+        color = "#991B1B"
+
+    return {
+        "raw_pain": raw_pain,
+        "npi_score": npi_score,
+        "npi_pct": npi_pct,
+        "category": category,
+        "color": color
+    }
+
+
+TREATMENT_PROTOCOLS = {
+    "Standard": {
+        "name": "Standard Physiotherapy Track (Baseline Care)",
+        "description": "Standard evidence-based physical therapy protocol with gradual mobility and load progression.",
+        "rom_mult": 1.0,
+        "strength_mult": 1.0,
+        "color": "#64748B"
+    },
+    "ROM_Focus": {
+        "name": "Range-of-Motion & Mobility Focus (Early Phase)",
+        "description": "Accelerated passive and active-assisted mobilization targeting early flex/ext deficits.",
+        "rom_mult": 1.20,
+        "strength_mult": 0.95,
+        "color": "#06B6D4"
+    },
+    "Strength_Focus": {
+        "name": "Strengthening & Hypertrophy Focus (Mid Phase)",
+        "description": "Progressive high-load resistance training to build peak muscle force and hypertrophy.",
+        "rom_mult": 1.05,
+        "strength_mult": 1.25,
+        "color": "#10B981"
+    },
+    "Balance_Proprioception": {
+        "name": "Balance & Proprioception Focus (Stability Track)",
+        "description": "Neuromuscular perturbation training focusing on joint balance, joint position sense, and fall risk reduction.",
+        "rom_mult": 1.10,
+        "strength_mult": 1.10,
+        "color": "#8B5CF6"
+    },
+    "Hydrotherapy": {
+        "name": "Hydrotherapy & Aquatic Rehab Track (Low-Impact)",
+        "description": "Low-impact buoyant water walking and pool exercises designed for joint offloading.",
+        "rom_mult": 1.15,
+        "strength_mult": 0.90,
+        "color": "#3B82F6"
+    },
+    "Functional_Sport_Drills": {
+        "name": "Functional & Sport-Specific Agility Drills (Late Phase)",
+        "description": "High-velocity cutting, plyometrics, and sport-specific drills for athletic return-to-play clearance.",
+        "rom_mult": 1.10,
+        "strength_mult": 1.30,
+        "color": "#F59E0B"
+    }
+}
+
+
+def build_treatment_clones(patient_row: pd.Series, base_pred_pct: float, base_pred_weeks: float) -> list:
+    """
+    Generates 6 distinct treatment twin clones to demonstrate how different protocols
+    cause different physiological reactions in the digital twin.
+    """
+    clones = []
+    for key, p in TREATMENT_PROTOCOLS.items():
+        adj_pct = float(np.clip(base_pred_pct * (0.5 * p["rom_mult"] + 0.5 * p["strength_mult"]), 20.0, 100.0))
+        adj_weeks = float(np.clip(base_pred_weeks / (0.5 * p["rom_mult"] + 0.5 * p["strength_mult"]), 4.0, 52.0))
+        
+        traj = build_predicted_trajectory(patient_row, adj_pct, adj_weeks)
+        
+        clones.append({
+            "key": key,
+            "name": p["name"],
+            "description": p["description"],
+            "color": p["color"],
+            "recovery_pct": round(adj_pct, 1),
+            "weeks": round(adj_weeks, 1),
+            "final_rom": float(traj["Predicted_ROM_deg"].iloc[-1]) if not traj.empty else 120.0,
+            "final_strength": float(traj["Predicted_Strength_pct"].iloc[-1]) if not traj.empty else 80.0,
+            "trajectory": traj
+        })
+    return clones
 
 
 def _asymptotic_curve(start_value, target_value, n_weeks, ceiling=None, floor=None):
@@ -31,7 +142,7 @@ def _asymptotic_curve(start_value, target_value, n_weeks, ceiling=None, floor=No
     return values
 
 
-def build_predicted_trajectory(patient_row: pd.Series, predicted_pct: float, predicted_weeks: float) -> pd.DataFrame:
+def build_predicted_trajectory(patient_row: pd.Series, predicted_pct: float, predicted_weeks: float, protocol_key: str = "Standard") -> pd.DataFrame:
     """
     Builds a week-by-week predicted trajectory for Pain, ROM, Strength,
     Walking Speed, ending at values consistent with the model's predicted
@@ -44,427 +155,152 @@ def build_predicted_trajectory(patient_row: pd.Series, predicted_pct: float, pre
     target_pain = 0.5 if predicted_pct > 90 else (1.0 if predicted_pct > 75 else 1.8)
     target_walk = 0.9 + (predicted_pct / 100) * 0.75
 
-    pain_curve = _asymptotic_curve(float(patient_row["Pain_Score"]), target_pain, n_weeks, floor=target_pain * 0.6)
-    rom_curve = _asymptotic_curve(float(patient_row["Range_of_Motion_deg"]), target_rom, n_weeks, ceiling=145)
-    strength_curve = _asymptotic_curve(float(patient_row["Quadriceps_Strength_pct"]), target_strength, n_weeks, ceiling=100)
-    walk_curve = _asymptotic_curve(float(patient_row["Walking_Speed_mps"]), target_walk, n_weeks, ceiling=1.8)
+    start_pain = float(patient_row.get("Pain_Score", 6.0))
+    start_rom = float(patient_row.get("Range_of_Motion_deg", 75.0))
+    start_quad = float(patient_row.get("Quadriceps_Strength_pct", 50.0))
+    start_speed = float(patient_row.get("Walking_Speed_mps", 0.9))
 
-    return pd.DataFrame({
+    pain_curve = np.array(_asymptotic_curve(start_pain, target_pain, n_weeks, floor=target_pain * 0.6))
+    rom_curve = np.array(_asymptotic_curve(start_rom, target_rom, n_weeks, ceiling=145))
+    strength_curve = np.array(_asymptotic_curve(start_quad, target_strength, n_weeks, ceiling=100))
+    walk_curve = np.array(_asymptotic_curve(start_speed, target_walk, n_weeks, ceiling=1.8))
+
+    df = pd.DataFrame({
         "Week": range(1, n_weeks + 1),
-        "Predicted_Pain": pain_curve,
-        "Predicted_ROM_deg": rom_curve,
-        "Predicted_Strength_pct": strength_curve,
-        "Predicted_Walking_Speed_mps": walk_curve,
+        "Predicted_Pain": np.round(pain_curve, 1),
+        "Predicted_ROM_deg": np.round(rom_curve, 1),
+        "Predicted_Strength_pct": np.round(strength_curve, 1),
+        "Predicted_Walking_Speed_mps": np.round(walk_curve, 2),
+        "Predicted_Recovery_Pct": np.round(strength_curve, 1),
+        "Predicted_Function_Score": np.round(np.clip(strength_curve * 0.9, 0, 100), 1)
     })
+    return df
 
 
-def build_treatment_clones(patient_row: pd.Series, predicted_pct: float, predicted_weeks: float) -> list:
-    """
-    Generates 3 Treatment Clones to demonstrate how different rehabilitation protocols
-    produce different physiological reactions in the digital twin:
-      Clone A: Standard Physiotherapy (Baseline)
-      Clone B: Hydrotherapy & Accelerated Track (Faster strength, lower joint strain, -20% duration)
-      Clone C: Cautious Balance & Low-Impact Track (Steady progression, minimal flare-up, +15% duration)
-    """
-    n_base = max(int(round(predicted_weeks)), 1)
-
-    # Clone A: Standard
-    traj_a = build_predicted_trajectory(patient_row, predicted_pct, n_base)
-    clone_a = {
-        "id": "clone_standard",
-        "name": "Clone A: Standard Physiotherapy",
-        "archetype": "Standard_Track",
-        "weeks": n_base,
-        "recovery_pct": predicted_pct,
-        "final_rom": float(traj_a["Predicted_ROM_deg"].iloc[-1]),
-        "final_strength": float(traj_a["Predicted_Strength_pct"].iloc[-1]),
-        "final_pain": float(traj_a["Predicted_Pain"].iloc[-1]),
-        "reaction": "Steady baseline progression. Moderate joint flare-up risk in mid-phase.",
-        "color": "#10B981", # Emerald
-        "trajectory": traj_a
-    }
-
-    # Clone B: Hydrotherapy & Accelerated
-    wks_b = max(int(round(n_base * 0.8)), 1)
-    pct_b = min(100.0, predicted_pct * 1.05)
-    traj_b = build_predicted_trajectory(patient_row, pct_b, wks_b)
-    # Accelerated pain drop due to aquatic buoyancy
-    traj_b["Predicted_Pain"] = np.clip(traj_b["Predicted_Pain"] * 0.85, 0.4, 10.0)
-    clone_b = {
-        "id": "clone_hydro",
-        "name": "Clone B: Hydrotherapy & Accelerated Track",
-        "archetype": "Fast_Track",
-        "weeks": wks_b,
-        "recovery_pct": pct_b,
-        "final_rom": float(traj_b["Predicted_ROM_deg"].iloc[-1]),
-        "final_strength": float(traj_b["Predicted_Strength_pct"].iloc[-1]),
-        "final_pain": float(traj_b["Predicted_Pain"].iloc[-1]),
-        "reaction": "Rapid pain relief and accelerated early ROM gain due to reduced weight-bearing stress.",
-        "color": "#F59E0B", # Amber
-        "trajectory": traj_b
-    }
-
-    # Clone C: Cautious Balance
-    wks_c = max(int(round(n_base * 1.15)), 1)
-    pct_c = max(50.0, predicted_pct * 0.95)
-    traj_c = build_predicted_trajectory(patient_row, pct_c, wks_c)
-    clone_c = {
-        "id": "clone_cautious",
-        "name": "Clone C: Cautious Balance & Low-Impact",
-        "archetype": "Cautious_Track",
-        "weeks": wks_c,
-        "recovery_pct": pct_c,
-        "final_rom": float(traj_c["Predicted_ROM_deg"].iloc[-1]),
-        "final_strength": float(traj_c["Predicted_Strength_pct"].iloc[-1]),
-        "final_pain": float(traj_c["Predicted_Pain"].iloc[-1]),
-        "reaction": "Ultra-low strain protocol. Slower timeline but near-zero risk of swelling or re-injury.",
-        "color": "#E11D48", # Crimson
-        "trajectory": traj_c
-    }
-
-    return [clone_a, clone_b, clone_c]
+def get_actual_trajectory(weekly_progress_df: pd.DataFrame, patient_id: str) -> pd.DataFrame:
+    """Extracts actual recorded weekly progress rows for a patient."""
+    p_df = weekly_progress_df[weekly_progress_df["Patient_ID"] == patient_id].sort_values("Week").copy()
+    return p_df
 
 
-def get_actual_trajectory(weekly_progress: pd.DataFrame, patient_id: str) -> pd.DataFrame:
-    """Pulls the real Weekly_Progress rows for one patient, sorted by week."""
-    actual = weekly_progress[weekly_progress["Patient_ID"] == patient_id].sort_values("Week")
-    return actual[["Week", "Pain", "Swelling", "ROM_deg", "Quadriceps_Strength_pct", "Hamstring_Strength_pct", "Balance_Score", "Walking_Speed_mps", "Compliance_pct", "Patient_Feedback", "Clinician_Remark"]].reset_index(drop=True)
-
-
-def check_deviation(predicted_row: dict, actual_entry: dict) -> dict:
-    """
-    Compares a predicted trajectory row (dict-like Series at a given week)
-    to user-entered actual values. Returns a dict per-metric of
-    {actual, predicted, pct_deviation, flagged}.
-    """
-    metric_map = {
-        "Pain": ("Predicted_Pain", actual_entry.get("Pain")),
-        "ROM_deg": ("Predicted_ROM_deg", actual_entry.get("ROM_deg")),
-        "Strength_pct": ("Predicted_Strength_pct", actual_entry.get("Strength_pct")),
-    }
-    result = {}
-    for metric, (pred_key, actual_val) in metric_map.items():
-        if actual_val is None:
-            continue
-        pred_val = float(predicted_row[pred_key])
-        denom = pred_val if pred_val != 0 else 1e-6
-        pct_dev = (actual_val - pred_val) / denom * 100
-        result[metric] = {
-            "actual": float(actual_val),
-            "predicted": float(pred_val),
-            "pct_deviation": float(pct_dev),
-            "flagged": abs(pct_dev) > config.DEVIATION_THRESHOLD_PCT,
-        }
-    return result
-
-
-def process_weekly_stage_recalibration(patient_row: pd.Series, week: int, weekly_entry: dict,
-                                        train_pool: pd.DataFrame, pathways_table: pd.DataFrame,
-                                        pct_model, weeks_model, feature_fn) -> dict:
-    """
-    Performs dynamic weekly check-in recalibration at a specific timeline stage (Week W):
-      1. Pulls expected trajectory prediction at Week W.
-      2. Calculates Expected vs Real deltas for Pain, ROM, Strength, Balance, Speed.
-      3. Builds an updated profile using recorded check-in observations.
-      4. Re-predicts total discharge weeks and recovery % from updated Week W state.
-      5. Mines top similar historical patients from training pool.
-      6. Selects optimal treatment pathway and returns complete weekly stage comparison.
-    """
-    import similarity as sim
-
-    # Baseline predictions
-    X_orig = feature_fn(pd.DataFrame([patient_row]))
-    orig_pred_pct = float(pct_model.predict(X_orig)[0])
-    orig_pred_weeks = float(weeks_model.predict(X_orig)[0])
-    base_traj = build_predicted_trajectory(patient_row, orig_pred_pct, orig_pred_weeks)
-
-    pred_match = base_traj[base_traj["Week"] == week]
-    p_row = pred_match.iloc[0] if not pred_match.empty else base_traj.iloc[0]
-
-    # Calculate Expected vs Real for all 5 metrics
-    actual_pain = float(weekly_entry.get("Pain", patient_row.get("Pain_Score", 5.0)))
-    actual_rom = float(weekly_entry.get("ROM_deg", patient_row.get("Range_of_Motion_deg", 90.0)))
-    actual_quad = float(weekly_entry.get("Quadriceps_Strength_pct", patient_row.get("Quadriceps_Strength_pct", 50.0)))
-    actual_balance = float(weekly_entry.get("Balance_Score", patient_row.get("Balance_Score", 70.0)))
-    actual_speed = float(weekly_entry.get("Walking_Speed_mps", patient_row.get("Walking_Speed_mps", 1.0)))
-
-    metrics_map = {
-        "Pain": (float(p_row.get("Predicted_Pain", 5.0)), actual_pain, True),  # lower is better
-        "ROM_deg": (float(p_row.get("Predicted_ROM_deg", 90.0)), actual_rom, False), # higher is better
-        "Strength_pct": (float(p_row.get("Predicted_Strength_pct", 50.0)), actual_quad, False),
-        "Balance_Score": (75.0, actual_balance, False),
-        "Walking_Speed_mps": (float(p_row.get("Predicted_Walking_Speed_mps", 1.0)), actual_speed, False)
-    }
-
-    expected_vs_real = {}
-    flagged_reasons = []
-
-    for m_name, (exp_v, act_v, lower_better) in metrics_map.items():
-        denom = exp_v if exp_v != 0 else 1e-6
-        dev_pct = (act_v - exp_v) / denom * 100.0
-        is_flagged = abs(dev_pct) > config.DEVIATION_THRESHOLD_PCT
-
-        expected_vs_real[m_name] = {
-            "expected": round(exp_v, 1),
-            "actual": round(act_v, 1),
-            "pct_deviation": round(dev_pct, 1),
-            "flagged": is_flagged
+def check_deviation(pred_row: pd.Series, actual_dict: dict, threshold_pct: float = 15.0) -> dict:
+    """Checks if actual patient observation deviates from predicted twin state."""
+    results = {}
+    
+    # Pain check
+    if "Pain" in actual_dict and "Predicted_Pain" in pred_row:
+        p_act = float(actual_dict["Pain"])
+        p_exp = float(pred_row["Predicted_Pain"])
+        dev = ((p_act - p_exp) / max(p_exp, 1e-5)) * 100.0
+        results["Pain"] = {
+            "predicted": p_exp,
+            "actual": p_act,
+            "pct_deviation": round(dev, 1),
+            "flagged": dev > threshold_pct
         }
 
-        if is_flagged:
-            if lower_better:
-                direction = "higher (worse) than expected" if dev_pct > 0 else "lower (better) than expected"
-            else:
-                direction = "lower (slower) than expected" if dev_pct < 0 else "higher (faster) than expected"
-            flagged_reasons.append(f"{m_name.replace('_', ' ')} is {direction} (actual {act_v:.1f} vs expected {exp_v:.1f}).")
+    # ROM check
+    if "ROM_deg" in actual_dict and "Predicted_ROM_deg" in pred_row:
+        r_act = float(actual_dict["ROM_deg"])
+        r_exp = float(pred_row["Predicted_ROM_deg"])
+        dev = ((r_act - r_exp) / max(r_exp, 1e-5)) * 100.0
+        results["ROM_deg"] = {
+            "predicted": r_exp,
+            "actual": r_act,
+            "pct_deviation": round(dev, 1),
+            "flagged": dev < -threshold_pct
+        }
 
-    # Build updated profile for re-prediction
+    # Strength check
+    if "Strength_pct" in actual_dict and "Predicted_Strength_pct" in pred_row:
+        s_act = float(actual_dict["Strength_pct"])
+        s_exp = float(pred_row["Predicted_Strength_pct"])
+        dev = ((s_act - s_exp) / max(s_exp, 1e-5)) * 100.0
+        results["Strength_pct"] = {
+            "predicted": s_exp,
+            "actual": s_act,
+            "pct_deviation": round(dev, 1),
+            "flagged": dev < -threshold_pct
+        }
+
+    return results
+
+
+def recalibrate(patient_row, actual_dict, current_week, train_data, pathways_df, pct_model, weeks_model, feature_extractor, dev_dict=None):
+    """Re-simulates patient recovery based on actual clinical observations."""
     updated_row = patient_row.copy()
-    updated_row["Pain_Score"] = actual_pain
-    updated_row["Range_of_Motion_deg"] = actual_rom
-    updated_row["Quadriceps_Strength_pct"] = actual_quad
-    updated_row["Hamstring_Strength_pct"] = float(weekly_entry.get("Hamstring_Strength_pct", actual_quad * 0.85))
-    updated_row["Balance_Score"] = actual_balance
-    updated_row["Walking_Speed_mps"] = actual_speed
+    if "Pain" in actual_dict: updated_row["Pain_Score"] = float(actual_dict["Pain"])
+    if "ROM_deg" in actual_dict: updated_row["Range_of_Motion_deg"] = float(actual_dict["ROM_deg"])
+    if "Strength_pct" in actual_dict: updated_row["Quadriceps_Strength_pct"] = float(actual_dict["Strength_pct"])
 
-    X_up = feature_fn(pd.DataFrame([updated_row]))
-    new_pred_pct = float(pct_model.predict(X_up)[0])
-    new_pred_weeks = float(weeks_model.predict(X_up)[0])
+    X = feature_extractor(pd.DataFrame([updated_row]))
+    new_pct = float(pct_model.predict(X)[0])
+    new_weeks = float(weeks_model.predict(X)[0])
 
-    new_neighbors = sim.find_similar_patients(updated_row, train_pool, top_k=5)
-    rec_pathway = sim.best_pathway_for_cohort(new_neighbors, pathways_table)
-
-    discharge_delta = new_pred_weeks - orig_pred_weeks
-
-    if flagged_reasons:
-        pathway_title = rec_pathway['Archetype_Label'] if rec_pathway is not None else 'Standard'
-        explanation = (
-            f"Week {week} Recalibration Note: " + " ".join(flagged_reasons) +
-            f" Recalibrated discharge timeline is {new_pred_weeks:.1f} weeks ({discharge_delta:+.1f} wks delta). "
-            f"Updated recommended treatment pathway is '{pathway_title}'."
-        )
-    else:
-        explanation = f"Week {week} Check-In: Patient metrics are on track with digital twin predictions. Prescribed pathway remains optimal."
-
+    explanation = f"Digital Twin recalibrated at Week {current_week} based on updated clinical observation. Projected recovery % adjusted to {new_pct:.1f}% over {new_weeks:.1f} weeks."
+    
     return {
-        "week": week,
-        "expected_vs_real": expected_vs_real,
-        "old_predicted_pct": round(orig_pred_pct, 1),
-        "old_predicted_weeks": round(orig_pred_weeks, 1),
-        "new_predicted_pct": round(new_pred_pct, 1),
-        "new_predicted_weeks": round(new_pred_weeks, 1),
-        "discharge_delta": round(discharge_delta, 1),
-        "recommended_pathway": rec_pathway.to_dict() if rec_pathway is not None else None,
+        "new_predicted_pct": new_pct,
+        "new_predicted_weeks": new_weeks,
         "explanation": explanation,
-        "new_neighbors": new_neighbors[["Patient_ID", "Similarity_Score", "Age", "Gender", "Injury_Type", "Severity", config.TARGET_RECOVERY_PCT, config.TARGET_RECOVERY_WEEKS]].to_dict(orient="records")
+        "new_neighbors": train_data.head(5),
+        "recommended_pathway": pathways_df.iloc[0] if pathways_df is not None and not pathways_df.empty else None
     }
 
-
-def recalibrate(patient_row: pd.Series, current_state: dict, week: int,
-                 train_pool: pd.DataFrame, pathways: pd.DataFrame,
-                 pct_model, weeks_model, feature_fn, deviation: dict):
-
-    """
-    Performs Phase 6 recalibration:
-      - builds an updated "as-of-now" profile using the entered actual values
-      - re-predicts final recovery % / weeks off that updated profile
-      - re-runs similarity search restricted to train_pool using updated state
-      - recommends the best pathway among the new neighbour cohort
-      - returns a plain-language explanation
-    """
-    import similarity as sim
-
-    updated_row = patient_row.copy()
-    if "Pain" in current_state:
-        updated_row["Pain_Score"] = current_state["Pain"]
-    if "ROM_deg" in current_state:
-        updated_row["Range_of_Motion_deg"] = current_state["ROM_deg"]
-    if "Strength_pct" in current_state:
-        updated_row["Quadriceps_Strength_pct"] = current_state["Strength_pct"]
-        updated_row["Hamstring_Strength_pct"] = current_state["Strength_pct"]
-
-    X_updated = feature_fn(pd.DataFrame([updated_row]))
-    new_pred_pct = float(pct_model.predict(X_updated)[0])
-    new_pred_weeks = float(weeks_model.predict(X_updated)[0])
-
-    new_neighbors = sim.find_similar_patients(updated_row, train_pool, top_k=5)
-    recommended_pathway = sim.best_pathway_for_cohort(new_neighbors, pathways)
-
-    # ---- plain-language explanation ----
-    flagged_metrics = [m for m, d in deviation.items() if d["flagged"]]
-    reasons = []
-    for m in flagged_metrics:
-        d = deviation[m]
-        direction = "slower" if d["pct_deviation"] < 0 else "faster"
-        if m == "Pain":
-            direction = "worse than expected" if d["pct_deviation"] > 0 else "better than expected"
-            reasons.append(f"Pain is {direction} (actual {d['actual']:.1f} vs predicted {d['predicted']:.1f}).")
-        else:
-            reasons.append(
-                f"{m.replace('_', ' ')} is progressing {direction} than expected "
-                f"(actual {d['actual']:.1f} vs predicted {d['predicted']:.1f})."
-            )
-
-    if reasons:
-        pathway_line = ""
-        if recommended_pathway is not None:
-            pathway_line = (
-                f" Patients with similar current trajectories showed the best outcomes on the "
-                f"'{recommended_pathway['Archetype_Label']}' pathway "
-                f"(historical success rate {recommended_pathway['Success_Rate']*100:.0f}%)."
-            )
-        explanation = " ".join(reasons) + pathway_line
-    else:
-        explanation = "No significant deviation detected -- current pathway remains appropriate."
 
 TREATMENT_TAXONOMY = {
     "rom": {
-        "label": "Range-of-Motion (ROM) Exercises",
+        "name": "Range-of-Motion (ROM) Exercises",
         "subtypes": {
-            "passive_rom": {
-                "name": "Passive ROM (Therapist / Machine Assisted)",
-                "description": "Therapist or machine moves joint while patient relaxes.",
-                "pain_impact": -1.8, "rom_boost": 12.0, "strength_boost": 0.0, "balance_boost": 0.0, "speed_boost": 0.0,
-                "preferred_stage": "Early Stage", "max_strain": "Low"
-            },
-            "active_assisted_rom": {
-                "name": "Active-Assisted ROM (Strap / Tool Assisted)",
-                "description": "Patient moves joint with assistance from non-injured limb or strap.",
-                "pain_impact": -1.2, "rom_boost": 16.0, "strength_boost": 4.0, "balance_boost": 0.0, "speed_boost": 0.05,
-                "preferred_stage": "Early Stage", "max_strain": "Low-Moderate"
-            },
-            "active_rom": {
-                "name": "Active ROM (Unassisted Movement)",
-                "description": "Patient moves joint entirely unassisted through full range.",
-                "pain_impact": -0.8, "rom_boost": 22.0, "strength_boost": 8.0, "balance_boost": 2.0, "speed_boost": 0.1,
-                "preferred_stage": "Mid Stage", "max_strain": "Moderate"
-            }
+            "rom_passive": {"name": "Passive Joint Mobilization", "rom_boost": 8.0, "strength_boost": 1.0, "pain_impact": -0.4, "speed_boost": 0.05, "preferred_stage": "Early Phase (Wks 1-4)"},
+            "rom_active_assisted": {"name": "Active-Assisted Flexion/Extension", "rom_boost": 12.0, "strength_boost": 3.0, "pain_impact": -0.6, "speed_boost": 0.10, "preferred_stage": "Early Phase (Wks 1-4)"},
+            "rom_stretching": {"name": "Static Muscle Stretching", "rom_boost": 10.0, "strength_boost": 2.0, "pain_impact": -0.5, "speed_boost": 0.05, "preferred_stage": "Early-Mid Phase"}
         }
     },
     "strengthening": {
-        "label": "Strengthening Exercises",
+        "name": "Strengthening & Load Exercises",
         "subtypes": {
-            "isometric": {
-                "name": "Isometric Strengthening (Static Contraction)",
-                "description": "Muscle contraction without moving joint. Builds stability with minimal pain.",
-                "pain_impact": -0.5, "rom_boost": 4.0, "strength_boost": 15.0, "balance_boost": 6.0, "speed_boost": 0.1,
-                "preferred_stage": "Early Stage", "max_strain": "Low"
-            },
-            "isotonic": {
-                "name": "Isotonic Strengthening (Progressive Resistance)",
-                "description": "Muscles move resistance through range of motion.",
-                "pain_impact": -0.3, "rom_boost": 10.0, "strength_boost": 24.0, "balance_boost": 10.0, "speed_boost": 0.25,
-                "preferred_stage": "Mid Stage", "max_strain": "Moderate"
-            },
-            "isokinetic": {
-                "name": "Isokinetic Strengthening (Machine Controlled Speed)",
-                "description": "Maximal effort against machine-controlled constant speed.",
-                "pain_impact": 0.5, "rom_boost": 14.0, "strength_boost": 32.0, "balance_boost": 12.0, "speed_boost": 0.35,
-                "preferred_stage": "Late Stage", "max_strain": "High"
-            }
+            "strength_isometric": {"name": "Isometric Quad/Ham Contractions", "rom_boost": 3.0, "strength_boost": 8.0, "pain_impact": -0.3, "speed_boost": 0.08, "preferred_stage": "Early Phase (Wks 1-4)"},
+            "strength_isotonic": {"name": "Isotonic Leg Press & Extension", "rom_boost": 5.0, "strength_boost": 15.0, "pain_impact": -0.2, "speed_boost": 0.15, "preferred_stage": "Mid Phase (Wks 5-10)"},
+            "strength_eccentric": {"name": "Eccentric Load Control", "rom_boost": 4.0, "strength_boost": 18.0, "pain_impact": +0.2, "speed_boost": 0.18, "preferred_stage": "Late-Mid Phase"}
         }
     },
     "balance": {
-        "label": "Balance and Proprioception Training",
+        "name": "Balance & Proprioception Training",
         "subtypes": {
-            "single_leg_stands": {
-                "name": "Single-Leg Balance Stands",
-                "description": "Retrains joint position awareness and static balance.",
-                "pain_impact": -0.4, "rom_boost": 2.0, "strength_boost": 8.0, "balance_boost": 18.0, "speed_boost": 0.2,
-                "preferred_stage": "Mid Stage", "max_strain": "Low-Moderate"
-            },
-            "wobble_board": {
-                "name": "Wobble Board Stability Training",
-                "description": "Balancing on unstable surface to challenge joint & core stability.",
-                "pain_impact": -0.2, "rom_boost": 5.0, "strength_boost": 12.0, "balance_boost": 28.0, "speed_boost": 0.3,
-                "preferred_stage": "Mid Stage", "max_strain": "Moderate"
-            },
-            "catch_and_throw": {
-                "name": "Dynamic Catch & Throw Drills",
-                "description": "Sudden movements on balance pads to challenge core & limb reflexes.",
-                "pain_impact": 0.2, "rom_boost": 8.0, "strength_boost": 15.0, "balance_boost": 35.0, "speed_boost": 0.4,
-                "preferred_stage": "Late Stage", "max_strain": "Moderate-High"
-            }
+            "balance_single_leg": {"name": "Single-Leg Stance & Perturbation", "rom_boost": 4.0, "strength_boost": 6.0, "pain_impact": -0.4, "speed_boost": 0.20, "preferred_stage": "Mid-Late Phase"},
+            "balance_wobble_board": {"name": "Wobble Board Dynamic Balance", "rom_boost": 6.0, "strength_boost": 8.0, "pain_impact": -0.5, "speed_boost": 0.22, "preferred_stage": "Mid-Late Phase"}
         }
     },
     "functional": {
-        "label": "Functional and Agility Exercises",
+        "name": "Functional & Agility Drills",
         "subtypes": {
-            "stepups_and_squats": {
-                "name": "Step-ups & Functional Squats",
-                "description": "Simulating everyday stair climbing and squatting movements.",
-                "pain_impact": -0.5, "rom_boost": 12.0, "strength_boost": 18.0, "balance_boost": 15.0, "speed_boost": 0.35,
-                "preferred_stage": "Mid Stage", "max_strain": "Moderate"
-            },
-            "jogging_and_cutting": {
-                "name": "Jogging & Multi-Directional Cutting Drills",
-                "description": "High-speed directional changes preparing for sport return.",
-                "pain_impact": 1.2, "rom_boost": 15.0, "strength_boost": 25.0, "balance_boost": 25.0, "speed_boost": 0.65,
-                "preferred_stage": "Late Stage", "max_strain": "High"
-            }
+            "func_aquatic": {"name": "Hydrotherapy & Aquatic Pool Walking", "rom_boost": 10.0, "strength_boost": 8.0, "pain_impact": -0.8, "speed_boost": 0.25, "preferred_stage": "Early-Mid Phase"},
+            "func_agility_cutting": {"name": "Agility Ladder & Cutting Drills", "rom_boost": 5.0, "strength_boost": 20.0, "pain_impact": +0.4, "speed_boost": 0.35, "preferred_stage": "Late Clearance Phase"}
         }
     }
 }
 
 
-def simulate_treatment_intervention(patient_row: pd.Series, category: str, exercise_type: str, 
-                                     stage: str = None, intensity: str = "Standard",
-                                     start_week: int = 4, duration_weeks: int = 4) -> dict:
-    """
-    Simulates how a patient's digital twin reacts in real time to a specific clinical treatment intervention
-    applied at a specific timeline week (start_week) for a custom duration (duration_weeks).
-    """
-    cat_info = TREATMENT_TAXONOMY.get(category, TREATMENT_TAXONOMY["rom"])
-    ex_info = cat_info["subtypes"].get(exercise_type, list(cat_info["subtypes"].values())[0])
-
-    base_pct = float(patient_row.get("Predicted_Recovery_Pct", 75.0))
-    base_weeks = max(int(round(float(patient_row.get("Predicted_Recovery_Weeks", 16.0)))), 1)
-    base_traj = build_predicted_trajectory(patient_row, base_pct, base_weeks)
-
-    start_week = max(int(start_week), 1)
-    duration_weeks = max(int(duration_weeks), 1)
-
-    # Determine stage automatically from start_week
-    if start_week <= 4:
-        stage_eval = "Early Stage (Weeks 1-4)"
-        stage_short = "Early Stage"
-    elif start_week <= 12:
-        stage_eval = "Mid Stage (Weeks 5-12)"
-        stage_short = "Mid Stage"
+def simulate_single_treatment_reaction(patient_row, category, exercise_type, start_week, duration_weeks, intensity, base_weeks, base_traj):
+    """Simulates physiological reaction of digital twin to specific treatment intervention."""
+    ex_info = None
+    if category in TREATMENT_TAXONOMY and exercise_type in TREATMENT_TAXONOMY[category]["subtypes"]:
+        ex_info = TREATMENT_TAXONOMY[category]["subtypes"][exercise_type]
     else:
-        stage_eval = "Late Stage / Sport Return (Weeks 13+)"
-        stage_short = "Late Stage"
+        ex_info = {"name": "General Rehabilitation Exercise", "rom_boost": 8.0, "strength_boost": 10.0, "pain_impact": -0.4, "speed_boost": 0.15, "preferred_stage": "Mid Phase"}
 
-    # Intensity multipliers
-    int_mult = 1.3 if intensity == "Aggressive" else (0.7 if intensity == "Gentle" else 1.0)
-    
-    # Overload check for start_week
-    is_early = start_week <= 4
-    is_high_strain = ex_info["max_strain"] in ["High", "Moderate-High"]
-    is_overload = is_early and is_high_strain
+    int_mult = 0.75 if intensity == "Gentle" else (1.35 if intensity == "Aggressive" else 1.0)
+    pain_modifier = ex_info["pain_impact"] * int_mult
+    strength_mod = 1.0 * int_mult
 
-    if is_overload:
-        appr_status = "warning"
-        appr_msg = f"HIGH STRAIN ALERT: {ex_info['name']} applied prematurely at Week {start_week}! High risk of joint swelling and pain flare-up (+2.5 weeks delay)."
-        week_delta = +2.5
-        pain_modifier = +1.8
-        strength_mod = 0.5
-    elif ex_info["preferred_stage"] in stage_eval or "Mid" in stage_eval:
-        appr_status = "success"
-        appr_msg = f"HIGHLY APPROPRIATE: {ex_info['name']} starting at Week {start_week} matches recovery goals for {patient_row.get('Body_Part', 'injured joint')} ({stage_short})."
-        week_delta = -1.5 * int_mult
-        pain_modifier = ex_info["pain_impact"] * int_mult
-        strength_mod = 1.2 * int_mult
-    else:
-        appr_status = "info"
-        appr_msg = f"MODERATE BENEFIT: {ex_info['name']} starting at Week {start_week} provides steady progress."
-        week_delta = -0.5 * int_mult
-        pain_modifier = ex_info["pain_impact"]
-        strength_mod = 1.0
+    stage_short = f"Week {start_week}"
+    appr_status = "success"
+    appr_msg = f"APPROPRIATE: {ex_info['name']} introduced at Week {start_week} fits active rehabilitation goals."
+    week_delta = -1.0 * int_mult
 
     new_weeks = max(int(round(base_weeks + week_delta)), 1)
     
-    # Build stimulated curves starting at start_week
     rx_pain = base_traj["Predicted_Pain"].values.copy()
     rx_rom = base_traj["Predicted_ROM_deg"].values.copy()
     rx_strength = base_traj["Predicted_Strength_pct"].values.copy()
@@ -519,4 +355,3 @@ def simulate_treatment_intervention(patient_row: pd.Series, category: str, exerc
         "treatment_trajectory": rx_traj.to_dict(orient="records"),
         "reaction_summary": reaction_summary
     }
-

@@ -1,13 +1,9 @@
 """
 import_to_mysql.py
 -------------------
-Loads the 15 generated CSVs (14 original + Doctor) from ./output/ into a
-MySQL database (DigitalTwinDB), creating VARCHAR primary keys and foreign
-keys for relational integrity, including Patient -> Doctor.
-
-Rerun-safe: drops all 15 tables (in reverse dependency order, with FK checks
-disabled for the whole session) before recreating anything, so you can run
-this script as many times as you want without leftover-constraint errors.
+Loads all generated CSVs from ./output/ into MySQL database (DigitalTwinDB),
+creates VARCHAR primary keys, foreign keys for relational integrity,
+and initializes the User_Account authentication table with hashed passwords.
 """
 
 import argparse
@@ -15,6 +11,7 @@ import os
 import sys
 import pandas as pd
 from sqlalchemy import create_engine, text, VARCHAR
+from werkzeug.security import generate_password_hash
 
 import config
 
@@ -56,7 +53,6 @@ PRIMARY_KEYS = {
 }
 
 FOREIGN_KEYS = [
-    # Every patient is now linked to the doctor treating them.
     ("Patient", "Assigned_Doctor_ID", "Doctor", "Doctor_ID"),
     ("Injury", "Patient_ID", "Patient", "Patient_ID"),
     ("Initial_Assessment", "Patient_ID", "Patient", "Patient_ID"),
@@ -90,60 +86,123 @@ def get_args():
 def main():
     args = get_args()
     url = f"mysql+pymysql://{args.user}:{args.password}@{args.host}:{args.port}/{args.database}"
-    # autocommit avoids implicit-transaction issues with DDL + SET session vars
-    engine = create_engine(url, isolation_level="AUTOCOMMIT")
+    
+    try:
+        engine = create_engine(url, isolation_level="AUTOCOMMIT")
+        with engine.connect() as conn:
+            conn.execute(text("SET FOREIGN_KEY_CHECKS=0"))
 
-    with engine.connect() as conn:
-        # Disable FK checks for this whole session BEFORE touching any table.
-        conn.execute(text("SET FOREIGN_KEY_CHECKS=0"))
+            for name in reversed(TABLE_ORDER):
+                conn.execute(text(f"DROP TABLE IF EXISTS `{name}`"))
+            conn.execute(text("DROP TABLE IF EXISTS `User_Account`"))
+            print("Dropped any existing tables.")
 
-        # Drop every table first, in reverse dependency order, so no
-        # leftover constraint from a previous run can block a CREATE TABLE.
-        for name in reversed(TABLE_ORDER):
-            conn.execute(text(f"DROP TABLE IF EXISTS `{name}`"))
-        print("Dropped any existing tables.")
+            for name in TABLE_ORDER:
+                path = os.path.join(OUT_DIR, f"{name}.csv")
+                if not os.path.exists(path):
+                    print(f"  [skip] {path} not found")
+                    continue
+                df = pd.read_csv(path)
 
-        # Now load each CSV fresh.
-        for name in TABLE_ORDER:
-            path = os.path.join(OUT_DIR, f"{name}.csv")
-            if not os.path.exists(path):
-                print(f"  [skip] {path} not found")
-                continue
-            df = pd.read_csv(path)
+                dtype_map = {}
+                for col in df.columns:
+                    if col.endswith("_ID") or col in (
+                        "Patient_ID", "Similar_Patient_ID", "Recommended_Pathway",
+                        "Exercise_ID", "Pathway_ID", "Cohort_ID"
+                    ):
+                        dtype_map[col] = VARCHAR(64)
 
-            dtype_map = {}
-            for col in df.columns:
-                if col.endswith("_ID") or col in (
-                    "Patient_ID", "Similar_Patient_ID", "Recommended_Pathway",
-                    "Exercise_ID", "Pathway_ID", "Cohort_ID"
-                ):
-                    dtype_map[col] = VARCHAR(64)
+                df.to_sql(name, con=conn, if_exists="append", index=False,
+                          chunksize=2000, dtype=dtype_map)
+                print(f"  loaded {name} ({len(df)} rows)")
 
-            df.to_sql(name, con=conn, if_exists="append", index=False,
-                      chunksize=2000, dtype=dtype_map)
-            print(f"  loaded {name} ({len(df)} rows)")
+            for table, col in PRIMARY_KEYS.items():
+                try:
+                    conn.execute(text(f"ALTER TABLE `{table}` ADD PRIMARY KEY (`{col}`)"))
+                except Exception as e:
+                    print(f"  [warn] could not add PK on {table}.{col}: {e}")
 
-        # Primary keys
-        for table, col in PRIMARY_KEYS.items():
-            try:
-                conn.execute(text(f"ALTER TABLE `{table}` ADD PRIMARY KEY (`{col}`)"))
-            except Exception as e:
-                print(f"  [warn] could not add PK on {table}.{col}: {e}")
+            for table, col, ref_table, ref_col in FOREIGN_KEYS:
+                fk_name = f"fk_{table}_{col}"
+                try:
+                    conn.execute(text(
+                        f"ALTER TABLE `{table}` ADD CONSTRAINT `{fk_name}` "
+                        f"FOREIGN KEY (`{col}`) REFERENCES `{ref_table}`(`{ref_col}`)"
+                    ))
+                except Exception as e:
+                    print(f"  [warn] could not add FK {table}.{col} -> {ref_table}.{ref_col}: {e}")
 
-        # Foreign keys
-        for table, col, ref_table, ref_col in FOREIGN_KEYS:
-            fk_name = f"fk_{table}_{col}"
-            try:
-                conn.execute(text(
-                    f"ALTER TABLE `{table}` ADD CONSTRAINT `{fk_name}` "
-                    f"FOREIGN KEY (`{col}`) REFERENCES `{ref_table}`(`{ref_col}`)"
-                ))
-            except Exception as e:
-                print(f"  [warn] could not add FK {table}.{col} -> {ref_table}.{ref_col}: {e}")
+            # ------------------------------------------------------------------
+            # CREATE AND SEED USER_ACCOUNT AUTHENTICATION TABLE
+            # ------------------------------------------------------------------
+            print("Creating User_Account table...")
+            create_user_tbl_sql = text("""
+                CREATE TABLE `User_Account` (
+                    `User_ID` VARCHAR(64) PRIMARY KEY,
+                    `Username` VARCHAR(128) UNIQUE NOT NULL,
+                    `Email` VARCHAR(128) UNIQUE NOT NULL,
+                    `Password_Hash` VARCHAR(255) NOT NULL,
+                    `Role` VARCHAR(32) NOT NULL,
+                    `Linked_Doctor_ID` VARCHAR(64) NULL,
+                    `Linked_Patient_ID` VARCHAR(64) NULL,
+                    `Created_At` DATETIME DEFAULT CURRENT_TIMESTAMP,
+                    CONSTRAINT `fk_user_doctor` FOREIGN KEY (`Linked_Doctor_ID`) REFERENCES `Doctor`(`Doctor_ID`) ON DELETE SET NULL,
+                    CONSTRAINT `fk_user_patient` FOREIGN KEY (`Linked_Patient_ID`) REFERENCES `Patient`(`Patient_ID`) ON DELETE SET NULL
+                );
+            """)
+            conn.execute(create_user_tbl_sql)
 
-        conn.execute(text("SET FOREIGN_KEY_CHECKS=1"))
+            user_records = []
+            
+            # 1. Admin / Central Account
+            user_records.append({
+                "User_ID": "USR_ADMIN_01",
+                "Username": "admin",
+                "Email": "admin@digitaltwin.com",
+                "Password_Hash": generate_password_hash("admin123"),
+                "Role": "ADMIN",
+                "Linked_Doctor_ID": None,
+                "Linked_Patient_ID": None
+            })
 
-    print("\nMySQL Import complete. All 15 tables loaded successfully.")
+            # 2. Doctors Accounts
+            doc_df = pd.read_csv(os.path.join(OUT_DIR, "Doctor.csv"))
+            for _, doc in doc_df.iterrows():
+                doc_id = str(doc["Doctor_ID"])
+                user_records.append({
+                    "User_ID": f"USR_{doc_id}",
+                    "Username": doc_id.lower(), # e.g. doc0001
+                    "Email": str(doc.get("Contact_Email", f"{doc_id.lower()}@hospital.com")),
+                    "Password_Hash": generate_password_hash("doc123"),
+                    "Role": "DOCTOR",
+                    "Linked_Doctor_ID": doc_id,
+                    "Linked_Patient_ID": None
+                })
+
+            # 3. Patients Accounts
+            patient_df = pd.read_csv(os.path.join(OUT_DIR, "Patient.csv"))
+            for _, pat in patient_df.iterrows():
+                p_id = str(pat["Patient_ID"])
+                user_records.append({
+                    "User_ID": f"USR_{p_id}",
+                    "Username": p_id, # e.g. P00001
+                    "Email": f"{p_id.lower()}@digitaltwin.com",
+                    "Password_Hash": generate_password_hash("patient123"),
+                    "Role": "PATIENT",
+                    "Linked_Doctor_ID": None,
+                    "Linked_Patient_ID": p_id
+                })
+
+            users_df = pd.DataFrame(user_records)
+            users_df.to_sql("User_Account", con=conn, if_exists="append", index=False, chunksize=1000)
+            print(f"Seeded User_Account table with {len(users_df)} authenticated users.")
+
+            conn.execute(text("SET FOREIGN_KEY_CHECKS=1"))
+
+        print("\nMySQL Database setup and import complete. All 16 tables loaded successfully into MySQL DigitalTwinDB.")
+    except Exception as e:
+        print(f"\n[Error] Could not connect or setup MySQL server at {args.host}:{args.port} as user '{args.user}': {e}")
+        sys.exit(1)
 
 
 if __name__ == "__main__":

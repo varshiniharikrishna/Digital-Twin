@@ -1,14 +1,29 @@
 /* ==========================================================================
-   Dynamic Digital Twin — Frontend JavaScript (Full-Body Human Twin SVG)
+   Dynamic Digital Twin — Frontend JavaScript
+   Features Multi-Portal RBAC Authentication, Scope Authorization Headers,
+   Doctor Roster Management (Admin only), Allocated Patient Filtering,
+   Pathway Mining (Clinicians/Admins only), Treatment Simulator, and Recalibration.
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
+    let currentAuthToken = sessionStorage.getItem('dt_token') || null;
+    let currentUserRole = sessionStorage.getItem('dt_role') || null;
+    let currentUserId = sessionStorage.getItem('dt_user_id') || null;
+    let currentLinkedDoc = sessionStorage.getItem('dt_linked_doc') || null;
+    let currentLinkedPat = sessionStorage.getItem('dt_linked_pat') || null;
+
     let currentPatientId = null;
     let maxPatientWeek = 1;
     let clonesChartInstance = null;
     let currentBodyPart = "Knee";
     let currentInjuryType = "ACL Tear";
-    const recalHistory = [];
+
+    const loginOverlay = document.getElementById('loginOverlay');
+    const securityBanner = document.getElementById('securityBanner');
+    const sessionUserName = document.getElementById('sessionUserName');
+    const sessionRoleBadge = document.getElementById('sessionRoleBadge');
+    const sessionScopeDesc = document.getElementById('sessionScopeDesc');
+    const logoutBtn = document.getElementById('logoutBtn');
 
     const patientSelect = document.getElementById('patientSelect');
     const weekSlider = document.getElementById('weekSlider');
@@ -19,13 +34,292 @@ document.addEventListener('DOMContentLoaded', () => {
     init();
 
     async function init() {
+        setupAuthForms();
         setupTabs();
-        await loadPatientList();
         setupEventListeners();
+
+        if (currentAuthToken) {
+            hideLoginOverlay();
+            await applyRolePermissions();
+        } else {
+            showLoginOverlay();
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // AUTHENTICATION & REST FETCH HELPERS
+    // ----------------------------------------------------------------------
+    async function fetchWithAuth(url, options = {}) {
+        options.headers = options.headers || {};
+        if (currentAuthToken) {
+            options.headers['Authorization'] = `Bearer ${currentAuthToken}`;
+        }
+        const res = await fetch(url, options);
+        if (res.status === 401) {
+            logout();
+            throw new Error("Session expired. Please log in again.");
+        }
+        return res;
+    }
+
+    function showLoginOverlay() {
+        if (loginOverlay) loginOverlay.classList.remove('hidden');
+        if (securityBanner) securityBanner.classList.add('hidden');
+    }
+
+    function hideLoginOverlay() {
+        if (loginOverlay) loginOverlay.classList.add('hidden');
+        if (securityBanner) securityBanner.classList.remove('hidden');
+    }
+
+    function setupAuthForms() {
+        const patientForm = document.getElementById('patientLoginForm');
+        if (patientForm) {
+            patientForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const inp = document.getElementById('patientLoginId').value;
+                const pwd = document.getElementById('patientPassword').value;
+                await performLogin(inp, pwd);
+            });
+        }
+
+        const docForm = document.getElementById('doctorLoginForm');
+        if (docForm) {
+            docForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const inp = document.getElementById('docLoginId').value;
+                const pwd = document.getElementById('docPassword').value;
+                await performLogin(inp, pwd);
+            });
+        }
+
+        const adminForm = document.getElementById('adminLoginForm');
+        if (adminForm) {
+            adminForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const inp = document.getElementById('adminLoginId').value;
+                const pwd = document.getElementById('adminPassword').value;
+                await performLogin(inp, pwd);
+            });
+        }
+
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', logout);
+        }
+    }
+
+    async function performLogin(loginInput, password) {
+        const statusMsg = document.getElementById('loginStatusMsg');
+        if (statusMsg) {
+            statusMsg.style.color = '#F59E0B';
+            statusMsg.textContent = 'Authenticating with Digital Twin database...';
+        }
+
+        try {
+            const res = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ login_input: loginInput, password: password })
+            });
+            const data = await res.json();
+
+            if (res.ok && data.status === 'success') {
+                currentAuthToken = data.token;
+                currentUserRole = data.role;
+                currentUserId = data.user_id;
+                currentLinkedDoc = data.linked_doctor_id;
+                currentLinkedPat = data.linked_patient_id;
+
+                sessionStorage.setItem('dt_token', currentAuthToken);
+                sessionStorage.setItem('dt_role', currentUserRole);
+                sessionStorage.setItem('dt_user_id', currentUserId);
+                sessionStorage.setItem('dt_linked_doc', currentLinkedDoc || '');
+                sessionStorage.setItem('dt_linked_pat', currentLinkedPat || '');
+
+                updateSecurityBanner(data);
+                hideLoginOverlay();
+                await applyRolePermissions();
+            } else {
+                if (statusMsg) {
+                    statusMsg.style.color = '#E11D48';
+                    statusMsg.textContent = `Login Failed: ${data.error || 'Invalid credentials'}`;
+                }
+            }
+        } catch (err) {
+            console.error(err);
+            if (statusMsg) {
+                statusMsg.style.color = '#E11D48';
+                statusMsg.textContent = 'Network or server error during login.';
+            }
+        }
+    }
+
+    function updateSecurityBanner(authData) {
+        if (!securityBanner) return;
+        securityBanner.classList.remove('hidden');
+
+        if (sessionUserName) sessionUserName.textContent = authData.username || currentUserId;
+        if (sessionRoleBadge) {
+            sessionRoleBadge.textContent = authData.role || currentUserRole;
+            sessionRoleBadge.className = `session-badge ${currentUserRole === 'ADMIN' ? 'badge-amber' : (currentUserRole === 'DOCTOR' ? 'badge-emerald' : 'badge-purple')}`;
+        }
+        if (sessionScopeDesc) sessionScopeDesc.textContent = authData.security_scope || '';
+
+        const admBtn = document.getElementById('adminQuickAddDocBtn');
+        const docBtn = document.getElementById('docQuickAddPatBtn');
+
+        // Only Admin can see + Add Doctor button
+        if (admBtn) admBtn.classList.toggle('hidden', currentUserRole !== 'ADMIN');
+        if (docBtn) docBtn.classList.toggle('hidden', !['ADMIN', 'DOCTOR'].includes(currentUserRole));
+    }
+
+    function logout() {
+        if (currentAuthToken) {
+            fetch('/api/auth/logout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ token: currentAuthToken })
+            }).catch(err => console.error(err));
+        }
+
+        sessionStorage.clear();
+        currentAuthToken = null;
+        currentUserRole = null;
+        currentUserId = null;
+        currentLinkedDoc = null;
+        currentLinkedPat = null;
+
+        showLoginOverlay();
+    }
+
+    // ----------------------------------------------------------------------
+    // ROLE PORTALS & ACCESS ENFORCEMENT
+    // ----------------------------------------------------------------------
+    async function applyRolePermissions() {
+        updateSecurityBanner({
+            username: currentUserId,
+            role: currentUserRole,
+            security_scope: currentUserRole === 'ADMIN' ? 'Full System-Wide Access'
+                          : currentUserRole === 'DOCTOR' ? `Restricted to Assigned Patients (${currentLinkedDoc})`
+                          : `Personal Scope (${currentLinkedPat})`
+        });
+
+        // Tab Navigation Access Controls:
+        const pathwaysTabBtn = document.getElementById('tabNavPathways');
+        const docTabBtn = document.getElementById('tabNavDoctorRoster');
+        const admTabBtn = document.getElementById('tabNavAdminPortal');
+
+        // Patients CANNOT see Pathway Mining tab
+        if (pathwaysTabBtn) pathwaysTabBtn.classList.toggle('hidden', currentUserRole === 'PATIENT');
+        
+        // Only Admin can see Doctor Roster tab and Admin Control Center
+        if (docTabBtn) docTabBtn.classList.toggle('hidden', currentUserRole !== 'ADMIN');
+        if (admTabBtn) admTabBtn.classList.toggle('hidden', currentUserRole !== 'ADMIN');
+
+        await loadPatientList();
+
+        if (['ADMIN', 'DOCTOR'].includes(currentUserRole)) {
+            await loadDoctorRoster();
+        }
+        if (currentUserRole === 'ADMIN') {
+            await loadAdminOverview();
+        }
+
         await loadCurrentPatient();
         await loadEvaluationMetrics();
     }
 
+    async function loadPatientList() {
+        try {
+            const res = await fetchWithAuth('/api/patients');
+            const data = await res.json();
+            if (patientSelect) {
+                patientSelect.innerHTML = '';
+                (data.patients || []).forEach(pid => {
+                    const opt = document.createElement('option');
+                    opt.value = pid;
+                    opt.textContent = pid;
+                    patientSelect.appendChild(opt);
+                });
+            }
+            if (data.patients && data.patients.length > 0) {
+                currentPatientId = data.patients[0];
+            }
+        } catch (err) { console.error(err); }
+    }
+
+    async function loadCurrentPatient() {
+        if (!currentPatientId) return;
+        try {
+            const resDetails = await fetchWithAuth(`/api/patient/${currentPatientId}`);
+            if (!resDetails.ok) {
+                console.warn("Could not load patient details:", resDetails.status);
+                return;
+            }
+            const dataDetails = await resDetails.json();
+            
+            currentBodyPart = dataDetails.patient.Body_Part || "Knee";
+            currentInjuryType = dataDetails.patient.Injury_Type || "ACL Tear";
+
+            const resWeekly = await fetchWithAuth(`/api/patient/${currentPatientId}/weekly`);
+            const weeklyData = await resWeekly.json();
+            maxPatientWeek = weeklyData.max_week || 1;
+            
+            if (weekSlider) {
+                weekSlider.max = maxPatientWeek;
+                weekSlider.value = 1;
+            }
+            if (weekSliderVal) weekSliderVal.textContent = `Week 1`;
+            
+            await loadWeekDetail(1);
+        } catch (err) { console.error(err); }
+    }
+
+    async function loadWeekDetail(week) {
+        if (!currentPatientId) return;
+        try {
+            const res = await fetchWithAuth(`/api/patient/${currentPatientId}/week/${week}`);
+            if (!res.ok) return;
+            const data = await res.json();
+            const w = data.week_data || {};
+
+            const painVal = (w.Pain !== undefined && w.Pain !== null) ? parseFloat(w.Pain).toFixed(1) : "0.0";
+            const romVal = (w.ROM_deg !== undefined && w.ROM_deg !== null) ? parseFloat(w.ROM_deg).toFixed(1) : "0.0";
+            const quadVal = (w.Quadriceps_Strength_pct !== undefined && w.Quadriceps_Strength_pct !== null) ? parseFloat(w.Quadriceps_Strength_pct).toFixed(1) : "0.0";
+            const hamVal = (w.Hamstring_Strength_pct !== undefined && w.Hamstring_Strength_pct !== null) ? parseFloat(w.Hamstring_Strength_pct).toFixed(1) : "0.0";
+            const balVal = (w.Balance_Score !== undefined && w.Balance_Score !== null) ? parseFloat(w.Balance_Score).toFixed(1) : "0.0";
+            const speedVal = (w.Walking_Speed_mps !== undefined && w.Walking_Speed_mps !== null) ? parseFloat(w.Walking_Speed_mps).toFixed(2) : "0.00";
+
+            if (document.getElementById('mPain')) document.getElementById('mPain').textContent = `${painVal}/10`;
+            if (document.getElementById('mRom')) document.getElementById('mRom').textContent = `${romVal}°`;
+            if (document.getElementById('mQuad')) document.getElementById('mQuad').textContent = `${quadVal}%`;
+            if (document.getElementById('mHam')) document.getElementById('mHam').textContent = `${hamVal}%`;
+            if (document.getElementById('mBalance')) document.getElementById('mBalance').textContent = balVal;
+            if (document.getElementById('mSpeed')) document.getElementById('mSpeed').textContent = `${speedVal} m/s`;
+
+            if (document.getElementById('mSwelling')) document.getElementById('mSwelling').textContent = w.Swelling || "None";
+            if (document.getElementById('mCompliance')) document.getElementById('mCompliance').textContent = `${w.Compliance_pct || 100}%`;
+            if (document.getElementById('mFeedback')) document.getElementById('mFeedback').textContent = w.Patient_Feedback || "On track.";
+            if (document.getElementById('mRemark')) document.getElementById('mRemark').textContent = w.Clinician_Remark || "Progressing normally.";
+
+            if (data.npi && document.getElementById('npiBadgeScore')) {
+                document.getElementById('npiBadgeScore').textContent = data.npi.npi_score.toFixed(3);
+                document.getElementById('npiRawPain').textContent = `${data.npi.raw_pain}/10`;
+                document.getElementById('npiScoreVal').textContent = data.npi.npi_score.toFixed(3);
+                document.getElementById('npiCategory').textContent = data.npi.category;
+                document.getElementById('npiPctVal').textContent = `${data.npi.npi_pct}%`;
+            }
+
+            renderFullBodyHumanSvg(parseFloat(painVal), currentBodyPart, data.muscle_compensation, romVal, quadVal);
+            renderPressurePoints(data.pressure_points);
+            renderExpectedVsActual(data.expected_vs_actual);
+            renderTherapyPlan(data.therapy_plan);
+        } catch (err) { console.error(err); }
+    }
+
+    // ----------------------------------------------------------------------
+    // TAB MANAGEMENT & EVENT LISTENERS
+    // ----------------------------------------------------------------------
     function setupTabs() {
         const tabs = document.querySelectorAll('.nav-tab');
         tabs.forEach(tab => {
@@ -34,42 +328,194 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
                 
                 tab.classList.add('active');
-                document.getElementById(`tab-${tab.dataset.tab}`).classList.add('active');
+                const targetTab = document.getElementById(`tab-${tab.dataset.tab}`);
+                if (targetTab) targetTab.classList.add('active');
 
                 if (tab.dataset.tab === 'treatmentClones') loadTreatmentClones();
+                else if (tab.dataset.tab === 'pathways') loadMinedPathways();
                 else if (tab.dataset.tab === 'twinOverview') loadTwinOverview();
                 else if (tab.dataset.tab === 'recalibration') loadRecalibrationHistory();
+                else if (tab.dataset.tab === 'doctorRoster') loadDoctorRoster();
+                else if (tab.dataset.tab === 'adminPortal') loadAdminOverview();
             });
         });
     }
 
     function setupEventListeners() {
-        patientSelect.addEventListener('change', async (e) => {
-            currentPatientId = e.target.value;
-            await loadCurrentPatient();
-        });
-
-        weekSlider.addEventListener('input', (e) => {
-            const week = parseInt(e.target.value);
-            weekSliderVal.textContent = `Week ${week}`;
-            loadWeekDetail(week);
-        });
-
-        downloadPdfBtn.addEventListener('click', () => {
-            window.location.href = `/api/patient/${currentPatientId}/pdf?week=${weekSlider.value}`;
-        });
-
-        recalForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            await runRecalibration();
-        });
-
-        const toggleCheckinBtn = document.getElementById('toggleCheckinFormBtn');
-        const checkinForm = document.getElementById('saveWeeklyCheckinForm');
-        if (toggleCheckinBtn && checkinForm) {
-            toggleCheckinBtn.addEventListener('click', () => {
-                checkinForm.classList.toggle('hidden');
+        if (patientSelect) {
+            patientSelect.addEventListener('change', async (e) => {
+                currentPatientId = e.target.value;
+                await loadCurrentPatient();
             });
+        }
+
+        if (weekSlider) {
+            weekSlider.addEventListener('input', (e) => {
+                const week = parseInt(e.target.value);
+                weekSliderVal.textContent = `Week ${week}`;
+                loadWeekDetail(week);
+            });
+        }
+
+        if (downloadPdfBtn) {
+            downloadPdfBtn.addEventListener('click', () => {
+                window.location.href = `/api/patient/${currentPatientId}/pdf?week=${weekSlider.value}&token=${currentAuthToken}`;
+            });
+        }
+
+        // Modals
+        const addDocModal = document.getElementById('addDoctorModal');
+        const openAddDocBtn = document.getElementById('addDoctorModalOpenBtn');
+        const quickAddDocBtn = document.getElementById('adminQuickAddDocBtn');
+        const closeAddDocBtn = document.getElementById('closeAddDocModalBtn');
+        const cancelAddDocBtn = document.getElementById('cancelAddDocModalBtn');
+
+        [openAddDocBtn, quickAddDocBtn].forEach(btn => {
+            if (btn) btn.addEventListener('click', () => addDocModal.classList.remove('hidden'));
+        });
+        [closeAddDocBtn, cancelAddDocBtn].forEach(btn => {
+            if (btn) btn.addEventListener('click', () => addDocModal.classList.add('hidden'));
+        });
+
+        const addDoctorForm = document.getElementById('addDoctorForm');
+        if (addDoctorForm) {
+            addDoctorForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const payload = {
+                    Doctor_Name: document.getElementById('newDocName').value,
+                    Specialization: document.getElementById('newDocSpec').value,
+                    Hospital_Branch: document.getElementById('newDocBranch').value,
+                    Years_Experience: parseInt(document.getElementById('newDocExp').value),
+                    Contact_Email: document.getElementById('newDocEmail').value
+                };
+                try {
+                    const res = await fetchWithAuth('/api/admin/doctor/add', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const data = await res.json();
+                    if (res.ok) {
+                        alert(data.message);
+                        addDocModal.classList.add('hidden');
+                        await loadDoctorRoster();
+                    } else alert(`Error: ${data.error}`);
+                } catch (err) { alert(`Failed: ${err}`); }
+            });
+        }
+
+        // Register Patient Modal (DOCTOR & ADMIN)
+        const regPatModal = document.getElementById('registerPatientModal');
+        const docQuickAddPatBtn = document.getElementById('docQuickAddPatBtn');
+        const closeRegPatModalBtn = document.getElementById('closeRegPatModalBtn');
+        const cancelRegPatModalBtn = document.getElementById('cancelRegPatModalBtn');
+
+        if (docQuickAddPatBtn) {
+            docQuickAddPatBtn.addEventListener('click', async () => {
+                await loadDoctorRoster();
+                if (regPatModal) regPatModal.classList.remove('hidden');
+            });
+        }
+        [closeRegPatModalBtn, cancelRegPatModalBtn].forEach(btn => {
+            if (btn) btn.addEventListener('click', () => {
+                if (regPatModal) regPatModal.classList.add('hidden');
+            });
+        });
+
+        const registerPatientForm = document.getElementById('registerPatientForm');
+        if (registerPatientForm) {
+            registerPatientForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const payload = {
+                    Age: parseInt(document.getElementById('regAge').value),
+                    Gender: document.getElementById('regGender').value,
+                    Height_cm: parseFloat(document.getElementById('regHeight').value),
+                    Weight_kg: parseFloat(document.getElementById('regWeight').value),
+                    Occupation: document.getElementById('regOccupation').value,
+                    Activity_Level: document.getElementById('regActivity').value,
+                    Body_Region: document.getElementById('regBodyRegion').value,
+                    Injury_Type: document.getElementById('regInjuryType').value,
+                    Severity: document.getElementById('regSeverity').value,
+                    Surgery_Required: parseInt(document.getElementById('regSurgery').value),
+                    Pain_Score: parseFloat(document.getElementById('regPain').value),
+                    Primary_ROM_deg: parseFloat(document.getElementById('regRom').value),
+                    Assigned_Doctor_ID: document.getElementById('regAssignedDocSelect').value || currentLinkedDoc || 'DOC0001'
+                };
+                try {
+                    const res = await fetchWithAuth('/api/doctor/patient/add', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const data = await res.json();
+                    if (res.ok) {
+                        alert(data.message);
+                        if (regPatModal) regPatModal.classList.add('hidden');
+                        await loadPatientList();
+                        if (data.patient_id) {
+                            const patSelect = document.getElementById('patientSelect');
+                            if (patSelect) {
+                                patSelect.value = data.patient_id;
+                                patSelect.dispatchEvent(new Event('change'));
+                            }
+                        }
+                    } else alert(`Error: ${data.error}`);
+                } catch (err) { alert(`Registration failed: ${err}`); }
+            });
+        }
+
+        const adminRegisterPatientForm = document.getElementById('adminRegisterPatientForm');
+        if (adminRegisterPatientForm) {
+            adminRegisterPatientForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const payload = {
+                    Age: parseInt(document.getElementById('admAge').value),
+                    Gender: document.getElementById('admGender').value,
+                    Body_Region: document.getElementById('admBodyRegion').value,
+                    Injury_Type: document.getElementById('admInjuryType').value,
+                    Severity: document.getElementById('admSeverity').value,
+                    Pain_Score: parseFloat(document.getElementById('admPain').value),
+                    Assigned_Doctor_ID: document.getElementById('admAssignedDocSelect').value
+                };
+                try {
+                    const res = await fetchWithAuth('/api/doctor/patient/add', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const data = await res.json();
+                    if (res.ok) {
+                        alert(data.message);
+                        await loadPatientList();
+                        if (currentUserRole === 'ADMIN') await loadAdminOverview();
+                    } else alert(`Error: ${data.error}`);
+                } catch (err) { alert(`Registration failed: ${err}`); }
+            });
+        }
+
+        const adminReassignForm = document.getElementById('adminReassignForm');
+        if (adminReassignForm) {
+            adminReassignForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const pid = document.getElementById('reassignPatientSelect').value;
+                const docid = document.getElementById('reassignDoctorSelect').value;
+                try {
+                    const res = await fetchWithAuth('/api/admin/patient/reassign', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ patient_id: pid, new_doctor_id: docid })
+                    });
+                    const data = await res.json();
+                    if (res.ok) alert(data.message);
+                    else alert(`Error: ${data.error}`);
+                } catch (err) { alert(`Failed: ${err}`); }
+            });
+        }
+
+        const checkinForm = document.getElementById('saveWeeklyCheckinForm');
+        const toggleCheckinBtn = document.getElementById('toggleCheckinFormBtn');
+        if (toggleCheckinBtn && checkinForm) {
+            toggleCheckinBtn.addEventListener('click', () => checkinForm.classList.toggle('hidden'));
         }
 
         if (checkinForm) {
@@ -91,43 +537,232 @@ document.addEventListener('DOMContentLoaded', () => {
                 };
 
                 const statusMsg = document.getElementById('checkinStatusMsg');
-                statusMsg.style.color = '#F59E0B';
-                statusMsg.textContent = 'Saving to database...';
+                if (statusMsg) {
+                    statusMsg.style.color = '#F59E0B';
+                    statusMsg.textContent = 'Saving observation to MySQL database...';
+                }
 
                 try {
-                    const res = await fetch(`/api/patient/${currentPatientId}/weekly/save`, {
+                    const res = await fetchWithAuth(`/api/patient/${currentPatientId}/weekly/save`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(payload)
                     });
                     const resData = await res.json();
                     if (res.ok && resData.success) {
-                        statusMsg.style.color = '#10B981';
-                        statusMsg.textContent = 'Observation saved to database and persisted.';
-                        await loadWeekDetail(week);
-
-                        // Show weekly recalibration result panel
-                        const recal = resData.recalibration;
-                        if (recal) {
-                            renderWeeklyRecalPanel(recal);
+                        if (statusMsg) {
+                            statusMsg.style.color = '#10B981';
+                            statusMsg.textContent = 'Observation saved and twin recalibrated!';
                         }
-
-                        setTimeout(() => { statusMsg.textContent = ''; }, 5000);
+                        await loadWeekDetail(week);
+                        if (resData.recalibration) renderWeeklyRecalPanel(resData.recalibration);
+                        setTimeout(() => { if (statusMsg) statusMsg.textContent = ''; }, 5000);
                     } else {
-                        statusMsg.style.color = '#E11D48';
-                        statusMsg.textContent = `Error: ${resData.error || 'Failed to save'}`;
+                        if (statusMsg) {
+                            statusMsg.style.color = '#E11D48';
+                            statusMsg.textContent = `Error: ${resData.error || 'Save failed'}`;
+                        }
                     }
                 } catch (err) {
-                    console.error(err);
-                    statusMsg.style.color = '#E11D48';
-                    statusMsg.textContent = 'Network error saving observation.';
+                    if (statusMsg) {
+                        statusMsg.style.color = '#E11D48';
+                        statusMsg.textContent = 'Network error saving observation.';
+                    }
                 }
             });
         }
     }
 
+    // ----------------------------------------------------------------------
+    // DYNAMIC PATHWAY MINING RENDERER (CLINICIANS / ADMINS)
+    // ----------------------------------------------------------------------
+    async function loadMinedPathways() {
+        const wrapper = document.getElementById('minedPathwaysCardsWrapper');
+        if (!wrapper) return;
+        try {
+            const res = await fetchWithAuth('/api/pathways');
+            if (res.status === 403) {
+                wrapper.innerHTML = `<div class="alert-box-info" style="border-left-color:#E11D48; color:#991B1B;">🔒 Access Restricted: Pathway Mining is restricted to clinicians and administrators.</div>`;
+                return;
+            }
+            const data = await res.json();
+            if (!data.pathways || data.pathways.length === 0) {
+                wrapper.innerHTML = `<div class="text-muted text-center">No mined pathways found for your allocated patients.</div>`;
+                return;
+            }
+
+            wrapper.innerHTML = '';
+            data.pathways.forEach(pw => {
+                let stepsHtml = (pw.step_flow || []).map((s, idx) => `
+                    <div class="pathway-step-card">
+                        <div class="step-badge">Phase ${idx+1}</div>
+                        <div class="step-title">${s}</div>
+                    </div>
+                `).join('<div class="step-arrow">&rarr;</div>');
+
+                wrapper.innerHTML += `
+                <div class="pathway-story-card">
+                    <div class="pathway-header">
+                        <div class="pathway-title">${pw.title || pw.layman_title}</div>
+                        <span class="badge-emerald">${pw.Archetype_Label || 'Standard'}</span>
+                    </div>
+                    <div class="pathway-cohort">${pw.cohort_desc || pw.layman_cohort}</div>
+                    
+                    <div class="pathway-stats-grid">
+                        <div class="pstat-box">
+                            <div class="pstat-label">⏱️ Avg Duration</div>
+                            <div class="pstat-val">${pw.Average_Recovery_Time_weeks} Wks</div>
+                        </div>
+                        <div class="pstat-box">
+                            <div class="pstat-label">📈 Success Rate</div>
+                            <div class="pstat-val text-emerald">${pw.Success_Rate}%</div>
+                        </div>
+                        <div class="pstat-box">
+                            <div class="pstat-label">📉 Pain Reduction</div>
+                            <div class="pstat-val">-${pw.Average_Pain_Reduction} Points</div>
+                        </div>
+                        <div class="pstat-box">
+                            <div class="pstat-label">👥 Cohort Pool</div>
+                            <div class="pstat-val">${pw.Sample_Size} Patients</div>
+                        </div>
+                    </div>
+
+                    <p class="pathway-story-txt">${pw.story || pw.layman_story}</p>
+                    
+                    <div class="pathway-flowchart-title">Visual Step-by-Step Recovery Plan</div>
+                    <div class="pathway-step-flow">
+                        ${stepsHtml}
+                    </div>
+                </div>
+                `;
+            });
+        } catch (err) { console.error("Error loading mined pathways:", err); }
+    }
+
+    // ----------------------------------------------------------------------
+    // FULL BODY HUMAN ANATOMICAL SVG
+    // ----------------------------------------------------------------------
+    function renderFullBodyHumanSvg(painScore, bodyPart, compEvent, romVal, quadVal) {
+        const wrapper = document.getElementById('svgPainMapWrapper');
+        if (!wrapper) return;
+        
+        let radius = 14;
+        let fillColor = '#10B981';
+        let glowColor = 'rgba(16, 185, 129, 0.3)';
+
+        if (painScore >= 8.0) { radius = 28; fillColor = '#E11D48'; glowColor = 'rgba(225, 29, 72, 0.5)'; }
+        else if (painScore >= 5.0) { radius = 22; fillColor = '#F59E0B'; glowColor = 'rgba(245, 158, 11, 0.4)'; }
+        else if (painScore >= 2.0) { radius = 16; fillColor = '#EAB308'; glowColor = 'rgba(234, 179, 8, 0.3)'; }
+
+        let spotX = 220, spotY = 295;
+        let partLabel = "Right Knee Joint";
+
+        const bp = (bodyPart || "").toLowerCase();
+        const inj = (currentInjuryType || "").toLowerCase();
+
+        if (bp.includes("shoulder") || inj.includes("rotator")) { spotX = 260; spotY = 85; partLabel = "Right Shoulder"; }
+        else if (bp.includes("ankle") || inj.includes("ankle") || inj.includes("achilles")) { spotX = 220; spotY = 410; partLabel = "Right Ankle Joint"; }
+        else if (bp.includes("lower leg") || inj.includes("tibial")) { spotX = 220; spotY = 350; partLabel = "Right Tibia / Lower Leg"; }
+        else if (bp.includes("arm") || bp.includes("elbow")) { spotX = 275; spotY = 135; partLabel = "Right Elbow Joint"; }
+        else if (bp.includes("wrist") || bp.includes("hand")) { spotX = 285; spotY = 185; partLabel = "Right Wrist"; }
+        else if (bp.includes("neck") || bp.includes("cervical")) { spotX = 200; spotY = 55; partLabel = "Cervical Spine (Neck)"; }
+        else if (bp.includes("spine") || bp.includes("lumbar") || bp.includes("back")) { spotX = 200; spotY = 145; partLabel = "Lumbar Spine / Core"; }
+        else if (bp.includes("hip") || bp.includes("pelvis")) { spotX = 220; spotY = 195; partLabel = "Right Hip Joint"; }
+        else { spotX = 220; spotY = 295; partLabel = "Right Knee Joint"; }
+
+        let compMarker = '';
+        if (compEvent) {
+            compMarker = `
+            <g transform="translate(270, ${spotY - 20})">
+                <rect x="0" y="0" width="125" height="44" rx="6" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.5"/>
+                <text x="62" y="17" fill="#991B1B" font-size="10" font-weight="bold" text-anchor="middle">OVERLOAD ALERT</text>
+                <text x="62" y="32" fill="#7F1D1D" font-size="9" text-anchor="middle">${compEvent.Muscle_Overloaded} (${compEvent.Compensation_Level})</text>
+            </g>
+            <line x1="${spotX}" y1="${spotY}" x2="270" y2="${spotY}" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="3,3"/>
+            `;
+        }
+
+        wrapper.innerHTML = `
+        <svg width="400" height="460" viewBox="0 0 400 460">
+            <defs>
+                <filter id="glow"><feGaussianBlur stdDeviation="6" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" /></filter>
+            </defs>
+
+            <ellipse cx="200" cy="35" rx="18" ry="22" fill="#E2E8F0" stroke="#94A3B8" stroke-width="1.5"/>
+            <rect x="194" y="55" width="12" height="15" rx="2" fill="#CBD5E1"/>
+
+            <path d="M 165 70 L 235 70 L 225 180 L 175 180 Z" fill="#CBD5E1" stroke="#94A3B8" stroke-width="1.5"/>
+            <line x1="200" y1="70" x2="200" y2="180" stroke="#94A3B8" stroke-width="1.5" stroke-dasharray="3,3"/>
+
+            <path d="M 165 70 L 140 85 L 125 135 L 115 185" fill="none" stroke="#CBD5E1" stroke-width="14" stroke-linecap="round"/>
+            <circle cx="140" cy="85" r="7" fill="#94A3B8"/>
+            <circle cx="125" cy="135" r="6" fill="#94A3B8"/>
+
+            <path d="M 235 70 L 260 85 L 275 135 L 285 185" fill="none" stroke="#CBD5E1" stroke-width="14" stroke-linecap="round"/>
+            <circle cx="260" cy="85" r="7" fill="#94A3B8"/>
+            <circle cx="275" cy="135" r="6" fill="#94A3B8"/>
+
+            <path d="M 175 180 L 225 180 L 230 210 L 170 210 Z" fill="#94A3B8"/>
+
+            <path d="M 180 210 L 180 290 L 180 380 L 180 430" fill="none" stroke="#CBD5E1" stroke-width="18" stroke-linecap="round"/>
+            <circle cx="180" cy="295" r="8" fill="#94A3B8"/>
+            <circle cx="180" cy="410" r="6" fill="#94A3B8"/>
+
+            <path d="M 220 210 L 220 290 L 220 380 L 220 430" fill="none" stroke="#CBD5E1" stroke-width="18" stroke-linecap="round"/>
+            <circle cx="220" cy="295" r="8" fill="#94A3B8"/>
+            <circle cx="220" cy="410" r="6" fill="#94A3B8"/>
+
+            <circle cx="${spotX}" cy="${spotY}" r="${radius + 12}" fill="${glowColor}" filter="url(#glow)"/>
+            <circle cx="${spotX}" cy="${spotY}" r="${radius + 4}" fill="none" stroke="${fillColor}" stroke-width="1.5" stroke-dasharray="4,2"/>
+            <circle cx="${spotX}" cy="${spotY}" r="${radius}" fill="${fillColor}" stroke="#FFFFFF" stroke-width="2"/>
+            <text x="${spotX}" y="${spotY + 4}" fill="#FFFFFF" font-size="11" font-weight="bold" text-anchor="middle">${painScore}</text>
+
+            <rect x="15" y="15" width="155" height="42" rx="6" fill="#FFFFFF" stroke="#CBD5E1"/>
+            <text x="92" y="32" fill="#0F172A" font-size="11" font-weight="bold" text-anchor="middle">${partLabel}</text>
+            <text x="92" y="48" fill="#64748B" font-size="9" text-anchor="middle">ROM: ${romVal || '-'}° | Strength: ${quadVal || '-'}%</text>
+
+            ${compMarker}
+        </svg>
+        `;
+    }
+
+    function renderPressurePoints(points) {
+        const container = document.getElementById('pressureFlagsContainer');
+        if (!container) return;
+        container.innerHTML = (!points || points.length === 0) ? `<div class="alert-box-info">✓ No critical pressure point flags detected!</div>` : '';
+        if (points) points.forEach(p => {
+            container.innerHTML += `<div class="flag-box"><div class="flag-title">ALERT: ${p.Category} — ${p.Flag}</div><div class="flag-detail">Recorded Value: <b>${p.Actual}</b></div></div>`;
+        });
+    }
+
+    function renderExpectedVsActual(eva) {
+        const container = document.getElementById('expectedVsActualContainer');
+        if (!container || !eva || Object.keys(eva).length === 0) return;
+        let html = `<table class="data-table"><thead><tr><th>Metric</th><th>Expected</th><th>Actual</th><th>Deviation</th></tr></thead><tbody>`;
+        Object.keys(eva).forEach(m => {
+            const d = eva[m];
+            html += `<tr><td><b>${m}</b></td><td>${d.predicted.toFixed(1)}</td><td>${d.actual.toFixed(1)}</td><td><strong style="color:${d.flagged ? '#E11D48' : '#059669'}">${d.pct_deviation >= 0 ? '+' : ''}${d.pct_deviation.toFixed(1)}%</strong></td></tr>`;
+        });
+        container.innerHTML = html + `</tbody></table>`;
+    }
+
+    function renderTherapyPlan(plan) {
+        const container = document.getElementById('therapyPlanContainer');
+        if (!container) return;
+        if (!plan || plan.length === 0) {
+            container.innerHTML = `<div class="text-muted text-center">No therapy plan prescribed for this week.</div>`;
+            return;
+        }
+        let html = `<table class="data-table"><thead><tr><th>Exercise</th><th>Target</th><th>Sets x Reps</th><th>Duration</th><th>Therapist Notes</th></tr></thead><tbody>`;
+        plan.forEach(ex => {
+            html += `<tr><td><b>${ex.Exercise_Name}</b></td><td>${ex.Target_Muscle}</td><td>${ex.Sets} &times; ${ex.Repetitions}</td><td>${ex.Duration_min} min</td><td class="italic-txt">${ex.Therapist_Notes || '-'}</td></tr>`;
+        });
+        container.innerHTML = html + `</tbody></table>`;
+    }
+
     function renderWeeklyRecalPanel(recal) {
         const panel = document.getElementById('weeklyRecalPanel');
+        if (!panel) return;
         panel.classList.remove('hidden');
         panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
@@ -141,7 +776,6 @@ document.addEventListener('DOMContentLoaded', () => {
         newWksEl.textContent = `${recal.new_predicted_weeks} wks (${recal.discharge_delta >= 0 ? '+' : ''}${recal.discharge_delta} wks)`;
         newWksEl.style.color = recal.discharge_delta <= 0 ? '#10B981' : '#E11D48';
 
-        // Build Expected vs Real table
         const tbody = document.getElementById('evrWeeklyTbody');
         const metricLabels = {
             Pain: 'Pain Score (0-10)',
@@ -151,7 +785,7 @@ document.addEventListener('DOMContentLoaded', () => {
             Walking_Speed_mps: 'Walking Speed (m/s)'
         };
         tbody.innerHTML = '';
-        const evr = recal.expected_vs_real;
+        const evr = recal.expected_vs_real || {};
         Object.keys(evr).forEach(key => {
             const m = evr[key];
             const flagClass = m.flagged ? 'style="background: rgba(225,29,72,0.08);"' : '';
@@ -169,226 +803,74 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         document.getElementById('recalPanelExplanation').textContent = recal.explanation;
-
         const pathway = recal.recommended_pathway;
         document.getElementById('recalPanelPathway').textContent =
             pathway ? (pathway.Archetype_Label || pathway.Pathway_Name || 'Standard Protocol') : 'Standard Protocol';
     }
 
-    async function loadRecalibrationHistory() {
-        if (!currentPatientId) return;
+    async function loadDoctorRoster() {
+        if (!['ADMIN', 'DOCTOR'].includes(currentUserRole)) return;
         try {
-            const res = await fetch(`/api/patient/${currentPatientId}/recalibration_history`);
+            const res = await fetchWithAuth('/api/doctors');
             const data = await res.json();
-            const tbody = document.getElementById('recalHistoryTbody');
-            if (!tbody) return;
-            if (!data.history || data.history.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="9" class="text-muted text-center">No weekly check-ins recorded yet for ${currentPatientId}.</td></tr>`;
-                return;
+            const tbody = document.getElementById('doctorRosterTbody');
+            const admDocSel = document.getElementById('admAssignedDocSelect');
+            const reassignDocSel = document.getElementById('reassignDoctorSelect');
+            const regDocSel = document.getElementById('regAssignedDocSelect');
+
+            if (tbody && currentUserRole === 'ADMIN') tbody.innerHTML = '';
+            if (admDocSel) admDocSel.innerHTML = '';
+            if (reassignDocSel) reassignDocSel.innerHTML = '';
+            if (regDocSel) regDocSel.innerHTML = '';
+
+            (data.doctors || []).forEach(d => {
+                if (tbody && currentUserRole === 'ADMIN') {
+                    tbody.innerHTML += `<tr>
+                        <td><b>${d.Doctor_ID}</b></td>
+                        <td>${d.Doctor_Name}</td>
+                        <td>${d.Specialization}</td>
+                        <td>${d.Hospital_Branch}</td>
+                        <td>${d.Years_Experience} yrs</td>
+                        <td>${d.Contact_Email}</td>
+                    </tr>`;
+                }
+                [admDocSel, reassignDocSel, regDocSel].forEach(sel => {
+                    if (sel) {
+                        const opt = document.createElement('option');
+                        opt.value = d.Doctor_ID;
+                        opt.textContent = `${d.Doctor_Name} (${d.Doctor_ID})`;
+                        sel.appendChild(opt);
+                    }
+                });
+            });
+
+            if (regDocSel && currentUserRole === 'DOCTOR' && currentLinkedDoc) {
+                regDocSel.value = currentLinkedDoc;
             }
-            tbody.innerHTML = '';
-            data.history.forEach(h => {
-                const delta = parseFloat(h.Recalibrated_Recovery_Weeks || 0) - parseFloat(h.Old_Predicted_Weeks || 0);
-                const deltaStr = isNaN(delta) ? '-' : `${delta >= 0 ? '+' : ''}${delta.toFixed(1)} wks`;
-                const deltaColor = delta <= 0 ? '#10B981' : '#E11D48';
-                const notes = (h.Explanation || '').substring(0, 80) + ((h.Explanation || '').length > 80 ? '...' : '');
-                tbody.innerHTML += `<tr>
-                    <td><b>Week ${h.Week}</b></td>
-                    <td>${h.Old_Predicted_Weeks ? h.Old_Predicted_Weeks + ' wks' : '-'}</td>
-                    <td>${h.Recalibrated_Recovery_Weeks ? h.Recalibrated_Recovery_Weeks + ' wks' : '-'}</td>
-                    <td style="color:${deltaColor}; font-weight:700;">${deltaStr}</td>
-                    <td>${h.Pain_Expected != null ? h.Pain_Expected + ' / ' + h.Pain_Actual : '-'}</td>
-                    <td>${h.ROM_Expected != null ? h.ROM_Expected + ' / ' + h.ROM_Actual : '-'}</td>
-                    <td>${h.Strength_Expected != null ? h.Strength_Expected + ' / ' + h.Strength_Actual : '-'}</td>
-                    <td style="color:#6366F1; font-weight:600;">${h.Updated_Pathway || 'Standard'}</td>
-                    <td style="font-size:0.82rem; color:#64748B;">${notes}</td>
-                </tr>`;
-            });
-        } catch (err) {
-            console.error('Error loading recalibration history:', err);
-        }
+        } catch (err) { console.error(err); }
     }
 
-    async function loadPatientList() {
+    async function loadAdminOverview() {
+        if (currentUserRole !== 'ADMIN') return;
         try {
-            const res = await fetch('/api/patients');
+            const res = await fetchWithAuth('/api/admin/overview');
             const data = await res.json();
-            patientSelect.innerHTML = '';
-            data.patients.forEach(pid => {
-                const opt = document.createElement('option');
-                opt.value = pid; opt.textContent = pid;
-                patientSelect.appendChild(opt);
-            });
-            if (data.patients.length > 0) currentPatientId = data.patients[0];
+            if (document.getElementById('admTotalPatients')) document.getElementById('admTotalPatients').textContent = data.total_patients;
+            if (document.getElementById('admTotalDoctors')) document.getElementById('admTotalDoctors').textContent = data.total_doctors;
+            if (document.getElementById('admTotalPathways')) document.getElementById('admTotalPathways').textContent = data.total_pathways;
+
+            const reassignPatSel = document.getElementById('reassignPatientSelect');
+            if (reassignPatSel) {
+                const pRes = await fetchWithAuth('/api/patients');
+                const pData = await pRes.json();
+                reassignPatSel.innerHTML = '';
+                (pData.patients || []).forEach(pid => {
+                    const opt = document.createElement('option');
+                    opt.value = pid; opt.textContent = pid;
+                    reassignPatSel.appendChild(opt);
+                });
+            }
         } catch (err) { console.error(err); }
-    }
-
-    async function loadCurrentPatient() {
-        if (!currentPatientId) return;
-        try {
-            const resDetails = await fetch(`/api/patient/${currentPatientId}`);
-            const dataDetails = await resDetails.json();
-            currentBodyPart = dataDetails.patient.Body_Part || "Knee";
-            currentInjuryType = dataDetails.patient.Injury_Type || "ACL Tear";
-
-            const resWeekly = await fetch(`/api/patient/${currentPatientId}/weekly`);
-            const weeklyData = await resWeekly.json();
-            maxPatientWeek = weeklyData.max_week || 1;
-            weekSlider.max = maxPatientWeek;
-            weekSlider.value = 1;
-            weekSliderVal.textContent = `Week 1`;
-            await loadWeekDetail(1);
-        } catch (err) { console.error(err); }
-    }
-
-    async function loadWeekDetail(week) {
-        if (!currentPatientId) return;
-        try {
-            const res = await fetch(`/api/patient/${currentPatientId}/week/${week}`);
-            if (!res.ok) return;
-            const data = await res.json();
-            const w = data.week_data;
-
-            document.getElementById('mPain').textContent = `${w.Pain}/10`;
-            document.getElementById('mRom').textContent = `${w.ROM_deg}°`;
-            document.getElementById('mQuad').textContent = `${w.Quadriceps_Strength_pct}%`;
-            document.getElementById('mHam').textContent = `${w.Hamstring_Strength_pct}%`;
-            document.getElementById('mBalance').textContent = w.Balance_Score;
-            document.getElementById('mSpeed').textContent = `${w.Walking_Speed_mps} m/s`;
-
-            document.getElementById('mSwelling').textContent = w.Swelling;
-            document.getElementById('mCompliance').textContent = `${w.Compliance_pct}%`;
-            document.getElementById('mFeedback').textContent = w.Patient_Feedback;
-            document.getElementById('mRemark').textContent = w.Clinician_Remark;
-
-            renderFullBodyHumanSvg(parseFloat(w.Pain), currentBodyPart, data.muscle_compensation);
-            renderPressurePoints(data.pressure_points);
-            renderExpectedVsActual(data.expected_vs_actual);
-            renderTherapyPlan(data.therapy_plan);
-        } catch (err) { console.error(err); }
-    }
-
-    // ----------------------------------------------------------------------
-    // FULL-BODY HUMAN ANATOMICAL SVG TWIN
-    // ----------------------------------------------------------------------
-    function renderFullBodyHumanSvg(painScore, bodyPart, compEvent) {
-        const wrapper = document.getElementById('svgPainMapWrapper');
-        
-        let radius = 12;
-        let fillColor = '#10B981';
-        let glowColor = 'rgba(16, 185, 129, 0.3)';
-
-        if (painScore >= 8.0) { radius = 26; fillColor = '#E11D48'; glowColor = 'rgba(225, 29, 72, 0.5)'; }
-        else if (painScore >= 5.0) { radius = 20; fillColor = '#F59E0B'; glowColor = 'rgba(245, 158, 11, 0.4)'; }
-        else if (painScore >= 2.0) { radius = 15; fillColor = '#EAB308'; glowColor = 'rgba(234, 179, 8, 0.3)'; }
-
-        // Determine anatomical coordinates based on injured body part
-        let spotX = 200, spotY = 295; // Default Knee
-        let partLabel = "Right Knee";
-
-        const bp = (bodyPart || "").toLowerCase();
-        const inj = (currentInjuryType || "").toLowerCase();
-
-        if (bp.includes("shoulder") || inj.includes("rotator")) { spotX = 250; spotY = 90; partLabel = "Right Shoulder"; }
-        else if (bp.includes("ankle") || inj.includes("ankle") || inj.includes("achilles")) { spotX = 215; spotY = 405; partLabel = "Right Ankle"; }
-        else if (bp.includes("lower leg") || inj.includes("tibial")) { spotX = 215; spotY = 350; partLabel = "Right Tibia / Calf"; }
-        else if (bp.includes("arm") || bp.includes("elbow")) { spotX = 265; spotY = 135; partLabel = "Right Elbow / Arm"; }
-        else if (bp.includes("wrist") || bp.includes("hand")) { spotX = 285; spotY = 185; partLabel = "Right Wrist"; }
-        else if (bp.includes("neck") || bp.includes("head")) { spotX = 200; spotY = 55; partLabel = "Cervical Spine / Neck"; }
-        else if (bp.includes("hip") || bp.includes("pelvis")) { spotX = 215; spotY = 205; partLabel = "Right Hip Joint"; }
-        else { spotX = 215; spotY = 295; partLabel = "Right Knee Joint"; }
-
-        let compMarker = '';
-        if (compEvent) {
-            compMarker = `
-            <g transform="translate(270, ${spotY - 20})">
-                <rect x="0" y="0" width="120" height="42" rx="6" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.5"/>
-                <text x="60" y="17" fill="#991B1B" font-size="10" font-weight="bold" text-anchor="middle">OVERLOAD ALERT</text>
-                <text x="60" y="31" fill="#7F1D1D" font-size="9" text-anchor="middle">${compEvent.Muscle_Overloaded} (${compEvent.Compensation_Level})</text>
-            </g>
-            <line x1="${spotX}" y1="${spotY}" x2="270" y2="${spotY}" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="3,3"/>
-            `;
-        }
-
-        wrapper.innerHTML = `
-        <svg width="400" height="460" viewBox="0 0 400 460">
-            <defs>
-                <filter id="glow"><feGaussianBlur stdDeviation="5" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" /></filter>
-            </defs>
-
-            <!-- Full-Body Human Anatomical Silhouette -->
-            <!-- Head & Neck -->
-            <ellipse cx="200" cy="35" rx="18" ry="22" fill="#E2E8F0" stroke="#94A3B8" stroke-width="1.5"/>
-            <rect x="194" y="55" width="12" height="15" rx="2" fill="#CBD5E1"/>
-
-            <!-- Torso / Chest / Spine / Pelvis -->
-            <path d="M 165 70 L 235 70 L 225 180 L 175 180 Z" fill="#CBD5E1" stroke="#94A3B8" stroke-width="1.5"/>
-            <line x1="200" y1="70" x2="200" y2="180" stroke="#94A3B8" stroke-width="1.5" stroke-dasharray="2,2"/>
-
-            <!-- Left Arm -->
-            <path d="M 165 70 L 140 85 L 125 135 L 115 185" fill="none" stroke="#CBD5E1" stroke-width="14" stroke-linecap="round"/>
-            <circle cx="140" cy="85" r="8" fill="#94A3B8"/>
-            <circle cx="125" cy="135" r="7" fill="#94A3B8"/>
-
-            <!-- Right Arm -->
-            <path d="M 235 70 L 260 85 L 275 135 L 285 185" fill="none" stroke="#CBD5E1" stroke-width="14" stroke-linecap="round"/>
-            <circle cx="260" cy="85" r="8" fill="#94A3B8"/>
-            <circle cx="275" cy="135" r="7" fill="#94A3B8"/>
-
-            <!-- Hips / Pelvis -->
-            <path d="M 175 180 L 225 180 L 230 210 L 170 210 Z" fill="#94A3B8"/>
-
-            <!-- Left Leg -->
-            <path d="M 180 210 L 180 290 L 180 380 L 180 430" fill="none" stroke="#CBD5E1" stroke-width="18" stroke-linecap="round"/>
-            <circle cx="180" cy="295" r="9" fill="#94A3B8"/>
-            <circle cx="180" cy="410" r="7" fill="#94A3B8"/>
-
-            <!-- Right Leg -->
-            <path d="M 220 210 L 220 290 L 220 380 L 220 430" fill="none" stroke="#CBD5E1" stroke-width="18" stroke-linecap="round"/>
-            <circle cx="220" cy="295" r="9" fill="#94A3B8"/>
-            <circle cx="220" cy="410" r="7" fill="#94A3B8"/>
-
-            <!-- Dynamic Pain Spot & Pulsing Glow on Targeted Joint -->
-            <circle cx="${spotX}" cy="${spotY}" r="${radius + 8}" fill="${glowColor}" filter="url(#glow)"/>
-            <circle cx="${spotX}" cy="${spotY}" r="${radius}" fill="${fillColor}" stroke="#FFFFFF" stroke-width="2"/>
-            <text x="${spotX}" y="${spotY + 4}" fill="#FFFFFF" font-size="10" font-weight="bold" text-anchor="middle">${painScore}</text>
-
-            <!-- Anatomical Location Tag -->
-            <rect x="15" y="15" width="130" height="26" rx="4" fill="#FFFFFF" stroke="#CBD5E1"/>
-            <text x="80" y="32" fill="#0F172A" font-size="10" font-weight="bold" text-anchor="middle">${partLabel}</text>
-
-            ${compMarker}
-        </svg>
-        `;
-    }
-
-    function renderPressurePoints(points) {
-        const container = document.getElementById('pressureFlagsContainer');
-        container.innerHTML = (!points || points.length === 0) ? `<div class="alert-box-info">✓ No critical pressure point flags detected!</div>` : '';
-        if (points) points.forEach(p => {
-            container.innerHTML += `<div class="flag-box"><div class="flag-title">ALERT: ${p.Category} — ${p.Flag}</div><div class="flag-detail">Recorded Value: <b>${p.Actual}</b></div></div>`;
-        });
-    }
-
-    function renderExpectedVsActual(eva) {
-        const container = document.getElementById('expectedVsActualContainer');
-        if (!eva || Object.keys(eva).length === 0) return;
-        let html = `<table class="data-table"><thead><tr><th>Metric</th><th>Expected</th><th>Actual</th><th>Deviation</th></tr></thead><tbody>`;
-        Object.keys(eva).forEach(m => {
-            const d = eva[m];
-            html += `<tr><td><b>${m}</b></td><td>${d.predicted.toFixed(1)}</td><td>${d.actual.toFixed(1)}</td><td><strong style="color:${d.flagged ? '#E11D48' : '#059669'}">${d.pct_deviation >= 0 ? '+' : ''}${d.pct_deviation.toFixed(1)}%</strong></td></tr>`;
-        });
-        container.innerHTML = html + `</tbody></table>`;
-    }
-
-    function renderTherapyPlan(plan) {
-        const container = document.getElementById('therapyPlanContainer');
-        if (!plan || plan.length === 0) return;
-        let html = `<table class="data-table"><thead><tr><th>Exercise</th><th>Target</th><th>Sets x Reps</th><th>Duration</th><th>Therapist Notes</th></tr></thead><tbody>`;
-        plan.forEach(ex => {
-            html += `<tr><td><b>${ex.Exercise_Name}</b></td><td>${ex.Target_Muscle}</td><td>${ex.Sets} &times; ${ex.Repetitions}</td><td>${ex.Duration_min} min</td><td class="italic-txt">${ex.Therapist_Notes || '-'}</td></tr>`;
-        });
-        container.innerHTML = html + `</tbody></table>`;
     }
 
     let treatmentTaxonomy = null;
@@ -398,7 +880,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!treatmentTaxonomy) {
             try {
-                const resTax = await fetch('/api/treatment/taxonomy');
+                const resTax = await fetchWithAuth('/api/treatment/taxonomy');
                 treatmentTaxonomy = await resTax.json();
 
                 const rxCategorySelect = document.getElementById('rxCategorySelect');
@@ -418,9 +900,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         await runTreatmentSimulation();
                     });
                 }
-            } catch (err) {
-                console.error("Error loading taxonomy:", err);
-            }
+            } catch (err) { console.error(err); }
         }
 
         await runTreatmentSimulation();
@@ -444,54 +924,53 @@ document.addEventListener('DOMContentLoaded', () => {
     async function runTreatmentSimulation() {
         if (!currentPatientId) return;
 
-        const category = document.getElementById('rxCategorySelect').value;
-        const exercise_type = document.getElementById('rxSubtypeSelect').value;
-        const start_week = parseInt(document.getElementById('rxStartWeek').value) || 4;
-        const duration_weeks = parseInt(document.getElementById('rxDurationWeeks').value) || 4;
-        const intensity = document.getElementById('rxIntensitySelect').value;
+        const category = document.getElementById('rxCategorySelect') ? document.getElementById('rxCategorySelect').value : 'rom';
+        const exercise_type = document.getElementById('rxSubtypeSelect') ? document.getElementById('rxSubtypeSelect').value : 'rom_passive';
+        const start_week = parseInt(document.getElementById('rxStartWeek') ? document.getElementById('rxStartWeek').value : 4) || 4;
+        const duration_weeks = parseInt(document.getElementById('rxDurationWeeks') ? document.getElementById('rxDurationWeeks').value : 4) || 4;
+        const intensity = document.getElementById('rxIntensitySelect') ? document.getElementById('rxIntensitySelect').value : 'Standard';
 
         try {
-            const res = await fetch(`/api/patient/${currentPatientId}/treatment/simulate`, {
+            const res = await fetchWithAuth(`/api/patient/${currentPatientId}/treatment/simulate`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ category, exercise_type, start_week, duration_weeks, intensity })
             });
             const data = await res.json();
 
-            // Appropriateness Banner
             const banner = document.getElementById('rxApprBanner');
-            banner.textContent = data.appropriateness.message;
-            if (data.appropriateness.status === 'warning') {
-                banner.className = 'flag-box mt-4';
-            } else if (data.appropriateness.status === 'success') {
-                banner.className = 'alert-box-info mt-4';
-                banner.style.borderLeft = '4px solid #10B981';
-            } else {
-                banner.className = 'alert-box-info mt-4';
+            if (banner && data.appropriateness) {
+                banner.textContent = data.appropriateness.message;
+                if (data.appropriateness.status === 'warning') banner.className = 'flag-box mt-4';
+                else if (data.appropriateness.status === 'success') {
+                    banner.className = 'alert-box-info mt-4';
+                    banner.style.borderLeft = '4px solid #10B981';
+                } else banner.className = 'alert-box-info mt-4';
             }
 
-            // Impact Cards
-            document.getElementById('rxRomImpact').textContent = `+${data.impact.rom_boost.toFixed(1)}°`;
-            document.getElementById('rxStrengthImpact').textContent = `+${data.impact.strength_boost.toFixed(1)}%`;
-            document.getElementById('rxPainImpact').textContent = `${data.impact.pain_delta > 0 ? '+' : ''}${data.impact.pain_delta.toFixed(1)}`;
-            
-            const disEl = document.getElementById('rxDischargeImpact');
-            disEl.textContent = `${data.impact.discharge_weeks_new} wks (${data.impact.discharge_delta >= 0 ? '+' : ''}${data.impact.discharge_delta} wks)`;
-            disEl.style.color = data.impact.discharge_delta <= 0 ? '#10B981' : '#E11D48';
+            if (data.impact) {
+                if (document.getElementById('rxRomImpact')) document.getElementById('rxRomImpact').textContent = `+${data.impact.rom_boost.toFixed(1)}°`;
+                if (document.getElementById('rxStrengthImpact')) document.getElementById('rxStrengthImpact').textContent = `+${data.impact.strength_boost.toFixed(1)}%`;
+                if (document.getElementById('rxPainImpact')) document.getElementById('rxPainImpact').textContent = `${data.impact.pain_delta > 0 ? '+' : ''}${data.impact.pain_delta.toFixed(1)}`;
+                
+                const disEl = document.getElementById('rxDischargeImpact');
+                if (disEl) {
+                    disEl.textContent = `${data.impact.discharge_weeks_new} wks (${data.impact.discharge_delta >= 0 ? '+' : ''}${data.impact.discharge_delta} wks)`;
+                    disEl.style.color = data.impact.discharge_delta <= 0 ? '#10B981' : '#E11D48';
+                }
+            }
 
-            // Summary text
-            document.getElementById('rxSummaryText').textContent = data.reaction_summary;
+            if (document.getElementById('rxSummaryText')) document.getElementById('rxSummaryText').textContent = data.reaction_summary;
 
-            // Render Comparative Overlay Chart
             renderDivergentChart(data.baseline_trajectory, data.treatment_trajectory, data.exercise.name);
 
-        } catch (err) {
-            console.error("Error simulating treatment:", err);
-        }
+        } catch (err) { console.error("Error simulating treatment:", err); }
     }
 
     function renderDivergentChart(baseTraj, txTraj, exerciseName) {
-        const ctx = document.getElementById('clonesChart').getContext('2d');
+        const chartEl = document.getElementById('clonesChart');
+        if (!chartEl) return;
+        const ctx = chartEl.getContext('2d');
         if (clonesChartInstance) clonesChartInstance.destroy();
 
         const maxWeeks = Math.max(baseTraj.length, txTraj.length);
@@ -552,71 +1031,84 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function loadTwinOverview() {
         if (!currentPatientId) return;
-        const res = await fetch(`/api/patient/${currentPatientId}`);
+        const res = await fetchWithAuth(`/api/patient/${currentPatientId}`);
         const data = await res.json();
         const p = data.patient, pred = data.prediction;
 
-        document.getElementById('realPatientInfoTable').innerHTML = `<tr><td>Patient ID</td><td>${p.Patient_ID}</td></tr><tr><td>Age / Gender</td><td>${p.Age} / ${p.Gender}</td></tr><tr><td>Injury Type</td><td>${p.Injury_Type}</td></tr><tr><td>Body Part</td><td>${p.Body_Part}</td></tr><tr><td>Severity</td><td>${p.Severity}</td></tr><tr><td>Baseline Pain / ROM</td><td>${p.Pain_Score}/10 | ${p.Range_of_Motion_deg}°</td></tr>`;
-        document.getElementById('digitalTwinStateTable').innerHTML = `<tr><td>Twin ID</td><td>DT_${p.Patient_ID}</td></tr><tr><td>Predicted Recovery %</td><td class="text-emerald"><b>${pred.predicted_pct}%</b></td></tr><tr><td>Predicted Duration</td><td class="text-emerald"><b>${pred.predicted_weeks} wks</b></td></tr><tr><td>Model R² Confidence</td><td>${pred.r2_score}</td></tr>`;
+        if (document.getElementById('realPatientInfoTable')) {
+            document.getElementById('realPatientInfoTable').innerHTML = `<tr><td>Patient ID</td><td>${p.Patient_ID}</td></tr><tr><td>Age / Gender</td><td>${p.Age} / ${p.Gender}</td></tr><tr><td>Injury Type</td><td>${p.Injury_Type}</td></tr><tr><td>Body Part</td><td>${p.Body_Part}</td></tr><tr><td>Severity</td><td>${p.Severity}</td></tr><tr><td>Baseline Pain / ROM</td><td>${p.Pain_Score}/10 | ${p.Range_of_Motion_deg}°</td></tr>`;
+        }
+        if (document.getElementById('digitalTwinStateTable')) {
+            document.getElementById('digitalTwinStateTable').innerHTML = `<tr><td>Twin ID</td><td>DT_${p.Patient_ID}</td></tr><tr><td>Predicted Recovery %</td><td class="text-emerald"><b>${pred.predicted_pct}%</b></td></tr><tr><td>Predicted Duration</td><td class="text-emerald"><b>${pred.predicted_weeks} wks</b></td></tr><tr><td>Model R² Confidence</td><td>${pred.r2_score}</td></tr>`;
+        }
 
         let simHtml = `<table class="data-table"><thead><tr><th>Patient ID</th><th>Similarity</th><th>Age / Gender</th><th>Injury</th><th>Severity</th><th>Recovery %</th><th>Duration</th></tr></thead><tbody>`;
         data.similar_patients.forEach(sp => {
             simHtml += `<tr><td><b>${sp.Patient_ID}</b></td><td class="text-emerald"><b>${(sp.Similarity_Score * 100).toFixed(0)}%</b></td><td>${sp.Age} / ${sp.Gender}</td><td>${sp.Injury_Type}</td><td>${sp.Severity}</td><td>${sp.Final_Recovery_Pct.toFixed(0)}%</td><td>${sp.Actual_Recovery_Time_weeks.toFixed(0)} wks</td></tr>`;
         });
-        document.getElementById('similarPatientsTableWrapper').innerHTML = simHtml + `</tbody></table>`;
+        if (document.getElementById('similarPatientsTableWrapper')) {
+            document.getElementById('similarPatientsTableWrapper').innerHTML = simHtml + `</tbody></table>`;
+        }
     }
 
-    async function runRecalibration() {
-        const week = document.getElementById('recalWeek').value;
-        const pain = document.getElementById('recalPain').value;
-        const rom = document.getElementById('recalRom').value;
-        const strength = document.getElementById('recalStrength').value;
+    async function loadRecalibrationHistory() {
+        if (!currentPatientId) return;
+        try {
+            const res = await fetchWithAuth(`/api/patient/${currentPatientId}/recalibration_history`);
+            const data = await res.json();
+            const tbody = document.getElementById('recalHistoryTbody');
+            if (!tbody) return;
+            if (!data.history || data.history.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="9" class="text-muted text-center">No weekly check-ins recorded yet for ${currentPatientId}.</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = '';
+            data.history.forEach(h => {
+                const delta = parseFloat(h.Recalibrated_Recovery_Weeks || 0) - parseFloat(h.Old_Predicted_Weeks || 0);
+                const deltaStr = isNaN(delta) ? '-' : `${delta >= 0 ? '+' : ''}${delta.toFixed(1)} wks`;
+                const deltaColor = delta <= 0 ? '#10B981' : '#E11D48';
+                const notes = (h.Explanation || '').substring(0, 80) + ((h.Explanation || '').length > 80 ? '...' : '');
+                
+                const pExp = h.Pain_Expected != null ? parseFloat(h.Pain_Expected).toFixed(1) : '-';
+                const pAct = h.Pain_Actual != null ? parseFloat(h.Pain_Actual).toFixed(1) : '-';
+                const rExp = h.ROM_Expected != null ? parseFloat(h.ROM_Expected).toFixed(0) : '-';
+                const rAct = h.ROM_Actual != null ? parseFloat(h.ROM_Actual).toFixed(0) : '-';
+                const sExp = h.Strength_Expected != null ? parseFloat(h.Strength_Expected).toFixed(0) : '-';
+                const sAct = h.Strength_Actual != null ? parseFloat(h.Strength_Actual).toFixed(0) : '-';
 
-        const res = await fetch(`/api/patient/${currentPatientId}/recalibrate`, {
-            method: 'POST', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ week, pain, rom, strength })
-        });
-        const data = await res.json();
-
-        // Also persist recalibration to database
-        fetch(`/api/patient/${currentPatientId}/recalibrate/save`, {
-            method: 'POST', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ week, pain, rom, strength })
-        }).catch(err => console.error("Error persisting recalibration:", err));
-
-        document.getElementById('oldPredPct').textContent = `${data.old_predicted_pct}%`;
-        document.getElementById('newPredPct').textContent = `${data.new_predicted_pct}%`;
-        document.getElementById('oldPredWks').textContent = `${data.old_predicted_weeks} wks`;
-        document.getElementById('newPredWks').textContent = `${data.new_predicted_weeks} wks`;
-        document.getElementById('recalExplanation').textContent = data.explanation;
-        document.getElementById('recalResultCard').classList.remove('hidden');
-
-        recalHistory.push({ week, oldPred: `${data.old_predicted_pct}%`, newPred: `${data.new_predicted_pct}%`, pathway: data.recommended_pathway ? data.recommended_pathway.Archetype_Label : 'Standard' });
-        renderRecalHistory();
-    }
-
-    function renderRecalHistory() {
-        const tbody = document.getElementById('recalHistoryTbody');
-        tbody.innerHTML = '';
-        recalHistory.forEach(item => {
-            tbody.innerHTML += `<tr><td>Week ${item.week}</td><td>${item.oldPred}</td><td class="text-emerald"><b>${item.newPred}</b></td><td>${item.pathway}</td></tr>`;
-        });
+                tbody.innerHTML += `<tr>
+                    <td><b>Week ${h.Week}</b></td>
+                    <td>${h.Old_Predicted_Weeks ? parseFloat(h.Old_Predicted_Weeks).toFixed(1) + ' wks' : '-'}</td>
+                    <td>${h.Recalibrated_Recovery_Weeks ? parseFloat(h.Recalibrated_Recovery_Weeks).toFixed(1) + ' wks' : '-'}</td>
+                    <td style="color:${deltaColor}; font-weight:700;">${deltaStr}</td>
+                    <td>${pExp} / <b>${pAct}</b></td>
+                    <td>${rExp}° / <b>${rAct}°</b></td>
+                    <td>${sExp}% / <b>${sAct}%</b></td>
+                    <td style="color:#6366F1; font-weight:600;">${h.Updated_Pathway || 'Standard'}</td>
+                    <td style="font-size:0.82rem; color:#64748B;">${notes}</td>
+                </tr>`;
+            });
+        } catch (err) { console.error(err); }
     }
 
     async function loadEvaluationMetrics() {
-        const res = await fetch('/api/metrics');
-        const data = await res.json();
+        try {
+            const res = await fetchWithAuth('/api/metrics');
+            const data = await res.json();
 
-        document.getElementById('kpiPctR2').textContent = data.metrics_pct.R2.toFixed(3);
-        document.getElementById('kpiPctRmse').textContent = data.metrics_pct.RMSE.toFixed(2);
-        document.getElementById('kpiWksR2').textContent = data.metrics_weeks.R2.toFixed(3);
-        document.getElementById('kpiWksRmse').textContent = data.metrics_weeks.RMSE.toFixed(2);
+            if (document.getElementById('kpiPctR2')) document.getElementById('kpiPctR2').textContent = data.metrics_pct.R2.toFixed(3);
+            if (document.getElementById('kpiPctRmse')) document.getElementById('kpiPctRmse').textContent = data.metrics_pct.RMSE.toFixed(2);
+            if (document.getElementById('kpiWksR2')) document.getElementById('kpiWksR2').textContent = data.metrics_weeks.R2.toFixed(3);
+            if (document.getElementById('kpiWksRmse')) document.getElementById('kpiWksRmse').textContent = data.metrics_weeks.RMSE.toFixed(2);
 
-        const fiContainer = document.getElementById('featureImportanceList');
-        fiContainer.innerHTML = '';
-        const maxImp = Math.max(...data.feature_importance.map(f => f.Importance));
-        data.feature_importance.forEach(f => {
-            fiContainer.innerHTML += `<div class="fi-item"><div class="fi-name">${f.Feature}</div><div class="fi-bar-wrapper"><div class="fi-bar-fill" style="width: ${(f.Importance / maxImp * 100).toFixed(0)}%"></div></div><div style="font-size:0.85rem; font-weight:600; width:45px;">${(f.Importance * 100).toFixed(1)}%</div></div>`;
-        });
+            const fiContainer = document.getElementById('featureImportanceList');
+            if (fiContainer) {
+                fiContainer.innerHTML = '';
+                const maxImp = Math.max(...data.feature_importance.map(f => f.Importance));
+                data.feature_importance.forEach(f => {
+                    fiContainer.innerHTML += `<div class="fi-item"><div class="fi-name">${f.Feature}</div><div class="fi-bar-wrapper"><div class="fi-bar-fill" style="width: ${(f.Importance / maxImp * 100).toFixed(0)}%"></div></div><div style="font-size:0.85rem; font-weight:600; width:45px;">${(f.Importance * 100).toFixed(1)}%</div></div>`;
+                });
+            }
+        } catch (err) { console.error(err); }
     }
 });

@@ -1,0 +1,3 @@
+Patient_ID,Week,Recalibrated_Recovery_Pct,Recalibrated_Recovery_Weeks,Explanation,Updated_Pathway,Old_Predicted_Pct,Old_Predicted_Weeks,Pain_Expected,Pain_Actual,ROM_Expected,ROM_Actual,Strength_Expected,Strength_Actual
+P00001,4,79.8863130986108,12.048427618839767,Digital Twin recalibrated at Week 4 based on updated clinical observation. Projected recovery % adjusted to 79.9% over 12.0 weeks.,Standard,,,,,,,,
+P00003,3,86.3,43.5,Digital Twin recalibrated at Week 3 based on updated clinical observation. Projected recovery % adjusted to 86.3% over 43.5 weeks.,Fast_Track,86.0,44.4,6.1,7.5,54.9,65.0,43.8,40.0

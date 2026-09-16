@@ -1,804 +1,803 @@
-Patient_ID,Age,Gender,Height_cm,Weight_kg,BMI,Occupation,Activity_Level,Smoking_Status,Diabetes,Hypertension,Previous_Injuries,Enrollment_Date,Enrollment_Year,Assigned_Doctor_ID,Dataset_Split
-P00001,19,Male,168.1,71.5,25.3,Healthcare Worker,Highly Active,Never,0,0,0,2023-10-01,2023,DOC0005,
-P00002,57,Female,164.9,83.4,30.7,Office Worker,Moderate,Never,0,0,0,2025-11-23,2025,DOC0010,
-P00003,51,Female,163.4,72.9,27.3,Retired,Highly Active,Current,0,1,0,2025-06-21,2025,DOC0001,
-P00004,39,Male,187.6,99.0,28.1,Office Worker,Highly Active,Never,0,0,1,2025-01-09,2025,DOC0005,
-P00005,38,Female,159.4,70.4,27.7,Manual Labor,Active,Never,0,1,0,2023-02-18,2023,DOC0006,
-P00006,62,Female,166.8,74.4,26.7,Athlete,Highly Active,Never,0,0,0,2024-11-17,2024,DOC0004,
-P00007,19,Male,167.0,89.6,32.1,Office Worker,Moderate,Former,0,0,0,2025-09-04,2025,DOC0001,
-P00008,53,Female,160.2,73.6,28.7,Manual Labor,Active,Never,0,0,1,2023-12-06,2023,DOC0002,
-P00009,26,Male,174.2,75.1,24.7,Manual Labor,Active,Never,0,0,0,2025-07-19,2025,DOC0003,
-P00010,20,Female,172.2,64.2,21.7,Office Worker,Active,Never,0,1,1,2023-11-26,2023,DOC0004,
-P00011,43,Female,154.0,58.3,24.6,Student,Sedentary,Never,0,1,0,2025-08-16,2025,DOC0003,
-P00012,68,Female,166.6,44.1,15.9,Healthcare Worker,Active,Current,0,1,1,2024-06-16,2024,DOC0002,
-P00013,55,Male,169.7,84.7,29.4,Office Worker,Highly Active,Never,0,1,1,2024-09-18,2024,DOC0005,
-P00014,56,Female,163.3,67.0,25.1,Manual Labor,Moderate,Never,0,0,1,2024-08-12,2024,DOC0004,
-P00015,54,Male,177.6,83.6,26.5,Student,Highly Active,Never,0,0,1,2023-03-02,2023,DOC0018,
-P00016,58,Male,177.9,65.9,20.8,Office Worker,Moderate,Never,0,1,0,2023-06-11,2023,DOC0003,
-P00017,43,Male,165.8,96.1,35.0,Retired,Sedentary,Never,1,0,1,2025-08-25,2025,DOC0018,
-P00018,22,Female,158.6,87.6,34.8,Office Worker,Sedentary,Former,1,1,1,2024-09-22,2024,DOC0005,
-P00019,61,Male,169.4,84.0,29.3,Student,Active,Never,0,0,0,2024-07-26,2024,DOC0006,
-P00020,39,Female,160.5,64.3,25.0,Athlete,Active,Never,0,0,0,2023-12-05,2023,DOC0003,
-P00021,42,Female,157.3,68.4,27.6,Office Worker,Moderate,Never,0,0,1,2024-08-14,2024,DOC0005,
-P00022,35,Male,165.4,79.1,28.9,Manual Labor,Active,Former,0,0,0,2024-12-16,2024,DOC0004,
-P00023,25,Male,172.8,78.1,26.2,Manual Labor,Moderate,Never,0,0,0,2023-01-06,2023,DOC0001,
-P00024,65,Male,177.6,77.3,24.5,Retired,Moderate,Never,0,0,1,2025-02-06,2025,DOC0005,
-P00025,57,Female,157.2,56.2,22.7,Healthcare Worker,Highly Active,Never,0,0,0,2024-02-22,2024,DOC0004,
-P00026,50,Female,153.8,59.0,24.9,Athlete,Active,Never,0,0,1,2024-06-19,2024,DOC0002,
-P00027,37,Male,185.7,95.8,27.8,Office Worker,Active,Current,0,0,0,2025-12-18,2025,DOC0010,
-P00028,60,Female,165.3,79.8,29.2,Office Worker,Active,Never,0,0,0,2024-06-08,2024,DOC0002,
-P00029,44,Male,173.2,68.6,22.9,Office Worker,Highly Active,Never,1,0,2,2025-10-14,2025,DOC0005,
-P00030,39,Female,167.8,69.9,24.8,Office Worker,Moderate,Never,0,1,0,2024-10-01,2024,DOC0006,
-P00031,39,Female,162.5,60.9,23.1,Retired,Moderate,Never,0,0,0,2024-02-04,2024,DOC0005,
-P00032,27,Female,164.4,92.4,34.2,Student,Sedentary,Never,1,0,1,2023-09-14,2023,DOC0002,
-P00033,20,Female,163.8,60.3,22.5,Athlete,Active,Never,0,0,0,2023-04-09,2023,DOC0005,
-P00034,45,Female,161.5,58.7,22.5,Office Worker,Active,Never,0,0,1,2024-08-27,2024,DOC0002,
-P00035,63,Male,185.4,84.9,24.7,Manual Labor,Active,Former,0,0,0,2023-12-13,2023,DOC0011,
-P00036,18,Male,167.6,70.3,25.0,Office Worker,Moderate,Former,0,0,0,2023-09-03,2023,DOC0004,
-P00037,62,Male,165.7,74.9,27.3,Athlete,Sedentary,Never,0,0,0,2024-12-01,2024,DOC0003,
-P00038,60,Male,171.6,89.6,30.4,Office Worker,Active,Current,0,0,0,2025-05-20,2025,DOC0009,
-P00039,30,Female,164.6,49.7,18.3,Office Worker,Highly Active,Current,0,0,1,2023-12-05,2023,DOC0017,
-P00040,49,Female,163.5,81.0,30.3,Athlete,Moderate,Never,0,0,0,2025-08-06,2025,DOC0019,
-P00041,24,Female,153.6,65.8,27.9,Student,Sedentary,Never,1,0,2,2025-01-12,2025,DOC0005,
-P00042,56,Male,170.3,79.3,27.3,Office Worker,Moderate,Never,0,0,1,2025-07-08,2025,DOC0019,
-P00043,53,Female,161.4,46.9,18.0,Manual Labor,Moderate,Never,0,0,0,2025-12-17,2025,DOC0002,
-P00044,34,Male,168.8,55.0,19.3,Manual Labor,Moderate,Never,0,0,0,2025-06-14,2025,DOC0001,
-P00045,18,Male,191.0,81.3,22.3,Retired,Moderate,Never,0,0,0,2023-06-04,2023,DOC0003,
-P00046,68,Female,165.8,64.6,23.5,Athlete,Active,Current,0,0,2,2024-08-22,2024,DOC0006,
-P00047,39,Female,154.4,72.1,30.2,Athlete,Moderate,Never,0,0,0,2025-06-12,2025,DOC0003,
-P00048,64,Female,172.7,56.6,19.0,Office Worker,Moderate,Former,1,0,1,2024-11-17,2024,DOC0006,
-P00049,52,Male,173.7,73.0,24.2,Office Worker,Sedentary,Never,0,0,0,2025-04-01,2025,DOC0019,
-P00050,57,Female,161.9,59.9,22.9,Office Worker,Highly Active,Never,0,1,0,2025-10-17,2025,DOC0016,
-P00051,56,Male,156.4,78.1,31.9,Student,Moderate,Current,0,0,0,2023-08-08,2023,DOC0017,
-P00052,25,Female,163.0,74.5,28.0,Office Worker,Moderate,Never,0,0,0,2023-03-14,2023,DOC0012,
-P00053,35,Female,161.8,78.1,29.8,Athlete,Sedentary,Never,0,0,1,2024-10-09,2024,DOC0009,
-P00054,40,Male,159.3,87.4,34.4,Office Worker,Active,Never,0,1,0,2023-07-27,2023,DOC0005,
-P00055,42,Male,166.6,87.0,31.3,Student,Highly Active,Former,0,0,1,2024-03-07,2024,DOC0001,
-P00056,17,Male,184.3,88.1,25.9,Retired,Sedentary,Never,0,0,1,2025-03-25,2025,DOC0008,
-P00057,45,Female,162.1,68.6,26.1,Student,Sedentary,Never,0,1,0,2024-07-25,2024,DOC0009,
-P00058,23,Male,184.0,81.6,24.1,Manual Labor,Sedentary,Never,0,0,0,2023-12-12,2023,DOC0005,
-P00059,55,Female,162.8,55.3,20.9,Student,Active,Never,0,0,1,2025-01-09,2025,DOC0008,
-P00060,52,Female,161.6,76.6,29.3,Manual Labor,Highly Active,Never,1,0,1,2023-07-11,2023,DOC0003,
-P00061,65,Female,154.0,64.3,27.1,Office Worker,Moderate,Never,0,0,1,2025-01-27,2025,DOC0003,
-P00062,55,Male,178.7,76.6,24.0,Manual Labor,Moderate,Never,1,0,0,2023-04-17,2023,DOC0017,
-P00063,35,Female,165.4,65.5,23.9,Student,Active,Never,0,0,1,2025-12-15,2025,DOC0011,
-P00064,68,Male,171.0,101.1,34.6,Office Worker,Active,Never,0,0,0,2024-09-01,2024,DOC0004,
-P00065,37,Female,163.2,78.5,29.5,Manual Labor,Moderate,Former,0,0,1,2024-09-23,2024,DOC0005,
-P00066,32,Female,159.1,71.9,28.4,Office Worker,Sedentary,Never,0,0,0,2024-12-03,2024,DOC0005,
-P00067,64,Female,169.8,73.0,25.3,Manual Labor,Moderate,Never,0,1,0,2023-03-02,2023,DOC0005,
-P00068,35,Female,159.0,78.1,30.9,Athlete,Active,Never,0,0,1,2024-12-08,2024,DOC0002,
-P00069,19,Male,166.7,89.6,32.2,Manual Labor,Active,Current,1,0,1,2025-07-13,2025,DOC0004,
-P00070,40,Male,175.6,66.1,21.4,Retired,Active,Never,0,0,0,2025-09-25,2025,DOC0009,
-P00071,58,Male,177.3,83.9,26.7,Athlete,Active,Never,0,0,2,2023-04-22,2023,DOC0005,
-P00072,25,Male,169.5,76.7,26.7,Office Worker,Moderate,Never,0,0,1,2024-04-06,2024,DOC0005,
-P00073,40,Male,175.2,84.7,27.6,Athlete,Moderate,Never,0,0,0,2025-02-11,2025,DOC0003,
-P00074,22,Male,179.0,80.8,25.2,Athlete,Sedentary,Never,0,0,0,2025-07-22,2025,DOC0005,
-P00075,52,Male,179.3,92.4,28.7,Healthcare Worker,Highly Active,Never,0,1,0,2024-11-15,2024,DOC0005,
-P00076,41,Male,185.9,78.9,22.8,Office Worker,Active,Never,0,1,0,2023-05-05,2023,DOC0005,
-P00077,33,Male,183.9,76.0,22.5,Office Worker,Moderate,Never,0,0,0,2025-11-11,2025,DOC0004,
-P00078,27,Female,166.0,83.3,30.2,Office Worker,Sedentary,Former,0,0,0,2024-10-17,2024,DOC0019,
-P00079,46,Female,173.5,64.0,21.3,Healthcare Worker,Active,Former,0,0,0,2024-12-27,2024,DOC0004,
-P00080,51,Male,171.3,86.8,29.6,Office Worker,Active,Never,0,0,0,2025-09-18,2025,DOC0012,
-P00081,66,Male,182.3,70.0,21.1,Student,Active,Current,0,0,1,2023-02-01,2023,DOC0003,
-P00082,39,Male,175.5,65.5,21.3,Office Worker,Moderate,Former,1,1,0,2025-07-20,2025,DOC0019,
-P00083,23,Female,166.0,80.7,29.3,Athlete,Highly Active,Former,0,1,0,2023-09-07,2023,DOC0004,
-P00084,60,Male,162.3,70.6,26.8,Manual Labor,Active,Former,1,0,0,2025-07-24,2025,DOC0004,
-P00085,49,Male,173.8,87.4,28.9,Athlete,Active,Never,0,1,0,2025-02-11,2025,DOC0019,
-P00086,53,Male,164.1,89.7,33.3,Manual Labor,Active,Never,0,1,0,2025-12-06,2025,DOC0002,
-P00087,20,Male,181.8,76.1,23.0,Office Worker,Highly Active,Never,0,0,0,2025-04-13,2025,DOC0017,
-P00088,32,Male,185.6,95.2,27.6,Student,Highly Active,Never,0,1,1,2025-09-07,2025,DOC0018,
-P00089,57,Female,169.0,74.4,26.0,Student,Active,Never,0,0,0,2023-10-07,2023,DOC0005,
-P00090,60,Female,179.1,72.9,22.7,Student,Moderate,Never,0,0,1,2025-05-16,2025,DOC0002,
-P00091,38,Female,164.2,71.9,26.7,Athlete,Moderate,Never,0,0,0,2025-01-21,2025,DOC0015,
-P00092,59,Female,165.5,68.8,25.1,Student,Active,Current,1,0,0,2024-09-23,2024,DOC0001,
-P00093,61,Female,159.0,62.4,24.7,Healthcare Worker,Active,Former,0,0,0,2024-04-11,2024,DOC0005,
-P00094,36,Male,174.7,79.5,26.0,Office Worker,Sedentary,Never,0,1,0,2023-11-02,2023,DOC0003,
-P00095,64,Female,158.4,55.0,21.9,Office Worker,Sedentary,Never,0,0,0,2024-06-14,2024,DOC0001,
-P00096,30,Male,171.6,67.3,22.9,Student,Highly Active,Never,0,0,0,2025-06-12,2025,DOC0001,
-P00097,28,Male,182.0,60.4,18.2,Athlete,Highly Active,Current,0,0,1,2024-09-06,2024,DOC0001,
-P00098,52,Female,172.3,69.4,23.4,Manual Labor,Highly Active,Former,0,0,0,2024-11-25,2024,DOC0002,
-P00099,50,Male,180.6,68.6,21.0,Student,Moderate,Never,0,0,0,2024-03-27,2024,DOC0004,
-P00100,22,Male,171.9,114.7,38.8,Athlete,Active,Never,0,0,1,2023-04-02,2023,DOC0003,
-P00101,60,Female,160.1,63.1,24.6,Manual Labor,Active,Never,0,1,0,2025-05-22,2025,DOC0005,
-P00102,25,Female,161.0,47.6,18.4,Manual Labor,Moderate,Former,0,0,0,2023-11-18,2023,DOC0004,
-P00103,59,Female,167.8,65.1,23.1,Office Worker,Sedentary,Current,0,0,1,2023-10-08,2023,DOC0011,
-P00104,15,Male,179.6,96.4,29.9,Retired,Highly Active,Never,0,0,0,2023-11-18,2023,DOC0002,
-P00105,58,Male,179.6,78.8,24.4,Athlete,Sedentary,Never,0,0,0,2025-02-04,2025,DOC0015,
-P00106,58,Female,160.8,66.5,25.7,Office Worker,Active,Never,1,1,0,2025-04-02,2025,DOC0007,
-P00107,57,Male,185.8,55.9,16.2,Student,Active,Never,0,0,0,2023-04-27,2023,DOC0002,
-P00108,51,Female,153.6,70.8,30.0,Athlete,Active,Current,0,0,1,2023-03-18,2023,DOC0005,
-P00109,40,Male,172.4,65.1,21.9,Student,Moderate,Former,0,0,2,2024-12-07,2024,DOC0018,
-P00110,53,Male,177.6,55.3,17.5,Athlete,Active,Never,0,1,0,2023-09-13,2023,DOC0019,
-P00111,30,Male,170.6,79.4,27.3,Office Worker,Moderate,Never,0,0,1,2025-04-26,2025,DOC0001,
-P00112,57,Female,154.3,86.7,36.4,Athlete,Active,Never,0,0,0,2023-08-12,2023,DOC0005,
-P00113,45,Male,170.8,62.1,21.3,Manual Labor,Moderate,Never,1,0,0,2024-10-25,2024,DOC0002,
-P00114,40,Male,186.3,71.6,20.6,Student,Active,Never,1,0,1,2024-10-24,2024,DOC0012,
-P00115,42,Male,177.5,68.0,21.6,Student,Active,Former,0,0,1,2024-04-10,2024,DOC0007,
-P00116,46,Male,173.5,82.8,27.5,Healthcare Worker,Sedentary,Former,0,0,0,2024-03-19,2024,DOC0011,
-P00117,17,Male,183.4,81.7,24.3,Manual Labor,Moderate,Never,0,0,0,2023-10-18,2023,DOC0006,
-P00118,22,Female,164.3,71.2,26.4,Student,Active,Former,0,1,0,2023-08-21,2023,DOC0005,
-P00119,28,Male,160.9,87.0,33.6,Manual Labor,Sedentary,Former,0,0,0,2023-03-10,2023,DOC0004,
-P00120,21,Female,163.0,60.1,22.6,Retired,Sedentary,Never,0,1,0,2023-09-02,2023,DOC0013,
-P00121,39,Female,168.1,53.4,18.9,Manual Labor,Moderate,Never,0,0,0,2025-11-05,2025,DOC0015,
-P00122,51,Male,176.8,81.6,26.1,Retired,Highly Active,Never,0,0,0,2023-10-17,2023,DOC0012,
-P00123,50,Male,165.7,84.1,30.6,Office Worker,Active,Former,0,0,0,2023-11-21,2023,DOC0007,
-P00124,40,Female,159.2,69.7,27.5,Office Worker,Moderate,Never,0,0,0,2023-07-21,2023,DOC0002,
-P00125,62,Male,189.0,73.2,20.5,Student,Highly Active,Never,1,0,0,2025-05-16,2025,DOC0004,
-P00126,46,Male,180.8,74.0,22.6,Office Worker,Moderate,Never,0,0,1,2025-11-03,2025,DOC0011,
-P00127,19,Female,163.2,72.9,27.4,Office Worker,Moderate,Never,0,0,0,2025-05-01,2025,DOC0003,
-P00128,57,Female,165.8,64.1,23.3,Healthcare Worker,Moderate,Never,0,0,0,2024-07-22,2024,DOC0002,
-P00129,46,Female,162.8,43.7,16.5,Office Worker,Moderate,Former,0,0,0,2025-01-15,2025,DOC0001,
-P00130,49,Male,160.1,70.0,27.3,Athlete,Moderate,Never,0,1,1,2024-05-22,2024,DOC0018,
-P00131,46,Female,162.6,79.1,29.9,Office Worker,Active,Never,1,0,0,2025-03-05,2025,DOC0002,
-P00132,45,Female,166.7,56.3,20.3,Office Worker,Sedentary,Current,0,0,0,2025-02-12,2025,DOC0005,
-P00133,19,Male,164.0,89.7,33.4,Manual Labor,Active,Never,0,0,0,2023-06-25,2023,DOC0001,
-P00134,45,Female,157.2,63.2,25.6,Retired,Moderate,Never,1,1,2,2024-06-05,2024,DOC0004,
-P00135,58,Male,166.9,67.6,24.3,Healthcare Worker,Moderate,Never,0,0,0,2023-09-02,2023,DOC0001,
-P00136,31,Male,168.2,87.7,31.0,Manual Labor,Sedentary,Never,0,0,0,2023-05-18,2023,DOC0005,
-P00137,48,Male,175.4,71.3,23.2,Manual Labor,Active,Never,1,0,0,2025-04-17,2025,DOC0017,
-P00138,16,Male,160.4,61.1,23.7,Office Worker,Active,Former,0,0,0,2023-06-26,2023,DOC0003,
-P00139,34,Male,179.3,90.3,28.1,Retired,Moderate,Never,0,0,0,2025-04-25,2025,DOC0005,
-P00140,39,Female,166.6,56.4,20.3,Office Worker,Sedentary,Never,0,0,0,2025-08-21,2025,DOC0005,
-P00141,69,Female,160.3,70.7,27.5,Athlete,Moderate,Never,0,1,0,2024-03-01,2024,DOC0003,
-P00142,26,Female,158.9,62.4,24.7,Healthcare Worker,Active,Former,0,0,0,2024-09-13,2024,DOC0011,
-P00143,30,Female,170.4,63.0,21.7,Retired,Moderate,Never,0,0,2,2024-04-25,2024,DOC0004,
-P00144,37,Female,155.7,71.6,29.5,Office Worker,Active,Former,1,0,0,2025-04-12,2025,DOC0002,
-P00145,69,Male,155.6,63.6,26.3,Manual Labor,Moderate,Never,0,0,0,2023-09-26,2023,DOC0001,
-P00146,61,Male,172.6,84.5,28.4,Office Worker,Sedentary,Never,0,0,1,2023-11-18,2023,DOC0018,
-P00147,16,Male,166.7,72.2,26.0,Office Worker,Active,Never,0,0,1,2024-02-03,2024,DOC0012,
-P00148,27,Male,180.6,100.7,30.9,Office Worker,Moderate,Never,1,0,0,2025-09-14,2025,DOC0018,
-P00149,60,Female,167.5,63.4,22.6,Athlete,Sedentary,Never,0,0,1,2023-02-19,2023,DOC0005,
-P00150,18,Male,177.8,51.2,16.2,Manual Labor,Highly Active,Former,0,0,0,2024-12-02,2024,DOC0016,
-P00151,62,Male,179.0,82.3,25.7,Office Worker,Sedentary,Never,0,1,1,2025-10-10,2025,DOC0001,
-P00152,30,Male,187.9,101.3,28.7,Manual Labor,Moderate,Never,0,0,1,2023-05-20,2023,DOC0005,
-P00153,65,Male,173.6,96.9,32.2,Office Worker,Moderate,Never,1,0,1,2023-03-05,2023,DOC0002,
-P00154,31,Female,162.6,69.9,26.4,Retired,Moderate,Never,1,0,0,2024-12-10,2024,DOC0004,
-P00155,38,Male,164.6,65.8,24.3,Manual Labor,Active,Never,0,0,2,2023-03-19,2023,DOC0001,
-P00156,51,Male,183.3,88.9,26.5,Retired,Sedentary,Never,0,0,0,2023-03-21,2023,DOC0005,
-P00157,21,Male,169.7,69.3,24.1,Athlete,Highly Active,Never,0,1,1,2024-01-14,2024,DOC0005,
-P00158,45,Male,171.1,80.7,27.6,Manual Labor,Active,Never,0,0,0,2024-05-26,2024,DOC0001,
-P00159,42,Female,157.1,75.3,30.5,Student,Highly Active,Never,0,0,1,2024-07-25,2024,DOC0004,
-P00160,58,Male,164.1,70.3,26.1,Office Worker,Active,Never,0,0,0,2024-03-13,2024,DOC0004,
-P00161,69,Male,176.6,69.9,22.4,Athlete,Highly Active,Never,0,1,0,2024-10-05,2024,DOC0019,
-P00162,51,Male,181.8,88.8,26.9,Office Worker,Active,Never,1,0,0,2024-12-21,2024,DOC0005,
-P00163,37,Female,175.2,67.5,22.0,Office Worker,Moderate,Current,0,1,1,2025-09-07,2025,DOC0001,
-P00164,37,Female,158.9,72.0,28.5,Office Worker,Moderate,Never,0,0,0,2025-10-23,2025,DOC0003,
-P00165,37,Female,164.5,68.1,25.2,Office Worker,Active,Former,0,0,0,2024-04-16,2024,DOC0006,
-P00166,59,Female,168.4,67.7,23.9,Office Worker,Moderate,Never,0,0,0,2025-01-11,2025,DOC0017,
-P00167,32,Female,162.6,56.9,21.5,Manual Labor,Active,Never,0,0,0,2025-02-16,2025,DOC0002,
-P00168,24,Male,167.5,88.4,31.5,Athlete,Sedentary,Never,0,0,0,2023-07-15,2023,DOC0015,
-P00169,33,Male,181.1,92.1,28.1,Office Worker,Active,Never,0,0,0,2025-09-25,2025,DOC0003,
-P00170,16,Male,176.9,90.7,29.0,Manual Labor,Moderate,Former,0,0,0,2025-03-06,2025,DOC0002,
-P00171,20,Male,177.9,68.9,21.8,Athlete,Highly Active,Former,1,0,0,2023-03-26,2023,DOC0003,
-P00172,19,Female,159.9,60.1,23.5,Office Worker,Sedentary,Never,1,0,0,2023-02-01,2023,DOC0004,
-P00173,57,Male,178.3,56.8,17.9,Office Worker,Sedentary,Never,0,1,0,2024-02-21,2024,DOC0005,
-P00174,54,Female,167.1,82.0,29.4,Athlete,Active,Never,0,0,0,2024-07-25,2024,DOC0001,
-P00175,53,Female,163.9,57.6,21.4,Office Worker,Active,Never,0,0,0,2025-03-11,2025,DOC0005,
-P00176,40,Male,173.5,69.0,22.9,Athlete,Active,Former,0,0,0,2024-07-02,2024,DOC0008,
-P00177,54,Female,161.4,47.5,18.2,Office Worker,Highly Active,Never,1,0,0,2023-12-22,2023,DOC0005,
-P00178,23,Female,160.0,56.7,22.1,Healthcare Worker,Moderate,Never,1,0,1,2023-02-23,2023,DOC0005,
-P00179,64,Female,178.2,46.2,14.5,Retired,Active,Current,0,0,1,2025-06-10,2025,DOC0011,
-P00180,42,Male,171.3,74.5,25.4,Office Worker,Moderate,Current,0,0,0,2023-12-15,2023,DOC0004,
-P00181,66,Male,167.8,76.4,27.1,Office Worker,Moderate,Never,0,0,0,2025-03-22,2025,DOC0010,
-P00182,23,Male,191.2,80.7,22.1,Office Worker,Moderate,Never,0,0,0,2023-09-06,2023,DOC0001,
-P00183,42,Male,177.3,97.2,30.9,Student,Sedentary,Former,1,0,0,2024-09-17,2024,DOC0003,
-P00184,53,Male,169.9,83.1,28.8,Student,Active,Never,0,1,0,2024-04-12,2024,DOC0018,
-P00185,42,Female,159.8,57.0,22.3,Athlete,Active,Never,0,0,0,2023-11-05,2023,DOC0001,
-P00186,39,Female,162.8,79.3,29.9,Athlete,Sedentary,Never,0,0,1,2024-09-23,2024,DOC0011,
-P00187,24,Male,173.2,64.0,21.3,Office Worker,Highly Active,Current,0,0,1,2024-12-09,2024,DOC0005,
-P00188,35,Male,178.9,87.1,27.2,Retired,Moderate,Current,0,0,0,2023-04-26,2023,DOC0010,
-P00189,28,Male,166.0,74.5,27.0,Retired,Sedentary,Former,1,0,2,2024-06-16,2024,DOC0003,
-P00190,31,Male,177.5,47.8,15.2,Athlete,Active,Never,0,0,0,2025-07-14,2025,DOC0004,
-P00191,52,Female,163.3,62.5,23.4,Manual Labor,Sedentary,Never,0,1,0,2025-08-12,2025,DOC0005,
-P00192,49,Male,178.3,65.8,20.7,Athlete,Sedentary,Never,0,0,0,2024-05-11,2024,DOC0014,
-P00193,48,Male,172.4,84.4,28.4,Manual Labor,Active,Current,0,0,0,2025-08-23,2025,DOC0003,
-P00194,34,Female,157.1,51.0,20.7,Retired,Sedentary,Never,0,0,0,2023-07-19,2023,DOC0001,
-P00195,67,Male,172.1,80.2,27.1,Office Worker,Sedentary,Never,0,0,0,2023-05-21,2023,DOC0012,
-P00196,19,Male,173.2,101.4,33.8,Athlete,Active,Former,0,0,1,2024-05-12,2024,DOC0004,
-P00197,33,Female,158.9,60.1,23.8,Manual Labor,Sedentary,Never,0,0,0,2024-01-08,2024,DOC0001,
-P00198,21,Female,156.3,73.4,30.0,Office Worker,Active,Former,0,0,0,2025-09-03,2025,DOC0003,
-P00199,33,Female,169.8,68.3,23.7,Student,Active,Never,0,0,1,2023-03-21,2023,DOC0018,
-P00200,67,Female,165.8,71.5,26.0,Office Worker,Sedentary,Former,1,0,0,2024-11-12,2024,DOC0019,
-P00201,35,Male,172.3,78.3,26.4,Retired,Moderate,Never,0,0,0,2024-05-14,2024,DOC0004,
-P00202,64,Female,169.5,77.9,27.1,Office Worker,Sedentary,Never,0,0,0,2023-10-13,2023,DOC0003,
-P00203,42,Female,178.9,75.2,23.5,Athlete,Active,Never,0,0,1,2024-03-12,2024,DOC0004,
-P00204,53,Female,151.7,69.9,30.4,Office Worker,Sedentary,Never,0,0,0,2024-04-19,2024,DOC0003,
-P00205,40,Female,157.6,75.2,30.3,Athlete,Highly Active,Never,0,0,1,2023-02-17,2023,DOC0004,
-P00206,29,Female,158.3,73.3,29.3,Office Worker,Moderate,Never,0,0,1,2024-02-27,2024,DOC0008,
-P00207,57,Female,156.9,60.2,24.5,Manual Labor,Active,Never,0,0,1,2023-08-04,2023,DOC0005,
-P00208,68,Male,180.8,77.4,23.7,Athlete,Sedentary,Former,0,0,1,2025-12-16,2025,DOC0004,
-P00209,29,Female,160.2,69.6,27.1,Athlete,Moderate,Never,0,0,0,2023-08-02,2023,DOC0002,
-P00210,57,Male,163.8,71.0,26.5,Athlete,Moderate,Former,1,0,0,2023-03-22,2023,DOC0001,
-P00211,29,Female,164.0,77.0,28.6,Athlete,Active,Former,0,1,0,2023-06-17,2023,DOC0006,
-P00212,54,Female,162.3,54.7,20.8,Retired,Highly Active,Never,1,1,0,2023-12-12,2023,DOC0003,
-P00213,58,Female,164.9,55.0,20.2,Retired,Sedentary,Former,0,0,0,2023-05-22,2023,DOC0012,
-P00214,39,Female,165.0,70.1,25.7,Athlete,Sedentary,Never,0,0,0,2024-01-13,2024,DOC0002,
-P00215,55,Male,177.0,70.7,22.6,Student,Moderate,Never,0,0,0,2023-11-07,2023,DOC0010,
-P00216,29,Female,159.8,44.3,17.3,Student,Moderate,Never,0,0,0,2023-04-13,2023,DOC0006,
-P00217,19,Female,174.7,69.1,22.6,Healthcare Worker,Highly Active,Former,0,0,0,2023-01-02,2023,DOC0005,
-P00218,20,Male,154.9,96.5,40.2,Office Worker,Highly Active,Never,0,0,0,2024-04-25,2024,DOC0016,
-P00219,39,Male,172.8,75.7,25.4,Office Worker,Highly Active,Never,0,0,0,2023-03-20,2023,DOC0007,
-P00220,64,Male,173.8,81.1,26.8,Office Worker,Sedentary,Current,0,0,0,2024-06-21,2024,DOC0005,
-P00221,22,Female,151.6,85.1,37.0,Retired,Moderate,Never,0,0,2,2024-04-24,2024,DOC0005,
-P00222,40,Male,175.7,72.6,23.5,Student,Active,Current,0,0,0,2025-05-22,2025,DOC0019,
-P00223,53,Female,161.3,61.4,23.6,Office Worker,Moderate,Former,0,0,0,2023-10-12,2023,DOC0004,
-P00224,26,Male,167.4,97.0,34.6,Office Worker,Active,Current,0,1,1,2025-09-04,2025,DOC0004,
-P00225,54,Female,174.1,84.6,27.9,Student,Moderate,Current,0,0,1,2024-06-11,2024,DOC0002,
-P00226,31,Male,168.6,94.6,33.3,Retired,Moderate,Current,0,0,0,2023-12-26,2023,DOC0003,
-P00227,59,Female,166.4,59.8,21.6,Office Worker,Highly Active,Never,0,0,0,2024-10-26,2024,DOC0001,
-P00228,46,Male,185.3,97.5,28.4,Manual Labor,Moderate,Former,0,0,2,2025-12-21,2025,DOC0001,
-P00229,45,Female,156.0,60.9,25.0,Office Worker,Highly Active,Former,0,0,0,2023-08-06,2023,DOC0001,
-P00230,24,Female,162.2,72.9,27.7,Office Worker,Moderate,Never,0,0,0,2024-10-06,2024,DOC0005,
-P00231,40,Female,163.0,48.8,18.4,Manual Labor,Sedentary,Never,0,1,1,2024-03-24,2024,DOC0010,
-P00232,62,Female,150.9,63.1,27.7,Student,Moderate,Current,0,0,1,2023-02-04,2023,DOC0004,
-P00233,16,Male,179.2,63.5,19.8,Healthcare Worker,Sedentary,Never,0,0,0,2025-07-16,2025,DOC0009,
-P00234,56,Male,173.7,106.0,35.1,Office Worker,Moderate,Never,0,0,0,2023-01-11,2023,DOC0007,
-P00235,42,Male,179.0,87.8,27.4,Office Worker,Sedentary,Never,0,1,0,2023-03-09,2023,DOC0007,
-P00236,54,Male,165.1,74.0,27.1,Office Worker,Active,Never,0,0,2,2023-03-19,2023,DOC0002,
-P00237,51,Female,158.8,61.5,24.4,Athlete,Highly Active,Former,0,1,0,2024-06-26,2024,DOC0012,
-P00238,38,Female,160.9,56.8,21.9,Office Worker,Moderate,Never,0,0,1,2025-01-21,2025,DOC0007,
-P00239,31,Female,162.5,62.6,23.7,Athlete,Sedentary,Former,0,0,0,2025-11-14,2025,DOC0008,
-P00240,49,Female,165.6,68.3,24.9,Office Worker,Moderate,Former,0,1,0,2025-09-12,2025,DOC0005,
-P00241,22,Female,168.5,75.8,26.7,Athlete,Active,Never,0,0,0,2024-08-25,2024,DOC0002,
-P00242,47,Female,160.2,36.1,14.1,Office Worker,Active,Former,0,0,0,2024-07-16,2024,DOC0005,
-P00243,20,Male,176.8,54.3,17.4,Student,Sedentary,Never,1,1,0,2024-12-14,2024,DOC0001,
-P00244,50,Male,179.6,90.7,28.1,Office Worker,Moderate,Former,0,0,0,2023-03-19,2023,DOC0003,
-P00245,49,Female,165.7,63.9,23.3,Manual Labor,Moderate,Current,0,0,0,2025-09-07,2025,DOC0011,
-P00246,19,Female,159.4,69.4,27.3,Retired,Moderate,Never,0,1,0,2024-09-02,2024,DOC0017,
-P00247,56,Male,172.1,106.3,35.9,Manual Labor,Sedentary,Former,0,1,0,2024-04-24,2024,DOC0005,
-P00248,37,Male,190.6,73.8,20.3,Athlete,Highly Active,Never,1,1,1,2024-08-17,2024,DOC0011,
-P00249,58,Female,169.8,59.2,20.5,Office Worker,Sedentary,Never,0,1,0,2025-08-05,2025,DOC0004,
-P00250,17,Male,183.8,79.4,23.5,Manual Labor,Sedentary,Former,0,0,2,2023-12-09,2023,DOC0004,
-P00251,24,Male,184.6,89.8,26.4,Manual Labor,Sedentary,Never,0,1,2,2025-10-27,2025,DOC0009,
-P00252,42,Female,162.1,56.9,21.7,Athlete,Active,Never,0,0,2,2025-03-18,2025,DOC0010,
-P00253,25,Female,162.1,64.3,24.5,Office Worker,Moderate,Never,0,0,2,2025-01-18,2025,DOC0020,
-P00254,33,Male,182.0,90.7,27.4,Manual Labor,Moderate,Never,0,0,1,2023-06-02,2023,DOC0005,
-P00255,51,Female,158.1,82.2,32.9,Office Worker,Moderate,Current,1,1,0,2023-09-27,2023,DOC0020,
-P00256,22,Male,175.2,53.5,17.4,Manual Labor,Active,Never,1,0,0,2024-01-25,2024,DOC0004,
-P00257,52,Female,162.6,75.5,28.6,Athlete,Moderate,Never,0,1,1,2025-11-15,2025,DOC0009,
-P00258,20,Male,173.5,96.0,31.9,Office Worker,Highly Active,Never,1,0,1,2025-11-09,2025,DOC0011,
-P00259,24,Female,162.5,64.3,24.4,Student,Moderate,Former,0,0,1,2024-09-19,2024,DOC0005,
-P00260,47,Male,184.8,68.9,20.2,Office Worker,Sedentary,Never,0,0,1,2023-07-23,2023,DOC0004,
-P00261,58,Male,176.3,76.0,24.5,Manual Labor,Highly Active,Never,1,0,0,2023-11-22,2023,DOC0002,
-P00262,24,Female,163.4,62.2,23.3,Office Worker,Active,Never,0,0,0,2024-08-27,2024,DOC0002,
-P00263,31,Male,180.8,86.8,26.6,Office Worker,Moderate,Never,0,0,0,2023-07-18,2023,DOC0001,
-P00264,65,Male,181.4,61.7,18.8,Retired,Active,Current,0,0,0,2024-03-09,2024,DOC0001,
-P00265,69,Male,179.6,67.9,21.1,Office Worker,Moderate,Never,0,0,0,2025-11-14,2025,DOC0006,
-P00266,46,Female,163.7,52.6,19.6,Office Worker,Moderate,Never,0,0,0,2024-07-23,2024,DOC0005,
-P00267,39,Female,164.9,54.4,20.0,Retired,Active,Former,0,0,1,2024-04-08,2024,DOC0002,
-P00268,34,Female,155.5,88.6,36.6,Student,Active,Never,0,0,1,2023-01-07,2023,DOC0004,
-P00269,48,Male,168.9,63.2,22.2,Manual Labor,Moderate,Never,0,0,0,2023-07-20,2023,DOC0012,
-P00270,47,Male,163.6,82.3,30.7,Athlete,Active,Never,0,0,0,2024-04-12,2024,DOC0016,
-P00271,31,Male,176.7,91.1,29.2,Athlete,Moderate,Never,0,0,0,2024-03-23,2024,DOC0001,
-P00272,16,Female,155.7,68.1,28.1,Manual Labor,Sedentary,Former,0,0,1,2023-07-04,2023,DOC0005,
-P00273,23,Female,161.8,71.4,27.3,Office Worker,Highly Active,Current,0,0,1,2023-08-10,2023,DOC0019,
-P00274,67,Female,161.5,63.5,24.3,Office Worker,Moderate,Current,0,0,2,2023-11-08,2023,DOC0003,
-P00275,37,Female,156.6,61.5,25.1,Student,Active,Current,0,0,0,2024-11-19,2024,DOC0003,
-P00276,41,Male,182.8,77.1,23.1,Office Worker,Active,Never,0,0,0,2024-02-21,2024,DOC0002,
-P00277,40,Female,169.4,49.8,17.4,Athlete,Active,Never,1,0,0,2024-09-13,2024,DOC0010,
-P00278,58,Male,177.5,76.6,24.3,Athlete,Moderate,Never,0,0,0,2024-02-13,2024,DOC0020,
-P00279,18,Male,165.3,67.3,24.6,Office Worker,Highly Active,Current,0,1,0,2023-08-04,2023,DOC0003,
-P00280,19,Male,185.1,72.1,21.0,Manual Labor,Active,Former,0,0,2,2024-05-19,2024,DOC0003,
-P00281,30,Male,174.0,80.4,26.6,Retired,Active,Never,0,0,0,2023-07-27,2023,DOC0005,
-P00282,41,Male,177.0,73.5,23.5,Athlete,Moderate,Former,0,1,0,2025-03-22,2025,DOC0004,
-P00283,51,Male,191.3,83.8,22.9,Athlete,Moderate,Former,0,0,0,2023-06-07,2023,DOC0012,
-P00284,41,Male,185.6,84.3,24.5,Manual Labor,Sedentary,Current,0,0,1,2024-12-17,2024,DOC0008,
-P00285,39,Female,161.7,74.5,28.5,Office Worker,Moderate,Former,1,1,0,2023-07-08,2023,DOC0017,
-P00286,66,Male,170.8,95.1,32.6,Office Worker,Sedentary,Never,0,0,0,2025-11-01,2025,DOC0004,
-P00287,23,Male,172.7,90.0,30.2,Retired,Active,Never,0,1,0,2023-02-05,2023,DOC0012,
-P00288,46,Female,161.5,56.8,21.8,Manual Labor,Highly Active,Never,0,0,0,2025-08-03,2025,DOC0006,
-P00289,44,Female,166.1,50.1,18.2,Office Worker,Moderate,Never,1,0,0,2023-10-06,2023,DOC0019,
-P00290,41,Male,172.2,77.1,26.0,Healthcare Worker,Moderate,Current,1,0,0,2025-09-22,2025,DOC0003,
-P00291,59,Male,185.3,72.6,21.1,Athlete,Active,Never,0,0,0,2024-11-08,2024,DOC0002,
-P00292,29,Female,154.9,44.4,18.5,Retired,Sedentary,Never,0,1,1,2023-01-21,2023,DOC0002,
-P00293,67,Male,191.1,72.7,19.9,Manual Labor,Highly Active,Never,0,0,1,2023-06-26,2023,DOC0005,
-P00294,33,Male,175.6,72.3,23.4,Manual Labor,Moderate,Never,0,0,0,2024-03-16,2024,DOC0017,
-P00295,44,Female,168.5,60.5,21.3,Retired,Sedentary,Never,0,0,1,2025-02-14,2025,DOC0017,
-P00296,43,Male,177.5,74.2,23.6,Manual Labor,Sedentary,Never,0,0,0,2025-01-21,2025,DOC0011,
-P00297,61,Female,147.7,51.6,23.7,Office Worker,Highly Active,Current,1,0,0,2023-08-03,2023,DOC0008,
-P00298,39,Female,157.3,72.9,29.5,Office Worker,Moderate,Never,0,1,2,2024-06-12,2024,DOC0011,
-P00299,30,Female,162.8,52.0,19.6,Manual Labor,Active,Never,0,0,0,2023-09-14,2023,DOC0005,
-P00300,16,Male,178.2,80.0,25.2,Manual Labor,Sedentary,Never,0,1,0,2023-06-23,2023,DOC0005,
-P00301,35,Male,181.9,74.5,22.5,Office Worker,Sedentary,Never,0,0,0,2024-07-22,2024,DOC0001,
-P00302,60,Male,175.3,78.0,25.4,Student,Highly Active,Former,0,0,0,2023-11-23,2023,DOC0004,
-P00303,15,Male,166.0,81.1,29.4,Manual Labor,Sedentary,Current,0,0,0,2023-12-19,2023,DOC0004,
-P00304,64,Female,160.7,83.3,32.3,Office Worker,Sedentary,Never,0,0,1,2025-07-15,2025,DOC0004,
-P00305,44,Male,165.0,102.9,37.8,Athlete,Moderate,Current,0,0,1,2025-03-23,2025,DOC0014,
-P00306,22,Female,159.3,71.2,28.1,Office Worker,Highly Active,Former,0,0,1,2025-09-24,2025,DOC0011,
-P00307,31,Female,164.5,65.2,24.1,Athlete,Moderate,Never,0,0,0,2023-09-13,2023,DOC0019,
-P00308,45,Female,155.5,53.7,22.2,Athlete,Sedentary,Never,0,1,0,2025-04-27,2025,DOC0007,
-P00309,32,Male,174.9,59.1,19.3,Office Worker,Highly Active,Never,0,1,0,2024-09-24,2024,DOC0005,
-P00310,20,Male,159.2,87.2,34.4,Athlete,Active,Current,1,1,0,2024-08-14,2024,DOC0005,
-P00311,51,Female,162.8,50.9,19.2,Office Worker,Highly Active,Never,1,1,0,2023-01-02,2023,DOC0001,
-P00312,51,Female,143.6,69.4,33.7,Manual Labor,Active,Never,0,0,0,2025-09-07,2025,DOC0002,
-P00313,21,Female,154.3,52.6,22.1,Office Worker,Active,Former,0,0,0,2024-01-21,2024,DOC0001,
-P00314,30,Female,173.3,68.5,22.8,Healthcare Worker,Moderate,Current,0,1,2,2025-08-04,2025,DOC0005,
-P00315,28,Female,158.7,50.7,20.1,Retired,Moderate,Former,0,1,1,2024-06-13,2024,DOC0004,
-P00316,51,Male,186.9,90.6,25.9,Manual Labor,Active,Former,0,1,0,2025-01-17,2025,DOC0016,
-P00317,55,Female,169.4,59.6,20.8,Healthcare Worker,Active,Never,0,0,1,2024-05-24,2024,DOC0003,
-P00318,54,Male,178.9,64.7,20.2,Retired,Highly Active,Current,0,0,0,2025-02-23,2025,DOC0003,
-P00319,66,Female,168.6,68.6,24.1,Office Worker,Active,Never,0,1,0,2023-01-21,2023,DOC0004,
-P00320,57,Female,163.7,78.6,29.3,Student,Moderate,Never,0,1,0,2023-10-12,2023,DOC0002,
-P00321,32,Male,180.4,72.4,22.2,Athlete,Moderate,Current,0,0,0,2025-04-04,2025,DOC0005,
-P00322,20,Male,169.3,86.9,30.3,Manual Labor,Active,Never,0,1,0,2024-05-19,2024,DOC0001,
-P00323,48,Male,181.1,64.1,19.5,Office Worker,Moderate,Never,0,0,0,2024-09-05,2024,DOC0010,
-P00324,65,Female,175.7,60.5,19.6,Athlete,Active,Never,0,1,0,2025-01-16,2025,DOC0003,
-P00325,68,Male,177.3,79.8,25.4,Office Worker,Active,Never,0,0,0,2024-07-27,2024,DOC0002,
-P00326,27,Male,176.3,89.6,28.8,Healthcare Worker,Sedentary,Never,0,1,0,2025-10-15,2025,DOC0001,
-P00327,28,Male,170.7,92.9,31.9,Office Worker,Active,Never,0,0,1,2023-08-18,2023,DOC0010,
-P00328,17,Male,174.8,70.0,22.9,Athlete,Active,Former,1,0,0,2025-06-19,2025,DOC0003,
-P00329,22,Male,170.6,89.2,30.6,Athlete,Highly Active,Former,0,0,1,2023-03-23,2023,DOC0001,
-P00330,45,Male,167.5,68.6,24.5,Office Worker,Moderate,Never,1,0,0,2024-11-12,2024,DOC0015,
-P00331,45,Male,172.5,99.9,33.6,Student,Active,Never,0,0,0,2025-06-14,2025,DOC0004,
-P00332,35,Male,167.3,64.4,23.0,Student,Moderate,Former,0,1,0,2023-10-05,2023,DOC0004,
-P00333,32,Male,177.3,93.9,29.9,Office Worker,Moderate,Never,0,0,2,2023-05-17,2023,DOC0019,
-P00334,60,Male,166.9,70.1,25.2,Office Worker,Sedentary,Never,0,1,0,2023-09-08,2023,DOC0004,
-P00335,40,Male,180.0,102.2,31.5,Athlete,Highly Active,Never,0,0,0,2024-02-14,2024,DOC0014,
-P00336,59,Female,160.2,68.5,26.7,Office Worker,Highly Active,Never,1,0,0,2024-08-21,2024,DOC0005,
-P00337,67,Male,171.0,65.8,22.5,Student,Moderate,Never,0,0,0,2023-01-01,2023,DOC0001,
-P00338,32,Male,170.6,71.7,24.6,Student,Active,Former,0,0,3,2025-05-16,2025,DOC0005,
-P00339,26,Male,184.3,87.4,25.7,Office Worker,Sedentary,Current,0,0,0,2023-01-05,2023,DOC0005,
-P00340,67,Male,177.3,90.6,28.8,Manual Labor,Active,Never,0,1,0,2024-06-08,2024,DOC0003,
-P00341,49,Male,173.5,77.2,25.6,Office Worker,Moderate,Never,0,1,1,2024-09-01,2024,DOC0011,
-P00342,31,Male,178.5,78.5,24.6,Manual Labor,Active,Never,0,0,0,2023-11-05,2023,DOC0001,
-P00343,49,Female,173.6,47.5,15.8,Manual Labor,Sedentary,Never,0,1,0,2023-06-27,2023,DOC0010,
-P00344,43,Male,174.7,79.6,26.1,Manual Labor,Active,Former,0,0,1,2025-08-27,2025,DOC0018,
-P00345,64,Male,189.0,62.5,17.5,Manual Labor,Moderate,Never,0,0,1,2024-01-20,2024,DOC0002,
-P00346,29,Male,175.9,68.2,22.0,Retired,Active,Current,0,0,1,2023-01-17,2023,DOC0007,
-P00347,69,Male,175.5,80.8,26.2,Office Worker,Active,Never,0,0,0,2025-04-21,2025,DOC0008,
-P00348,66,Male,178.8,92.6,29.0,Athlete,Moderate,Never,0,0,0,2024-02-25,2024,DOC0005,
-P00349,24,Female,170.2,59.8,20.6,Office Worker,Moderate,Never,0,0,0,2023-06-15,2023,DOC0005,
-P00350,24,Female,162.3,50.5,19.2,Manual Labor,Active,Never,0,0,0,2024-07-01,2024,DOC0004,
-P00351,44,Male,163.2,81.4,30.6,Manual Labor,Active,Current,0,0,1,2024-04-20,2024,DOC0005,
-P00352,17,Male,176.5,87.0,27.9,Manual Labor,Sedentary,Former,0,0,0,2023-12-27,2023,DOC0006,
-P00353,31,Male,170.0,70.0,24.2,Student,Moderate,Never,0,0,1,2025-07-07,2025,DOC0001,
-P00354,38,Male,184.2,76.2,22.5,Office Worker,Moderate,Never,0,0,0,2023-06-13,2023,DOC0002,
-P00355,68,Female,175.4,67.4,21.9,Manual Labor,Active,Former,0,1,0,2023-05-10,2023,DOC0002,
-P00356,69,Male,161.5,63.0,24.2,Student,Active,Former,0,0,0,2023-11-11,2023,DOC0004,
-P00357,23,Male,166.1,82.0,29.7,Office Worker,Sedentary,Never,0,0,0,2025-01-20,2025,DOC0006,
-P00358,64,Female,169.5,61.5,21.4,Office Worker,Active,Never,0,0,1,2025-08-11,2025,DOC0010,
-P00359,20,Male,173.4,86.3,28.7,Athlete,Active,Never,0,0,0,2025-08-26,2025,DOC0012,
-P00360,56,Male,173.7,84.6,28.0,Office Worker,Active,Never,0,0,0,2023-12-22,2023,DOC0002,
-P00361,61,Female,147.7,65.1,29.8,Student,Sedentary,Never,0,1,0,2025-08-01,2025,DOC0019,
-P00362,63,Male,182.6,84.7,25.4,Retired,Moderate,Never,1,0,0,2024-07-23,2024,DOC0012,
-P00363,27,Male,183.4,77.5,23.0,Manual Labor,Moderate,Never,0,0,1,2023-11-21,2023,DOC0005,
-P00364,64,Male,173.8,83.0,27.5,Office Worker,Sedentary,Never,0,0,1,2023-12-14,2023,DOC0004,
-P00365,21,Female,163.0,49.2,18.5,Manual Labor,Moderate,Never,0,0,1,2025-02-14,2025,DOC0005,
-P00366,43,Male,179.3,82.4,25.6,Student,Sedentary,Current,0,0,0,2023-04-23,2023,DOC0004,
-P00367,40,Male,178.9,86.0,26.9,Office Worker,Sedentary,Never,0,0,0,2024-10-12,2024,DOC0005,
-P00368,32,Male,177.2,70.0,22.3,Student,Active,Never,0,1,0,2024-05-05,2024,DOC0004,
-P00369,16,Male,181.9,78.6,23.8,Athlete,Moderate,Never,0,0,1,2023-01-09,2023,DOC0005,
-P00370,57,Female,161.8,77.1,29.5,Athlete,Active,Never,0,0,0,2025-03-08,2025,DOC0020,
-P00371,33,Male,189.1,71.7,20.1,Athlete,Sedentary,Current,0,0,0,2025-12-19,2025,DOC0003,
-P00372,51,Female,162.5,67.3,25.5,Athlete,Active,Never,0,1,0,2024-07-05,2024,DOC0003,
-P00373,37,Female,178.6,78.2,24.5,Retired,Moderate,Never,0,0,0,2024-11-18,2024,DOC0006,
-P00374,35,Female,167.0,70.2,25.2,Office Worker,Active,Current,0,0,1,2024-07-13,2024,DOC0001,
-P00375,63,Male,168.5,84.4,29.7,Office Worker,Active,Former,0,1,1,2025-07-23,2025,DOC0017,
-P00376,20,Female,167.1,81.3,29.1,Office Worker,Moderate,Former,0,0,1,2023-09-14,2023,DOC0017,
-P00377,55,Female,170.9,66.3,22.7,Office Worker,Active,Never,0,1,0,2024-09-26,2024,DOC0007,
-P00378,56,Male,180.9,114.4,35.0,Office Worker,Moderate,Never,1,0,1,2023-04-25,2023,DOC0004,
-P00379,35,Female,149.7,55.8,24.9,Athlete,Active,Former,1,0,0,2024-08-06,2024,DOC0011,
-P00380,29,Female,160.9,72.7,28.1,Manual Labor,Sedentary,Never,0,1,0,2024-12-19,2024,DOC0005,
-P00381,15,Male,184.5,73.2,21.5,Athlete,Moderate,Former,0,0,0,2023-05-06,2023,DOC0004,
-P00382,66,Female,156.2,64.4,26.4,Student,Sedentary,Former,0,0,2,2025-11-23,2025,DOC0004,
-P00383,67,Male,162.5,88.0,33.3,Office Worker,Highly Active,Never,0,0,1,2023-01-18,2023,DOC0004,
-P00384,28,Female,157.8,43.3,17.4,Student,Moderate,Never,0,0,1,2023-02-08,2023,DOC0001,
-P00385,16,Female,171.0,64.4,22.0,Student,Active,Never,1,1,0,2024-07-07,2024,DOC0019,
-P00386,21,Male,177.8,80.9,25.6,Athlete,Moderate,Never,0,0,0,2024-07-12,2024,DOC0007,
-P00387,18,Female,165.9,57.0,20.7,Athlete,Moderate,Former,0,1,0,2023-07-22,2023,DOC0003,
-P00388,60,Male,169.9,67.1,23.2,Retired,Moderate,Former,0,0,1,2024-02-22,2024,DOC0003,
-P00389,64,Female,161.8,64.3,24.6,Office Worker,Highly Active,Never,0,0,0,2025-03-01,2025,DOC0012,
-P00390,23,Female,163.2,60.5,22.7,Manual Labor,Active,Former,1,0,1,2023-06-09,2023,DOC0016,
-P00391,56,Male,165.4,70.7,25.8,Athlete,Sedentary,Never,0,0,0,2025-03-12,2025,DOC0003,
-P00392,24,Male,170.6,68.7,23.6,Office Worker,Active,Former,0,1,1,2023-11-16,2023,DOC0008,
-P00393,35,Male,169.9,110.1,38.1,Manual Labor,Moderate,Never,1,0,0,2024-09-05,2024,DOC0010,
-P00394,47,Male,180.4,74.8,23.0,Retired,Sedentary,Former,0,0,2,2023-01-10,2023,DOC0019,
-P00395,54,Male,180.7,60.5,18.5,Office Worker,Moderate,Former,0,0,0,2025-10-24,2025,DOC0001,
-P00396,63,Male,174.0,69.6,23.0,Student,Sedentary,Never,0,0,1,2025-02-13,2025,DOC0002,
-P00397,17,Male,172.3,77.4,26.1,Manual Labor,Moderate,Never,0,1,0,2023-05-21,2023,DOC0001,
-P00398,25,Male,176.0,84.6,27.3,Athlete,Active,Current,0,0,2,2023-03-14,2023,DOC0003,
-P00399,30,Female,159.9,70.7,27.7,Office Worker,Moderate,Never,0,0,1,2023-11-13,2023,DOC0020,
-P00400,32,Female,164.9,60.0,22.1,Office Worker,Highly Active,Former,0,0,1,2023-10-17,2023,DOC0006,
-P00401,69,Female,177.2,62.4,19.9,Office Worker,Active,Current,1,0,0,2025-08-08,2025,DOC0002,
-P00402,57,Male,170.6,82.1,28.2,Manual Labor,Active,Current,0,1,0,2024-12-07,2024,DOC0001,
-P00403,32,Female,168.7,54.1,19.0,Office Worker,Active,Never,1,0,0,2024-12-27,2024,DOC0011,
-P00404,68,Female,159.7,53.5,21.0,Office Worker,Highly Active,Never,1,0,1,2025-07-24,2025,DOC0013,
-P00405,42,Male,180.1,67.0,20.7,Manual Labor,Moderate,Current,0,0,1,2025-09-20,2025,DOC0006,
-P00406,42,Male,163.9,63.7,23.7,Manual Labor,Moderate,Never,0,0,0,2025-01-04,2025,DOC0004,
-P00407,38,Female,155.4,47.8,19.8,Manual Labor,Moderate,Never,0,1,1,2023-01-01,2023,DOC0001,
-P00408,22,Male,173.5,86.3,28.7,Manual Labor,Highly Active,Never,0,0,0,2023-11-05,2023,DOC0020,
-P00409,66,Male,177.4,89.7,28.5,Office Worker,Sedentary,Former,0,0,0,2023-01-26,2023,DOC0002,
-P00410,15,Female,171.6,83.7,28.4,Manual Labor,Active,Never,0,0,0,2023-04-23,2023,DOC0002,
-P00411,24,Male,164.8,87.3,32.1,Office Worker,Active,Never,0,1,0,2024-12-15,2024,DOC0007,
-P00412,27,Male,166.2,56.9,20.6,Office Worker,Moderate,Never,0,1,0,2023-12-27,2023,DOC0003,
-P00413,30,Female,165.0,68.4,25.1,Athlete,Highly Active,Former,0,0,0,2024-02-04,2024,DOC0004,
-P00414,22,Female,157.8,62.2,25.0,Manual Labor,Moderate,Never,0,0,0,2024-05-16,2024,DOC0003,
-P00415,15,Male,159.5,85.5,33.6,Manual Labor,Sedentary,Current,0,0,0,2023-10-05,2023,DOC0004,
-P00416,52,Female,161.5,73.5,28.2,Office Worker,Active,Former,0,0,0,2023-03-09,2023,DOC0018,
-P00417,68,Female,160.4,68.6,26.7,Retired,Moderate,Current,1,0,0,2024-04-26,2024,DOC0007,
-P00418,21,Male,173.9,60.0,19.8,Student,Sedentary,Current,1,1,1,2024-05-24,2024,DOC0004,
-P00419,31,Female,152.8,61.1,26.2,Athlete,Sedentary,Never,0,1,0,2025-01-03,2025,DOC0011,
-P00420,42,Male,170.1,84.8,29.3,Manual Labor,Sedentary,Former,0,0,0,2025-10-07,2025,DOC0004,
-P00421,66,Male,174.2,86.3,28.4,Office Worker,Active,Never,0,0,2,2023-01-17,2023,DOC0005,
-P00422,53,Female,158.3,58.2,23.2,Healthcare Worker,Highly Active,Current,0,0,1,2023-02-02,2023,DOC0013,
-P00423,57,Male,158.6,66.2,26.3,Office Worker,Moderate,Never,0,0,1,2023-05-15,2023,DOC0005,
-P00424,46,Female,166.0,69.8,25.3,Office Worker,Sedentary,Former,0,0,2,2023-07-16,2023,DOC0017,
-P00425,37,Female,168.7,78.2,27.5,Office Worker,Moderate,Former,0,0,0,2024-01-08,2024,DOC0002,
-P00426,25,Male,171.8,61.7,20.9,Office Worker,Highly Active,Never,0,1,1,2025-05-08,2025,DOC0003,
-P00427,62,Female,150.2,68.1,30.2,Manual Labor,Active,Former,0,0,0,2023-07-07,2023,DOC0003,
-P00428,59,Male,165.1,68.1,25.0,Office Worker,Moderate,Never,1,1,0,2023-08-26,2023,DOC0004,
-P00429,16,Female,152.0,61.6,26.7,Office Worker,Sedentary,Never,0,0,0,2025-08-11,2025,DOC0005,
-P00430,54,Male,169.9,63.8,22.1,Manual Labor,Highly Active,Never,0,0,1,2024-06-16,2024,DOC0004,
-P00431,19,Female,156.7,71.6,29.2,Retired,Highly Active,Never,1,0,0,2023-09-09,2023,DOC0002,
-P00432,55,Female,155.0,57.5,23.9,Student,Sedentary,Never,0,1,0,2023-01-19,2023,DOC0008,
-P00433,60,Male,177.2,62.4,19.9,Office Worker,Active,Current,0,0,0,2025-08-03,2025,DOC0012,
-P00434,22,Female,160.9,62.3,24.1,Office Worker,Sedentary,Never,0,0,1,2023-08-02,2023,DOC0005,
-P00435,38,Female,158.1,57.9,23.2,Athlete,Sedentary,Never,1,0,0,2024-08-21,2024,DOC0002,
-P00436,21,Female,165.5,51.2,18.7,Retired,Active,Current,0,0,1,2025-01-20,2025,DOC0004,
-P00437,46,Female,159.3,67.8,26.7,Student,Moderate,Former,0,0,0,2023-02-08,2023,DOC0004,
-P00438,66,Female,167.9,74.8,26.5,Manual Labor,Moderate,Never,0,0,0,2025-09-10,2025,DOC0005,
-P00439,19,Male,183.9,74.3,22.0,Retired,Highly Active,Current,0,0,0,2023-12-26,2023,DOC0018,
-P00440,36,Male,165.0,91.3,33.5,Athlete,Active,Never,0,1,0,2023-12-03,2023,DOC0018,
-P00441,68,Male,172.8,83.1,27.8,Manual Labor,Sedentary,Never,0,0,0,2023-03-05,2023,DOC0018,
-P00442,31,Female,152.1,61.6,26.6,Office Worker,Active,Never,0,0,0,2025-08-12,2025,DOC0005,
-P00443,22,Male,178.6,83.8,26.3,Athlete,Active,Former,0,0,0,2023-09-08,2023,DOC0011,
-P00444,41,Male,176.4,81.8,26.3,Office Worker,Active,Never,0,0,0,2023-03-18,2023,DOC0003,
-P00445,42,Male,173.5,90.3,30.0,Office Worker,Highly Active,Never,0,1,0,2025-08-19,2025,DOC0004,
-P00446,51,Female,158.8,77.8,30.9,Retired,Active,Former,0,0,1,2023-04-15,2023,DOC0013,
-P00447,32,Male,177.0,78.5,25.1,Office Worker,Sedentary,Never,0,0,0,2025-12-17,2025,DOC0003,
-P00448,67,Female,171.5,67.8,23.1,Student,Sedentary,Never,0,1,0,2024-12-12,2024,DOC0001,
-P00449,43,Male,174.7,86.4,28.3,Student,Active,Former,1,0,0,2024-01-21,2024,DOC0005,
-P00450,30,Female,153.4,84.0,35.7,Manual Labor,Highly Active,Former,1,0,0,2025-06-02,2025,DOC0003,
-P00451,67,Male,170.3,90.2,31.1,Retired,Sedentary,Never,0,0,0,2025-02-09,2025,DOC0002,
-P00452,65,Male,178.7,83.6,26.2,Office Worker,Sedentary,Never,0,0,0,2023-03-19,2023,DOC0004,
-P00453,42,Female,157.5,81.6,32.9,Office Worker,Active,Current,0,0,0,2025-08-09,2025,DOC0019,
-P00454,16,Female,158.2,75.6,30.2,Athlete,Sedentary,Never,0,0,0,2025-02-03,2025,DOC0004,
-P00455,47,Male,177.3,104.8,33.3,Office Worker,Sedentary,Never,0,0,0,2025-12-10,2025,DOC0009,
-P00456,45,Male,169.7,90.0,31.3,Retired,Highly Active,Never,1,0,0,2024-02-20,2024,DOC0008,
-P00457,23,Female,150.8,67.1,29.5,Office Worker,Active,Never,0,1,1,2024-11-04,2024,DOC0006,
-P00458,49,Female,160.3,69.0,26.9,Office Worker,Highly Active,Current,0,0,0,2024-12-20,2024,DOC0013,
-P00459,61,Male,180.3,58.1,17.9,Office Worker,Active,Never,1,0,0,2023-04-21,2023,DOC0009,
-P00460,20,Male,183.2,55.9,16.7,Office Worker,Moderate,Never,0,0,1,2024-06-18,2024,DOC0005,
-P00461,54,Female,162.6,55.2,20.9,Student,Highly Active,Never,0,0,1,2024-02-07,2024,DOC0005,
-P00462,22,Female,168.8,54.4,19.1,Office Worker,Moderate,Never,0,0,0,2024-10-22,2024,DOC0019,
-P00463,56,Female,174.6,57.9,19.0,Student,Moderate,Never,0,0,1,2023-01-06,2023,DOC0004,
-P00464,38,Female,158.5,72.0,28.7,Manual Labor,Highly Active,Current,1,1,1,2024-08-25,2024,DOC0003,
-P00465,15,Male,177.6,85.4,27.1,Student,Active,Former,0,1,0,2024-09-20,2024,DOC0003,
-P00466,68,Female,172.9,67.2,22.5,Office Worker,Highly Active,Never,0,1,0,2024-05-02,2024,DOC0003,
-P00467,24,Female,152.9,51.5,22.0,Manual Labor,Sedentary,Never,0,0,0,2025-10-22,2025,DOC0005,
-P00468,47,Female,168.2,59.9,21.2,Athlete,Highly Active,Never,1,0,1,2025-06-14,2025,DOC0011,
-P00469,24,Male,176.0,65.1,21.0,Office Worker,Active,Never,0,0,0,2023-03-13,2023,DOC0001,
-P00470,66,Male,174.9,88.4,28.9,Student,Active,Never,0,0,0,2023-03-12,2023,DOC0004,
-P00471,55,Female,160.5,57.0,22.1,Manual Labor,Highly Active,Never,0,0,1,2024-02-17,2024,DOC0004,
-P00472,59,Male,182.6,84.5,25.3,Athlete,Moderate,Former,1,0,2,2024-03-20,2024,DOC0017,
-P00473,38,Female,156.1,89.2,36.6,Retired,Active,Current,0,0,2,2025-07-25,2025,DOC0003,
-P00474,40,Male,181.8,86.9,26.3,Athlete,Active,Never,0,0,0,2023-03-08,2023,DOC0005,
-P00475,49,Female,168.0,57.4,20.3,Manual Labor,Active,Current,1,0,0,2023-03-18,2023,DOC0002,
-P00476,58,Female,161.2,63.1,24.3,Healthcare Worker,Highly Active,Never,0,0,0,2024-02-19,2024,DOC0005,
-P00477,61,Male,164.7,91.4,33.7,Manual Labor,Active,Never,0,0,0,2025-10-19,2025,DOC0004,
-P00478,15,Male,178.5,67.8,21.3,Student,Sedentary,Former,0,0,1,2025-02-14,2025,DOC0015,
-P00479,51,Female,156.2,64.7,26.5,Manual Labor,Sedentary,Never,0,0,0,2025-07-11,2025,DOC0006,
-P00480,21,Female,166.4,49.1,17.7,Student,Highly Active,Never,0,0,0,2024-06-21,2024,DOC0003,
-P00481,30,Male,164.6,83.8,30.9,Manual Labor,Highly Active,Former,0,1,1,2025-11-09,2025,DOC0005,
-P00482,60,Female,177.6,63.4,20.1,Manual Labor,Highly Active,Never,0,0,0,2023-04-06,2023,DOC0017,
-P00483,28,Female,159.7,63.2,24.8,Office Worker,Sedentary,Current,0,0,0,2024-05-15,2024,DOC0009,
-P00484,58,Male,183.2,61.8,18.4,Student,Moderate,Never,0,0,0,2025-09-08,2025,DOC0003,
-P00485,40,Male,173.7,88.5,29.3,Office Worker,Active,Former,1,0,0,2024-03-01,2024,DOC0020,
-P00486,27,Male,170.1,80.2,27.7,Healthcare Worker,Active,Never,0,1,1,2025-02-02,2025,DOC0012,
-P00487,33,Male,171.5,91.8,31.2,Office Worker,Sedentary,Never,0,0,1,2023-03-19,2023,DOC0002,
-P00488,44,Male,183.9,77.5,22.9,Office Worker,Active,Never,0,1,1,2023-10-27,2023,DOC0004,
-P00489,57,Male,178.8,61.1,19.1,Retired,Sedentary,Current,0,1,0,2024-07-13,2024,DOC0003,
-P00490,48,Female,157.0,59.0,23.9,Office Worker,Moderate,Never,0,0,0,2025-11-04,2025,DOC0020,
-P00491,66,Male,173.3,73.6,24.5,Office Worker,Moderate,Current,0,0,0,2023-08-23,2023,DOC0002,
-P00492,62,Female,162.5,69.1,26.2,Student,Sedentary,Never,0,0,0,2025-07-08,2025,DOC0009,
-P00493,56,Male,177.7,70.2,22.2,Athlete,Sedentary,Never,0,0,0,2023-08-27,2023,DOC0001,
-P00494,48,Male,162.7,97.7,36.9,Athlete,Highly Active,Never,0,0,0,2025-03-16,2025,DOC0005,
-P00495,30,Female,150.9,71.5,31.4,Office Worker,Active,Never,1,0,1,2024-01-07,2024,DOC0002,
-P00496,37,Female,150.5,63.9,28.2,Office Worker,Highly Active,Current,0,0,1,2023-10-14,2023,DOC0006,
-P00497,21,Male,191.7,79.3,21.6,Office Worker,Moderate,Never,0,0,0,2025-03-10,2025,DOC0004,
-P00498,35,Male,167.3,64.9,23.2,Athlete,Moderate,Former,0,0,0,2025-02-22,2025,DOC0001,
-P00499,65,Male,174.3,82.0,27.0,Office Worker,Moderate,Never,0,0,0,2024-12-03,2024,DOC0002,
-P00500,38,Male,187.6,97.3,27.6,Office Worker,Active,Never,0,1,0,2023-03-24,2023,DOC0003,
-P00501,21,Male,183.3,72.1,21.5,Athlete,Moderate,Never,1,0,1,2023-11-21,2023,DOC0011,
-P00502,50,Male,170.1,82.7,28.6,Manual Labor,Active,Current,1,0,0,2025-09-24,2025,DOC0013,
-P00503,67,Male,176.6,45.0,14.4,Manual Labor,Active,Former,0,1,0,2024-05-25,2024,DOC0011,
-P00504,62,Male,175.0,77.5,25.3,Athlete,Highly Active,Never,0,0,0,2025-11-07,2025,DOC0011,
-P00505,30,Female,166.0,64.0,23.2,Office Worker,Moderate,Never,0,0,0,2024-01-15,2024,DOC0005,
-P00506,39,Female,162.1,40.6,15.5,Retired,Moderate,Never,0,0,0,2025-10-23,2025,DOC0020,
-P00507,44,Male,174.4,91.0,29.9,Manual Labor,Moderate,Never,0,0,0,2023-02-11,2023,DOC0005,
-P00508,28,Male,163.8,74.1,27.6,Office Worker,Sedentary,Never,0,1,0,2024-10-02,2024,DOC0004,
-P00509,29,Male,175.9,75.9,24.5,Office Worker,Active,Never,0,0,0,2024-09-08,2024,DOC0002,
-P00510,28,Male,178.2,73.5,23.1,Office Worker,Moderate,Former,1,0,1,2023-01-07,2023,DOC0009,
-P00511,69,Female,156.6,51.6,21.0,Student,Active,Current,0,0,0,2023-09-24,2023,DOC0004,
-P00512,56,Female,162.2,55.9,21.2,Retired,Sedentary,Current,0,0,2,2024-01-13,2024,DOC0018,
-P00513,61,Female,149.8,36.3,16.2,Retired,Highly Active,Former,0,0,0,2025-03-19,2025,DOC0005,
-P00514,59,Female,163.3,59.7,22.4,Office Worker,Highly Active,Never,0,0,1,2024-10-26,2024,DOC0012,
-P00515,67,Female,166.6,60.6,21.8,Office Worker,Moderate,Former,1,0,0,2023-05-09,2023,DOC0006,
-P00516,20,Female,160.3,59.4,23.1,Athlete,Highly Active,Never,0,0,0,2025-04-21,2025,DOC0001,
-P00517,63,Male,164.5,98.9,36.5,Office Worker,Moderate,Never,0,0,0,2023-06-01,2023,DOC0012,
-P00518,18,Male,167.8,87.2,31.0,Office Worker,Active,Never,0,1,3,2023-12-03,2023,DOC0012,
-P00519,41,Male,171.2,71.3,24.3,Manual Labor,Highly Active,Never,0,0,0,2025-12-05,2025,DOC0003,
-P00520,47,Female,161.8,60.9,23.3,Athlete,Active,Current,0,0,1,2025-07-09,2025,DOC0006,
-P00521,34,Male,170.5,69.1,23.8,Retired,Active,Current,0,0,0,2025-09-11,2025,DOC0004,
-P00522,23,Female,161.3,64.8,24.9,Athlete,Moderate,Never,0,1,0,2025-05-13,2025,DOC0002,
-P00523,25,Female,162.6,56.0,21.2,Athlete,Active,Never,0,0,0,2024-12-07,2024,DOC0002,
-P00524,60,Male,176.7,90.9,29.1,Retired,Active,Former,0,1,0,2023-03-02,2023,DOC0002,
-P00525,32,Male,174.0,73.1,24.1,Student,Sedentary,Never,0,0,0,2023-09-19,2023,DOC0005,
-P00526,32,Male,181.1,65.7,20.0,Office Worker,Sedentary,Former,0,1,0,2025-08-01,2025,DOC0004,
-P00527,65,Male,171.3,75.4,25.7,Manual Labor,Active,Current,1,1,0,2025-10-22,2025,DOC0005,
-P00528,22,Female,157.8,65.7,26.4,Office Worker,Active,Never,1,0,0,2024-12-26,2024,DOC0003,
-P00529,65,Female,166.6,56.6,20.4,Athlete,Moderate,Never,0,0,0,2024-04-20,2024,DOC0004,
-P00530,65,Female,157.4,52.0,21.0,Office Worker,Highly Active,Never,0,0,0,2023-05-17,2023,DOC0005,
-P00531,47,Male,166.3,71.0,25.7,Office Worker,Active,Never,1,0,0,2023-04-18,2023,DOC0001,
-P00532,24,Male,177.9,85.4,27.0,Manual Labor,Moderate,Never,0,0,1,2025-12-18,2025,DOC0002,
-P00533,23,Male,171.7,83.3,28.3,Office Worker,Moderate,Never,0,0,0,2023-12-26,2023,DOC0017,
-P00534,30,Female,148.8,74.0,33.4,Manual Labor,Active,Never,0,1,0,2024-02-27,2024,DOC0010,
-P00535,46,Female,158.7,69.8,27.7,Student,Active,Never,0,0,1,2025-10-12,2025,DOC0003,
-P00536,23,Male,176.4,79.8,25.6,Athlete,Active,Never,0,0,0,2024-08-17,2024,DOC0008,
-P00537,40,Female,165.3,71.2,26.1,Athlete,Moderate,Former,0,0,0,2024-10-22,2024,DOC0002,
-P00538,21,Male,171.5,102.7,34.9,Office Worker,Active,Never,0,0,2,2023-02-01,2023,DOC0016,
-P00539,44,Female,168.1,56.4,20.0,Student,Active,Current,1,0,0,2023-03-15,2023,DOC0001,
-P00540,16,Male,158.7,89.7,35.6,Manual Labor,Active,Never,0,0,0,2023-11-18,2023,DOC0004,
-P00541,53,Male,176.7,115.1,36.9,Student,Sedentary,Never,0,0,0,2023-02-20,2023,DOC0004,
-P00542,18,Female,167.5,73.5,26.2,Office Worker,Active,Never,0,1,3,2023-06-10,2023,DOC0001,
-P00543,25,Male,171.8,83.8,28.4,Office Worker,Moderate,Former,0,0,0,2023-10-08,2023,DOC0001,
-P00544,24,Male,176.8,86.4,27.6,Manual Labor,Sedentary,Never,0,1,1,2023-08-05,2023,DOC0005,
-P00545,60,Male,182.2,65.9,19.9,Office Worker,Active,Never,0,0,0,2023-05-16,2023,DOC0004,
-P00546,17,Male,173.9,72.7,24.0,Student,Active,Never,0,0,1,2025-08-25,2025,DOC0020,
-P00547,38,Female,158.4,71.1,28.3,Athlete,Moderate,Current,0,0,2,2023-04-25,2023,DOC0007,
-P00548,47,Female,172.2,71.1,24.0,Office Worker,Active,Never,0,0,1,2024-10-10,2024,DOC0005,
-P00549,43,Female,163.3,57.9,21.7,Manual Labor,Moderate,Never,0,1,0,2025-02-07,2025,DOC0010,
-P00550,52,Male,174.2,79.7,26.3,Office Worker,Moderate,Current,1,0,1,2023-08-22,2023,DOC0002,
-P00551,59,Male,167.9,91.0,32.3,Manual Labor,Moderate,Never,0,0,1,2024-08-20,2024,DOC0015,
-P00552,36,Male,175.9,88.4,28.6,Office Worker,Moderate,Never,0,1,0,2025-02-14,2025,DOC0005,
-P00553,60,Male,170.9,76.1,26.1,Retired,Active,Former,0,0,0,2024-11-11,2024,DOC0010,
-P00554,32,Male,171.3,70.0,23.9,Student,Active,Never,0,0,1,2023-11-04,2023,DOC0008,
-P00555,69,Female,165.3,57.2,20.9,Retired,Active,Never,0,0,1,2025-12-22,2025,DOC0012,
-P00556,42,Female,151.7,56.9,24.7,Manual Labor,Sedentary,Never,0,1,0,2024-08-17,2024,DOC0011,
-P00557,55,Female,160.7,57.9,22.4,Manual Labor,Moderate,Never,0,0,0,2024-12-11,2024,DOC0001,
-P00558,63,Male,165.2,74.2,27.2,Manual Labor,Sedentary,Current,0,0,0,2023-02-25,2023,DOC0009,
-P00559,58,Male,170.4,80.0,27.6,Office Worker,Active,Never,1,0,0,2023-02-18,2023,DOC0005,
-P00560,61,Male,188.5,87.3,24.6,Office Worker,Moderate,Never,0,0,0,2025-04-26,2025,DOC0001,
-P00561,44,Male,182.9,88.9,26.6,Manual Labor,Moderate,Never,0,1,0,2023-12-13,2023,DOC0014,
-P00562,17,Male,175.7,81.4,26.4,Athlete,Active,Former,1,0,0,2023-07-13,2023,DOC0004,
-P00563,42,Male,168.4,85.0,30.0,Athlete,Active,Former,0,0,0,2024-06-26,2024,DOC0004,
-P00564,24,Male,171.3,78.8,26.9,Retired,Moderate,Never,0,0,1,2025-04-26,2025,DOC0006,
-P00565,63,Female,168.5,62.6,22.0,Athlete,Moderate,Current,0,1,0,2023-08-26,2023,DOC0020,
-P00566,28,Male,175.3,74.9,24.4,Manual Labor,Active,Never,0,0,1,2023-08-23,2023,DOC0004,
-P00567,27,Female,168.9,76.2,26.7,Manual Labor,Moderate,Former,0,1,1,2024-06-13,2024,DOC0002,
-P00568,28,Male,174.8,77.6,25.4,Athlete,Sedentary,Never,0,0,0,2024-04-06,2024,DOC0009,
-P00569,50,Female,163.5,68.8,25.7,Retired,Highly Active,Never,0,1,1,2024-01-11,2024,DOC0010,
-P00570,46,Male,164.9,73.2,26.9,Athlete,Moderate,Former,0,0,0,2025-12-26,2025,DOC0004,
-P00571,67,Male,171.4,78.7,26.8,Retired,Moderate,Former,0,0,1,2023-09-10,2023,DOC0002,
-P00572,37,Male,181.4,74.6,22.7,Student,Sedentary,Never,1,0,1,2023-07-21,2023,DOC0003,
-P00573,30,Male,165.4,75.0,27.4,Office Worker,Moderate,Never,1,0,0,2024-01-25,2024,DOC0003,
-P00574,17,Female,152.3,67.2,29.0,Athlete,Moderate,Former,0,1,1,2023-11-27,2023,DOC0004,
-P00575,15,Male,169.3,65.1,22.7,Office Worker,Moderate,Never,0,1,3,2024-02-26,2024,DOC0014,
-P00576,35,Female,165.8,68.4,24.9,Office Worker,Active,Never,0,0,2,2025-08-15,2025,DOC0003,
-P00577,65,Male,172.3,73.8,24.9,Office Worker,Moderate,Never,0,1,0,2023-03-14,2023,DOC0005,
-P00578,43,Male,185.3,87.2,25.4,Healthcare Worker,Highly Active,Never,0,0,0,2025-05-27,2025,DOC0005,
-P00579,64,Male,178.5,98.3,30.9,Office Worker,Highly Active,Never,0,0,1,2023-05-06,2023,DOC0018,
-P00580,20,Male,165.8,87.4,31.8,Student,Moderate,Never,0,0,0,2024-12-06,2024,DOC0003,
-P00581,20,Female,161.7,80.6,30.8,Athlete,Sedentary,Current,0,0,3,2024-11-27,2024,DOC0005,
-P00582,60,Female,159.1,44.7,17.7,Healthcare Worker,Active,Never,0,0,0,2024-04-19,2024,DOC0005,
-P00583,20,Female,160.1,66.0,25.7,Office Worker,Highly Active,Former,0,0,0,2023-10-15,2023,DOC0008,
-P00584,17,Male,177.2,80.1,25.5,Office Worker,Highly Active,Current,0,0,0,2025-09-04,2025,DOC0001,
-P00585,37,Male,171.6,84.5,28.7,Manual Labor,Sedentary,Former,0,0,1,2025-07-14,2025,DOC0001,
-P00586,65,Female,165.0,45.9,16.9,Athlete,Moderate,Never,0,1,0,2025-07-26,2025,DOC0018,
-P00587,52,Male,169.6,78.8,27.4,Student,Sedentary,Never,1,0,0,2025-10-17,2025,DOC0002,
-P00588,20,Male,170.7,83.0,28.5,Office Worker,Active,Never,0,0,0,2023-05-11,2023,DOC0005,
-P00589,61,Male,170.4,87.9,30.3,Manual Labor,Active,Never,0,0,1,2024-01-15,2024,DOC0001,
-P00590,61,Female,149.5,55.8,25.0,Manual Labor,Moderate,Current,0,0,0,2023-04-24,2023,DOC0002,
-P00591,59,Female,164.3,57.5,21.3,Manual Labor,Active,Former,0,0,0,2025-10-25,2025,DOC0005,
-P00592,64,Female,159.7,58.8,23.1,Athlete,Moderate,Never,0,0,0,2023-12-11,2023,DOC0001,
-P00593,28,Female,149.4,69.0,30.9,Athlete,Active,Never,0,0,0,2023-06-17,2023,DOC0005,
-P00594,68,Male,190.9,71.7,19.7,Athlete,Sedentary,Current,0,0,1,2024-06-08,2024,DOC0002,
-P00595,32,Female,170.6,76.6,26.3,Office Worker,Active,Never,0,1,0,2023-09-13,2023,DOC0001,
-P00596,59,Male,175.5,80.0,26.0,Athlete,Active,Former,1,1,1,2025-12-06,2025,DOC0003,
-P00597,46,Female,164.2,50.4,18.7,Retired,Active,Never,1,0,0,2023-06-15,2023,DOC0019,
-P00598,57,Male,169.6,50.9,17.7,Manual Labor,Moderate,Former,0,1,0,2024-11-16,2024,DOC0009,
-P00599,49,Female,170.0,70.9,24.5,Manual Labor,Active,Former,0,1,0,2025-01-10,2025,DOC0017,
-P00600,50,Male,167.6,66.9,23.8,Office Worker,Active,Never,0,0,0,2024-11-08,2024,DOC0004,
-P00601,48,Male,167.6,83.8,29.8,Office Worker,Sedentary,Never,0,0,2,2023-05-05,2023,DOC0001,
-P00602,57,Male,174.0,62.6,20.7,Manual Labor,Sedentary,Former,0,0,0,2023-09-04,2023,DOC0004,
-P00603,55,Male,166.5,78.4,28.3,Office Worker,Active,Never,0,0,0,2023-05-20,2023,DOC0002,
-P00604,22,Male,180.9,74.6,22.8,Office Worker,Moderate,Never,0,0,0,2023-11-06,2023,DOC0004,
-P00605,60,Female,151.1,64.0,28.0,Office Worker,Sedentary,Never,0,1,0,2024-04-04,2024,DOC0004,
-P00606,44,Male,194.7,79.5,21.0,Manual Labor,Sedentary,Never,0,0,0,2023-06-27,2023,DOC0002,
-P00607,32,Female,175.6,76.7,24.9,Healthcare Worker,Sedentary,Former,0,0,0,2023-04-08,2023,DOC0006,
-P00608,43,Male,175.5,59.6,19.4,Office Worker,Moderate,Never,0,0,2,2023-05-25,2023,DOC0002,
-P00609,68,Female,170.8,65.8,22.6,Office Worker,Active,Never,0,0,1,2025-07-17,2025,DOC0009,
-P00610,62,Male,186.9,71.0,20.3,Athlete,Sedentary,Current,0,0,1,2023-10-20,2023,DOC0001,
-P00611,60,Female,161.6,53.2,20.4,Office Worker,Active,Never,0,1,0,2023-08-16,2023,DOC0002,
-P00612,40,Female,164.3,59.4,22.0,Student,Moderate,Never,1,0,1,2024-07-05,2024,DOC0020,
-P00613,58,Male,165.6,85.5,31.2,Athlete,Moderate,Former,0,0,0,2023-05-23,2023,DOC0005,
-P00614,36,Female,156.2,68.7,28.2,Manual Labor,Moderate,Current,1,0,0,2025-01-23,2025,DOC0009,
-P00615,52,Male,167.1,66.4,23.8,Office Worker,Active,Never,0,0,0,2023-07-10,2023,DOC0004,
-P00616,50,Male,185.2,74.7,21.8,Athlete,Highly Active,Former,0,0,0,2024-02-21,2024,DOC0001,
-P00617,28,Female,156.1,78.2,32.1,Retired,Moderate,Never,0,0,0,2024-01-15,2024,DOC0004,
-P00618,29,Female,167.8,65.9,23.4,Office Worker,Sedentary,Never,0,0,0,2025-02-25,2025,DOC0004,
-P00619,18,Male,157.9,100.5,40.3,Student,Moderate,Current,0,0,0,2024-03-22,2024,DOC0008,
-P00620,22,Male,168.1,70.0,24.8,Office Worker,Sedentary,Current,0,1,0,2025-07-02,2025,DOC0004,
-P00621,38,Female,164.8,64.7,23.8,Retired,Active,Never,0,0,0,2024-09-24,2024,DOC0006,
-P00622,41,Female,168.0,69.2,24.5,Office Worker,Sedentary,Never,0,0,0,2024-03-27,2024,DOC0009,
-P00623,24,Female,162.5,69.4,26.3,Office Worker,Highly Active,Never,1,0,1,2025-10-21,2025,DOC0001,
-P00624,37,Male,163.9,72.0,26.8,Student,Active,Never,1,1,0,2024-05-04,2024,DOC0003,
-P00625,48,Female,163.9,57.0,21.2,Office Worker,Moderate,Current,0,0,0,2024-06-22,2024,DOC0003,
-P00626,27,Male,182.1,71.9,21.7,Office Worker,Active,Former,0,0,0,2023-08-18,2023,DOC0005,
-P00627,33,Female,157.0,76.0,30.8,Healthcare Worker,Sedentary,Never,1,0,0,2023-10-10,2023,DOC0005,
-P00628,35,Male,174.9,57.3,18.7,Manual Labor,Active,Never,0,0,0,2024-01-24,2024,DOC0010,
-P00629,42,Female,164.8,71.3,26.3,Manual Labor,Sedentary,Never,0,0,1,2023-08-16,2023,DOC0014,
-P00630,35,Male,172.9,65.4,21.9,Manual Labor,Active,Never,0,0,0,2024-07-24,2024,DOC0003,
-P00631,55,Female,152.4,79.1,34.1,Student,Moderate,Former,0,0,0,2023-10-19,2023,DOC0009,
-P00632,33,Female,157.1,55.7,22.6,Retired,Sedentary,Never,0,0,0,2024-10-08,2024,DOC0015,
-P00633,38,Male,172.7,67.2,22.5,Manual Labor,Active,Never,0,0,1,2025-09-27,2025,DOC0005,
-P00634,35,Female,163.7,47.0,17.5,Office Worker,Sedentary,Never,0,0,0,2024-03-16,2024,DOC0009,
-P00635,25,Male,171.1,55.7,19.0,Athlete,Sedentary,Current,0,0,1,2024-09-14,2024,DOC0004,
-P00636,52,Female,168.2,68.5,24.2,Manual Labor,Active,Never,0,0,0,2023-12-11,2023,DOC0004,
-P00637,27,Male,174.7,82.8,27.1,Student,Moderate,Never,0,0,1,2023-03-04,2023,DOC0004,
-P00638,31,Male,178.1,87.9,27.7,Office Worker,Highly Active,Never,0,0,0,2024-11-19,2024,DOC0018,
-P00639,58,Male,172.9,69.4,23.2,Athlete,Active,Never,1,0,1,2025-07-12,2025,DOC0009,
-P00640,67,Male,172.1,90.6,30.6,Office Worker,Active,Never,0,0,0,2025-05-26,2025,DOC0005,
-P00641,51,Male,175.6,59.8,19.4,Manual Labor,Moderate,Never,0,0,0,2024-09-27,2024,DOC0008,
-P00642,65,Female,156.6,62.2,25.4,Student,Sedentary,Never,0,1,0,2025-10-21,2025,DOC0017,
-P00643,61,Female,156.0,65.1,26.8,Athlete,Highly Active,Never,0,1,0,2025-07-07,2025,DOC0019,
-P00644,41,Female,160.8,74.8,28.9,Manual Labor,Sedentary,Current,0,0,0,2025-08-20,2025,DOC0019,
-P00645,57,Male,175.3,83.9,27.3,Student,Moderate,Never,0,0,0,2025-07-01,2025,DOC0004,
-P00646,33,Male,181.7,77.5,23.5,Retired,Moderate,Never,0,0,1,2023-12-23,2023,DOC0002,
-P00647,40,Male,161.3,51.7,19.9,Athlete,Moderate,Never,0,0,1,2023-05-14,2023,DOC0004,
-P00648,44,Female,166.9,68.3,24.5,Retired,Active,Former,0,0,1,2024-02-26,2024,DOC0002,
-P00649,67,Female,158.4,71.1,28.3,Manual Labor,Active,Former,1,1,1,2024-03-11,2024,DOC0001,
-P00650,61,Male,175.0,73.7,24.1,Student,Active,Former,0,1,2,2025-06-08,2025,DOC0002,
-P00651,41,Female,150.9,63.7,28.0,Athlete,Highly Active,Never,0,0,0,2023-08-27,2023,DOC0001,
-P00652,50,Male,171.8,78.8,26.7,Manual Labor,Moderate,Never,0,0,1,2023-11-15,2023,DOC0019,
-P00653,26,Male,179.7,79.4,24.6,Manual Labor,Moderate,Never,0,0,0,2025-02-24,2025,DOC0020,
-P00654,59,Male,181.5,89.3,27.1,Office Worker,Sedentary,Never,0,0,0,2023-04-25,2023,DOC0010,
-P00655,45,Male,178.4,79.6,25.0,Office Worker,Active,Never,0,0,0,2025-05-14,2025,DOC0003,
-P00656,44,Female,171.9,60.7,20.5,Manual Labor,Moderate,Never,0,1,0,2023-06-13,2023,DOC0006,
-P00657,57,Female,157.9,82.9,33.2,Manual Labor,Active,Never,0,1,0,2024-02-15,2024,DOC0001,
-P00658,49,Male,180.4,76.6,23.5,Athlete,Sedentary,Never,0,0,1,2024-05-23,2024,DOC0003,
-P00659,18,Male,183.6,90.8,26.9,Office Worker,Active,Never,0,0,0,2023-06-27,2023,DOC0007,
-P00660,30,Female,163.3,51.9,19.5,Office Worker,Active,Never,0,0,2,2023-04-09,2023,DOC0012,
-P00661,24,Female,158.7,57.4,22.8,Retired,Highly Active,Former,0,1,0,2023-01-20,2023,DOC0018,
-P00662,55,Female,161.1,69.6,26.8,Healthcare Worker,Sedentary,Never,0,0,0,2023-01-08,2023,DOC0003,
-P00663,16,Male,181.0,82.6,25.2,Office Worker,Highly Active,Former,0,0,1,2023-11-17,2023,DOC0003,
-P00664,26,Female,170.8,86.5,29.7,Athlete,Moderate,Never,0,0,0,2025-07-22,2025,DOC0005,
-P00665,47,Male,168.9,100.5,35.2,Office Worker,Moderate,Current,0,0,1,2023-10-24,2023,DOC0006,
-P00666,53,Female,161.7,75.0,28.7,Office Worker,Moderate,Former,0,0,0,2024-08-13,2024,DOC0003,
-P00667,42,Male,180.2,58.7,18.1,Retired,Moderate,Never,0,0,2,2023-02-10,2023,DOC0004,
-P00668,62,Female,156.1,72.8,29.9,Manual Labor,Active,Current,1,0,0,2025-09-07,2025,DOC0001,
-P00669,65,Male,167.2,73.9,26.4,Athlete,Moderate,Never,0,1,0,2025-09-04,2025,DOC0001,
-P00670,22,Male,177.9,79.3,25.1,Athlete,Moderate,Never,0,0,0,2025-01-10,2025,DOC0005,
-P00671,67,Female,168.8,78.5,27.6,Office Worker,Active,Former,0,0,0,2025-03-24,2025,DOC0004,
-P00672,48,Female,169.2,71.6,25.0,Student,Active,Never,0,0,1,2023-05-12,2023,DOC0011,
-P00673,49,Male,176.5,70.2,22.5,Manual Labor,Active,Never,1,0,0,2024-05-09,2024,DOC0001,
-P00674,20,Female,160.7,67.5,26.1,Manual Labor,Active,Never,0,0,0,2023-12-20,2023,DOC0002,
-P00675,49,Female,166.0,64.1,23.3,Office Worker,Sedentary,Never,0,0,1,2025-02-06,2025,DOC0017,
-P00676,54,Male,168.7,101.1,35.5,Retired,Active,Never,1,0,0,2024-01-07,2024,DOC0003,
-P00677,46,Male,170.9,101.8,34.9,Office Worker,Sedentary,Never,0,1,0,2024-08-26,2024,DOC0002,
-P00678,19,Male,175.1,78.6,25.6,Student,Moderate,Never,0,0,0,2025-06-03,2025,DOC0002,
-P00679,43,Female,156.2,53.5,21.9,Retired,Sedentary,Never,0,0,2,2025-01-12,2025,DOC0016,
-P00680,66,Male,164.5,73.5,27.2,Office Worker,Active,Never,0,0,0,2025-04-16,2025,DOC0013,
-P00681,54,Male,165.8,91.3,33.2,Retired,Moderate,Never,0,0,1,2023-02-07,2023,DOC0011,
-P00682,22,Female,161.1,64.7,24.9,Office Worker,Active,Former,0,0,1,2023-07-08,2023,DOC0010,
-P00683,67,Female,171.8,67.4,22.8,Manual Labor,Moderate,Never,1,1,0,2023-05-06,2023,DOC0003,
-P00684,67,Female,158.9,70.5,27.9,Athlete,Moderate,Never,0,1,0,2024-01-10,2024,DOC0018,
-P00685,24,Female,163.7,58.1,21.7,Office Worker,Moderate,Former,0,1,0,2024-04-25,2024,DOC0004,
-P00686,59,Female,176.4,81.1,26.1,Office Worker,Sedentary,Current,0,0,0,2023-11-12,2023,DOC0006,
-P00687,37,Female,155.7,62.1,25.6,Athlete,Moderate,Never,0,0,1,2025-04-12,2025,DOC0020,
-P00688,47,Female,150.6,60.2,26.5,Athlete,Active,Never,1,0,0,2023-08-11,2023,DOC0002,
-P00689,39,Male,172.9,101.3,33.9,Office Worker,Moderate,Former,0,0,1,2024-10-27,2024,DOC0005,
-P00690,58,Male,179.7,86.7,26.8,Manual Labor,Sedentary,Current,0,0,0,2025-05-04,2025,DOC0018,
-P00691,69,Male,178.3,95.5,30.0,Office Worker,Active,Never,1,1,0,2024-02-24,2024,DOC0003,
-P00692,58,Female,158.5,75.8,30.2,Office Worker,Moderate,Never,1,0,0,2024-05-09,2024,DOC0001,
-P00693,66,Male,173.8,80.8,26.7,Healthcare Worker,Sedentary,Never,1,0,0,2023-08-26,2023,DOC0005,
-P00694,67,Male,182.3,66.7,20.1,Retired,Sedentary,Never,0,1,1,2023-06-09,2023,DOC0003,
-P00695,19,Female,160.9,81.6,31.5,Athlete,Moderate,Current,0,0,0,2025-11-03,2025,DOC0008,
-P00696,28,Male,165.2,87.3,32.0,Office Worker,Moderate,Former,0,0,1,2024-11-15,2024,DOC0005,
-P00697,54,Male,179.6,79.2,24.6,Manual Labor,Active,Never,0,0,0,2023-01-07,2023,DOC0004,
-P00698,47,Female,157.8,77.3,31.0,Student,Moderate,Never,1,1,0,2025-09-21,2025,DOC0004,
-P00699,17,Female,159.9,59.9,23.4,Office Worker,Active,Former,0,0,1,2024-03-18,2024,DOC0004,
-P00700,20,Male,182.2,61.4,18.5,Student,Moderate,Never,0,0,0,2025-12-19,2025,DOC0010,
-P00701,43,Male,177.0,83.9,26.8,Athlete,Active,Former,1,0,1,2024-09-06,2024,DOC0017,
-P00702,48,Male,176.1,102.8,33.1,Office Worker,Active,Never,1,0,0,2025-08-20,2025,DOC0008,
-P00703,24,Female,159.6,56.2,22.1,Student,Moderate,Never,0,0,0,2023-02-09,2023,DOC0003,
-P00704,24,Female,160.4,68.8,26.7,Manual Labor,Sedentary,Never,1,0,0,2023-11-27,2023,DOC0004,
-P00705,22,Male,172.4,95.1,32.0,Student,Moderate,Never,0,0,0,2025-03-20,2025,DOC0013,
-P00706,46,Female,158.1,63.0,25.2,Athlete,Highly Active,Current,0,0,1,2025-07-16,2025,DOC0001,
-P00707,15,Male,181.1,59.5,18.1,Athlete,Highly Active,Never,0,0,1,2024-07-24,2024,DOC0006,
-P00708,46,Male,171.1,74.4,25.4,Athlete,Moderate,Never,1,0,0,2023-06-16,2023,DOC0001,
-P00709,41,Female,159.2,69.3,27.3,Athlete,Active,Never,1,0,0,2023-09-15,2023,DOC0002,
-P00710,40,Male,166.6,84.6,30.5,Athlete,Moderate,Never,0,1,0,2025-11-07,2025,DOC0004,
-P00711,52,Male,167.5,62.3,22.2,Manual Labor,Sedentary,Never,0,0,0,2025-12-19,2025,DOC0001,
-P00712,43,Male,162.2,85.3,32.4,Manual Labor,Active,Former,0,0,0,2023-12-11,2023,DOC0007,
-P00713,55,Female,171.4,73.4,25.0,Manual Labor,Moderate,Never,0,0,2,2023-06-02,2023,DOC0004,
-P00714,57,Female,165.1,62.4,22.9,Office Worker,Moderate,Never,0,0,0,2024-12-23,2024,DOC0001,
-P00715,65,Female,151.4,60.8,26.5,Athlete,Active,Never,0,0,0,2025-04-02,2025,DOC0002,
-P00716,58,Male,163.6,78.2,29.2,Manual Labor,Moderate,Never,0,0,1,2024-09-19,2024,DOC0002,
-P00717,43,Male,180.1,72.0,22.2,Athlete,Active,Former,0,0,0,2024-07-05,2024,DOC0005,
-P00718,42,Female,160.7,37.1,14.4,Retired,Moderate,Never,0,0,0,2025-12-12,2025,DOC0014,
-P00719,27,Male,171.8,89.7,30.4,Athlete,Sedentary,Never,0,1,0,2023-09-24,2023,DOC0005,
-P00720,47,Female,157.9,59.9,24.0,Manual Labor,Moderate,Former,1,0,0,2024-07-03,2024,DOC0001,
-P00721,22,Female,153.1,60.5,25.8,Retired,Highly Active,Former,0,0,1,2024-11-19,2024,DOC0004,
-P00722,66,Male,176.9,91.0,29.1,Manual Labor,Moderate,Former,0,0,0,2024-11-17,2024,DOC0002,
-P00723,61,Female,151.5,57.1,24.9,Manual Labor,Sedentary,Never,0,0,0,2025-11-24,2025,DOC0005,
-P00724,21,Male,176.4,81.2,26.1,Manual Labor,Active,Never,1,0,0,2024-03-05,2024,DOC0008,
-P00725,58,Male,164.1,79.1,29.4,Athlete,Highly Active,Former,0,0,1,2024-02-22,2024,DOC0001,
-P00726,21,Female,150.5,69.6,30.7,Manual Labor,Highly Active,Never,0,0,1,2023-03-13,2023,DOC0011,
-P00727,54,Male,182.2,63.5,19.1,Retired,Active,Never,0,0,2,2025-10-12,2025,DOC0004,
-P00728,19,Female,155.8,47.7,19.7,Healthcare Worker,Moderate,Never,1,0,1,2023-01-10,2023,DOC0018,
-P00729,41,Female,161.6,55.5,21.3,Office Worker,Active,Former,0,0,1,2023-02-11,2023,DOC0012,
-P00730,51,Female,159.8,79.1,31.0,Office Worker,Active,Never,0,0,0,2024-09-15,2024,DOC0017,
-P00731,55,Female,170.4,65.8,22.7,Student,Highly Active,Never,0,1,0,2024-09-03,2024,DOC0006,
-P00732,38,Male,170.9,77.5,26.5,Manual Labor,Active,Never,0,0,2,2025-10-12,2025,DOC0001,
-P00733,65,Male,164.1,90.0,33.4,Office Worker,Moderate,Never,1,0,2,2025-04-18,2025,DOC0015,
-P00734,57,Female,162.9,57.7,21.7,Athlete,Sedentary,Former,1,0,0,2025-02-14,2025,DOC0012,
-P00735,26,Female,164.4,83.5,30.9,Athlete,Active,Never,0,0,0,2023-06-05,2023,DOC0008,
-P00736,51,Male,167.5,85.1,30.3,Office Worker,Sedentary,Never,0,1,0,2024-12-10,2024,DOC0005,
-P00737,55,Male,171.1,75.1,25.7,Athlete,Sedentary,Current,1,1,0,2025-01-12,2025,DOC0014,
-P00738,33,Male,182.5,93.9,28.2,Athlete,Moderate,Former,1,1,1,2024-12-19,2024,DOC0003,
-P00739,55,Male,179.2,85.6,26.7,Athlete,Active,Never,0,0,1,2025-08-25,2025,DOC0018,
-P00740,64,Female,169.1,58.5,20.5,Retired,Highly Active,Current,0,0,0,2024-02-15,2024,DOC0002,
-P00741,59,Male,179.3,79.9,24.9,Athlete,Active,Never,0,1,0,2023-04-19,2023,DOC0009,
-P00742,56,Female,160.9,65.0,25.1,Athlete,Highly Active,Former,1,0,0,2024-11-03,2024,DOC0007,
-P00743,49,Female,164.4,67.9,25.1,Office Worker,Active,Never,0,0,0,2023-02-26,2023,DOC0005,
-P00744,29,Female,144.8,88.0,42.0,Office Worker,Active,Never,0,0,0,2023-06-09,2023,DOC0017,
-P00745,58,Male,171.7,84.6,28.7,Healthcare Worker,Sedentary,Never,0,0,0,2023-02-10,2023,DOC0001,
-P00746,35,Male,178.0,65.6,20.7,Retired,Active,Never,0,0,1,2023-01-07,2023,DOC0009,
-P00747,44,Female,161.7,68.6,26.2,Office Worker,Sedentary,Never,0,0,0,2024-03-03,2024,DOC0006,
-P00748,32,Female,166.2,65.4,23.7,Office Worker,Sedentary,Never,0,1,0,2025-12-22,2025,DOC0011,
-P00749,32,Male,178.9,70.5,22.0,Office Worker,Sedentary,Never,0,1,0,2024-12-07,2024,DOC0009,
-P00750,23,Female,155.2,67.7,28.1,Athlete,Active,Never,0,1,1,2025-04-08,2025,DOC0003,
-P00751,67,Male,183.3,82.3,24.5,Office Worker,Active,Never,0,0,2,2024-07-05,2024,DOC0002,
-P00752,23,Female,162.4,64.4,24.4,Athlete,Highly Active,Current,0,0,0,2023-03-27,2023,DOC0001,
-P00753,19,Male,170.7,83.4,28.6,Athlete,Highly Active,Former,0,0,0,2023-05-22,2023,DOC0020,
-P00754,66,Male,182.2,77.3,23.3,Manual Labor,Highly Active,Current,0,1,1,2025-03-26,2025,DOC0004,
-P00755,45,Male,172.8,78.2,26.2,Athlete,Sedentary,Never,0,0,0,2024-09-24,2024,DOC0011,
-P00756,39,Male,164.7,85.9,31.7,Athlete,Highly Active,Never,0,1,0,2025-07-25,2025,DOC0017,
-P00757,55,Male,167.3,69.3,24.8,Office Worker,Active,Never,0,0,0,2023-05-13,2023,DOC0003,
-P00758,36,Male,182.2,78.5,23.6,Office Worker,Highly Active,Never,0,0,0,2025-01-05,2025,DOC0006,
-P00759,22,Male,161.5,74.3,28.5,Athlete,Sedentary,Never,1,0,0,2025-10-09,2025,DOC0003,
-P00760,55,Female,163.1,66.3,24.9,Athlete,Sedentary,Current,1,0,0,2025-02-08,2025,DOC0003,
-P00761,24,Male,174.6,67.0,22.0,Athlete,Highly Active,Never,0,1,1,2023-05-20,2023,DOC0003,
-P00762,45,Female,159.8,60.1,23.5,Office Worker,Sedentary,Former,0,0,0,2025-02-01,2025,DOC0002,
-P00763,67,Female,156.6,76.5,31.2,Student,Moderate,Never,0,0,0,2024-09-04,2024,DOC0001,
-P00764,66,Male,167.9,62.1,22.0,Retired,Moderate,Never,0,0,1,2025-06-19,2025,DOC0001,
-P00765,34,Male,181.1,59.5,18.1,Office Worker,Sedentary,Never,1,1,1,2024-07-04,2024,DOC0005,
-P00766,57,Female,154.4,45.5,19.1,Office Worker,Sedentary,Current,0,0,1,2024-09-02,2024,DOC0002,
-P00767,48,Female,155.0,85.2,35.5,Student,Highly Active,Never,0,0,1,2024-03-03,2024,DOC0005,
-P00768,41,Male,172.2,75.8,25.6,Manual Labor,Highly Active,Never,0,0,2,2025-07-19,2025,DOC0003,
-P00769,22,Female,172.4,81.8,27.5,Athlete,Highly Active,Never,0,0,0,2023-08-04,2023,DOC0010,
-P00770,35,Male,184.1,82.2,24.3,Athlete,Moderate,Never,1,0,0,2024-05-04,2024,DOC0002,
-P00771,50,Male,165.5,83.7,30.6,Office Worker,Moderate,Current,0,1,0,2024-05-07,2024,DOC0002,
-P00772,69,Female,159.6,55.6,21.8,Manual Labor,Moderate,Current,0,0,1,2025-09-21,2025,DOC0013,
-P00773,15,Male,174.8,89.3,29.2,Athlete,Moderate,Former,0,0,0,2024-10-06,2024,DOC0011,
-P00774,54,Female,160.6,59.8,23.2,Office Worker,Sedentary,Current,1,0,0,2024-01-01,2024,DOC0003,
-P00775,61,Male,170.3,88.4,30.5,Office Worker,Active,Former,0,0,1,2024-11-25,2024,DOC0006,
-P00776,67,Female,170.4,62.3,21.5,Office Worker,Highly Active,Never,0,0,0,2024-03-24,2024,DOC0004,
-P00777,38,Male,166.1,80.1,29.0,Office Worker,Moderate,Never,0,1,0,2024-07-05,2024,DOC0008,
-P00778,21,Male,175.7,82.2,26.6,Manual Labor,Moderate,Never,0,0,0,2025-04-08,2025,DOC0005,
-P00779,29,Male,166.4,76.2,27.5,Manual Labor,Moderate,Never,0,0,0,2025-10-06,2025,DOC0017,
-P00780,61,Male,159.7,82.9,32.5,Office Worker,Sedentary,Never,0,0,0,2024-03-20,2024,DOC0001,
-P00781,63,Female,168.1,58.8,20.8,Athlete,Moderate,Never,0,0,0,2023-04-07,2023,DOC0006,
-P00782,50,Male,162.4,70.2,26.6,Student,Moderate,Current,0,0,0,2024-10-26,2024,DOC0003,
-P00783,21,Male,169.7,97.3,33.8,Office Worker,Moderate,Current,0,1,1,2023-07-23,2023,DOC0001,
-P00784,21,Male,168.6,90.6,31.9,Athlete,Moderate,Never,0,0,0,2023-11-16,2023,DOC0005,
-P00785,41,Male,168.9,68.9,24.2,Office Worker,Active,Former,0,0,0,2025-10-01,2025,DOC0006,
-P00786,47,Female,166.5,70.7,25.5,Student,Moderate,Never,0,1,0,2024-01-24,2024,DOC0001,
-P00787,16,Male,175.4,69.1,22.5,Student,Sedentary,Never,0,0,0,2024-02-20,2024,DOC0002,
-P00788,52,Female,159.6,52.4,20.6,Retired,Sedentary,Never,0,0,0,2025-06-22,2025,DOC0001,
-P00789,44,Male,162.6,90.4,34.2,Manual Labor,Sedentary,Never,0,1,0,2023-08-02,2023,DOC0008,
-P00790,15,Female,162.7,48.9,18.5,Office Worker,Active,Never,0,1,1,2023-05-20,2023,DOC0020,
-P00791,20,Male,176.5,89.1,28.6,Office Worker,Active,Never,0,0,0,2023-12-22,2023,DOC0009,
-P00792,39,Male,167.8,75.0,26.6,Athlete,Highly Active,Never,0,0,0,2023-11-26,2023,DOC0001,
-P00793,54,Female,165.8,74.3,27.0,Manual Labor,Active,Never,0,1,0,2025-11-16,2025,DOC0018,
-P00794,60,Female,164.0,61.0,22.7,Manual Labor,Moderate,Current,1,0,0,2025-05-14,2025,DOC0002,
-P00795,38,Female,166.5,60.1,21.7,Athlete,Sedentary,Never,0,0,1,2024-10-12,2024,DOC0005,
-P00796,31,Male,170.9,68.1,23.3,Retired,Moderate,Never,1,1,0,2023-10-19,2023,DOC0001,
-P00797,68,Male,176.2,86.6,27.9,Office Worker,Moderate,Never,0,0,0,2024-03-25,2024,DOC0003,
-P00798,40,Female,152.3,68.7,29.6,Athlete,Highly Active,Never,0,0,1,2023-11-17,2023,DOC0011,
-P00799,32,Male,173.1,62.9,21.0,Office Worker,Moderate,Never,0,0,0,2024-03-07,2024,DOC0001,
-P00800,39,Female,167.3,58.4,20.9,Retired,Moderate,Never,0,0,1,2024-11-01,2024,DOC0003,
-P00801,42,Female,168.0,65.0,23.0,Office Worker,Moderate,Never,0,0,0,2026-08-31,2025,DOC0001,Test
-P00802,42,Female,168.0,65.0,23.0,Office Worker,Moderate,Never,0,0,0,2026-08-31,2025,DOC0001,Test
-P00803,42,Female,168.0,65.0,23.0,Office Worker,Moderate,Never,0,0,0,2026-08-31,2025,DOC0001,Test
+Patient_ID,Age,Gender,Height_cm,Weight_kg,BMI,Occupation,Activity_Level,Smoking_Status,Diabetes,Hypertension,Previous_Injuries,Enrollment_Date,Enrollment_Year,Assigned_Doctor_ID
+P00001,19,Male,168.1,71.5,25.3,Healthcare Worker,Highly Active,Never,0,0,0,2023-10-01,2023,DOC0005
+P00002,57,Female,164.9,83.4,30.7,Office Worker,Moderate,Never,0,0,0,2025-11-23,2025,DOC0010
+P00003,51,Female,163.4,72.9,27.3,Retired,Highly Active,Current,0,1,0,2025-06-21,2025,DOC0001
+P00004,39,Male,187.6,99.0,28.1,Office Worker,Highly Active,Never,0,0,1,2025-01-09,2025,DOC0005
+P00005,38,Female,159.4,70.4,27.7,Manual Labor,Active,Never,0,1,0,2023-02-18,2023,DOC0006
+P00006,62,Female,166.8,74.4,26.7,Athlete,Highly Active,Never,0,0,0,2024-11-17,2024,DOC0004
+P00007,19,Male,167.0,89.6,32.1,Office Worker,Moderate,Former,0,0,0,2025-09-04,2025,DOC0001
+P00008,53,Female,160.2,73.6,28.7,Manual Labor,Active,Never,0,0,1,2023-12-06,2023,DOC0002
+P00009,26,Male,174.2,75.1,24.7,Manual Labor,Active,Never,0,0,0,2025-07-19,2025,DOC0003
+P00010,20,Female,172.2,64.2,21.7,Office Worker,Active,Never,0,1,1,2023-11-26,2023,DOC0004
+P00011,43,Female,154.0,58.3,24.6,Student,Sedentary,Never,0,1,0,2025-08-16,2025,DOC0003
+P00012,68,Female,166.6,44.1,15.9,Healthcare Worker,Active,Current,0,1,1,2024-06-16,2024,DOC0002
+P00013,55,Male,169.7,84.7,29.4,Office Worker,Highly Active,Never,0,1,1,2024-09-18,2024,DOC0005
+P00014,56,Female,163.3,67.0,25.1,Manual Labor,Moderate,Never,0,0,1,2024-08-12,2024,DOC0004
+P00015,54,Male,177.6,83.6,26.5,Student,Highly Active,Never,0,0,1,2023-03-02,2023,DOC0018
+P00016,58,Male,177.9,65.9,20.8,Office Worker,Moderate,Never,0,1,0,2023-06-11,2023,DOC0003
+P00017,43,Male,165.8,96.1,35.0,Retired,Sedentary,Never,1,0,1,2025-08-25,2025,DOC0018
+P00018,22,Female,158.6,87.6,34.8,Office Worker,Sedentary,Former,1,1,1,2024-09-22,2024,DOC0005
+P00019,61,Male,169.4,84.0,29.3,Student,Active,Never,0,0,0,2024-07-26,2024,DOC0006
+P00020,39,Female,160.5,64.3,25.0,Athlete,Active,Never,0,0,0,2023-12-05,2023,DOC0003
+P00021,42,Female,157.3,68.4,27.6,Office Worker,Moderate,Never,0,0,1,2024-08-14,2024,DOC0005
+P00022,35,Male,165.4,79.1,28.9,Manual Labor,Active,Former,0,0,0,2024-12-16,2024,DOC0004
+P00023,25,Male,172.8,78.1,26.2,Manual Labor,Moderate,Never,0,0,0,2023-01-06,2023,DOC0001
+P00024,65,Male,177.6,77.3,24.5,Retired,Moderate,Never,0,0,1,2025-02-06,2025,DOC0005
+P00025,57,Female,157.2,56.2,22.7,Healthcare Worker,Highly Active,Never,0,0,0,2024-02-22,2024,DOC0004
+P00026,50,Female,153.8,59.0,24.9,Athlete,Active,Never,0,0,1,2024-06-19,2024,DOC0002
+P00027,37,Male,185.7,95.8,27.8,Office Worker,Active,Current,0,0,0,2025-12-18,2025,DOC0010
+P00028,60,Female,165.3,79.8,29.2,Office Worker,Active,Never,0,0,0,2024-06-08,2024,DOC0002
+P00029,44,Male,173.2,68.6,22.9,Office Worker,Highly Active,Never,1,0,2,2025-10-14,2025,DOC0005
+P00030,39,Female,167.8,69.9,24.8,Office Worker,Moderate,Never,0,1,0,2024-10-01,2024,DOC0006
+P00031,39,Female,162.5,60.9,23.1,Retired,Moderate,Never,0,0,0,2024-02-04,2024,DOC0005
+P00032,27,Female,164.4,92.4,34.2,Student,Sedentary,Never,1,0,1,2023-09-14,2023,DOC0002
+P00033,20,Female,163.8,60.3,22.5,Athlete,Active,Never,0,0,0,2023-04-09,2023,DOC0005
+P00034,45,Female,161.5,58.7,22.5,Office Worker,Active,Never,0,0,1,2024-08-27,2024,DOC0002
+P00035,63,Male,185.4,84.9,24.7,Manual Labor,Active,Former,0,0,0,2023-12-13,2023,DOC0011
+P00036,18,Male,167.6,70.3,25.0,Office Worker,Moderate,Former,0,0,0,2023-09-03,2023,DOC0004
+P00037,62,Male,165.7,74.9,27.3,Athlete,Sedentary,Never,0,0,0,2024-12-01,2024,DOC0003
+P00038,60,Male,171.6,89.6,30.4,Office Worker,Active,Current,0,0,0,2025-05-20,2025,DOC0009
+P00039,30,Female,164.6,49.7,18.3,Office Worker,Highly Active,Current,0,0,1,2023-12-05,2023,DOC0017
+P00040,49,Female,163.5,81.0,30.3,Athlete,Moderate,Never,0,0,0,2025-08-06,2025,DOC0019
+P00041,24,Female,153.6,65.8,27.9,Student,Sedentary,Never,1,0,2,2025-01-12,2025,DOC0005
+P00042,56,Male,170.3,79.3,27.3,Office Worker,Moderate,Never,0,0,1,2025-07-08,2025,DOC0019
+P00043,53,Female,161.4,46.9,18.0,Manual Labor,Moderate,Never,0,0,0,2025-12-17,2025,DOC0002
+P00044,34,Male,168.8,55.0,19.3,Manual Labor,Moderate,Never,0,0,0,2025-06-14,2025,DOC0001
+P00045,18,Male,191.0,81.3,22.3,Retired,Moderate,Never,0,0,0,2023-06-04,2023,DOC0003
+P00046,68,Female,165.8,64.6,23.5,Athlete,Active,Current,0,0,2,2024-08-22,2024,DOC0006
+P00047,39,Female,154.4,72.1,30.2,Athlete,Moderate,Never,0,0,0,2025-06-12,2025,DOC0003
+P00048,64,Female,172.7,56.6,19.0,Office Worker,Moderate,Former,1,0,1,2024-11-17,2024,DOC0006
+P00049,52,Male,173.7,73.0,24.2,Office Worker,Sedentary,Never,0,0,0,2025-04-01,2025,DOC0019
+P00050,57,Female,161.9,59.9,22.9,Office Worker,Highly Active,Never,0,1,0,2025-10-17,2025,DOC0016
+P00051,56,Male,156.4,78.1,31.9,Student,Moderate,Current,0,0,0,2023-08-08,2023,DOC0017
+P00052,25,Female,163.0,74.5,28.0,Office Worker,Moderate,Never,0,0,0,2023-03-14,2023,DOC0012
+P00053,35,Female,161.8,78.1,29.8,Athlete,Sedentary,Never,0,0,1,2024-10-09,2024,DOC0009
+P00054,40,Male,159.3,87.4,34.4,Office Worker,Active,Never,0,1,0,2023-07-27,2023,DOC0005
+P00055,42,Male,166.6,87.0,31.3,Student,Highly Active,Former,0,0,1,2024-03-07,2024,DOC0001
+P00056,17,Male,184.3,88.1,25.9,Retired,Sedentary,Never,0,0,1,2025-03-25,2025,DOC0008
+P00057,45,Female,162.1,68.6,26.1,Student,Sedentary,Never,0,1,0,2024-07-25,2024,DOC0009
+P00058,23,Male,184.0,81.6,24.1,Manual Labor,Sedentary,Never,0,0,0,2023-12-12,2023,DOC0005
+P00059,55,Female,162.8,55.3,20.9,Student,Active,Never,0,0,1,2025-01-09,2025,DOC0008
+P00060,52,Female,161.6,76.6,29.3,Manual Labor,Highly Active,Never,1,0,1,2023-07-11,2023,DOC0003
+P00061,65,Female,154.0,64.3,27.1,Office Worker,Moderate,Never,0,0,1,2025-01-27,2025,DOC0003
+P00062,55,Male,178.7,76.6,24.0,Manual Labor,Moderate,Never,1,0,0,2023-04-17,2023,DOC0017
+P00063,35,Female,165.4,65.5,23.9,Student,Active,Never,0,0,1,2025-12-15,2025,DOC0011
+P00064,68,Male,171.0,101.1,34.6,Office Worker,Active,Never,0,0,0,2024-09-01,2024,DOC0004
+P00065,37,Female,163.2,78.5,29.5,Manual Labor,Moderate,Former,0,0,1,2024-09-23,2024,DOC0005
+P00066,32,Female,159.1,71.9,28.4,Office Worker,Sedentary,Never,0,0,0,2024-12-03,2024,DOC0005
+P00067,64,Female,169.8,73.0,25.3,Manual Labor,Moderate,Never,0,1,0,2023-03-02,2023,DOC0005
+P00068,35,Female,159.0,78.1,30.9,Athlete,Active,Never,0,0,1,2024-12-08,2024,DOC0002
+P00069,19,Male,166.7,89.6,32.2,Manual Labor,Active,Current,1,0,1,2025-07-13,2025,DOC0004
+P00070,40,Male,175.6,66.1,21.4,Retired,Active,Never,0,0,0,2025-09-25,2025,DOC0009
+P00071,58,Male,177.3,83.9,26.7,Athlete,Active,Never,0,0,2,2023-04-22,2023,DOC0005
+P00072,25,Male,169.5,76.7,26.7,Office Worker,Moderate,Never,0,0,1,2024-04-06,2024,DOC0005
+P00073,40,Male,175.2,84.7,27.6,Athlete,Moderate,Never,0,0,0,2025-02-11,2025,DOC0003
+P00074,22,Male,179.0,80.8,25.2,Athlete,Sedentary,Never,0,0,0,2025-07-22,2025,DOC0005
+P00075,52,Male,179.3,92.4,28.7,Healthcare Worker,Highly Active,Never,0,1,0,2024-11-15,2024,DOC0005
+P00076,41,Male,185.9,78.9,22.8,Office Worker,Active,Never,0,1,0,2023-05-05,2023,DOC0005
+P00077,33,Male,183.9,76.0,22.5,Office Worker,Moderate,Never,0,0,0,2025-11-11,2025,DOC0004
+P00078,27,Female,166.0,83.3,30.2,Office Worker,Sedentary,Former,0,0,0,2024-10-17,2024,DOC0019
+P00079,46,Female,173.5,64.0,21.3,Healthcare Worker,Active,Former,0,0,0,2024-12-27,2024,DOC0004
+P00080,51,Male,171.3,86.8,29.6,Office Worker,Active,Never,0,0,0,2025-09-18,2025,DOC0012
+P00081,66,Male,182.3,70.0,21.1,Student,Active,Current,0,0,1,2023-02-01,2023,DOC0003
+P00082,39,Male,175.5,65.5,21.3,Office Worker,Moderate,Former,1,1,0,2025-07-20,2025,DOC0019
+P00083,23,Female,166.0,80.7,29.3,Athlete,Highly Active,Former,0,1,0,2023-09-07,2023,DOC0004
+P00084,60,Male,162.3,70.6,26.8,Manual Labor,Active,Former,1,0,0,2025-07-24,2025,DOC0004
+P00085,49,Male,173.8,87.4,28.9,Athlete,Active,Never,0,1,0,2025-02-11,2025,DOC0019
+P00086,53,Male,164.1,89.7,33.3,Manual Labor,Active,Never,0,1,0,2025-12-06,2025,DOC0002
+P00087,20,Male,181.8,76.1,23.0,Office Worker,Highly Active,Never,0,0,0,2025-04-13,2025,DOC0017
+P00088,32,Male,185.6,95.2,27.6,Student,Highly Active,Never,0,1,1,2025-09-07,2025,DOC0018
+P00089,57,Female,169.0,74.4,26.0,Student,Active,Never,0,0,0,2023-10-07,2023,DOC0005
+P00090,60,Female,179.1,72.9,22.7,Student,Moderate,Never,0,0,1,2025-05-16,2025,DOC0002
+P00091,38,Female,164.2,71.9,26.7,Athlete,Moderate,Never,0,0,0,2025-01-21,2025,DOC0015
+P00092,59,Female,165.5,68.8,25.1,Student,Active,Current,1,0,0,2024-09-23,2024,DOC0001
+P00093,61,Female,159.0,62.4,24.7,Healthcare Worker,Active,Former,0,0,0,2024-04-11,2024,DOC0005
+P00094,36,Male,174.7,79.5,26.0,Office Worker,Sedentary,Never,0,1,0,2023-11-02,2023,DOC0003
+P00095,64,Female,158.4,55.0,21.9,Office Worker,Sedentary,Never,0,0,0,2024-06-14,2024,DOC0001
+P00096,30,Male,171.6,67.3,22.9,Student,Highly Active,Never,0,0,0,2025-06-12,2025,DOC0001
+P00097,28,Male,182.0,60.4,18.2,Athlete,Highly Active,Current,0,0,1,2024-09-06,2024,DOC0001
+P00098,52,Female,172.3,69.4,23.4,Manual Labor,Highly Active,Former,0,0,0,2024-11-25,2024,DOC0002
+P00099,50,Male,180.6,68.6,21.0,Student,Moderate,Never,0,0,0,2024-03-27,2024,DOC0004
+P00100,22,Male,171.9,114.7,38.8,Athlete,Active,Never,0,0,1,2023-04-02,2023,DOC0003
+P00101,60,Female,160.1,63.1,24.6,Manual Labor,Active,Never,0,1,0,2025-05-22,2025,DOC0005
+P00102,25,Female,161.0,47.6,18.4,Manual Labor,Moderate,Former,0,0,0,2023-11-18,2023,DOC0004
+P00103,59,Female,167.8,65.1,23.1,Office Worker,Sedentary,Current,0,0,1,2023-10-08,2023,DOC0011
+P00104,15,Male,179.6,96.4,29.9,Retired,Highly Active,Never,0,0,0,2023-11-18,2023,DOC0002
+P00105,58,Male,179.6,78.8,24.4,Athlete,Sedentary,Never,0,0,0,2025-02-04,2025,DOC0015
+P00106,58,Female,160.8,66.5,25.7,Office Worker,Active,Never,1,1,0,2025-04-02,2025,DOC0007
+P00107,57,Male,185.8,55.9,16.2,Student,Active,Never,0,0,0,2023-04-27,2023,DOC0002
+P00108,51,Female,153.6,70.8,30.0,Athlete,Active,Current,0,0,1,2023-03-18,2023,DOC0005
+P00109,40,Male,172.4,65.1,21.9,Student,Moderate,Former,0,0,2,2024-12-07,2024,DOC0018
+P00110,53,Male,177.6,55.3,17.5,Athlete,Active,Never,0,1,0,2023-09-13,2023,DOC0019
+P00111,30,Male,170.6,79.4,27.3,Office Worker,Moderate,Never,0,0,1,2025-04-26,2025,DOC0001
+P00112,57,Female,154.3,86.7,36.4,Athlete,Active,Never,0,0,0,2023-08-12,2023,DOC0005
+P00113,45,Male,170.8,62.1,21.3,Manual Labor,Moderate,Never,1,0,0,2024-10-25,2024,DOC0002
+P00114,40,Male,186.3,71.6,20.6,Student,Active,Never,1,0,1,2024-10-24,2024,DOC0012
+P00115,42,Male,177.5,68.0,21.6,Student,Active,Former,0,0,1,2024-04-10,2024,DOC0007
+P00116,46,Male,173.5,82.8,27.5,Healthcare Worker,Sedentary,Former,0,0,0,2024-03-19,2024,DOC0011
+P00117,17,Male,183.4,81.7,24.3,Manual Labor,Moderate,Never,0,0,0,2023-10-18,2023,DOC0006
+P00118,22,Female,164.3,71.2,26.4,Student,Active,Former,0,1,0,2023-08-21,2023,DOC0005
+P00119,28,Male,160.9,87.0,33.6,Manual Labor,Sedentary,Former,0,0,0,2023-03-10,2023,DOC0004
+P00120,21,Female,163.0,60.1,22.6,Retired,Sedentary,Never,0,1,0,2023-09-02,2023,DOC0013
+P00121,39,Female,168.1,53.4,18.9,Manual Labor,Moderate,Never,0,0,0,2025-11-05,2025,DOC0015
+P00122,51,Male,176.8,81.6,26.1,Retired,Highly Active,Never,0,0,0,2023-10-17,2023,DOC0012
+P00123,50,Male,165.7,84.1,30.6,Office Worker,Active,Former,0,0,0,2023-11-21,2023,DOC0007
+P00124,40,Female,159.2,69.7,27.5,Office Worker,Moderate,Never,0,0,0,2023-07-21,2023,DOC0002
+P00125,62,Male,189.0,73.2,20.5,Student,Highly Active,Never,1,0,0,2025-05-16,2025,DOC0004
+P00126,46,Male,180.8,74.0,22.6,Office Worker,Moderate,Never,0,0,1,2025-11-03,2025,DOC0011
+P00127,19,Female,163.2,72.9,27.4,Office Worker,Moderate,Never,0,0,0,2025-05-01,2025,DOC0003
+P00128,57,Female,165.8,64.1,23.3,Healthcare Worker,Moderate,Never,0,0,0,2024-07-22,2024,DOC0002
+P00129,46,Female,162.8,43.7,16.5,Office Worker,Moderate,Former,0,0,0,2025-01-15,2025,DOC0001
+P00130,49,Male,160.1,70.0,27.3,Athlete,Moderate,Never,0,1,1,2024-05-22,2024,DOC0018
+P00131,46,Female,162.6,79.1,29.9,Office Worker,Active,Never,1,0,0,2025-03-05,2025,DOC0002
+P00132,45,Female,166.7,56.3,20.3,Office Worker,Sedentary,Current,0,0,0,2025-02-12,2025,DOC0005
+P00133,19,Male,164.0,89.7,33.4,Manual Labor,Active,Never,0,0,0,2023-06-25,2023,DOC0001
+P00134,45,Female,157.2,63.2,25.6,Retired,Moderate,Never,1,1,2,2024-06-05,2024,DOC0004
+P00135,58,Male,166.9,67.6,24.3,Healthcare Worker,Moderate,Never,0,0,0,2023-09-02,2023,DOC0001
+P00136,31,Male,168.2,87.7,31.0,Manual Labor,Sedentary,Never,0,0,0,2023-05-18,2023,DOC0005
+P00137,48,Male,175.4,71.3,23.2,Manual Labor,Active,Never,1,0,0,2025-04-17,2025,DOC0017
+P00138,16,Male,160.4,61.1,23.7,Office Worker,Active,Former,0,0,0,2023-06-26,2023,DOC0003
+P00139,34,Male,179.3,90.3,28.1,Retired,Moderate,Never,0,0,0,2025-04-25,2025,DOC0005
+P00140,39,Female,166.6,56.4,20.3,Office Worker,Sedentary,Never,0,0,0,2025-08-21,2025,DOC0005
+P00141,69,Female,160.3,70.7,27.5,Athlete,Moderate,Never,0,1,0,2024-03-01,2024,DOC0003
+P00142,26,Female,158.9,62.4,24.7,Healthcare Worker,Active,Former,0,0,0,2024-09-13,2024,DOC0011
+P00143,30,Female,170.4,63.0,21.7,Retired,Moderate,Never,0,0,2,2024-04-25,2024,DOC0004
+P00144,37,Female,155.7,71.6,29.5,Office Worker,Active,Former,1,0,0,2025-04-12,2025,DOC0002
+P00145,69,Male,155.6,63.6,26.3,Manual Labor,Moderate,Never,0,0,0,2023-09-26,2023,DOC0001
+P00146,61,Male,172.6,84.5,28.4,Office Worker,Sedentary,Never,0,0,1,2023-11-18,2023,DOC0018
+P00147,16,Male,166.7,72.2,26.0,Office Worker,Active,Never,0,0,1,2024-02-03,2024,DOC0012
+P00148,27,Male,180.6,100.7,30.9,Office Worker,Moderate,Never,1,0,0,2025-09-14,2025,DOC0018
+P00149,60,Female,167.5,63.4,22.6,Athlete,Sedentary,Never,0,0,1,2023-02-19,2023,DOC0005
+P00150,18,Male,177.8,51.2,16.2,Manual Labor,Highly Active,Former,0,0,0,2024-12-02,2024,DOC0016
+P00151,62,Male,179.0,82.3,25.7,Office Worker,Sedentary,Never,0,1,1,2025-10-10,2025,DOC0001
+P00152,30,Male,187.9,101.3,28.7,Manual Labor,Moderate,Never,0,0,1,2023-05-20,2023,DOC0005
+P00153,65,Male,173.6,96.9,32.2,Office Worker,Moderate,Never,1,0,1,2023-03-05,2023,DOC0002
+P00154,31,Female,162.6,69.9,26.4,Retired,Moderate,Never,1,0,0,2024-12-10,2024,DOC0004
+P00155,38,Male,164.6,65.8,24.3,Manual Labor,Active,Never,0,0,2,2023-03-19,2023,DOC0001
+P00156,51,Male,183.3,88.9,26.5,Retired,Sedentary,Never,0,0,0,2023-03-21,2023,DOC0005
+P00157,21,Male,169.7,69.3,24.1,Athlete,Highly Active,Never,0,1,1,2024-01-14,2024,DOC0005
+P00158,45,Male,171.1,80.7,27.6,Manual Labor,Active,Never,0,0,0,2024-05-26,2024,DOC0001
+P00159,42,Female,157.1,75.3,30.5,Student,Highly Active,Never,0,0,1,2024-07-25,2024,DOC0004
+P00160,58,Male,164.1,70.3,26.1,Office Worker,Active,Never,0,0,0,2024-03-13,2024,DOC0004
+P00161,69,Male,176.6,69.9,22.4,Athlete,Highly Active,Never,0,1,0,2024-10-05,2024,DOC0019
+P00162,51,Male,181.8,88.8,26.9,Office Worker,Active,Never,1,0,0,2024-12-21,2024,DOC0005
+P00163,37,Female,175.2,67.5,22.0,Office Worker,Moderate,Current,0,1,1,2025-09-07,2025,DOC0001
+P00164,37,Female,158.9,72.0,28.5,Office Worker,Moderate,Never,0,0,0,2025-10-23,2025,DOC0003
+P00165,37,Female,164.5,68.1,25.2,Office Worker,Active,Former,0,0,0,2024-04-16,2024,DOC0006
+P00166,59,Female,168.4,67.7,23.9,Office Worker,Moderate,Never,0,0,0,2025-01-11,2025,DOC0017
+P00167,32,Female,162.6,56.9,21.5,Manual Labor,Active,Never,0,0,0,2025-02-16,2025,DOC0002
+P00168,24,Male,167.5,88.4,31.5,Athlete,Sedentary,Never,0,0,0,2023-07-15,2023,DOC0015
+P00169,33,Male,181.1,92.1,28.1,Office Worker,Active,Never,0,0,0,2025-09-25,2025,DOC0003
+P00170,16,Male,176.9,90.7,29.0,Manual Labor,Moderate,Former,0,0,0,2025-03-06,2025,DOC0002
+P00171,20,Male,177.9,68.9,21.8,Athlete,Highly Active,Former,1,0,0,2023-03-26,2023,DOC0003
+P00172,19,Female,159.9,60.1,23.5,Office Worker,Sedentary,Never,1,0,0,2023-02-01,2023,DOC0004
+P00173,57,Male,178.3,56.8,17.9,Office Worker,Sedentary,Never,0,1,0,2024-02-21,2024,DOC0005
+P00174,54,Female,167.1,82.0,29.4,Athlete,Active,Never,0,0,0,2024-07-25,2024,DOC0001
+P00175,53,Female,163.9,57.6,21.4,Office Worker,Active,Never,0,0,0,2025-03-11,2025,DOC0005
+P00176,40,Male,173.5,69.0,22.9,Athlete,Active,Former,0,0,0,2024-07-02,2024,DOC0008
+P00177,54,Female,161.4,47.5,18.2,Office Worker,Highly Active,Never,1,0,0,2023-12-22,2023,DOC0005
+P00178,23,Female,160.0,56.7,22.1,Healthcare Worker,Moderate,Never,1,0,1,2023-02-23,2023,DOC0005
+P00179,64,Female,178.2,46.2,14.5,Retired,Active,Current,0,0,1,2025-06-10,2025,DOC0011
+P00180,42,Male,171.3,74.5,25.4,Office Worker,Moderate,Current,0,0,0,2023-12-15,2023,DOC0004
+P00181,66,Male,167.8,76.4,27.1,Office Worker,Moderate,Never,0,0,0,2025-03-22,2025,DOC0010
+P00182,23,Male,191.2,80.7,22.1,Office Worker,Moderate,Never,0,0,0,2023-09-06,2023,DOC0001
+P00183,42,Male,177.3,97.2,30.9,Student,Sedentary,Former,1,0,0,2024-09-17,2024,DOC0003
+P00184,53,Male,169.9,83.1,28.8,Student,Active,Never,0,1,0,2024-04-12,2024,DOC0018
+P00185,42,Female,159.8,57.0,22.3,Athlete,Active,Never,0,0,0,2023-11-05,2023,DOC0001
+P00186,39,Female,162.8,79.3,29.9,Athlete,Sedentary,Never,0,0,1,2024-09-23,2024,DOC0011
+P00187,24,Male,173.2,64.0,21.3,Office Worker,Highly Active,Current,0,0,1,2024-12-09,2024,DOC0005
+P00188,35,Male,178.9,87.1,27.2,Retired,Moderate,Current,0,0,0,2023-04-26,2023,DOC0010
+P00189,28,Male,166.0,74.5,27.0,Retired,Sedentary,Former,1,0,2,2024-06-16,2024,DOC0003
+P00190,31,Male,177.5,47.8,15.2,Athlete,Active,Never,0,0,0,2025-07-14,2025,DOC0004
+P00191,52,Female,163.3,62.5,23.4,Manual Labor,Sedentary,Never,0,1,0,2025-08-12,2025,DOC0005
+P00192,49,Male,178.3,65.8,20.7,Athlete,Sedentary,Never,0,0,0,2024-05-11,2024,DOC0014
+P00193,48,Male,172.4,84.4,28.4,Manual Labor,Active,Current,0,0,0,2025-08-23,2025,DOC0003
+P00194,34,Female,157.1,51.0,20.7,Retired,Sedentary,Never,0,0,0,2023-07-19,2023,DOC0001
+P00195,67,Male,172.1,80.2,27.1,Office Worker,Sedentary,Never,0,0,0,2023-05-21,2023,DOC0012
+P00196,19,Male,173.2,101.4,33.8,Athlete,Active,Former,0,0,1,2024-05-12,2024,DOC0004
+P00197,33,Female,158.9,60.1,23.8,Manual Labor,Sedentary,Never,0,0,0,2024-01-08,2024,DOC0001
+P00198,21,Female,156.3,73.4,30.0,Office Worker,Active,Former,0,0,0,2025-09-03,2025,DOC0003
+P00199,33,Female,169.8,68.3,23.7,Student,Active,Never,0,0,1,2023-03-21,2023,DOC0018
+P00200,67,Female,165.8,71.5,26.0,Office Worker,Sedentary,Former,1,0,0,2024-11-12,2024,DOC0019
+P00201,35,Male,172.3,78.3,26.4,Retired,Moderate,Never,0,0,0,2024-05-14,2024,DOC0004
+P00202,64,Female,169.5,77.9,27.1,Office Worker,Sedentary,Never,0,0,0,2023-10-13,2023,DOC0003
+P00203,42,Female,178.9,75.2,23.5,Athlete,Active,Never,0,0,1,2024-03-12,2024,DOC0004
+P00204,53,Female,151.7,69.9,30.4,Office Worker,Sedentary,Never,0,0,0,2024-04-19,2024,DOC0003
+P00205,40,Female,157.6,75.2,30.3,Athlete,Highly Active,Never,0,0,1,2023-02-17,2023,DOC0004
+P00206,29,Female,158.3,73.3,29.3,Office Worker,Moderate,Never,0,0,1,2024-02-27,2024,DOC0008
+P00207,57,Female,156.9,60.2,24.5,Manual Labor,Active,Never,0,0,1,2023-08-04,2023,DOC0005
+P00208,68,Male,180.8,77.4,23.7,Athlete,Sedentary,Former,0,0,1,2025-12-16,2025,DOC0004
+P00209,29,Female,160.2,69.6,27.1,Athlete,Moderate,Never,0,0,0,2023-08-02,2023,DOC0002
+P00210,57,Male,163.8,71.0,26.5,Athlete,Moderate,Former,1,0,0,2023-03-22,2023,DOC0001
+P00211,29,Female,164.0,77.0,28.6,Athlete,Active,Former,0,1,0,2023-06-17,2023,DOC0006
+P00212,54,Female,162.3,54.7,20.8,Retired,Highly Active,Never,1,1,0,2023-12-12,2023,DOC0003
+P00213,58,Female,164.9,55.0,20.2,Retired,Sedentary,Former,0,0,0,2023-05-22,2023,DOC0012
+P00214,39,Female,165.0,70.1,25.7,Athlete,Sedentary,Never,0,0,0,2024-01-13,2024,DOC0002
+P00215,55,Male,177.0,70.7,22.6,Student,Moderate,Never,0,0,0,2023-11-07,2023,DOC0010
+P00216,29,Female,159.8,44.3,17.3,Student,Moderate,Never,0,0,0,2023-04-13,2023,DOC0006
+P00217,19,Female,174.7,69.1,22.6,Healthcare Worker,Highly Active,Former,0,0,0,2023-01-02,2023,DOC0005
+P00218,20,Male,154.9,96.5,40.2,Office Worker,Highly Active,Never,0,0,0,2024-04-25,2024,DOC0016
+P00219,39,Male,172.8,75.7,25.4,Office Worker,Highly Active,Never,0,0,0,2023-03-20,2023,DOC0007
+P00220,64,Male,173.8,81.1,26.8,Office Worker,Sedentary,Current,0,0,0,2024-06-21,2024,DOC0005
+P00221,22,Female,151.6,85.1,37.0,Retired,Moderate,Never,0,0,2,2024-04-24,2024,DOC0005
+P00222,40,Male,175.7,72.6,23.5,Student,Active,Current,0,0,0,2025-05-22,2025,DOC0019
+P00223,53,Female,161.3,61.4,23.6,Office Worker,Moderate,Former,0,0,0,2023-10-12,2023,DOC0004
+P00224,26,Male,167.4,97.0,34.6,Office Worker,Active,Current,0,1,1,2025-09-04,2025,DOC0004
+P00225,54,Female,174.1,84.6,27.9,Student,Moderate,Current,0,0,1,2024-06-11,2024,DOC0002
+P00226,31,Male,168.6,94.6,33.3,Retired,Moderate,Current,0,0,0,2023-12-26,2023,DOC0003
+P00227,59,Female,166.4,59.8,21.6,Office Worker,Highly Active,Never,0,0,0,2024-10-26,2024,DOC0001
+P00228,46,Male,185.3,97.5,28.4,Manual Labor,Moderate,Former,0,0,2,2025-12-21,2025,DOC0001
+P00229,45,Female,156.0,60.9,25.0,Office Worker,Highly Active,Former,0,0,0,2023-08-06,2023,DOC0001
+P00230,24,Female,162.2,72.9,27.7,Office Worker,Moderate,Never,0,0,0,2024-10-06,2024,DOC0005
+P00231,40,Female,163.0,48.8,18.4,Manual Labor,Sedentary,Never,0,1,1,2024-03-24,2024,DOC0010
+P00232,62,Female,150.9,63.1,27.7,Student,Moderate,Current,0,0,1,2023-02-04,2023,DOC0004
+P00233,16,Male,179.2,63.5,19.8,Healthcare Worker,Sedentary,Never,0,0,0,2025-07-16,2025,DOC0009
+P00234,56,Male,173.7,106.0,35.1,Office Worker,Moderate,Never,0,0,0,2023-01-11,2023,DOC0007
+P00235,42,Male,179.0,87.8,27.4,Office Worker,Sedentary,Never,0,1,0,2023-03-09,2023,DOC0007
+P00236,54,Male,165.1,74.0,27.1,Office Worker,Active,Never,0,0,2,2023-03-19,2023,DOC0002
+P00237,51,Female,158.8,61.5,24.4,Athlete,Highly Active,Former,0,1,0,2024-06-26,2024,DOC0012
+P00238,38,Female,160.9,56.8,21.9,Office Worker,Moderate,Never,0,0,1,2025-01-21,2025,DOC0007
+P00239,31,Female,162.5,62.6,23.7,Athlete,Sedentary,Former,0,0,0,2025-11-14,2025,DOC0008
+P00240,49,Female,165.6,68.3,24.9,Office Worker,Moderate,Former,0,1,0,2025-09-12,2025,DOC0005
+P00241,22,Female,168.5,75.8,26.7,Athlete,Active,Never,0,0,0,2024-08-25,2024,DOC0002
+P00242,47,Female,160.2,36.1,14.1,Office Worker,Active,Former,0,0,0,2024-07-16,2024,DOC0005
+P00243,20,Male,176.8,54.3,17.4,Student,Sedentary,Never,1,1,0,2024-12-14,2024,DOC0001
+P00244,50,Male,179.6,90.7,28.1,Office Worker,Moderate,Former,0,0,0,2023-03-19,2023,DOC0003
+P00245,49,Female,165.7,63.9,23.3,Manual Labor,Moderate,Current,0,0,0,2025-09-07,2025,DOC0011
+P00246,19,Female,159.4,69.4,27.3,Retired,Moderate,Never,0,1,0,2024-09-02,2024,DOC0017
+P00247,56,Male,172.1,106.3,35.9,Manual Labor,Sedentary,Former,0,1,0,2024-04-24,2024,DOC0005
+P00248,37,Male,190.6,73.8,20.3,Athlete,Highly Active,Never,1,1,1,2024-08-17,2024,DOC0011
+P00249,58,Female,169.8,59.2,20.5,Office Worker,Sedentary,Never,0,1,0,2025-08-05,2025,DOC0004
+P00250,17,Male,183.8,79.4,23.5,Manual Labor,Sedentary,Former,0,0,2,2023-12-09,2023,DOC0004
+P00251,24,Male,184.6,89.8,26.4,Manual Labor,Sedentary,Never,0,1,2,2025-10-27,2025,DOC0009
+P00252,42,Female,162.1,56.9,21.7,Athlete,Active,Never,0,0,2,2025-03-18,2025,DOC0010
+P00253,25,Female,162.1,64.3,24.5,Office Worker,Moderate,Never,0,0,2,2025-01-18,2025,DOC0020
+P00254,33,Male,182.0,90.7,27.4,Manual Labor,Moderate,Never,0,0,1,2023-06-02,2023,DOC0005
+P00255,51,Female,158.1,82.2,32.9,Office Worker,Moderate,Current,1,1,0,2023-09-27,2023,DOC0020
+P00256,22,Male,175.2,53.5,17.4,Manual Labor,Active,Never,1,0,0,2024-01-25,2024,DOC0004
+P00257,52,Female,162.6,75.5,28.6,Athlete,Moderate,Never,0,1,1,2025-11-15,2025,DOC0009
+P00258,20,Male,173.5,96.0,31.9,Office Worker,Highly Active,Never,1,0,1,2025-11-09,2025,DOC0011
+P00259,24,Female,162.5,64.3,24.4,Student,Moderate,Former,0,0,1,2024-09-19,2024,DOC0005
+P00260,47,Male,184.8,68.9,20.2,Office Worker,Sedentary,Never,0,0,1,2023-07-23,2023,DOC0004
+P00261,58,Male,176.3,76.0,24.5,Manual Labor,Highly Active,Never,1,0,0,2023-11-22,2023,DOC0002
+P00262,24,Female,163.4,62.2,23.3,Office Worker,Active,Never,0,0,0,2024-08-27,2024,DOC0002
+P00263,31,Male,180.8,86.8,26.6,Office Worker,Moderate,Never,0,0,0,2023-07-18,2023,DOC0001
+P00264,65,Male,181.4,61.7,18.8,Retired,Active,Current,0,0,0,2024-03-09,2024,DOC0001
+P00265,69,Male,179.6,67.9,21.1,Office Worker,Moderate,Never,0,0,0,2025-11-14,2025,DOC0006
+P00266,46,Female,163.7,52.6,19.6,Office Worker,Moderate,Never,0,0,0,2024-07-23,2024,DOC0005
+P00267,39,Female,164.9,54.4,20.0,Retired,Active,Former,0,0,1,2024-04-08,2024,DOC0002
+P00268,34,Female,155.5,88.6,36.6,Student,Active,Never,0,0,1,2023-01-07,2023,DOC0004
+P00269,48,Male,168.9,63.2,22.2,Manual Labor,Moderate,Never,0,0,0,2023-07-20,2023,DOC0012
+P00270,47,Male,163.6,82.3,30.7,Athlete,Active,Never,0,0,0,2024-04-12,2024,DOC0016
+P00271,31,Male,176.7,91.1,29.2,Athlete,Moderate,Never,0,0,0,2024-03-23,2024,DOC0001
+P00272,16,Female,155.7,68.1,28.1,Manual Labor,Sedentary,Former,0,0,1,2023-07-04,2023,DOC0005
+P00273,23,Female,161.8,71.4,27.3,Office Worker,Highly Active,Current,0,0,1,2023-08-10,2023,DOC0019
+P00274,67,Female,161.5,63.5,24.3,Office Worker,Moderate,Current,0,0,2,2023-11-08,2023,DOC0003
+P00275,37,Female,156.6,61.5,25.1,Student,Active,Current,0,0,0,2024-11-19,2024,DOC0003
+P00276,41,Male,182.8,77.1,23.1,Office Worker,Active,Never,0,0,0,2024-02-21,2024,DOC0002
+P00277,40,Female,169.4,49.8,17.4,Athlete,Active,Never,1,0,0,2024-09-13,2024,DOC0010
+P00278,58,Male,177.5,76.6,24.3,Athlete,Moderate,Never,0,0,0,2024-02-13,2024,DOC0020
+P00279,18,Male,165.3,67.3,24.6,Office Worker,Highly Active,Current,0,1,0,2023-08-04,2023,DOC0003
+P00280,19,Male,185.1,72.1,21.0,Manual Labor,Active,Former,0,0,2,2024-05-19,2024,DOC0003
+P00281,30,Male,174.0,80.4,26.6,Retired,Active,Never,0,0,0,2023-07-27,2023,DOC0005
+P00282,41,Male,177.0,73.5,23.5,Athlete,Moderate,Former,0,1,0,2025-03-22,2025,DOC0004
+P00283,51,Male,191.3,83.8,22.9,Athlete,Moderate,Former,0,0,0,2023-06-07,2023,DOC0012
+P00284,41,Male,185.6,84.3,24.5,Manual Labor,Sedentary,Current,0,0,1,2024-12-17,2024,DOC0008
+P00285,39,Female,161.7,74.5,28.5,Office Worker,Moderate,Former,1,1,0,2023-07-08,2023,DOC0017
+P00286,66,Male,170.8,95.1,32.6,Office Worker,Sedentary,Never,0,0,0,2025-11-01,2025,DOC0004
+P00287,23,Male,172.7,90.0,30.2,Retired,Active,Never,0,1,0,2023-02-05,2023,DOC0012
+P00288,46,Female,161.5,56.8,21.8,Manual Labor,Highly Active,Never,0,0,0,2025-08-03,2025,DOC0006
+P00289,44,Female,166.1,50.1,18.2,Office Worker,Moderate,Never,1,0,0,2023-10-06,2023,DOC0019
+P00290,41,Male,172.2,77.1,26.0,Healthcare Worker,Moderate,Current,1,0,0,2025-09-22,2025,DOC0003
+P00291,59,Male,185.3,72.6,21.1,Athlete,Active,Never,0,0,0,2024-11-08,2024,DOC0002
+P00292,29,Female,154.9,44.4,18.5,Retired,Sedentary,Never,0,1,1,2023-01-21,2023,DOC0002
+P00293,67,Male,191.1,72.7,19.9,Manual Labor,Highly Active,Never,0,0,1,2023-06-26,2023,DOC0005
+P00294,33,Male,175.6,72.3,23.4,Manual Labor,Moderate,Never,0,0,0,2024-03-16,2024,DOC0017
+P00295,44,Female,168.5,60.5,21.3,Retired,Sedentary,Never,0,0,1,2025-02-14,2025,DOC0017
+P00296,43,Male,177.5,74.2,23.6,Manual Labor,Sedentary,Never,0,0,0,2025-01-21,2025,DOC0011
+P00297,61,Female,147.7,51.6,23.7,Office Worker,Highly Active,Current,1,0,0,2023-08-03,2023,DOC0008
+P00298,39,Female,157.3,72.9,29.5,Office Worker,Moderate,Never,0,1,2,2024-06-12,2024,DOC0011
+P00299,30,Female,162.8,52.0,19.6,Manual Labor,Active,Never,0,0,0,2023-09-14,2023,DOC0005
+P00300,16,Male,178.2,80.0,25.2,Manual Labor,Sedentary,Never,0,1,0,2023-06-23,2023,DOC0005
+P00301,35,Male,181.9,74.5,22.5,Office Worker,Sedentary,Never,0,0,0,2024-07-22,2024,DOC0001
+P00302,60,Male,175.3,78.0,25.4,Student,Highly Active,Former,0,0,0,2023-11-23,2023,DOC0004
+P00303,15,Male,166.0,81.1,29.4,Manual Labor,Sedentary,Current,0,0,0,2023-12-19,2023,DOC0004
+P00304,64,Female,160.7,83.3,32.3,Office Worker,Sedentary,Never,0,0,1,2025-07-15,2025,DOC0004
+P00305,44,Male,165.0,102.9,37.8,Athlete,Moderate,Current,0,0,1,2025-03-23,2025,DOC0014
+P00306,22,Female,159.3,71.2,28.1,Office Worker,Highly Active,Former,0,0,1,2025-09-24,2025,DOC0011
+P00307,31,Female,164.5,65.2,24.1,Athlete,Moderate,Never,0,0,0,2023-09-13,2023,DOC0019
+P00308,45,Female,155.5,53.7,22.2,Athlete,Sedentary,Never,0,1,0,2025-04-27,2025,DOC0007
+P00309,32,Male,174.9,59.1,19.3,Office Worker,Highly Active,Never,0,1,0,2024-09-24,2024,DOC0005
+P00310,20,Male,159.2,87.2,34.4,Athlete,Active,Current,1,1,0,2024-08-14,2024,DOC0005
+P00311,51,Female,162.8,50.9,19.2,Office Worker,Highly Active,Never,1,1,0,2023-01-02,2023,DOC0001
+P00312,51,Female,143.6,69.4,33.7,Manual Labor,Active,Never,0,0,0,2025-09-07,2025,DOC0002
+P00313,21,Female,154.3,52.6,22.1,Office Worker,Active,Former,0,0,0,2024-01-21,2024,DOC0001
+P00314,30,Female,173.3,68.5,22.8,Healthcare Worker,Moderate,Current,0,1,2,2025-08-04,2025,DOC0005
+P00315,28,Female,158.7,50.7,20.1,Retired,Moderate,Former,0,1,1,2024-06-13,2024,DOC0004
+P00316,51,Male,186.9,90.6,25.9,Manual Labor,Active,Former,0,1,0,2025-01-17,2025,DOC0016
+P00317,55,Female,169.4,59.6,20.8,Healthcare Worker,Active,Never,0,0,1,2024-05-24,2024,DOC0003
+P00318,54,Male,178.9,64.7,20.2,Retired,Highly Active,Current,0,0,0,2025-02-23,2025,DOC0003
+P00319,66,Female,168.6,68.6,24.1,Office Worker,Active,Never,0,1,0,2023-01-21,2023,DOC0004
+P00320,57,Female,163.7,78.6,29.3,Student,Moderate,Never,0,1,0,2023-10-12,2023,DOC0002
+P00321,32,Male,180.4,72.4,22.2,Athlete,Moderate,Current,0,0,0,2025-04-04,2025,DOC0005
+P00322,20,Male,169.3,86.9,30.3,Manual Labor,Active,Never,0,1,0,2024-05-19,2024,DOC0001
+P00323,48,Male,181.1,64.1,19.5,Office Worker,Moderate,Never,0,0,0,2024-09-05,2024,DOC0010
+P00324,65,Female,175.7,60.5,19.6,Athlete,Active,Never,0,1,0,2025-01-16,2025,DOC0003
+P00325,68,Male,177.3,79.8,25.4,Office Worker,Active,Never,0,0,0,2024-07-27,2024,DOC0002
+P00326,27,Male,176.3,89.6,28.8,Healthcare Worker,Sedentary,Never,0,1,0,2025-10-15,2025,DOC0001
+P00327,28,Male,170.7,92.9,31.9,Office Worker,Active,Never,0,0,1,2023-08-18,2023,DOC0010
+P00328,17,Male,174.8,70.0,22.9,Athlete,Active,Former,1,0,0,2025-06-19,2025,DOC0003
+P00329,22,Male,170.6,89.2,30.6,Athlete,Highly Active,Former,0,0,1,2023-03-23,2023,DOC0001
+P00330,45,Male,167.5,68.6,24.5,Office Worker,Moderate,Never,1,0,0,2024-11-12,2024,DOC0015
+P00331,45,Male,172.5,99.9,33.6,Student,Active,Never,0,0,0,2025-06-14,2025,DOC0004
+P00332,35,Male,167.3,64.4,23.0,Student,Moderate,Former,0,1,0,2023-10-05,2023,DOC0004
+P00333,32,Male,177.3,93.9,29.9,Office Worker,Moderate,Never,0,0,2,2023-05-17,2023,DOC0019
+P00334,60,Male,166.9,70.1,25.2,Office Worker,Sedentary,Never,0,1,0,2023-09-08,2023,DOC0004
+P00335,40,Male,180.0,102.2,31.5,Athlete,Highly Active,Never,0,0,0,2024-02-14,2024,DOC0014
+P00336,59,Female,160.2,68.5,26.7,Office Worker,Highly Active,Never,1,0,0,2024-08-21,2024,DOC0005
+P00337,67,Male,171.0,65.8,22.5,Student,Moderate,Never,0,0,0,2023-01-01,2023,DOC0001
+P00338,32,Male,170.6,71.7,24.6,Student,Active,Former,0,0,3,2025-05-16,2025,DOC0005
+P00339,26,Male,184.3,87.4,25.7,Office Worker,Sedentary,Current,0,0,0,2023-01-05,2023,DOC0005
+P00340,67,Male,177.3,90.6,28.8,Manual Labor,Active,Never,0,1,0,2024-06-08,2024,DOC0003
+P00341,49,Male,173.5,77.2,25.6,Office Worker,Moderate,Never,0,1,1,2024-09-01,2024,DOC0011
+P00342,31,Male,178.5,78.5,24.6,Manual Labor,Active,Never,0,0,0,2023-11-05,2023,DOC0001
+P00343,49,Female,173.6,47.5,15.8,Manual Labor,Sedentary,Never,0,1,0,2023-06-27,2023,DOC0010
+P00344,43,Male,174.7,79.6,26.1,Manual Labor,Active,Former,0,0,1,2025-08-27,2025,DOC0018
+P00345,64,Male,189.0,62.5,17.5,Manual Labor,Moderate,Never,0,0,1,2024-01-20,2024,DOC0002
+P00346,29,Male,175.9,68.2,22.0,Retired,Active,Current,0,0,1,2023-01-17,2023,DOC0007
+P00347,69,Male,175.5,80.8,26.2,Office Worker,Active,Never,0,0,0,2025-04-21,2025,DOC0008
+P00348,66,Male,178.8,92.6,29.0,Athlete,Moderate,Never,0,0,0,2024-02-25,2024,DOC0005
+P00349,24,Female,170.2,59.8,20.6,Office Worker,Moderate,Never,0,0,0,2023-06-15,2023,DOC0005
+P00350,24,Female,162.3,50.5,19.2,Manual Labor,Active,Never,0,0,0,2024-07-01,2024,DOC0004
+P00351,44,Male,163.2,81.4,30.6,Manual Labor,Active,Current,0,0,1,2024-04-20,2024,DOC0005
+P00352,17,Male,176.5,87.0,27.9,Manual Labor,Sedentary,Former,0,0,0,2023-12-27,2023,DOC0006
+P00353,31,Male,170.0,70.0,24.2,Student,Moderate,Never,0,0,1,2025-07-07,2025,DOC0001
+P00354,38,Male,184.2,76.2,22.5,Office Worker,Moderate,Never,0,0,0,2023-06-13,2023,DOC0002
+P00355,68,Female,175.4,67.4,21.9,Manual Labor,Active,Former,0,1,0,2023-05-10,2023,DOC0002
+P00356,69,Male,161.5,63.0,24.2,Student,Active,Former,0,0,0,2023-11-11,2023,DOC0004
+P00357,23,Male,166.1,82.0,29.7,Office Worker,Sedentary,Never,0,0,0,2025-01-20,2025,DOC0006
+P00358,64,Female,169.5,61.5,21.4,Office Worker,Active,Never,0,0,1,2025-08-11,2025,DOC0010
+P00359,20,Male,173.4,86.3,28.7,Athlete,Active,Never,0,0,0,2025-08-26,2025,DOC0012
+P00360,56,Male,173.7,84.6,28.0,Office Worker,Active,Never,0,0,0,2023-12-22,2023,DOC0002
+P00361,61,Female,147.7,65.1,29.8,Student,Sedentary,Never,0,1,0,2025-08-01,2025,DOC0019
+P00362,63,Male,182.6,84.7,25.4,Retired,Moderate,Never,1,0,0,2024-07-23,2024,DOC0012
+P00363,27,Male,183.4,77.5,23.0,Manual Labor,Moderate,Never,0,0,1,2023-11-21,2023,DOC0005
+P00364,64,Male,173.8,83.0,27.5,Office Worker,Sedentary,Never,0,0,1,2023-12-14,2023,DOC0004
+P00365,21,Female,163.0,49.2,18.5,Manual Labor,Moderate,Never,0,0,1,2025-02-14,2025,DOC0005
+P00366,43,Male,179.3,82.4,25.6,Student,Sedentary,Current,0,0,0,2023-04-23,2023,DOC0004
+P00367,40,Male,178.9,86.0,26.9,Office Worker,Sedentary,Never,0,0,0,2024-10-12,2024,DOC0005
+P00368,32,Male,177.2,70.0,22.3,Student,Active,Never,0,1,0,2024-05-05,2024,DOC0004
+P00369,16,Male,181.9,78.6,23.8,Athlete,Moderate,Never,0,0,1,2023-01-09,2023,DOC0005
+P00370,57,Female,161.8,77.1,29.5,Athlete,Active,Never,0,0,0,2025-03-08,2025,DOC0020
+P00371,33,Male,189.1,71.7,20.1,Athlete,Sedentary,Current,0,0,0,2025-12-19,2025,DOC0003
+P00372,51,Female,162.5,67.3,25.5,Athlete,Active,Never,0,1,0,2024-07-05,2024,DOC0003
+P00373,37,Female,178.6,78.2,24.5,Retired,Moderate,Never,0,0,0,2024-11-18,2024,DOC0006
+P00374,35,Female,167.0,70.2,25.2,Office Worker,Active,Current,0,0,1,2024-07-13,2024,DOC0001
+P00375,63,Male,168.5,84.4,29.7,Office Worker,Active,Former,0,1,1,2025-07-23,2025,DOC0017
+P00376,20,Female,167.1,81.3,29.1,Office Worker,Moderate,Former,0,0,1,2023-09-14,2023,DOC0017
+P00377,55,Female,170.9,66.3,22.7,Office Worker,Active,Never,0,1,0,2024-09-26,2024,DOC0007
+P00378,56,Male,180.9,114.4,35.0,Office Worker,Moderate,Never,1,0,1,2023-04-25,2023,DOC0004
+P00379,35,Female,149.7,55.8,24.9,Athlete,Active,Former,1,0,0,2024-08-06,2024,DOC0011
+P00380,29,Female,160.9,72.7,28.1,Manual Labor,Sedentary,Never,0,1,0,2024-12-19,2024,DOC0005
+P00381,15,Male,184.5,73.2,21.5,Athlete,Moderate,Former,0,0,0,2023-05-06,2023,DOC0004
+P00382,66,Female,156.2,64.4,26.4,Student,Sedentary,Former,0,0,2,2025-11-23,2025,DOC0004
+P00383,67,Male,162.5,88.0,33.3,Office Worker,Highly Active,Never,0,0,1,2023-01-18,2023,DOC0004
+P00384,28,Female,157.8,43.3,17.4,Student,Moderate,Never,0,0,1,2023-02-08,2023,DOC0001
+P00385,16,Female,171.0,64.4,22.0,Student,Active,Never,1,1,0,2024-07-07,2024,DOC0019
+P00386,21,Male,177.8,80.9,25.6,Athlete,Moderate,Never,0,0,0,2024-07-12,2024,DOC0007
+P00387,18,Female,165.9,57.0,20.7,Athlete,Moderate,Former,0,1,0,2023-07-22,2023,DOC0003
+P00388,60,Male,169.9,67.1,23.2,Retired,Moderate,Former,0,0,1,2024-02-22,2024,DOC0003
+P00389,64,Female,161.8,64.3,24.6,Office Worker,Highly Active,Never,0,0,0,2025-03-01,2025,DOC0012
+P00390,23,Female,163.2,60.5,22.7,Manual Labor,Active,Former,1,0,1,2023-06-09,2023,DOC0016
+P00391,56,Male,165.4,70.7,25.8,Athlete,Sedentary,Never,0,0,0,2025-03-12,2025,DOC0003
+P00392,24,Male,170.6,68.7,23.6,Office Worker,Active,Former,0,1,1,2023-11-16,2023,DOC0008
+P00393,35,Male,169.9,110.1,38.1,Manual Labor,Moderate,Never,1,0,0,2024-09-05,2024,DOC0010
+P00394,47,Male,180.4,74.8,23.0,Retired,Sedentary,Former,0,0,2,2023-01-10,2023,DOC0019
+P00395,54,Male,180.7,60.5,18.5,Office Worker,Moderate,Former,0,0,0,2025-10-24,2025,DOC0001
+P00396,63,Male,174.0,69.6,23.0,Student,Sedentary,Never,0,0,1,2025-02-13,2025,DOC0002
+P00397,17,Male,172.3,77.4,26.1,Manual Labor,Moderate,Never,0,1,0,2023-05-21,2023,DOC0001
+P00398,25,Male,176.0,84.6,27.3,Athlete,Active,Current,0,0,2,2023-03-14,2023,DOC0003
+P00399,30,Female,159.9,70.7,27.7,Office Worker,Moderate,Never,0,0,1,2023-11-13,2023,DOC0020
+P00400,32,Female,164.9,60.0,22.1,Office Worker,Highly Active,Former,0,0,1,2023-10-17,2023,DOC0006
+P00401,69,Female,177.2,62.4,19.9,Office Worker,Active,Current,1,0,0,2025-08-08,2025,DOC0002
+P00402,57,Male,170.6,82.1,28.2,Manual Labor,Active,Current,0,1,0,2024-12-07,2024,DOC0001
+P00403,32,Female,168.7,54.1,19.0,Office Worker,Active,Never,1,0,0,2024-12-27,2024,DOC0011
+P00404,68,Female,159.7,53.5,21.0,Office Worker,Highly Active,Never,1,0,1,2025-07-24,2025,DOC0013
+P00405,42,Male,180.1,67.0,20.7,Manual Labor,Moderate,Current,0,0,1,2025-09-20,2025,DOC0006
+P00406,42,Male,163.9,63.7,23.7,Manual Labor,Moderate,Never,0,0,0,2025-01-04,2025,DOC0004
+P00407,38,Female,155.4,47.8,19.8,Manual Labor,Moderate,Never,0,1,1,2023-01-01,2023,DOC0001
+P00408,22,Male,173.5,86.3,28.7,Manual Labor,Highly Active,Never,0,0,0,2023-11-05,2023,DOC0020
+P00409,66,Male,177.4,89.7,28.5,Office Worker,Sedentary,Former,0,0,0,2023-01-26,2023,DOC0002
+P00410,15,Female,171.6,83.7,28.4,Manual Labor,Active,Never,0,0,0,2023-04-23,2023,DOC0002
+P00411,24,Male,164.8,87.3,32.1,Office Worker,Active,Never,0,1,0,2024-12-15,2024,DOC0007
+P00412,27,Male,166.2,56.9,20.6,Office Worker,Moderate,Never,0,1,0,2023-12-27,2023,DOC0003
+P00413,30,Female,165.0,68.4,25.1,Athlete,Highly Active,Former,0,0,0,2024-02-04,2024,DOC0004
+P00414,22,Female,157.8,62.2,25.0,Manual Labor,Moderate,Never,0,0,0,2024-05-16,2024,DOC0003
+P00415,15,Male,159.5,85.5,33.6,Manual Labor,Sedentary,Current,0,0,0,2023-10-05,2023,DOC0004
+P00416,52,Female,161.5,73.5,28.2,Office Worker,Active,Former,0,0,0,2023-03-09,2023,DOC0018
+P00417,68,Female,160.4,68.6,26.7,Retired,Moderate,Current,1,0,0,2024-04-26,2024,DOC0007
+P00418,21,Male,173.9,60.0,19.8,Student,Sedentary,Current,1,1,1,2024-05-24,2024,DOC0004
+P00419,31,Female,152.8,61.1,26.2,Athlete,Sedentary,Never,0,1,0,2025-01-03,2025,DOC0011
+P00420,42,Male,170.1,84.8,29.3,Manual Labor,Sedentary,Former,0,0,0,2025-10-07,2025,DOC0004
+P00421,66,Male,174.2,86.3,28.4,Office Worker,Active,Never,0,0,2,2023-01-17,2023,DOC0005
+P00422,53,Female,158.3,58.2,23.2,Healthcare Worker,Highly Active,Current,0,0,1,2023-02-02,2023,DOC0013
+P00423,57,Male,158.6,66.2,26.3,Office Worker,Moderate,Never,0,0,1,2023-05-15,2023,DOC0005
+P00424,46,Female,166.0,69.8,25.3,Office Worker,Sedentary,Former,0,0,2,2023-07-16,2023,DOC0017
+P00425,37,Female,168.7,78.2,27.5,Office Worker,Moderate,Former,0,0,0,2024-01-08,2024,DOC0002
+P00426,25,Male,171.8,61.7,20.9,Office Worker,Highly Active,Never,0,1,1,2025-05-08,2025,DOC0003
+P00427,62,Female,150.2,68.1,30.2,Manual Labor,Active,Former,0,0,0,2023-07-07,2023,DOC0003
+P00428,59,Male,165.1,68.1,25.0,Office Worker,Moderate,Never,1,1,0,2023-08-26,2023,DOC0004
+P00429,16,Female,152.0,61.6,26.7,Office Worker,Sedentary,Never,0,0,0,2025-08-11,2025,DOC0005
+P00430,54,Male,169.9,63.8,22.1,Manual Labor,Highly Active,Never,0,0,1,2024-06-16,2024,DOC0004
+P00431,19,Female,156.7,71.6,29.2,Retired,Highly Active,Never,1,0,0,2023-09-09,2023,DOC0002
+P00432,55,Female,155.0,57.5,23.9,Student,Sedentary,Never,0,1,0,2023-01-19,2023,DOC0008
+P00433,60,Male,177.2,62.4,19.9,Office Worker,Active,Current,0,0,0,2025-08-03,2025,DOC0012
+P00434,22,Female,160.9,62.3,24.1,Office Worker,Sedentary,Never,0,0,1,2023-08-02,2023,DOC0005
+P00435,38,Female,158.1,57.9,23.2,Athlete,Sedentary,Never,1,0,0,2024-08-21,2024,DOC0002
+P00436,21,Female,165.5,51.2,18.7,Retired,Active,Current,0,0,1,2025-01-20,2025,DOC0004
+P00437,46,Female,159.3,67.8,26.7,Student,Moderate,Former,0,0,0,2023-02-08,2023,DOC0004
+P00438,66,Female,167.9,74.8,26.5,Manual Labor,Moderate,Never,0,0,0,2025-09-10,2025,DOC0005
+P00439,19,Male,183.9,74.3,22.0,Retired,Highly Active,Current,0,0,0,2023-12-26,2023,DOC0018
+P00440,36,Male,165.0,91.3,33.5,Athlete,Active,Never,0,1,0,2023-12-03,2023,DOC0018
+P00441,68,Male,172.8,83.1,27.8,Manual Labor,Sedentary,Never,0,0,0,2023-03-05,2023,DOC0018
+P00442,31,Female,152.1,61.6,26.6,Office Worker,Active,Never,0,0,0,2025-08-12,2025,DOC0005
+P00443,22,Male,178.6,83.8,26.3,Athlete,Active,Former,0,0,0,2023-09-08,2023,DOC0011
+P00444,41,Male,176.4,81.8,26.3,Office Worker,Active,Never,0,0,0,2023-03-18,2023,DOC0003
+P00445,42,Male,173.5,90.3,30.0,Office Worker,Highly Active,Never,0,1,0,2025-08-19,2025,DOC0004
+P00446,51,Female,158.8,77.8,30.9,Retired,Active,Former,0,0,1,2023-04-15,2023,DOC0013
+P00447,32,Male,177.0,78.5,25.1,Office Worker,Sedentary,Never,0,0,0,2025-12-17,2025,DOC0003
+P00448,67,Female,171.5,67.8,23.1,Student,Sedentary,Never,0,1,0,2024-12-12,2024,DOC0001
+P00449,43,Male,174.7,86.4,28.3,Student,Active,Former,1,0,0,2024-01-21,2024,DOC0005
+P00450,30,Female,153.4,84.0,35.7,Manual Labor,Highly Active,Former,1,0,0,2025-06-02,2025,DOC0003
+P00451,67,Male,170.3,90.2,31.1,Retired,Sedentary,Never,0,0,0,2025-02-09,2025,DOC0002
+P00452,65,Male,178.7,83.6,26.2,Office Worker,Sedentary,Never,0,0,0,2023-03-19,2023,DOC0004
+P00453,42,Female,157.5,81.6,32.9,Office Worker,Active,Current,0,0,0,2025-08-09,2025,DOC0019
+P00454,16,Female,158.2,75.6,30.2,Athlete,Sedentary,Never,0,0,0,2025-02-03,2025,DOC0004
+P00455,47,Male,177.3,104.8,33.3,Office Worker,Sedentary,Never,0,0,0,2025-12-10,2025,DOC0009
+P00456,45,Male,169.7,90.0,31.3,Retired,Highly Active,Never,1,0,0,2024-02-20,2024,DOC0008
+P00457,23,Female,150.8,67.1,29.5,Office Worker,Active,Never,0,1,1,2024-11-04,2024,DOC0006
+P00458,49,Female,160.3,69.0,26.9,Office Worker,Highly Active,Current,0,0,0,2024-12-20,2024,DOC0013
+P00459,61,Male,180.3,58.1,17.9,Office Worker,Active,Never,1,0,0,2023-04-21,2023,DOC0009
+P00460,20,Male,183.2,55.9,16.7,Office Worker,Moderate,Never,0,0,1,2024-06-18,2024,DOC0005
+P00461,54,Female,162.6,55.2,20.9,Student,Highly Active,Never,0,0,1,2024-02-07,2024,DOC0005
+P00462,22,Female,168.8,54.4,19.1,Office Worker,Moderate,Never,0,0,0,2024-10-22,2024,DOC0019
+P00463,56,Female,174.6,57.9,19.0,Student,Moderate,Never,0,0,1,2023-01-06,2023,DOC0004
+P00464,38,Female,158.5,72.0,28.7,Manual Labor,Highly Active,Current,1,1,1,2024-08-25,2024,DOC0003
+P00465,15,Male,177.6,85.4,27.1,Student,Active,Former,0,1,0,2024-09-20,2024,DOC0003
+P00466,68,Female,172.9,67.2,22.5,Office Worker,Highly Active,Never,0,1,0,2024-05-02,2024,DOC0003
+P00467,24,Female,152.9,51.5,22.0,Manual Labor,Sedentary,Never,0,0,0,2025-10-22,2025,DOC0005
+P00468,47,Female,168.2,59.9,21.2,Athlete,Highly Active,Never,1,0,1,2025-06-14,2025,DOC0011
+P00469,24,Male,176.0,65.1,21.0,Office Worker,Active,Never,0,0,0,2023-03-13,2023,DOC0001
+P00470,66,Male,174.9,88.4,28.9,Student,Active,Never,0,0,0,2023-03-12,2023,DOC0004
+P00471,55,Female,160.5,57.0,22.1,Manual Labor,Highly Active,Never,0,0,1,2024-02-17,2024,DOC0004
+P00472,59,Male,182.6,84.5,25.3,Athlete,Moderate,Former,1,0,2,2024-03-20,2024,DOC0017
+P00473,38,Female,156.1,89.2,36.6,Retired,Active,Current,0,0,2,2025-07-25,2025,DOC0003
+P00474,40,Male,181.8,86.9,26.3,Athlete,Active,Never,0,0,0,2023-03-08,2023,DOC0005
+P00475,49,Female,168.0,57.4,20.3,Manual Labor,Active,Current,1,0,0,2023-03-18,2023,DOC0002
+P00476,58,Female,161.2,63.1,24.3,Healthcare Worker,Highly Active,Never,0,0,0,2024-02-19,2024,DOC0005
+P00477,61,Male,164.7,91.4,33.7,Manual Labor,Active,Never,0,0,0,2025-10-19,2025,DOC0004
+P00478,15,Male,178.5,67.8,21.3,Student,Sedentary,Former,0,0,1,2025-02-14,2025,DOC0015
+P00479,51,Female,156.2,64.7,26.5,Manual Labor,Sedentary,Never,0,0,0,2025-07-11,2025,DOC0006
+P00480,21,Female,166.4,49.1,17.7,Student,Highly Active,Never,0,0,0,2024-06-21,2024,DOC0003
+P00481,30,Male,164.6,83.8,30.9,Manual Labor,Highly Active,Former,0,1,1,2025-11-09,2025,DOC0005
+P00482,60,Female,177.6,63.4,20.1,Manual Labor,Highly Active,Never,0,0,0,2023-04-06,2023,DOC0017
+P00483,28,Female,159.7,63.2,24.8,Office Worker,Sedentary,Current,0,0,0,2024-05-15,2024,DOC0009
+P00484,58,Male,183.2,61.8,18.4,Student,Moderate,Never,0,0,0,2025-09-08,2025,DOC0003
+P00485,40,Male,173.7,88.5,29.3,Office Worker,Active,Former,1,0,0,2024-03-01,2024,DOC0020
+P00486,27,Male,170.1,80.2,27.7,Healthcare Worker,Active,Never,0,1,1,2025-02-02,2025,DOC0012
+P00487,33,Male,171.5,91.8,31.2,Office Worker,Sedentary,Never,0,0,1,2023-03-19,2023,DOC0002
+P00488,44,Male,183.9,77.5,22.9,Office Worker,Active,Never,0,1,1,2023-10-27,2023,DOC0004
+P00489,57,Male,178.8,61.1,19.1,Retired,Sedentary,Current,0,1,0,2024-07-13,2024,DOC0003
+P00490,48,Female,157.0,59.0,23.9,Office Worker,Moderate,Never,0,0,0,2025-11-04,2025,DOC0020
+P00491,66,Male,173.3,73.6,24.5,Office Worker,Moderate,Current,0,0,0,2023-08-23,2023,DOC0002
+P00492,62,Female,162.5,69.1,26.2,Student,Sedentary,Never,0,0,0,2025-07-08,2025,DOC0009
+P00493,56,Male,177.7,70.2,22.2,Athlete,Sedentary,Never,0,0,0,2023-08-27,2023,DOC0001
+P00494,48,Male,162.7,97.7,36.9,Athlete,Highly Active,Never,0,0,0,2025-03-16,2025,DOC0005
+P00495,30,Female,150.9,71.5,31.4,Office Worker,Active,Never,1,0,1,2024-01-07,2024,DOC0002
+P00496,37,Female,150.5,63.9,28.2,Office Worker,Highly Active,Current,0,0,1,2023-10-14,2023,DOC0006
+P00497,21,Male,191.7,79.3,21.6,Office Worker,Moderate,Never,0,0,0,2025-03-10,2025,DOC0004
+P00498,35,Male,167.3,64.9,23.2,Athlete,Moderate,Former,0,0,0,2025-02-22,2025,DOC0001
+P00499,65,Male,174.3,82.0,27.0,Office Worker,Moderate,Never,0,0,0,2024-12-03,2024,DOC0002
+P00500,38,Male,187.6,97.3,27.6,Office Worker,Active,Never,0,1,0,2023-03-24,2023,DOC0003
+P00501,21,Male,183.3,72.1,21.5,Athlete,Moderate,Never,1,0,1,2023-11-21,2023,DOC0011
+P00502,50,Male,170.1,82.7,28.6,Manual Labor,Active,Current,1,0,0,2025-09-24,2025,DOC0013
+P00503,67,Male,176.6,45.0,14.4,Manual Labor,Active,Former,0,1,0,2024-05-25,2024,DOC0011
+P00504,62,Male,175.0,77.5,25.3,Athlete,Highly Active,Never,0,0,0,2025-11-07,2025,DOC0011
+P00505,30,Female,166.0,64.0,23.2,Office Worker,Moderate,Never,0,0,0,2024-01-15,2024,DOC0005
+P00506,39,Female,162.1,40.6,15.5,Retired,Moderate,Never,0,0,0,2025-10-23,2025,DOC0020
+P00507,44,Male,174.4,91.0,29.9,Manual Labor,Moderate,Never,0,0,0,2023-02-11,2023,DOC0005
+P00508,28,Male,163.8,74.1,27.6,Office Worker,Sedentary,Never,0,1,0,2024-10-02,2024,DOC0004
+P00509,29,Male,175.9,75.9,24.5,Office Worker,Active,Never,0,0,0,2024-09-08,2024,DOC0002
+P00510,28,Male,178.2,73.5,23.1,Office Worker,Moderate,Former,1,0,1,2023-01-07,2023,DOC0009
+P00511,69,Female,156.6,51.6,21.0,Student,Active,Current,0,0,0,2023-09-24,2023,DOC0004
+P00512,56,Female,162.2,55.9,21.2,Retired,Sedentary,Current,0,0,2,2024-01-13,2024,DOC0018
+P00513,61,Female,149.8,36.3,16.2,Retired,Highly Active,Former,0,0,0,2025-03-19,2025,DOC0005
+P00514,59,Female,163.3,59.7,22.4,Office Worker,Highly Active,Never,0,0,1,2024-10-26,2024,DOC0012
+P00515,67,Female,166.6,60.6,21.8,Office Worker,Moderate,Former,1,0,0,2023-05-09,2023,DOC0006
+P00516,20,Female,160.3,59.4,23.1,Athlete,Highly Active,Never,0,0,0,2025-04-21,2025,DOC0001
+P00517,63,Male,164.5,98.9,36.5,Office Worker,Moderate,Never,0,0,0,2023-06-01,2023,DOC0012
+P00518,18,Male,167.8,87.2,31.0,Office Worker,Active,Never,0,1,3,2023-12-03,2023,DOC0012
+P00519,41,Male,171.2,71.3,24.3,Manual Labor,Highly Active,Never,0,0,0,2025-12-05,2025,DOC0003
+P00520,47,Female,161.8,60.9,23.3,Athlete,Active,Current,0,0,1,2025-07-09,2025,DOC0006
+P00521,34,Male,170.5,69.1,23.8,Retired,Active,Current,0,0,0,2025-09-11,2025,DOC0004
+P00522,23,Female,161.3,64.8,24.9,Athlete,Moderate,Never,0,1,0,2025-05-13,2025,DOC0002
+P00523,25,Female,162.6,56.0,21.2,Athlete,Active,Never,0,0,0,2024-12-07,2024,DOC0002
+P00524,60,Male,176.7,90.9,29.1,Retired,Active,Former,0,1,0,2023-03-02,2023,DOC0002
+P00525,32,Male,174.0,73.1,24.1,Student,Sedentary,Never,0,0,0,2023-09-19,2023,DOC0005
+P00526,32,Male,181.1,65.7,20.0,Office Worker,Sedentary,Former,0,1,0,2025-08-01,2025,DOC0004
+P00527,65,Male,171.3,75.4,25.7,Manual Labor,Active,Current,1,1,0,2025-10-22,2025,DOC0005
+P00528,22,Female,157.8,65.7,26.4,Office Worker,Active,Never,1,0,0,2024-12-26,2024,DOC0003
+P00529,65,Female,166.6,56.6,20.4,Athlete,Moderate,Never,0,0,0,2024-04-20,2024,DOC0004
+P00530,65,Female,157.4,52.0,21.0,Office Worker,Highly Active,Never,0,0,0,2023-05-17,2023,DOC0005
+P00531,47,Male,166.3,71.0,25.7,Office Worker,Active,Never,1,0,0,2023-04-18,2023,DOC0001
+P00532,24,Male,177.9,85.4,27.0,Manual Labor,Moderate,Never,0,0,1,2025-12-18,2025,DOC0002
+P00533,23,Male,171.7,83.3,28.3,Office Worker,Moderate,Never,0,0,0,2023-12-26,2023,DOC0017
+P00534,30,Female,148.8,74.0,33.4,Manual Labor,Active,Never,0,1,0,2024-02-27,2024,DOC0010
+P00535,46,Female,158.7,69.8,27.7,Student,Active,Never,0,0,1,2025-10-12,2025,DOC0003
+P00536,23,Male,176.4,79.8,25.6,Athlete,Active,Never,0,0,0,2024-08-17,2024,DOC0008
+P00537,40,Female,165.3,71.2,26.1,Athlete,Moderate,Former,0,0,0,2024-10-22,2024,DOC0002
+P00538,21,Male,171.5,102.7,34.9,Office Worker,Active,Never,0,0,2,2023-02-01,2023,DOC0016
+P00539,44,Female,168.1,56.4,20.0,Student,Active,Current,1,0,0,2023-03-15,2023,DOC0001
+P00540,16,Male,158.7,89.7,35.6,Manual Labor,Active,Never,0,0,0,2023-11-18,2023,DOC0004
+P00541,53,Male,176.7,115.1,36.9,Student,Sedentary,Never,0,0,0,2023-02-20,2023,DOC0004
+P00542,18,Female,167.5,73.5,26.2,Office Worker,Active,Never,0,1,3,2023-06-10,2023,DOC0001
+P00543,25,Male,171.8,83.8,28.4,Office Worker,Moderate,Former,0,0,0,2023-10-08,2023,DOC0001
+P00544,24,Male,176.8,86.4,27.6,Manual Labor,Sedentary,Never,0,1,1,2023-08-05,2023,DOC0005
+P00545,60,Male,182.2,65.9,19.9,Office Worker,Active,Never,0,0,0,2023-05-16,2023,DOC0004
+P00546,17,Male,173.9,72.7,24.0,Student,Active,Never,0,0,1,2025-08-25,2025,DOC0020
+P00547,38,Female,158.4,71.1,28.3,Athlete,Moderate,Current,0,0,2,2023-04-25,2023,DOC0007
+P00548,47,Female,172.2,71.1,24.0,Office Worker,Active,Never,0,0,1,2024-10-10,2024,DOC0005
+P00549,43,Female,163.3,57.9,21.7,Manual Labor,Moderate,Never,0,1,0,2025-02-07,2025,DOC0010
+P00550,52,Male,174.2,79.7,26.3,Office Worker,Moderate,Current,1,0,1,2023-08-22,2023,DOC0002
+P00551,59,Male,167.9,91.0,32.3,Manual Labor,Moderate,Never,0,0,1,2024-08-20,2024,DOC0015
+P00552,36,Male,175.9,88.4,28.6,Office Worker,Moderate,Never,0,1,0,2025-02-14,2025,DOC0005
+P00553,60,Male,170.9,76.1,26.1,Retired,Active,Former,0,0,0,2024-11-11,2024,DOC0010
+P00554,32,Male,171.3,70.0,23.9,Student,Active,Never,0,0,1,2023-11-04,2023,DOC0008
+P00555,69,Female,165.3,57.2,20.9,Retired,Active,Never,0,0,1,2025-12-22,2025,DOC0012
+P00556,42,Female,151.7,56.9,24.7,Manual Labor,Sedentary,Never,0,1,0,2024-08-17,2024,DOC0011
+P00557,55,Female,160.7,57.9,22.4,Manual Labor,Moderate,Never,0,0,0,2024-12-11,2024,DOC0001
+P00558,63,Male,165.2,74.2,27.2,Manual Labor,Sedentary,Current,0,0,0,2023-02-25,2023,DOC0009
+P00559,58,Male,170.4,80.0,27.6,Office Worker,Active,Never,1,0,0,2023-02-18,2023,DOC0005
+P00560,61,Male,188.5,87.3,24.6,Office Worker,Moderate,Never,0,0,0,2025-04-26,2025,DOC0001
+P00561,44,Male,182.9,88.9,26.6,Manual Labor,Moderate,Never,0,1,0,2023-12-13,2023,DOC0014
+P00562,17,Male,175.7,81.4,26.4,Athlete,Active,Former,1,0,0,2023-07-13,2023,DOC0004
+P00563,42,Male,168.4,85.0,30.0,Athlete,Active,Former,0,0,0,2024-06-26,2024,DOC0004
+P00564,24,Male,171.3,78.8,26.9,Retired,Moderate,Never,0,0,1,2025-04-26,2025,DOC0006
+P00565,63,Female,168.5,62.6,22.0,Athlete,Moderate,Current,0,1,0,2023-08-26,2023,DOC0020
+P00566,28,Male,175.3,74.9,24.4,Manual Labor,Active,Never,0,0,1,2023-08-23,2023,DOC0004
+P00567,27,Female,168.9,76.2,26.7,Manual Labor,Moderate,Former,0,1,1,2024-06-13,2024,DOC0002
+P00568,28,Male,174.8,77.6,25.4,Athlete,Sedentary,Never,0,0,0,2024-04-06,2024,DOC0009
+P00569,50,Female,163.5,68.8,25.7,Retired,Highly Active,Never,0,1,1,2024-01-11,2024,DOC0010
+P00570,46,Male,164.9,73.2,26.9,Athlete,Moderate,Former,0,0,0,2025-12-26,2025,DOC0004
+P00571,67,Male,171.4,78.7,26.8,Retired,Moderate,Former,0,0,1,2023-09-10,2023,DOC0002
+P00572,37,Male,181.4,74.6,22.7,Student,Sedentary,Never,1,0,1,2023-07-21,2023,DOC0003
+P00573,30,Male,165.4,75.0,27.4,Office Worker,Moderate,Never,1,0,0,2024-01-25,2024,DOC0003
+P00574,17,Female,152.3,67.2,29.0,Athlete,Moderate,Former,0,1,1,2023-11-27,2023,DOC0004
+P00575,15,Male,169.3,65.1,22.7,Office Worker,Moderate,Never,0,1,3,2024-02-26,2024,DOC0014
+P00576,35,Female,165.8,68.4,24.9,Office Worker,Active,Never,0,0,2,2025-08-15,2025,DOC0003
+P00577,65,Male,172.3,73.8,24.9,Office Worker,Moderate,Never,0,1,0,2023-03-14,2023,DOC0005
+P00578,43,Male,185.3,87.2,25.4,Healthcare Worker,Highly Active,Never,0,0,0,2025-05-27,2025,DOC0005
+P00579,64,Male,178.5,98.3,30.9,Office Worker,Highly Active,Never,0,0,1,2023-05-06,2023,DOC0018
+P00580,20,Male,165.8,87.4,31.8,Student,Moderate,Never,0,0,0,2024-12-06,2024,DOC0003
+P00581,20,Female,161.7,80.6,30.8,Athlete,Sedentary,Current,0,0,3,2024-11-27,2024,DOC0005
+P00582,60,Female,159.1,44.7,17.7,Healthcare Worker,Active,Never,0,0,0,2024-04-19,2024,DOC0005
+P00583,20,Female,160.1,66.0,25.7,Office Worker,Highly Active,Former,0,0,0,2023-10-15,2023,DOC0008
+P00584,17,Male,177.2,80.1,25.5,Office Worker,Highly Active,Current,0,0,0,2025-09-04,2025,DOC0001
+P00585,37,Male,171.6,84.5,28.7,Manual Labor,Sedentary,Former,0,0,1,2025-07-14,2025,DOC0001
+P00586,65,Female,165.0,45.9,16.9,Athlete,Moderate,Never,0,1,0,2025-07-26,2025,DOC0018
+P00587,52,Male,169.6,78.8,27.4,Student,Sedentary,Never,1,0,0,2025-10-17,2025,DOC0002
+P00588,20,Male,170.7,83.0,28.5,Office Worker,Active,Never,0,0,0,2023-05-11,2023,DOC0005
+P00589,61,Male,170.4,87.9,30.3,Manual Labor,Active,Never,0,0,1,2024-01-15,2024,DOC0001
+P00590,61,Female,149.5,55.8,25.0,Manual Labor,Moderate,Current,0,0,0,2023-04-24,2023,DOC0002
+P00591,59,Female,164.3,57.5,21.3,Manual Labor,Active,Former,0,0,0,2025-10-25,2025,DOC0005
+P00592,64,Female,159.7,58.8,23.1,Athlete,Moderate,Never,0,0,0,2023-12-11,2023,DOC0001
+P00593,28,Female,149.4,69.0,30.9,Athlete,Active,Never,0,0,0,2023-06-17,2023,DOC0005
+P00594,68,Male,190.9,71.7,19.7,Athlete,Sedentary,Current,0,0,1,2024-06-08,2024,DOC0002
+P00595,32,Female,170.6,76.6,26.3,Office Worker,Active,Never,0,1,0,2023-09-13,2023,DOC0001
+P00596,59,Male,175.5,80.0,26.0,Athlete,Active,Former,1,1,1,2025-12-06,2025,DOC0003
+P00597,46,Female,164.2,50.4,18.7,Retired,Active,Never,1,0,0,2023-06-15,2023,DOC0019
+P00598,57,Male,169.6,50.9,17.7,Manual Labor,Moderate,Former,0,1,0,2024-11-16,2024,DOC0009
+P00599,49,Female,170.0,70.9,24.5,Manual Labor,Active,Former,0,1,0,2025-01-10,2025,DOC0017
+P00600,50,Male,167.6,66.9,23.8,Office Worker,Active,Never,0,0,0,2024-11-08,2024,DOC0004
+P00601,48,Male,167.6,83.8,29.8,Office Worker,Sedentary,Never,0,0,2,2023-05-05,2023,DOC0001
+P00602,57,Male,174.0,62.6,20.7,Manual Labor,Sedentary,Former,0,0,0,2023-09-04,2023,DOC0004
+P00603,55,Male,166.5,78.4,28.3,Office Worker,Active,Never,0,0,0,2023-05-20,2023,DOC0002
+P00604,22,Male,180.9,74.6,22.8,Office Worker,Moderate,Never,0,0,0,2023-11-06,2023,DOC0004
+P00605,60,Female,151.1,64.0,28.0,Office Worker,Sedentary,Never,0,1,0,2024-04-04,2024,DOC0004
+P00606,44,Male,194.7,79.5,21.0,Manual Labor,Sedentary,Never,0,0,0,2023-06-27,2023,DOC0002
+P00607,32,Female,175.6,76.7,24.9,Healthcare Worker,Sedentary,Former,0,0,0,2023-04-08,2023,DOC0006
+P00608,43,Male,175.5,59.6,19.4,Office Worker,Moderate,Never,0,0,2,2023-05-25,2023,DOC0002
+P00609,68,Female,170.8,65.8,22.6,Office Worker,Active,Never,0,0,1,2025-07-17,2025,DOC0009
+P00610,62,Male,186.9,71.0,20.3,Athlete,Sedentary,Current,0,0,1,2023-10-20,2023,DOC0001
+P00611,60,Female,161.6,53.2,20.4,Office Worker,Active,Never,0,1,0,2023-08-16,2023,DOC0002
+P00612,40,Female,164.3,59.4,22.0,Student,Moderate,Never,1,0,1,2024-07-05,2024,DOC0020
+P00613,58,Male,165.6,85.5,31.2,Athlete,Moderate,Former,0,0,0,2023-05-23,2023,DOC0005
+P00614,36,Female,156.2,68.7,28.2,Manual Labor,Moderate,Current,1,0,0,2025-01-23,2025,DOC0009
+P00615,52,Male,167.1,66.4,23.8,Office Worker,Active,Never,0,0,0,2023-07-10,2023,DOC0004
+P00616,50,Male,185.2,74.7,21.8,Athlete,Highly Active,Former,0,0,0,2024-02-21,2024,DOC0001
+P00617,28,Female,156.1,78.2,32.1,Retired,Moderate,Never,0,0,0,2024-01-15,2024,DOC0004
+P00618,29,Female,167.8,65.9,23.4,Office Worker,Sedentary,Never,0,0,0,2025-02-25,2025,DOC0004
+P00619,18,Male,157.9,100.5,40.3,Student,Moderate,Current,0,0,0,2024-03-22,2024,DOC0008
+P00620,22,Male,168.1,70.0,24.8,Office Worker,Sedentary,Current,0,1,0,2025-07-02,2025,DOC0004
+P00621,38,Female,164.8,64.7,23.8,Retired,Active,Never,0,0,0,2024-09-24,2024,DOC0006
+P00622,41,Female,168.0,69.2,24.5,Office Worker,Sedentary,Never,0,0,0,2024-03-27,2024,DOC0009
+P00623,24,Female,162.5,69.4,26.3,Office Worker,Highly Active,Never,1,0,1,2025-10-21,2025,DOC0001
+P00624,37,Male,163.9,72.0,26.8,Student,Active,Never,1,1,0,2024-05-04,2024,DOC0003
+P00625,48,Female,163.9,57.0,21.2,Office Worker,Moderate,Current,0,0,0,2024-06-22,2024,DOC0003
+P00626,27,Male,182.1,71.9,21.7,Office Worker,Active,Former,0,0,0,2023-08-18,2023,DOC0005
+P00627,33,Female,157.0,76.0,30.8,Healthcare Worker,Sedentary,Never,1,0,0,2023-10-10,2023,DOC0005
+P00628,35,Male,174.9,57.3,18.7,Manual Labor,Active,Never,0,0,0,2024-01-24,2024,DOC0010
+P00629,42,Female,164.8,71.3,26.3,Manual Labor,Sedentary,Never,0,0,1,2023-08-16,2023,DOC0014
+P00630,35,Male,172.9,65.4,21.9,Manual Labor,Active,Never,0,0,0,2024-07-24,2024,DOC0003
+P00631,55,Female,152.4,79.1,34.1,Student,Moderate,Former,0,0,0,2023-10-19,2023,DOC0009
+P00632,33,Female,157.1,55.7,22.6,Retired,Sedentary,Never,0,0,0,2024-10-08,2024,DOC0015
+P00633,38,Male,172.7,67.2,22.5,Manual Labor,Active,Never,0,0,1,2025-09-27,2025,DOC0005
+P00634,35,Female,163.7,47.0,17.5,Office Worker,Sedentary,Never,0,0,0,2024-03-16,2024,DOC0009
+P00635,25,Male,171.1,55.7,19.0,Athlete,Sedentary,Current,0,0,1,2024-09-14,2024,DOC0004
+P00636,52,Female,168.2,68.5,24.2,Manual Labor,Active,Never,0,0,0,2023-12-11,2023,DOC0004
+P00637,27,Male,174.7,82.8,27.1,Student,Moderate,Never,0,0,1,2023-03-04,2023,DOC0004
+P00638,31,Male,178.1,87.9,27.7,Office Worker,Highly Active,Never,0,0,0,2024-11-19,2024,DOC0018
+P00639,58,Male,172.9,69.4,23.2,Athlete,Active,Never,1,0,1,2025-07-12,2025,DOC0009
+P00640,67,Male,172.1,90.6,30.6,Office Worker,Active,Never,0,0,0,2025-05-26,2025,DOC0005
+P00641,51,Male,175.6,59.8,19.4,Manual Labor,Moderate,Never,0,0,0,2024-09-27,2024,DOC0008
+P00642,65,Female,156.6,62.2,25.4,Student,Sedentary,Never,0,1,0,2025-10-21,2025,DOC0017
+P00643,61,Female,156.0,65.1,26.8,Athlete,Highly Active,Never,0,1,0,2025-07-07,2025,DOC0019
+P00644,41,Female,160.8,74.8,28.9,Manual Labor,Sedentary,Current,0,0,0,2025-08-20,2025,DOC0019
+P00645,57,Male,175.3,83.9,27.3,Student,Moderate,Never,0,0,0,2025-07-01,2025,DOC0004
+P00646,33,Male,181.7,77.5,23.5,Retired,Moderate,Never,0,0,1,2023-12-23,2023,DOC0002
+P00647,40,Male,161.3,51.7,19.9,Athlete,Moderate,Never,0,0,1,2023-05-14,2023,DOC0004
+P00648,44,Female,166.9,68.3,24.5,Retired,Active,Former,0,0,1,2024-02-26,2024,DOC0002
+P00649,67,Female,158.4,71.1,28.3,Manual Labor,Active,Former,1,1,1,2024-03-11,2024,DOC0001
+P00650,61,Male,175.0,73.7,24.1,Student,Active,Former,0,1,2,2025-06-08,2025,DOC0002
+P00651,41,Female,150.9,63.7,28.0,Athlete,Highly Active,Never,0,0,0,2023-08-27,2023,DOC0001
+P00652,50,Male,171.8,78.8,26.7,Manual Labor,Moderate,Never,0,0,1,2023-11-15,2023,DOC0019
+P00653,26,Male,179.7,79.4,24.6,Manual Labor,Moderate,Never,0,0,0,2025-02-24,2025,DOC0020
+P00654,59,Male,181.5,89.3,27.1,Office Worker,Sedentary,Never,0,0,0,2023-04-25,2023,DOC0010
+P00655,45,Male,178.4,79.6,25.0,Office Worker,Active,Never,0,0,0,2025-05-14,2025,DOC0003
+P00656,44,Female,171.9,60.7,20.5,Manual Labor,Moderate,Never,0,1,0,2023-06-13,2023,DOC0006
+P00657,57,Female,157.9,82.9,33.2,Manual Labor,Active,Never,0,1,0,2024-02-15,2024,DOC0001
+P00658,49,Male,180.4,76.6,23.5,Athlete,Sedentary,Never,0,0,1,2024-05-23,2024,DOC0003
+P00659,18,Male,183.6,90.8,26.9,Office Worker,Active,Never,0,0,0,2023-06-27,2023,DOC0007
+P00660,30,Female,163.3,51.9,19.5,Office Worker,Active,Never,0,0,2,2023-04-09,2023,DOC0012
+P00661,24,Female,158.7,57.4,22.8,Retired,Highly Active,Former,0,1,0,2023-01-20,2023,DOC0018
+P00662,55,Female,161.1,69.6,26.8,Healthcare Worker,Sedentary,Never,0,0,0,2023-01-08,2023,DOC0003
+P00663,16,Male,181.0,82.6,25.2,Office Worker,Highly Active,Former,0,0,1,2023-11-17,2023,DOC0003
+P00664,26,Female,170.8,86.5,29.7,Athlete,Moderate,Never,0,0,0,2025-07-22,2025,DOC0005
+P00665,47,Male,168.9,100.5,35.2,Office Worker,Moderate,Current,0,0,1,2023-10-24,2023,DOC0006
+P00666,53,Female,161.7,75.0,28.7,Office Worker,Moderate,Former,0,0,0,2024-08-13,2024,DOC0003
+P00667,42,Male,180.2,58.7,18.1,Retired,Moderate,Never,0,0,2,2023-02-10,2023,DOC0004
+P00668,62,Female,156.1,72.8,29.9,Manual Labor,Active,Current,1,0,0,2025-09-07,2025,DOC0001
+P00669,65,Male,167.2,73.9,26.4,Athlete,Moderate,Never,0,1,0,2025-09-04,2025,DOC0001
+P00670,22,Male,177.9,79.3,25.1,Athlete,Moderate,Never,0,0,0,2025-01-10,2025,DOC0005
+P00671,67,Female,168.8,78.5,27.6,Office Worker,Active,Former,0,0,0,2025-03-24,2025,DOC0004
+P00672,48,Female,169.2,71.6,25.0,Student,Active,Never,0,0,1,2023-05-12,2023,DOC0011
+P00673,49,Male,176.5,70.2,22.5,Manual Labor,Active,Never,1,0,0,2024-05-09,2024,DOC0001
+P00674,20,Female,160.7,67.5,26.1,Manual Labor,Active,Never,0,0,0,2023-12-20,2023,DOC0002
+P00675,49,Female,166.0,64.1,23.3,Office Worker,Sedentary,Never,0,0,1,2025-02-06,2025,DOC0017
+P00676,54,Male,168.7,101.1,35.5,Retired,Active,Never,1,0,0,2024-01-07,2024,DOC0003
+P00677,46,Male,170.9,101.8,34.9,Office Worker,Sedentary,Never,0,1,0,2024-08-26,2024,DOC0002
+P00678,19,Male,175.1,78.6,25.6,Student,Moderate,Never,0,0,0,2025-06-03,2025,DOC0002
+P00679,43,Female,156.2,53.5,21.9,Retired,Sedentary,Never,0,0,2,2025-01-12,2025,DOC0016
+P00680,66,Male,164.5,73.5,27.2,Office Worker,Active,Never,0,0,0,2025-04-16,2025,DOC0013
+P00681,54,Male,165.8,91.3,33.2,Retired,Moderate,Never,0,0,1,2023-02-07,2023,DOC0011
+P00682,22,Female,161.1,64.7,24.9,Office Worker,Active,Former,0,0,1,2023-07-08,2023,DOC0010
+P00683,67,Female,171.8,67.4,22.8,Manual Labor,Moderate,Never,1,1,0,2023-05-06,2023,DOC0003
+P00684,67,Female,158.9,70.5,27.9,Athlete,Moderate,Never,0,1,0,2024-01-10,2024,DOC0018
+P00685,24,Female,163.7,58.1,21.7,Office Worker,Moderate,Former,0,1,0,2024-04-25,2024,DOC0004
+P00686,59,Female,176.4,81.1,26.1,Office Worker,Sedentary,Current,0,0,0,2023-11-12,2023,DOC0006
+P00687,37,Female,155.7,62.1,25.6,Athlete,Moderate,Never,0,0,1,2025-04-12,2025,DOC0020
+P00688,47,Female,150.6,60.2,26.5,Athlete,Active,Never,1,0,0,2023-08-11,2023,DOC0002
+P00689,39,Male,172.9,101.3,33.9,Office Worker,Moderate,Former,0,0,1,2024-10-27,2024,DOC0005
+P00690,58,Male,179.7,86.7,26.8,Manual Labor,Sedentary,Current,0,0,0,2025-05-04,2025,DOC0018
+P00691,69,Male,178.3,95.5,30.0,Office Worker,Active,Never,1,1,0,2024-02-24,2024,DOC0003
+P00692,58,Female,158.5,75.8,30.2,Office Worker,Moderate,Never,1,0,0,2024-05-09,2024,DOC0001
+P00693,66,Male,173.8,80.8,26.7,Healthcare Worker,Sedentary,Never,1,0,0,2023-08-26,2023,DOC0005
+P00694,67,Male,182.3,66.7,20.1,Retired,Sedentary,Never,0,1,1,2023-06-09,2023,DOC0003
+P00695,19,Female,160.9,81.6,31.5,Athlete,Moderate,Current,0,0,0,2025-11-03,2025,DOC0008
+P00696,28,Male,165.2,87.3,32.0,Office Worker,Moderate,Former,0,0,1,2024-11-15,2024,DOC0005
+P00697,54,Male,179.6,79.2,24.6,Manual Labor,Active,Never,0,0,0,2023-01-07,2023,DOC0004
+P00698,47,Female,157.8,77.3,31.0,Student,Moderate,Never,1,1,0,2025-09-21,2025,DOC0004
+P00699,17,Female,159.9,59.9,23.4,Office Worker,Active,Former,0,0,1,2024-03-18,2024,DOC0004
+P00700,20,Male,182.2,61.4,18.5,Student,Moderate,Never,0,0,0,2025-12-19,2025,DOC0010
+P00701,43,Male,177.0,83.9,26.8,Athlete,Active,Former,1,0,1,2024-09-06,2024,DOC0017
+P00702,48,Male,176.1,102.8,33.1,Office Worker,Active,Never,1,0,0,2025-08-20,2025,DOC0008
+P00703,24,Female,159.6,56.2,22.1,Student,Moderate,Never,0,0,0,2023-02-09,2023,DOC0003
+P00704,24,Female,160.4,68.8,26.7,Manual Labor,Sedentary,Never,1,0,0,2023-11-27,2023,DOC0004
+P00705,22,Male,172.4,95.1,32.0,Student,Moderate,Never,0,0,0,2025-03-20,2025,DOC0013
+P00706,46,Female,158.1,63.0,25.2,Athlete,Highly Active,Current,0,0,1,2025-07-16,2025,DOC0001
+P00707,15,Male,181.1,59.5,18.1,Athlete,Highly Active,Never,0,0,1,2024-07-24,2024,DOC0006
+P00708,46,Male,171.1,74.4,25.4,Athlete,Moderate,Never,1,0,0,2023-06-16,2023,DOC0001
+P00709,41,Female,159.2,69.3,27.3,Athlete,Active,Never,1,0,0,2023-09-15,2023,DOC0002
+P00710,40,Male,166.6,84.6,30.5,Athlete,Moderate,Never,0,1,0,2025-11-07,2025,DOC0004
+P00711,52,Male,167.5,62.3,22.2,Manual Labor,Sedentary,Never,0,0,0,2025-12-19,2025,DOC0001
+P00712,43,Male,162.2,85.3,32.4,Manual Labor,Active,Former,0,0,0,2023-12-11,2023,DOC0007
+P00713,55,Female,171.4,73.4,25.0,Manual Labor,Moderate,Never,0,0,2,2023-06-02,2023,DOC0004
+P00714,57,Female,165.1,62.4,22.9,Office Worker,Moderate,Never,0,0,0,2024-12-23,2024,DOC0001
+P00715,65,Female,151.4,60.8,26.5,Athlete,Active,Never,0,0,0,2025-04-02,2025,DOC0002
+P00716,58,Male,163.6,78.2,29.2,Manual Labor,Moderate,Never,0,0,1,2024-09-19,2024,DOC0002
+P00717,43,Male,180.1,72.0,22.2,Athlete,Active,Former,0,0,0,2024-07-05,2024,DOC0005
+P00718,42,Female,160.7,37.1,14.4,Retired,Moderate,Never,0,0,0,2025-12-12,2025,DOC0014
+P00719,27,Male,171.8,89.7,30.4,Athlete,Sedentary,Never,0,1,0,2023-09-24,2023,DOC0005
+P00720,47,Female,157.9,59.9,24.0,Manual Labor,Moderate,Former,1,0,0,2024-07-03,2024,DOC0001
+P00721,22,Female,153.1,60.5,25.8,Retired,Highly Active,Former,0,0,1,2024-11-19,2024,DOC0004
+P00722,66,Male,176.9,91.0,29.1,Manual Labor,Moderate,Former,0,0,0,2024-11-17,2024,DOC0002
+P00723,61,Female,151.5,57.1,24.9,Manual Labor,Sedentary,Never,0,0,0,2025-11-24,2025,DOC0005
+P00724,21,Male,176.4,81.2,26.1,Manual Labor,Active,Never,1,0,0,2024-03-05,2024,DOC0008
+P00725,58,Male,164.1,79.1,29.4,Athlete,Highly Active,Former,0,0,1,2024-02-22,2024,DOC0001
+P00726,21,Female,150.5,69.6,30.7,Manual Labor,Highly Active,Never,0,0,1,2023-03-13,2023,DOC0011
+P00727,54,Male,182.2,63.5,19.1,Retired,Active,Never,0,0,2,2025-10-12,2025,DOC0004
+P00728,19,Female,155.8,47.7,19.7,Healthcare Worker,Moderate,Never,1,0,1,2023-01-10,2023,DOC0018
+P00729,41,Female,161.6,55.5,21.3,Office Worker,Active,Former,0,0,1,2023-02-11,2023,DOC0012
+P00730,51,Female,159.8,79.1,31.0,Office Worker,Active,Never,0,0,0,2024-09-15,2024,DOC0017
+P00731,55,Female,170.4,65.8,22.7,Student,Highly Active,Never,0,1,0,2024-09-03,2024,DOC0006
+P00732,38,Male,170.9,77.5,26.5,Manual Labor,Active,Never,0,0,2,2025-10-12,2025,DOC0001
+P00733,65,Male,164.1,90.0,33.4,Office Worker,Moderate,Never,1,0,2,2025-04-18,2025,DOC0015
+P00734,57,Female,162.9,57.7,21.7,Athlete,Sedentary,Former,1,0,0,2025-02-14,2025,DOC0012
+P00735,26,Female,164.4,83.5,30.9,Athlete,Active,Never,0,0,0,2023-06-05,2023,DOC0008
+P00736,51,Male,167.5,85.1,30.3,Office Worker,Sedentary,Never,0,1,0,2024-12-10,2024,DOC0005
+P00737,55,Male,171.1,75.1,25.7,Athlete,Sedentary,Current,1,1,0,2025-01-12,2025,DOC0014
+P00738,33,Male,182.5,93.9,28.2,Athlete,Moderate,Former,1,1,1,2024-12-19,2024,DOC0003
+P00739,55,Male,179.2,85.6,26.7,Athlete,Active,Never,0,0,1,2025-08-25,2025,DOC0018
+P00740,64,Female,169.1,58.5,20.5,Retired,Highly Active,Current,0,0,0,2024-02-15,2024,DOC0002
+P00741,59,Male,179.3,79.9,24.9,Athlete,Active,Never,0,1,0,2023-04-19,2023,DOC0009
+P00742,56,Female,160.9,65.0,25.1,Athlete,Highly Active,Former,1,0,0,2024-11-03,2024,DOC0007
+P00743,49,Female,164.4,67.9,25.1,Office Worker,Active,Never,0,0,0,2023-02-26,2023,DOC0005
+P00744,29,Female,144.8,88.0,42.0,Office Worker,Active,Never,0,0,0,2023-06-09,2023,DOC0017
+P00745,58,Male,171.7,84.6,28.7,Healthcare Worker,Sedentary,Never,0,0,0,2023-02-10,2023,DOC0001
+P00746,35,Male,178.0,65.6,20.7,Retired,Active,Never,0,0,1,2023-01-07,2023,DOC0009
+P00747,44,Female,161.7,68.6,26.2,Office Worker,Sedentary,Never,0,0,0,2024-03-03,2024,DOC0006
+P00748,32,Female,166.2,65.4,23.7,Office Worker,Sedentary,Never,0,1,0,2025-12-22,2025,DOC0011
+P00749,32,Male,178.9,70.5,22.0,Office Worker,Sedentary,Never,0,1,0,2024-12-07,2024,DOC0009
+P00750,23,Female,155.2,67.7,28.1,Athlete,Active,Never,0,1,1,2025-04-08,2025,DOC0003
+P00751,67,Male,183.3,82.3,24.5,Office Worker,Active,Never,0,0,2,2024-07-05,2024,DOC0002
+P00752,23,Female,162.4,64.4,24.4,Athlete,Highly Active,Current,0,0,0,2023-03-27,2023,DOC0001
+P00753,19,Male,170.7,83.4,28.6,Athlete,Highly Active,Former,0,0,0,2023-05-22,2023,DOC0020
+P00754,66,Male,182.2,77.3,23.3,Manual Labor,Highly Active,Current,0,1,1,2025-03-26,2025,DOC0004
+P00755,45,Male,172.8,78.2,26.2,Athlete,Sedentary,Never,0,0,0,2024-09-24,2024,DOC0011
+P00756,39,Male,164.7,85.9,31.7,Athlete,Highly Active,Never,0,1,0,2025-07-25,2025,DOC0017
+P00757,55,Male,167.3,69.3,24.8,Office Worker,Active,Never,0,0,0,2023-05-13,2023,DOC0003
+P00758,36,Male,182.2,78.5,23.6,Office Worker,Highly Active,Never,0,0,0,2025-01-05,2025,DOC0006
+P00759,22,Male,161.5,74.3,28.5,Athlete,Sedentary,Never,1,0,0,2025-10-09,2025,DOC0003
+P00760,55,Female,163.1,66.3,24.9,Athlete,Sedentary,Current,1,0,0,2025-02-08,2025,DOC0003
+P00761,24,Male,174.6,67.0,22.0,Athlete,Highly Active,Never,0,1,1,2023-05-20,2023,DOC0003
+P00762,45,Female,159.8,60.1,23.5,Office Worker,Sedentary,Former,0,0,0,2025-02-01,2025,DOC0002
+P00763,67,Female,156.6,76.5,31.2,Student,Moderate,Never,0,0,0,2024-09-04,2024,DOC0001
+P00764,66,Male,167.9,62.1,22.0,Retired,Moderate,Never,0,0,1,2025-06-19,2025,DOC0001
+P00765,34,Male,181.1,59.5,18.1,Office Worker,Sedentary,Never,1,1,1,2024-07-04,2024,DOC0005
+P00766,57,Female,154.4,45.5,19.1,Office Worker,Sedentary,Current,0,0,1,2024-09-02,2024,DOC0002
+P00767,48,Female,155.0,85.2,35.5,Student,Highly Active,Never,0,0,1,2024-03-03,2024,DOC0005
+P00768,41,Male,172.2,75.8,25.6,Manual Labor,Highly Active,Never,0,0,2,2025-07-19,2025,DOC0003
+P00769,22,Female,172.4,81.8,27.5,Athlete,Highly Active,Never,0,0,0,2023-08-04,2023,DOC0010
+P00770,35,Male,184.1,82.2,24.3,Athlete,Moderate,Never,1,0,0,2024-05-04,2024,DOC0002
+P00771,50,Male,165.5,83.7,30.6,Office Worker,Moderate,Current,0,1,0,2024-05-07,2024,DOC0002
+P00772,69,Female,159.6,55.6,21.8,Manual Labor,Moderate,Current,0,0,1,2025-09-21,2025,DOC0013
+P00773,15,Male,174.8,89.3,29.2,Athlete,Moderate,Former,0,0,0,2024-10-06,2024,DOC0011
+P00774,54,Female,160.6,59.8,23.2,Office Worker,Sedentary,Current,1,0,0,2024-01-01,2024,DOC0003
+P00775,61,Male,170.3,88.4,30.5,Office Worker,Active,Former,0,0,1,2024-11-25,2024,DOC0006
+P00776,67,Female,170.4,62.3,21.5,Office Worker,Highly Active,Never,0,0,0,2024-03-24,2024,DOC0004
+P00777,38,Male,166.1,80.1,29.0,Office Worker,Moderate,Never,0,1,0,2024-07-05,2024,DOC0008
+P00778,21,Male,175.7,82.2,26.6,Manual Labor,Moderate,Never,0,0,0,2025-04-08,2025,DOC0005
+P00779,29,Male,166.4,76.2,27.5,Manual Labor,Moderate,Never,0,0,0,2025-10-06,2025,DOC0017
+P00780,61,Male,159.7,82.9,32.5,Office Worker,Sedentary,Never,0,0,0,2024-03-20,2024,DOC0001
+P00781,63,Female,168.1,58.8,20.8,Athlete,Moderate,Never,0,0,0,2023-04-07,2023,DOC0006
+P00782,50,Male,162.4,70.2,26.6,Student,Moderate,Current,0,0,0,2024-10-26,2024,DOC0003
+P00783,21,Male,169.7,97.3,33.8,Office Worker,Moderate,Current,0,1,1,2023-07-23,2023,DOC0001
+P00784,21,Male,168.6,90.6,31.9,Athlete,Moderate,Never,0,0,0,2023-11-16,2023,DOC0005
+P00785,41,Male,168.9,68.9,24.2,Office Worker,Active,Former,0,0,0,2025-10-01,2025,DOC0006
+P00786,47,Female,166.5,70.7,25.5,Student,Moderate,Never,0,1,0,2024-01-24,2024,DOC0001
+P00787,16,Male,175.4,69.1,22.5,Student,Sedentary,Never,0,0,0,2024-02-20,2024,DOC0002
+P00788,52,Female,159.6,52.4,20.6,Retired,Sedentary,Never,0,0,0,2025-06-22,2025,DOC0001
+P00789,44,Male,162.6,90.4,34.2,Manual Labor,Sedentary,Never,0,1,0,2023-08-02,2023,DOC0008
+P00790,15,Female,162.7,48.9,18.5,Office Worker,Active,Never,0,1,1,2023-05-20,2023,DOC0020
+P00791,20,Male,176.5,89.1,28.6,Office Worker,Active,Never,0,0,0,2023-12-22,2023,DOC0009
+P00792,39,Male,167.8,75.0,26.6,Athlete,Highly Active,Never,0,0,0,2023-11-26,2023,DOC0001
+P00793,54,Female,165.8,74.3,27.0,Manual Labor,Active,Never,0,1,0,2025-11-16,2025,DOC0018
+P00794,60,Female,164.0,61.0,22.7,Manual Labor,Moderate,Current,1,0,0,2025-05-14,2025,DOC0002
+P00795,38,Female,166.5,60.1,21.7,Athlete,Sedentary,Never,0,0,1,2024-10-12,2024,DOC0005
+P00796,31,Male,170.9,68.1,23.3,Retired,Moderate,Never,1,1,0,2023-10-19,2023,DOC0001
+P00797,68,Male,176.2,86.6,27.9,Office Worker,Moderate,Never,0,0,0,2024-03-25,2024,DOC0003
+P00798,40,Female,152.3,68.7,29.6,Athlete,Highly Active,Never,0,0,1,2023-11-17,2023,DOC0011
+P00799,32,Male,173.1,62.9,21.0,Office Worker,Moderate,Never,0,0,0,2024-03-07,2024,DOC0001
+P00800,39,Female,167.3,58.4,20.9,Retired,Moderate,Never,0,0,1,2024-11-01,2024,DOC0003
+P00801,29,Male,168.0,65.0,23.0,Office Worker,Moderate,Never,0,0,0,2026-09-15,2025,DOC0001
+P00802,42,Female,168.0,65.0,23.0,Office Worker,Moderate,Never,0,0,0,2026-09-15,2025,DOC0002

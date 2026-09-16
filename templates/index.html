@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Digital Twin — Orthopaedic Rehabilitation</title>
+    <title>Dynamic Digital Twin — Multi-Portal Orthopaedic System</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -11,6 +11,102 @@
     <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
+
+    <!-- 1. LOGIN LANDING OVERLAY -->
+    <div id="loginOverlay" class="login-landing-overlay">
+        <div class="login-container">
+            <div class="login-brand-header">
+                <h1>Dynamic Digital Twin Framework</h1>
+                <p>Role-Based Authentication & Multi-Portal System Access</p>
+            </div>
+
+            <div class="login-cards-grid">
+                <!-- Patient Login Card -->
+                <div class="login-card patient-login-card">
+                    <div>
+                        <div class="login-card-header">
+                            <h3>Patient Login</h3>
+                            <span class="role-badge badge-purple">PATIENT</span>
+                        </div>
+                        <p class="login-card-desc">Access your personal Digital Twin state, recovery progress, NPI score, treatment options, and reports.</p>
+                        <form id="patientLoginForm" class="login-form">
+                            <div class="form-group">
+                                <label for="patientLoginId">Patient ID / Username:</label>
+                                <input type="text" id="patientLoginId" value="p00001" placeholder="e.g. p00001 or P00001" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="patientPassword">Password:</label>
+                                <input type="password" id="patientPassword" value="patient123" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-full" style="background-color: #8B5CF6;">Login as Patient</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Doctor Login Card -->
+                <div class="login-card doc-login-card">
+                    <div>
+                        <div class="login-card-header">
+                            <h3>Doctor Portal</h3>
+                            <span class="role-badge badge-emerald">DOCTOR</span>
+                        </div>
+                        <p class="login-card-desc">Access allocated patient roster, register new patients, record weekly clinical observations, and calibrate twins.</p>
+                        <form id="doctorLoginForm" class="login-form">
+                            <div class="form-group">
+                                <label for="docLoginId">Doctor ID / Username:</label>
+                                <input type="text" id="docLoginId" value="doc0001" placeholder="e.g. doc0001 or DOC0001" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="docPassword">Password:</label>
+                                <input type="password" id="docPassword" value="doc123" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-full">Login as Doctor</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Admin Login Card -->
+                <div class="login-card admin-login-card">
+                    <div>
+                        <div class="login-card-header">
+                            <h3>Central Admin</h3>
+                            <span class="role-badge badge-amber">ADMIN</span>
+                        </div>
+                        <p class="login-card-desc">Full system-wide administrative control, doctor roster management, patient reassignment, and cohort analytics.</p>
+                        <form id="adminLoginForm" class="login-form">
+                            <div class="form-group">
+                                <label for="adminLoginId">Admin Username:</label>
+                                <input type="text" id="adminLoginId" value="admin" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="adminPassword">Password:</label>
+                                <input type="password" id="adminPassword" value="admin123" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-full" style="background-color: #F59E0B;">Login as Admin</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="loginStatusMsg" style="text-align: center; margin-top: 20px; font-weight: 600;"></div>
+        </div>
+    </div>
+
+    <!-- 2. SECURITY SESSION BANNER -->
+    <div id="securityBanner" class="security-session-banner hidden">
+        <div class="user-session-info">
+            <span class="session-label">Active Session:</span>
+            <strong id="sessionUserName">User</strong>
+            <span id="sessionRoleBadge" class="session-badge">ROLE</span>
+            <span id="sessionScopeDesc" class="session-scope">Security Scope Info</span>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <button id="adminQuickAddDocBtn" class="btn btn-sm btn-secondary hidden" style="background:#F59E0B; color:#fff;">+ Add Doctor</button>
+            <button id="docQuickAddPatBtn" class="btn btn-sm btn-secondary hidden" style="background:#10B981; color:#fff;">+ Register Patient</button>
+            <button id="logoutBtn" class="btn btn-sm btn-secondary">Logout</button>
+        </div>
+    </div>
+
     <!-- Top Application Header -->
     <header class="app-header">
         <div class="header-brand">
@@ -20,7 +116,7 @@
             </div>
         </div>
         <div class="header-controls">
-            <label for="patientSelect">Select 2025 Test Patient:</label>
+            <label for="patientSelect">Select Active Patient:</label>
             <select id="patientSelect" class="patient-dropdown"></select>
         </div>
     </header>
@@ -28,10 +124,13 @@
     <!-- Navigation Tabs -->
     <nav class="nav-tabs">
         <button class="nav-tab active" data-tab="weekByWeek">Week-by-Week Twin</button>
-        <button class="nav-tab" data-tab="treatmentClones">Treatment Clones</button>
+        <button class="nav-tab" data-tab="treatmentClones">Treatment Reaction Simulator</button>
+        <button id="tabNavPathways" class="nav-tab" data-tab="pathways">Pathway Mining</button>
         <button class="nav-tab" data-tab="twinOverview">Digital Twin Overview</button>
         <button class="nav-tab" data-tab="recalibration">Simulation & Recalibration</button>
         <button class="nav-tab" data-tab="evaluation">Evaluation Metrics</button>
+        <button id="tabNavDoctorRoster" class="nav-tab hidden" data-tab="doctorRoster">Doctor Roster</button>
+        <button id="tabNavAdminPortal" class="nav-tab hidden" data-tab="adminPortal">Admin Control Center</button>
     </nav>
 
     <!-- Main Container -->
@@ -39,7 +138,6 @@
 
         <!-- TAB 1: WEEK-BY-WEEK TWIN -->
         <section id="tab-weekByWeek" class="tab-content active">
-            <!-- Digital Twin Explanation Card -->
             <div class="card concept-card mb-4">
                 <h3>What is the Dynamic Digital Twin?</h3>
                 <p>The Dynamic Digital Twin is a computational virtual copy of a human patient's physiological and musculoskeletal state. It continuously updates week-by-week using real recorded clinical observations (Pain, Range of Motion, Quad/Hamstring strength, Balance, Walking speed). By combining baseline intake features with machine learning models trained on historical patient cohorts, the twin forecasts individual recovery trajectories and simulates physiological reactions across alternative treatment pathways.</p>
@@ -101,6 +199,23 @@
                 <div class="submetric-box"><span class="sub-label">Clinician Remark:</span> <span id="mRemark" class="italic-txt">-</span></div>
             </div>
 
+            <!-- Normalized Pain Index (NPI) Card -->
+            <div class="card npi-card mt-4">
+                <div class="npi-header">
+                    <div>
+                        <h3 style="color: #92400E; margin: 0;">Common Normalized Pain Index (NPI)</h3>
+                        <p class="section-desc">Unified standardized pain scale accounting for baseline severity, joint swelling, and comorbidity factors.</p>
+                    </div>
+                    <div class="npi-badge" id="npiBadgeScore">0.000</div>
+                </div>
+                <div class="npi-details-grid mt-4">
+                    <div class="npi-box"><strong>Raw Pain Score:</strong> <span id="npiRawPain">-</span></div>
+                    <div class="npi-box"><strong>Normalized Score:</strong> <span id="npiScoreVal">-</span></div>
+                    <div class="npi-box"><strong>Pain Category:</strong> <span id="npiCategory" style="font-weight:700;">-</span></div>
+                    <div class="npi-box"><strong>Intensity Index %:</strong> <span id="npiPctVal">-</span></div>
+                </div>
+            </div>
+
             <!-- Full Body Human Twin & Pressure Points -->
             <div class="grid-2col mt-4">
                 <div class="card svg-card">
@@ -129,12 +244,12 @@
                 </div>
             </div>
 
-            <!-- Record & Save Weekly Check-In Form (Data Collection Engine) -->
+            <!-- Record & Save Weekly Check-In Form -->
             <div class="card mt-4" style="border-left: 4px solid #10B981;">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <div>
                         <h3 style="color: #10B981; margin: 0;">Record Weekly Patient Check-In Observation</h3>
-                        <p class="section-desc" style="margin-top: 4px;">Enter and persist new clinical data for this selected week directly into MySQL / CSV.</p>
+                        <p class="section-desc" style="margin-top: 4px;">Enter and persist new clinical data for this selected week directly into MySQL Database.</p>
                     </div>
                     <button type="button" id="toggleCheckinFormBtn" class="btn btn-secondary">Toggle Check-In Form</button>
                 </div>
@@ -163,7 +278,7 @@
                 </form>
             </div>
 
-            <!-- Weekly Recalibration Result Panel (shown after saving check-in) -->
+            <!-- Weekly Recalibration Result Panel -->
             <div id="weeklyRecalPanel" class="card mt-4 hidden" style="border-left: 4px solid #6366F1;">
                 <h3 style="color:#6366F1;">Week <span id="recalPanelWeek">-</span> — Dynamic Recalibration Result</h3>
 
@@ -302,7 +417,19 @@
             </div>
         </section>
 
-        <!-- TAB 3: DIGITAL TWIN OVERVIEW -->
+        <!-- TAB 3: PATHWAY MINING (RESTRICTED TO CLINICIANS & ADMINS) -->
+        <section id="tab-pathways" class="tab-content">
+            <div class="card concept-card mb-4">
+                <h2 class="section-title">Pathway Mining</h2>
+                <p class="section-desc">Mined recovery pathways extracted from historical patient cohort outcomes in MySQL, filtered specifically for your allocated clinical patients.</p>
+            </div>
+
+            <div id="minedPathwaysCardsWrapper" class="pathways-cards-container">
+                <div class="text-muted text-center">Loading mined pathways for allocated patients...</div>
+            </div>
+        </section>
+
+        <!-- TAB 4: DIGITAL TWIN OVERVIEW -->
         <section id="tab-twinOverview" class="tab-content">
             <div class="grid-2col">
                 <div class="card twin-card-real">
@@ -320,7 +447,7 @@
             </div>
         </section>
 
-        <!-- TAB 4: SIMULATION & RECALIBRATION -->
+        <!-- TAB 5: SIMULATION & RECALIBRATION -->
         <section id="tab-recalibration" class="tab-content">
             <div class="card">
                 <h2 class="section-title">Digital Twin Recalibration Simulator</h2>
@@ -366,7 +493,7 @@
             </div>
         </section>
 
-        <!-- TAB 5: EVALUATION METRICS -->
+        <!-- TAB 6: EVALUATION METRICS -->
         <section id="tab-evaluation" class="tab-content">
             <div class="card">
                 <h2 class="section-title">Upgraded Model Evaluation Metrics (2025 Test Set)</h2>
@@ -383,7 +510,177 @@
                 <div id="featureImportanceList" class="fi-list"></div>
             </div>
         </section>
+
+        <!-- TAB 7: DOCTOR ROSTER (ADMIN ONLY) -->
+        <section id="tab-doctorRoster" class="tab-content">
+            <div class="card">
+                <div class="doc-header-row">
+                    <div>
+                        <h2 class="section-title">Doctor Roster & Assignments</h2>
+                        <p class="section-desc">Medical staff list and assigned patient counts.</p>
+                    </div>
+                    <button id="addDoctorModalOpenBtn" class="btn btn-primary">+ Add New Doctor</button>
+                </div>
+                <div class="table-wrapper mt-4">
+                    <table class="data-table" id="doctorRosterTable">
+                        <thead>
+                            <tr>
+                                <th>Doctor ID</th>
+                                <th>Doctor Name</th>
+                                <th>Specialization</th>
+                                <th>Hospital Branch</th>
+                                <th>Experience</th>
+                                <th>Contact Email</th>
+                            </tr>
+                        </thead>
+                        <tbody id="doctorRosterTbody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 8: ADMIN CONTROL CENTER (ADMIN ONLY) -->
+        <section id="tab-adminPortal" class="tab-content">
+            <div class="card concept-card mb-4" style="border-left-color: #F59E0B;">
+                <h2 class="section-title" style="color: #92400E;">Central Administrative Portal</h2>
+                <p class="section-desc">System-wide monitoring, patient reassignments, and cohort distribution analytics.</p>
+            </div>
+
+            <div class="metric-grid mb-4">
+                <div class="metric-card"><div class="metric-label">Total Registered Patients</div><div class="metric-val" id="admTotalPatients">-</div></div>
+                <div class="metric-card"><div class="metric-label">Total Medical Doctors</div><div class="metric-val" id="admTotalDoctors">-</div></div>
+                <div class="metric-card"><div class="metric-label">Mined Pathways</div><div class="metric-val" id="admTotalPathways">-</div></div>
+            </div>
+
+            <div class="grid-2col mb-4">
+                <div class="card">
+                    <h3>Register New Patient (Admin Mode)</h3>
+                    <form id="adminRegisterPatientForm" class="recal-form">
+                        <div class="form-group"><label for="admAge">Age:</label><input type="number" id="admAge" value="35"></div>
+                        <div class="form-group"><label for="admGender">Gender:</label><select id="admGender"><option value="Female">Female</option><option value="Male">Male</option></select></div>
+                        <div class="form-group"><label for="admBodyRegion">Body Region:</label><input type="text" id="admBodyRegion" value="Knee"></div>
+                        <div class="form-group"><label for="admInjuryType">Injury Type:</label><input type="text" id="admInjuryType" value="ACL Tear"></div>
+                        <div class="form-group"><label for="admSeverity">Severity:</label><select id="admSeverity"><option value="Moderate">Moderate</option><option value="Mild">Mild</option><option value="Severe">Severe</option></select></div>
+                        <div class="form-group"><label for="admPain">Initial Pain (0-10):</label><input type="number" id="admPain" min="0" max="10" value="6.0"></div>
+                        <div class="form-group"><label for="admAssignedDoc">Assign Doctor:</label><select id="admAssignedDocSelect"></select></div>
+                        <button type="submit" class="btn btn-primary" style="grid-column: span 2;">Register & Assign Patient</button>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <h3>Reassign Patient Doctor</h3>
+                    <form id="adminReassignForm" class="recal-form">
+                        <div class="form-group" style="grid-column: span 2;"><label for="reassignPatientSelect">Select Patient:</label><select id="reassignPatientSelect" class="patient-dropdown"></select></div>
+                        <div class="form-group" style="grid-column: span 2;"><label for="reassignDoctorSelect">Assign to Doctor:</label><select id="reassignDoctorSelect" class="patient-dropdown"></select></div>
+                        <button type="submit" class="btn btn-primary" style="grid-column: span 2; background-color: #F59E0B;">Execute Doctor Reassignment</button>
+                    </form>
+                </div>
+            </div>
+        </section>
     </main>
+
+    <!-- MODAL: ADD DOCTOR (ADMIN ONLY) -->
+    <div id="addDoctorModal" class="modal-overlay hidden">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Register New Medical Doctor</h3>
+                <button class="btn-close" id="closeAddDocModalBtn">&times;</button>
+            </div>
+            <form id="addDoctorForm">
+                <div class="form-row-2">
+                    <div class="form-group"><label for="newDocName">Doctor Full Name:</label><input type="text" id="newDocName" placeholder="Dr. Jane Smith" required></div>
+                    <div class="form-group"><label for="newDocSpec">Specialization:</label><input type="text" id="newDocSpec" value="Orthopaedics" required></div>
+                </div>
+                <div class="form-row-2">
+                    <div class="form-group"><label for="newDocBranch">Hospital Branch:</label><input type="text" id="newDocBranch" value="Central Medical Hospital" required></div>
+                    <div class="form-group"><label for="newDocExp">Years Experience:</label><input type="number" id="newDocExp" value="12" required></div>
+                </div>
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label for="newDocEmail">Contact Email:</label>
+                    <input type="email" id="newDocEmail" placeholder="dr.smith@hospital.com" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancelAddDocModalBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Doctor to Database</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: REGISTER NEW PATIENT (DOCTOR & ADMIN) -->
+    <div id="registerPatientModal" class="modal-overlay hidden">
+        <div class="modal-card" style="max-width: 650px;">
+            <div class="modal-header">
+                <h3>Register New Patient</h3>
+                <button class="btn-close" id="closeRegPatModalBtn">&times;</button>
+            </div>
+            <form id="registerPatientForm">
+                <div class="form-row-2">
+                    <div class="form-group"><label for="regAge">Age:</label><input type="number" id="regAge" value="35" required></div>
+                    <div class="form-group"><label for="regGender">Gender:</label>
+                        <select id="regGender">
+                            <option value="Female">Female</option>
+                            <option value="Male">Male</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row-2">
+                    <div class="form-group"><label for="regHeight">Height (cm):</label><input type="number" id="regHeight" value="168" step="0.1" required></div>
+                    <div class="form-group"><label for="regWeight">Weight (kg):</label><input type="number" id="regWeight" value="65" step="0.1" required></div>
+                </div>
+                <div class="form-row-2">
+                    <div class="form-group"><label for="regOccupation">Occupation:</label><input type="text" id="regOccupation" value="Office Worker" required></div>
+                    <div class="form-group"><label for="regActivity">Activity Level:</label>
+                        <select id="regActivity">
+                            <option value="Low">Low</option>
+                            <option value="Moderate" selected>Moderate</option>
+                            <option value="High">High</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row-2">
+                    <div class="form-group"><label for="regBodyRegion">Body Region:</label>
+                        <select id="regBodyRegion">
+                            <option value="Knee" selected>Knee</option>
+                            <option value="Shoulder">Shoulder</option>
+                            <option value="Hip">Hip</option>
+                            <option value="Ankle">Ankle</option>
+                            <option value="Spine">Spine</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label for="regInjuryType">Injury Type:</label><input type="text" id="regInjuryType" value="ACL Tear" required></div>
+                </div>
+                <div class="form-row-2">
+                    <div class="form-group"><label for="regSeverity">Severity:</label>
+                        <select id="regSeverity">
+                            <option value="Mild">Mild</option>
+                            <option value="Moderate" selected>Moderate</option>
+                            <option value="Severe">Severe</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label for="regSurgery">Surgery Required?</label>
+                        <select id="regSurgery">
+                            <option value="0">No</option>
+                            <option value="1">Yes</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row-2">
+                    <div class="form-group"><label for="regPain">Initial Pain Score (0-10):</label><input type="number" id="regPain" min="0" max="10" step="0.5" value="6.0" required></div>
+                    <div class="form-group"><label for="regRom">Primary ROM (deg):</label><input type="number" id="regRom" value="75.0" step="1" required></div>
+                </div>
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label for="regAssignedDocSelect">Assigned Doctor:</label>
+                    <select id="regAssignedDocSelect" style="width: 100%; padding: 8px; border: 1px solid #CBD5E1; border-radius: 6px;"></select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancelRegPatModalBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary" style="background:#10B981;">Register & Launch Twin</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script src="/static/app.js"></script>
 </body>
 </html>

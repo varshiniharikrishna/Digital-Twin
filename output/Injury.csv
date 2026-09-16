@@ -1,804 +1,803 @@
-Injury_ID,Patient_ID,Injury_Type,Body_Part,Affected_Leg,Severity,Surgery_Required,Surgery_Type,Injury_Date,Surgery_Date,Body_Region
-INJ00001,P00001,Meniscus Tear,Knee,Right,Severe,1,Meniscus Tear Reconstruction,2023-09-23,2023-10-03,
-INJ00002,P00002,Rotator Cuff Tear,Shoulder,,Moderate,1,Rotator Cuff Tear Reconstruction,2025-11-12,2025-11-29,
-INJ00003,P00003,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2025-06-19,2025-07-06,
-INJ00004,P00004,ACL Tear,Knee,Left,Moderate,0,,2024-12-27,,
-INJ00005,P00005,Achilles Tendon Rupture,Ankle,Left,Mild,0,,2023-02-05,,
-INJ00006,P00006,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2024-11-13,2024-11-30,
-INJ00007,P00007,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2025-09-03,2025-09-18,
-INJ00008,P00008,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-12-02,2023-12-05,
-INJ00009,P00009,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2025-07-16,2025-08-03,
-INJ00010,P00010,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2023-11-23,2023-12-13,
-INJ00011,P00011,Meniscus Tear,Knee,Right,Severe,1,Meniscus Tear Reconstruction,2025-08-04,2025-08-22,
-INJ00012,P00012,Meniscus Tear,Knee,Left,Mild,0,,2024-06-14,,
-INJ00013,P00013,Meniscus Tear,Knee,Right,Mild,0,,2024-09-14,,
-INJ00014,P00014,Meniscus Tear,Knee,Right,Moderate,1,Meniscus Tear Reconstruction,2024-08-01,2024-08-12,
-INJ00015,P00015,ACL Tear,Knee,Right,Mild,0,,2023-03-02,,
-INJ00016,P00016,ACL Tear,Knee,Right,Moderate,0,,2023-06-11,,
-INJ00017,P00017,ACL Tear,Knee,Right,Mild,0,,2025-08-21,,
-INJ00018,P00018,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2024-09-09,2024-09-15,
-INJ00019,P00019,Ankle Fracture,Ankle,Right,Moderate,0,,2024-07-15,,
-INJ00020,P00020,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-11-23,2023-12-12,
-INJ00021,P00021,Meniscus Tear,Knee,Right,Moderate,1,Meniscus Tear Reconstruction,2024-08-02,2024-08-08,
-INJ00022,P00022,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2024-12-15,2025-01-01,
-INJ00023,P00023,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2023-01-01,2023-01-21,
-INJ00024,P00024,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2025-01-30,2025-02-18,
-INJ00025,P00025,ACL Tear,Knee,Left,Moderate,0,,2024-02-20,,
-INJ00026,P00026,Meniscus Tear,Knee,Left,Mild,0,,2024-06-06,,
-INJ00027,P00027,Rotator Cuff Tear,Shoulder,,Moderate,0,,2025-12-10,,
-INJ00028,P00028,ACL Tear,Knee,Right,Moderate,0,,2024-05-28,,
-INJ00029,P00029,Meniscus Tear,Knee,Right,Moderate,1,Meniscus Tear Reconstruction,2025-10-11,2025-10-23,
-INJ00030,P00030,Ankle Fracture,Ankle,Left,Severe,1,Ankle Fracture Reconstruction,2024-09-21,2024-10-09,
-INJ00031,P00031,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2024-02-03,2024-02-20,
-INJ00032,P00032,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-09-14,2023-10-04,
-INJ00033,P00033,ACL Tear,Knee,Left,Moderate,0,,2023-04-01,,
-INJ00034,P00034,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2024-08-27,2024-09-05,
-INJ00035,P00035,Rotator Cuff Tear,Shoulder,,Severe,1,Rotator Cuff Tear Reconstruction,2023-12-10,2023-12-24,
-INJ00036,P00036,ACL Tear,Knee,Right,Mild,0,,2023-08-23,,
-INJ00037,P00037,ACL Tear,Knee,Right,Moderate,0,,2024-11-25,,
-INJ00038,P00038,Ankle Fracture,Ankle,Right,Mild,0,,2025-05-15,,
-INJ00039,P00039,ACL Tear,Knee,Right,Mild,0,,2023-12-01,,
-INJ00040,P00040,Meniscus Tear,Knee,Left,Mild,0,,2025-07-28,,
-INJ00041,P00041,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2024-12-30,2025-01-16,
-INJ00042,P00042,ACL Tear,Knee,Left,Mild,0,,2025-06-28,,
-INJ00043,P00043,ACL Tear,Knee,Left,Mild,0,,2025-12-12,,
-INJ00044,P00044,ACL Tear,Knee,Right,Mild,0,,2025-06-09,,
-INJ00045,P00045,ACL Tear,Knee,Left,Moderate,0,,2023-06-03,,
-INJ00046,P00046,Ankle Fracture,Ankle,Left,Severe,1,Ankle Fracture Reconstruction,2024-08-20,2024-08-27,
-INJ00047,P00047,Meniscus Tear,Knee,Left,Severe,1,Meniscus Tear Reconstruction,2025-06-09,2025-06-16,
-INJ00048,P00048,Ankle Fracture,Ankle,Left,Moderate,1,Ankle Fracture Reconstruction,2024-11-12,2024-11-22,
-INJ00049,P00049,ACL Tear,Knee,Right,Mild,0,,2025-03-19,,
-INJ00050,P00050,Tibial Fracture,Lower Leg,Left,Severe,1,Tibial Fracture Reconstruction,2025-10-05,2025-10-14,
-INJ00051,P00051,ACL Tear,Knee,Left,Mild,0,,2023-08-07,,
-INJ00052,P00052,Rotator Cuff Tear,Shoulder,,Severe,1,Rotator Cuff Tear Reconstruction,2023-03-10,2023-03-26,
-INJ00053,P00053,Ankle Fracture,Ankle,Left,Moderate,0,,2024-10-09,,
-INJ00054,P00054,Meniscus Tear,Knee,Right,Moderate,0,,2023-07-27,,
-INJ00055,P00055,ACL Tear,Knee,Left,Mild,0,,2024-03-02,,
-INJ00056,P00056,Ankle Fracture,Ankle,Left,Mild,0,,2025-03-12,,
-INJ00057,P00057,Ankle Fracture,Ankle,Right,Moderate,1,Ankle Fracture Reconstruction,2024-07-23,2024-08-11,
-INJ00058,P00058,ACL Tear,Knee,Right,Moderate,0,,2023-12-03,,
-INJ00059,P00059,Ankle Fracture,Ankle,Left,Severe,1,Ankle Fracture Reconstruction,2025-01-04,2025-01-09,
-INJ00060,P00060,ACL Tear,Knee,Left,Moderate,0,,2023-07-04,,
-INJ00061,P00061,ACL Tear,Knee,Right,Moderate,0,,2025-01-15,,
-INJ00062,P00062,Meniscus Tear,Knee,Right,Mild,0,,2023-04-06,,
-INJ00063,P00063,Rotator Cuff Tear,Shoulder,,Moderate,0,,2025-12-04,,
-INJ00064,P00064,ACL Tear,Knee,Left,Mild,0,,2024-08-27,,
-INJ00065,P00065,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2024-09-23,2024-10-01,
-INJ00066,P00066,ACL Tear,Knee,Left,Moderate,0,,2024-11-20,,
-INJ00067,P00067,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-02-17,2023-03-08,
-INJ00068,P00068,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2024-11-26,2024-12-09,
-INJ00069,P00069,ACL Tear,Knee,Left,Mild,0,,2025-07-07,,
-INJ00070,P00070,Ankle Fracture,Ankle,Right,Severe,1,Ankle Fracture Reconstruction,2025-09-22,2025-09-28,
-INJ00071,P00071,ACL Tear,Knee,Left,Moderate,0,,2023-04-20,,
-INJ00072,P00072,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2024-04-01,2024-04-14,
-INJ00073,P00073,ACL Tear,Knee,Right,Moderate,0,,2025-02-07,,
-INJ00074,P00074,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2025-07-19,2025-08-06,
-INJ00075,P00075,ACL Tear,Knee,Right,Mild,0,,2024-11-02,,
-INJ00076,P00076,ACL Tear,Knee,Left,Moderate,0,,2023-04-26,,
-INJ00077,P00077,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2025-11-08,2025-11-17,
-INJ00078,P00078,ACL Tear,Knee,Left,Mild,0,,2024-10-09,,
-INJ00079,P00079,Meniscus Tear,Knee,Left,Severe,1,Meniscus Tear Reconstruction,2024-12-18,2024-12-29,
-INJ00080,P00080,Rotator Cuff Tear,Shoulder,,Moderate,0,,2025-09-11,,
-INJ00081,P00081,ACL Tear,Knee,Right,Mild,0,,2023-01-19,,
-INJ00082,P00082,ACL Tear,Knee,Left,Mild,0,,2025-07-07,,
-INJ00083,P00083,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2023-09-01,2023-09-15,
-INJ00084,P00084,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2025-07-18,2025-08-05,
-INJ00085,P00085,Meniscus Tear,Knee,Right,Mild,0,,2025-02-08,,
-INJ00086,P00086,Meniscus Tear,Knee,Right,Mild,0,,2025-11-26,,
-INJ00087,P00087,ACL Tear,Knee,Right,Mild,0,,2025-03-31,,
-INJ00088,P00088,ACL Tear,Knee,Right,Mild,0,,2025-08-29,,
-INJ00089,P00089,ACL Tear,Knee,Right,Moderate,0,,2023-10-05,,
-INJ00090,P00090,ACL Tear,Knee,Right,Mild,0,,2025-05-09,,
-INJ00091,P00091,Tibial Fracture,Lower Leg,Left,Mild,0,,2025-01-10,,
-INJ00092,P00092,ACL Tear,Knee,Left,Mild,0,,2024-09-23,,
-INJ00093,P00093,ACL Tear,Knee,Right,Moderate,0,,2024-04-03,,
-INJ00094,P00094,ACL Tear,Knee,Left,Moderate,0,,2023-10-24,,
-INJ00095,P00095,ACL Tear,Knee,Right,Moderate,0,,2024-06-07,,
-INJ00096,P00096,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2025-06-04,2025-06-17,
-INJ00097,P00097,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2024-08-25,2024-09-14,
-INJ00098,P00098,ACL Tear,Knee,Left,Moderate,0,,2024-11-24,,
-INJ00099,P00099,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2024-03-20,2024-04-05,
-INJ00100,P00100,Meniscus Tear,Knee,Right,Moderate,1,Meniscus Tear Reconstruction,2023-03-22,2023-04-01,
-INJ00101,P00101,ACL Tear,Knee,Left,Mild,0,,2025-05-11,,
-INJ00102,P00102,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2023-11-12,2023-11-23,
-INJ00103,P00103,Rotator Cuff Tear,Shoulder,,Moderate,0,,2023-09-25,,
-INJ00104,P00104,ACL Tear,Knee,Left,Moderate,0,,2023-11-14,,
-INJ00105,P00105,Tibial Fracture,Lower Leg,Left,Mild,0,,2025-01-29,,
-INJ00106,P00106,Achilles Tendon Rupture,Ankle,Left,Moderate,1,Achilles Tendon Rupture Reconstruction,2025-03-22,2025-04-06,
-INJ00107,P00107,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2023-04-21,2023-04-25,
-INJ00108,P00108,ACL Tear,Knee,Right,Mild,0,,2023-03-14,,
-INJ00109,P00109,Rotator Cuff Tear,Shoulder,,Mild,0,,2024-11-30,,
-INJ00110,P00110,ACL Tear,Knee,Right,Mild,0,,2023-09-05,,
-INJ00111,P00111,ACL Tear,Knee,Left,Moderate,0,,2025-04-13,,
-INJ00112,P00112,Meniscus Tear,Knee,Right,Severe,1,Meniscus Tear Reconstruction,2023-08-04,2023-08-11,
-INJ00113,P00113,ACL Tear,Knee,Right,Moderate,0,,2024-10-23,,
-INJ00114,P00114,Rotator Cuff Tear,Shoulder,,Severe,1,Rotator Cuff Tear Reconstruction,2024-10-24,2024-10-31,
-INJ00115,P00115,Ankle Fracture,Ankle,Right,Moderate,0,,2024-03-28,,
-INJ00116,P00116,Rotator Cuff Tear,Shoulder,,Moderate,0,,2024-03-14,,
-INJ00117,P00117,Ankle Fracture,Ankle,Left,Mild,0,,2023-10-16,,
-INJ00118,P00118,Meniscus Tear,Knee,Left,Mild,0,,2023-08-18,,
-INJ00119,P00119,ACL Tear,Knee,Right,Moderate,0,,2023-03-09,,
-INJ00120,P00120,Tibial Fracture,Lower Leg,Right,Mild,0,,2023-08-31,,
-INJ00121,P00121,Tibial Fracture,Lower Leg,Right,Mild,0,,2025-10-26,,
-INJ00122,P00122,Rotator Cuff Tear,Shoulder,,Severe,1,Rotator Cuff Tear Reconstruction,2023-10-08,2023-10-25,
-INJ00123,P00123,Ankle Fracture,Ankle,Left,Moderate,0,,2023-11-13,,
-INJ00124,P00124,Meniscus Tear,Knee,Left,Mild,0,,2023-07-21,,
-INJ00125,P00125,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2025-05-07,2025-05-24,
-INJ00126,P00126,Rotator Cuff Tear,Shoulder,,Moderate,1,Rotator Cuff Tear Reconstruction,2025-10-21,2025-11-07,
-INJ00127,P00127,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2025-04-19,2025-04-23,
-INJ00128,P00128,ACL Tear,Knee,Right,Moderate,0,,2024-07-17,,
-INJ00129,P00129,ACL Tear,Knee,Left,Mild,0,,2025-01-07,,
-INJ00130,P00130,Meniscus Tear,Knee,Right,Mild,0,,2024-05-18,,
-INJ00131,P00131,Meniscus Tear,Knee,Right,Mild,0,,2025-02-21,,
-INJ00132,P00132,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2025-01-31,2025-02-08,
-INJ00133,P00133,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2023-06-22,2023-06-30,
-INJ00134,P00134,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2024-05-30,2024-06-02,
-INJ00135,P00135,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2023-08-30,2023-09-06,
-INJ00136,P00136,ACL Tear,Knee,Right,Moderate,0,,2023-05-10,,
-INJ00137,P00137,Meniscus Tear,Knee,Left,Mild,0,,2025-04-13,,
-INJ00138,P00138,ACL Tear,Knee,Right,Mild,0,,2023-06-17,,
-INJ00139,P00139,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2025-04-12,2025-04-22,
-INJ00140,P00140,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2025-08-09,2025-08-27,
-INJ00141,P00141,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2024-02-28,2024-03-05,
-INJ00142,P00142,Rotator Cuff Tear,Shoulder,,Mild,0,,2024-09-12,,
-INJ00143,P00143,ACL Tear,Knee,Left,Moderate,0,,2024-04-14,,
-INJ00144,P00144,ACL Tear,Knee,Left,Mild,0,,2025-04-11,,
-INJ00145,P00145,Meniscus Tear,Knee,Right,Moderate,0,,2023-09-21,,
-INJ00146,P00146,ACL Tear,Knee,Right,Mild,0,,2023-11-05,,
-INJ00147,P00147,Rotator Cuff Tear,Shoulder,,Moderate,1,Rotator Cuff Tear Reconstruction,2024-01-28,2024-02-15,
-INJ00148,P00148,Tibial Fracture,Lower Leg,Right,Mild,0,,2025-09-14,,
-INJ00149,P00149,Meniscus Tear,Knee,Left,Mild,0,,2023-02-06,,
-INJ00150,P00150,Tibial Fracture,Lower Leg,Left,Moderate,0,,2024-11-23,,
-INJ00151,P00151,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2025-10-06,2025-10-23,
-INJ00152,P00152,ACL Tear,Knee,Right,Moderate,0,,2023-05-12,,
-INJ00153,P00153,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2023-02-25,2023-03-02,
-INJ00154,P00154,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2024-12-03,2024-12-10,
-INJ00155,P00155,ACL Tear,Knee,Left,Mild,0,,2023-03-06,,
-INJ00156,P00156,ACL Tear,Knee,Right,Moderate,0,,2023-03-10,,
-INJ00157,P00157,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2024-01-11,2024-01-22,
-INJ00158,P00158,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2024-05-13,2024-06-01,
-INJ00159,P00159,Meniscus Tear,Knee,Left,Moderate,0,,2024-07-12,,
-INJ00160,P00160,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2024-03-13,2024-03-30,
-INJ00161,P00161,ACL Tear,Knee,Left,Mild,0,,2024-10-01,,
-INJ00162,P00162,ACL Tear,Knee,Right,Moderate,0,,2024-12-13,,
-INJ00163,P00163,Meniscus Tear,Knee,Left,Moderate,0,,2025-08-26,,
-INJ00164,P00164,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2025-10-13,2025-11-02,
-INJ00165,P00165,Ankle Fracture,Ankle,Left,Severe,1,Ankle Fracture Reconstruction,2024-04-08,2024-04-16,
-INJ00166,P00166,ACL Tear,Knee,Left,Mild,0,,2025-01-07,,
-INJ00167,P00167,ACL Tear,Knee,Left,Mild,0,,2025-02-15,,
-INJ00168,P00168,Tibial Fracture,Lower Leg,Left,Moderate,1,Tibial Fracture Reconstruction,2023-07-03,2023-07-22,
-INJ00169,P00169,ACL Tear,Knee,Right,Moderate,0,,2025-09-18,,
-INJ00170,P00170,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2025-02-28,2025-03-20,
-INJ00171,P00171,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2023-03-13,2023-03-26,
-INJ00172,P00172,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2023-01-30,2023-02-04,
-INJ00173,P00173,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2024-02-18,2024-02-25,
-INJ00174,P00174,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2024-07-14,2024-07-19,
-INJ00175,P00175,ACL Tear,Knee,Right,Mild,0,,2025-03-08,,
-INJ00176,P00176,Achilles Tendon Rupture,Ankle,Right,Moderate,1,Achilles Tendon Rupture Reconstruction,2024-06-19,2024-07-06,
-INJ00177,P00177,ACL Tear,Knee,Right,Moderate,0,,2023-12-10,,
-INJ00178,P00178,ACL Tear,Knee,Right,Mild,0,,2023-02-22,,
-INJ00179,P00179,Rotator Cuff Tear,Shoulder,,Mild,0,,2025-06-04,,
-INJ00180,P00180,ACL Tear,Knee,Left,Moderate,0,,2023-12-05,,
-INJ00181,P00181,Rotator Cuff Tear,Shoulder,,Moderate,0,,2025-03-16,,
-INJ00182,P00182,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-09-03,2023-09-11,
-INJ00183,P00183,Meniscus Tear,Knee,Right,Moderate,0,,2024-09-17,,
-INJ00184,P00184,Achilles Tendon Rupture,Ankle,Left,Mild,0,,2024-04-12,,
-INJ00185,P00185,ACL Tear,Knee,Left,Moderate,0,,2023-11-03,,
-INJ00186,P00186,Rotator Cuff Tear,Shoulder,,Moderate,1,Rotator Cuff Tear Reconstruction,2024-09-20,2024-10-05,
-INJ00187,P00187,Meniscus Tear,Knee,Right,Severe,1,Meniscus Tear Reconstruction,2024-12-05,2024-12-12,
-INJ00188,P00188,Rotator Cuff Tear,Shoulder,,Moderate,0,,2023-04-15,,
-INJ00189,P00189,ACL Tear,Knee,Right,Moderate,0,,2024-06-09,,
-INJ00190,P00190,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2025-07-13,2025-08-02,
-INJ00191,P00191,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2025-08-11,2025-08-27,
-INJ00192,P00192,Tibial Fracture,Lower Leg,Right,Mild,0,,2024-05-10,,
-INJ00193,P00193,ACL Tear,Knee,Left,Moderate,0,,2025-08-19,,
-INJ00194,P00194,ACL Tear,Knee,Left,Moderate,0,,2023-07-09,,
-INJ00195,P00195,Rotator Cuff Tear,Shoulder,,Moderate,0,,2023-05-21,,
-INJ00196,P00196,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2024-05-07,2024-05-16,
-INJ00197,P00197,Meniscus Tear,Knee,Left,Mild,0,,2024-01-02,,
-INJ00198,P00198,ACL Tear,Knee,Right,Moderate,0,,2025-09-01,,
-INJ00199,P00199,Meniscus Tear,Knee,Left,Mild,0,,2023-03-21,,
-INJ00200,P00200,ACL Tear,Knee,Right,Mild,0,,2024-11-09,,
-INJ00201,P00201,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2024-05-12,2024-05-23,
-INJ00202,P00202,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-10-02,2023-10-06,
-INJ00203,P00203,ACL Tear,Knee,Left,Moderate,0,,2024-02-29,,
-INJ00204,P00204,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2024-04-11,2024-04-16,
-INJ00205,P00205,ACL Tear,Knee,Right,Mild,0,,2023-02-07,,
-INJ00206,P00206,Ankle Fracture,Ankle,Right,Moderate,1,Ankle Fracture Reconstruction,2024-02-17,2024-03-08,
-INJ00207,P00207,ACL Tear,Knee,Left,Moderate,0,,2023-07-23,,
-INJ00208,P00208,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2025-12-15,2026-01-01,
-INJ00209,P00209,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2023-07-20,2023-08-07,
-INJ00210,P00210,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2023-03-16,2023-03-30,
-INJ00211,P00211,Ankle Fracture,Ankle,Right,Severe,1,Ankle Fracture Reconstruction,2023-06-10,2023-06-16,
-INJ00212,P00212,ACL Tear,Knee,Left,Moderate,0,,2023-12-01,,
-INJ00213,P00213,Rotator Cuff Tear,Shoulder,,Moderate,0,,2023-05-16,,
-INJ00214,P00214,Meniscus Tear,Knee,Left,Moderate,0,,2024-01-10,,
-INJ00215,P00215,Rotator Cuff Tear,Shoulder,,Severe,1,Rotator Cuff Tear Reconstruction,2023-11-07,2023-11-11,
-INJ00216,P00216,Ankle Fracture,Ankle,Right,Moderate,0,,2023-04-11,,
-INJ00217,P00217,ACL Tear,Knee,Left,Moderate,0,,2023-01-01,,
-INJ00218,P00218,Tibial Fracture,Lower Leg,Right,Moderate,0,,2024-04-20,,
-INJ00219,P00219,Ankle Fracture,Ankle,Right,Moderate,0,,2023-03-10,,
-INJ00220,P00220,Meniscus Tear,Knee,Left,Severe,1,Meniscus Tear Reconstruction,2024-06-17,2024-07-03,
-INJ00221,P00221,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2024-04-16,2024-04-24,
-INJ00222,P00222,ACL Tear,Knee,Left,Mild,0,,2025-05-20,,
-INJ00223,P00223,Meniscus Tear,Knee,Left,Mild,0,,2023-10-04,,
-INJ00224,P00224,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2025-08-22,2025-08-25,
-INJ00225,P00225,Meniscus Tear,Knee,Left,Moderate,0,,2024-06-07,,
-INJ00226,P00226,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-12-20,2023-12-23,
-INJ00227,P00227,ACL Tear,Knee,Left,Moderate,0,,2024-10-13,,
-INJ00228,P00228,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2025-12-13,2025-12-26,
-INJ00229,P00229,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2023-08-01,2023-08-19,
-INJ00230,P00230,ACL Tear,Knee,Left,Mild,0,,2024-10-05,,
-INJ00231,P00231,Rotator Cuff Tear,Shoulder,,Mild,0,,2024-03-11,,
-INJ00232,P00232,Meniscus Tear,Knee,Left,Moderate,1,Meniscus Tear Reconstruction,2023-01-27,2023-02-05,
-INJ00233,P00233,Achilles Tendon Rupture,Ankle,Left,Mild,0,,2025-07-16,,
-INJ00234,P00234,Ankle Fracture,Ankle,Right,Severe,1,Ankle Fracture Reconstruction,2023-01-04,2023-01-24,
-INJ00235,P00235,Ankle Fracture,Ankle,Left,Moderate,1,Ankle Fracture Reconstruction,2023-02-24,2023-03-05,
-INJ00236,P00236,ACL Tear,Knee,Right,Moderate,0,,2023-03-06,,
-INJ00237,P00237,Rotator Cuff Tear,Shoulder,,Mild,0,,2024-06-24,,
-INJ00238,P00238,Achilles Tendon Rupture,Ankle,Left,Severe,1,Achilles Tendon Rupture Reconstruction,2025-01-16,2025-02-01,
-INJ00239,P00239,Ankle Fracture,Ankle,Right,Moderate,1,Ankle Fracture Reconstruction,2025-11-01,2025-11-08,
-INJ00240,P00240,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2025-09-02,2025-09-15,
-INJ00241,P00241,Meniscus Tear,Knee,Right,Severe,1,Meniscus Tear Reconstruction,2024-08-18,2024-08-25,
-INJ00242,P00242,ACL Tear,Knee,Left,Moderate,0,,2024-07-12,,
-INJ00243,P00243,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2024-12-04,2024-12-21,
-INJ00244,P00244,Meniscus Tear,Knee,Right,Moderate,0,,2023-03-11,,
-INJ00245,P00245,Rotator Cuff Tear,Shoulder,,Moderate,0,,2025-08-31,,
-INJ00246,P00246,ACL Tear,Knee,Right,Mild,0,,2024-08-21,,
-INJ00247,P00247,ACL Tear,Knee,Right,Mild,0,,2024-04-19,,
-INJ00248,P00248,Rotator Cuff Tear,Shoulder,,Moderate,0,,2024-08-09,,
-INJ00249,P00249,ACL Tear,Knee,Left,Moderate,0,,2025-08-05,,
-INJ00250,P00250,ACL Tear,Knee,Right,Moderate,0,,2023-11-30,,
-INJ00251,P00251,Ankle Fracture,Ankle,Left,Severe,1,Ankle Fracture Reconstruction,2025-10-20,2025-10-31,
-INJ00252,P00252,Rotator Cuff Tear,Shoulder,,Moderate,0,,2025-03-06,,
-INJ00253,P00253,ACL Tear,Knee,Left,Mild,0,,2025-01-14,,
-INJ00254,P00254,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2023-05-21,2023-05-24,
-INJ00255,P00255,ACL Tear,Knee,Left,Mild,0,,2023-09-19,,
-INJ00256,P00256,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2024-01-23,2024-01-30,
-INJ00257,P00257,Ankle Fracture,Ankle,Right,Moderate,0,,2025-11-13,,
-INJ00258,P00258,Rotator Cuff Tear,Shoulder,,Moderate,1,Rotator Cuff Tear Reconstruction,2025-11-07,2025-11-16,
-INJ00259,P00259,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2024-09-15,2024-09-26,
-INJ00260,P00260,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2023-07-16,2023-07-23,
-INJ00261,P00261,ACL Tear,Knee,Right,Moderate,0,,2023-11-10,,
-INJ00262,P00262,ACL Tear,Knee,Right,Mild,0,,2024-08-14,,
-INJ00263,P00263,ACL Tear,Knee,Left,Moderate,0,,2023-07-09,,
-INJ00264,P00264,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2024-03-03,2024-03-16,
-INJ00265,P00265,Ankle Fracture,Ankle,Right,Mild,0,,2025-11-06,,
-INJ00266,P00266,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2024-07-19,2024-08-08,
-INJ00267,P00267,Meniscus Tear,Knee,Right,Mild,0,,2024-04-05,,
-INJ00268,P00268,ACL Tear,Knee,Left,Moderate,0,,2022-12-31,,
-INJ00269,P00269,Rotator Cuff Tear,Shoulder,,Mild,0,,2023-07-09,,
-INJ00270,P00270,Tibial Fracture,Lower Leg,Left,Severe,1,Tibial Fracture Reconstruction,2024-04-12,2024-04-27,
-INJ00271,P00271,ACL Tear,Knee,Left,Mild,0,,2024-03-22,,
-INJ00272,P00272,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2023-07-02,2023-07-10,
-INJ00273,P00273,Ankle Fracture,Ankle,Right,Mild,0,,2023-08-08,,
-INJ00274,P00274,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2023-11-06,2023-11-21,
-INJ00275,P00275,ACL Tear,Knee,Right,Mild,0,,2024-11-18,,
-INJ00276,P00276,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2024-02-21,2024-03-12,
-INJ00277,P00277,Rotator Cuff Tear,Shoulder,,Severe,1,Rotator Cuff Tear Reconstruction,2024-09-09,2024-09-16,
-INJ00278,P00278,ACL Tear,Knee,Left,Mild,0,,2024-02-03,,
-INJ00279,P00279,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2023-08-02,2023-08-09,
-INJ00280,P00280,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2024-05-15,2024-05-18,
-INJ00281,P00281,Meniscus Tear,Knee,Left,Moderate,0,,2023-07-14,,
-INJ00282,P00282,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2025-03-20,2025-04-07,
-INJ00283,P00283,Rotator Cuff Tear,Shoulder,,Mild,0,,2023-05-25,,
-INJ00284,P00284,Ankle Fracture,Ankle,Right,Moderate,1,Ankle Fracture Reconstruction,2024-12-10,2024-12-27,
-INJ00285,P00285,ACL Tear,Knee,Left,Mild,0,,2023-06-28,,
-INJ00286,P00286,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2025-10-28,2025-11-07,
-INJ00287,P00287,Rotator Cuff Tear,Shoulder,,Moderate,0,,2023-02-01,,
-INJ00288,P00288,Ankle Fracture,Ankle,Right,Severe,1,Ankle Fracture Reconstruction,2025-07-29,2025-08-16,
-INJ00289,P00289,ACL Tear,Knee,Right,Mild,0,,2023-10-05,,
-INJ00290,P00290,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2025-09-18,2025-10-02,
-INJ00291,P00291,ACL Tear,Knee,Left,Mild,0,,2024-10-27,,
-INJ00292,P00292,ACL Tear,Knee,Right,Moderate,0,,2023-01-21,,
-INJ00293,P00293,ACL Tear,Knee,Right,Moderate,0,,2023-06-18,,
-INJ00294,P00294,ACL Tear,Knee,Left,Mild,0,,2024-03-07,,
-INJ00295,P00295,ACL Tear,Knee,Right,Mild,0,,2025-02-13,,
-INJ00296,P00296,Rotator Cuff Tear,Shoulder,,Moderate,0,,2025-01-20,,
-INJ00297,P00297,Ankle Fracture,Ankle,Left,Mild,0,,2023-07-27,,
-INJ00298,P00298,Rotator Cuff Tear,Shoulder,,Moderate,0,,2024-06-09,,
-INJ00299,P00299,Meniscus Tear,Knee,Left,Severe,1,Meniscus Tear Reconstruction,2023-09-01,2023-09-21,
-INJ00300,P00300,Meniscus Tear,Knee,Left,Moderate,1,Meniscus Tear Reconstruction,2023-06-21,2023-07-10,
-INJ00301,P00301,ACL Tear,Knee,Left,Mild,0,,2024-07-21,,
-INJ00302,P00302,Meniscus Tear,Knee,Left,Mild,0,,2023-11-19,,
-INJ00303,P00303,ACL Tear,Knee,Left,Mild,0,,2023-12-15,,
-INJ00304,P00304,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2025-07-13,2025-08-02,
-INJ00305,P00305,Tibial Fracture,Lower Leg,Left,Moderate,0,,2025-03-14,,
-INJ00306,P00306,Rotator Cuff Tear,Shoulder,,Mild,0,,2025-09-20,,
-INJ00307,P00307,ACL Tear,Knee,Left,Mild,0,,2023-09-06,,
-INJ00308,P00308,Ankle Fracture,Ankle,Right,Moderate,1,Ankle Fracture Reconstruction,2025-04-24,2025-05-04,
-INJ00309,P00309,ACL Tear,Knee,Right,Moderate,0,,2024-09-23,,
-INJ00310,P00310,ACL Tear,Knee,Left,Moderate,0,,2024-08-14,,
-INJ00311,P00311,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-01-02,2023-01-16,
-INJ00312,P00312,ACL Tear,Knee,Right,Mild,0,,2025-08-26,,
-INJ00313,P00313,Meniscus Tear,Knee,Left,Moderate,1,Meniscus Tear Reconstruction,2024-01-18,2024-01-24,
-INJ00314,P00314,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2025-07-31,2025-08-19,
-INJ00315,P00315,ACL Tear,Knee,Right,Moderate,0,,2024-06-05,,
-INJ00316,P00316,Tibial Fracture,Lower Leg,Right,Severe,1,Tibial Fracture Reconstruction,2025-01-16,2025-01-24,
-INJ00317,P00317,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2024-05-16,2024-05-27,
-INJ00318,P00318,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2025-02-16,2025-03-01,
-INJ00319,P00319,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2023-01-10,2023-01-27,
-INJ00320,P00320,ACL Tear,Knee,Right,Moderate,0,,2023-10-11,,
-INJ00321,P00321,ACL Tear,Knee,Right,Moderate,0,,2025-04-04,,
-INJ00322,P00322,Meniscus Tear,Knee,Right,Moderate,1,Meniscus Tear Reconstruction,2024-05-09,2024-05-25,
-INJ00323,P00323,Rotator Cuff Tear,Shoulder,,Moderate,1,Rotator Cuff Tear Reconstruction,2024-08-31,2024-09-20,
-INJ00324,P00324,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2025-01-16,2025-01-31,
-INJ00325,P00325,ACL Tear,Knee,Right,Mild,0,,2024-07-20,,
-INJ00326,P00326,ACL Tear,Knee,Left,Mild,0,,2025-10-09,,
-INJ00327,P00327,Rotator Cuff Tear,Shoulder,,Moderate,1,Rotator Cuff Tear Reconstruction,2023-08-05,2023-08-22,
-INJ00328,P00328,ACL Tear,Knee,Left,Mild,0,,2025-06-06,,
-INJ00329,P00329,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2023-03-16,2023-03-29,
-INJ00330,P00330,Tibial Fracture,Lower Leg,Left,Mild,0,,2024-11-10,,
-INJ00331,P00331,Meniscus Tear,Knee,Right,Moderate,1,Meniscus Tear Reconstruction,2025-06-04,2025-06-14,
-INJ00332,P00332,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2023-10-03,2023-10-22,
-INJ00333,P00333,ACL Tear,Knee,Right,Mild,0,,2023-05-06,,
-INJ00334,P00334,ACL Tear,Knee,Left,Mild,0,,2023-08-31,,
-INJ00335,P00335,Tibial Fracture,Lower Leg,Left,Moderate,0,,2024-02-10,,
-INJ00336,P00336,ACL Tear,Knee,Right,Moderate,0,,2024-08-08,,
-INJ00337,P00337,ACL Tear,Knee,Right,Moderate,0,,2022-12-25,,
-INJ00338,P00338,Meniscus Tear,Knee,Left,Mild,0,,2025-05-11,,
-INJ00339,P00339,ACL Tear,Knee,Left,Mild,0,,2023-01-03,,
-INJ00340,P00340,ACL Tear,Knee,Right,Mild,0,,2024-05-30,,
-INJ00341,P00341,Rotator Cuff Tear,Shoulder,,Mild,0,,2024-08-29,,
-INJ00342,P00342,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2023-11-03,2023-11-12,
-INJ00343,P00343,Rotator Cuff Tear,Shoulder,,Mild,0,,2023-06-26,,
-INJ00344,P00344,Ankle Fracture,Ankle,Right,Mild,0,,2025-08-19,,
-INJ00345,P00345,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2024-01-08,2024-01-22,
-INJ00346,P00346,Ankle Fracture,Ankle,Right,Moderate,0,,2023-01-14,,
-INJ00347,P00347,Ankle Fracture,Ankle,Right,Moderate,0,,2025-04-18,,
-INJ00348,P00348,Meniscus Tear,Knee,Left,Moderate,0,,2024-02-17,,
-INJ00349,P00349,Meniscus Tear,Knee,Left,Severe,1,Meniscus Tear Reconstruction,2023-06-13,2023-06-21,
-INJ00350,P00350,ACL Tear,Knee,Right,Mild,0,,2024-06-30,,
-INJ00351,P00351,ACL Tear,Knee,Left,Mild,0,,2024-04-12,,
-INJ00352,P00352,Ankle Fracture,Ankle,Right,Severe,1,Ankle Fracture Reconstruction,2023-12-20,2023-12-31,
-INJ00353,P00353,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2025-07-07,2025-07-16,
-INJ00354,P00354,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-06-10,2023-06-17,
-INJ00355,P00355,ACL Tear,Knee,Left,Moderate,0,,2023-05-08,,
-INJ00356,P00356,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2023-11-02,2023-11-19,
-INJ00357,P00357,Ankle Fracture,Ankle,Left,Moderate,0,,2025-01-11,,
-INJ00358,P00358,Rotator Cuff Tear,Shoulder,,Moderate,0,,2025-08-01,,
-INJ00359,P00359,Rotator Cuff Tear,Shoulder,,Severe,1,Rotator Cuff Tear Reconstruction,2025-08-25,2025-09-10,
-INJ00360,P00360,ACL Tear,Knee,Right,Mild,0,,2023-12-11,,
-INJ00361,P00361,ACL Tear,Knee,Right,Mild,0,,2025-07-30,,
-INJ00362,P00362,Rotator Cuff Tear,Shoulder,,Moderate,0,,2024-07-10,,
-INJ00363,P00363,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2023-11-09,2023-11-24,
-INJ00364,P00364,Meniscus Tear,Knee,Right,Mild,0,,2023-12-08,,
-INJ00365,P00365,Meniscus Tear,Knee,Left,Severe,1,Meniscus Tear Reconstruction,2025-02-04,2025-02-08,
-INJ00366,P00366,ACL Tear,Knee,Left,Moderate,0,,2023-04-14,,
-INJ00367,P00367,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2024-10-02,2024-10-09,
-INJ00368,P00368,Meniscus Tear,Knee,Left,Moderate,1,Meniscus Tear Reconstruction,2024-05-05,2024-05-11,
-INJ00369,P00369,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-01-08,2023-01-23,
-INJ00370,P00370,Rotator Cuff Tear,Shoulder,,Mild,0,,2025-02-24,,
-INJ00371,P00371,Meniscus Tear,Knee,Right,Moderate,0,,2025-12-09,,
-INJ00372,P00372,ACL Tear,Knee,Right,Mild,0,,2024-06-27,,
-INJ00373,P00373,Ankle Fracture,Ankle,Right,Severe,1,Ankle Fracture Reconstruction,2024-11-14,2024-12-03,
-INJ00374,P00374,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2024-07-08,2024-07-17,
-INJ00375,P00375,ACL Tear,Knee,Left,Mild,0,,2025-07-18,,
-INJ00376,P00376,Tibial Fracture,Lower Leg,Right,Mild,0,,2023-09-08,,
-INJ00377,P00377,Ankle Fracture,Ankle,Left,Moderate,1,Ankle Fracture Reconstruction,2024-09-18,2024-09-26,
-INJ00378,P00378,Meniscus Tear,Knee,Right,Moderate,1,Meniscus Tear Reconstruction,2023-04-15,2023-04-28,
-INJ00379,P00379,Rotator Cuff Tear,Shoulder,,Severe,1,Rotator Cuff Tear Reconstruction,2024-08-01,2024-08-21,
-INJ00380,P00380,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2024-12-08,2024-12-17,
-INJ00381,P00381,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2023-05-05,2023-05-13,
-INJ00382,P00382,ACL Tear,Knee,Left,Moderate,0,,2025-11-12,,
-INJ00383,P00383,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2023-01-09,2023-01-21,
-INJ00384,P00384,ACL Tear,Knee,Right,Mild,0,,2023-02-01,,
-INJ00385,P00385,ACL Tear,Knee,Left,Mild,0,,2024-07-02,,
-INJ00386,P00386,Ankle Fracture,Ankle,Right,Moderate,1,Ankle Fracture Reconstruction,2024-07-07,2024-07-26,
-INJ00387,P00387,ACL Tear,Knee,Right,Moderate,0,,2023-07-17,,
-INJ00388,P00388,Meniscus Tear,Knee,Left,Mild,0,,2024-02-09,,
-INJ00389,P00389,Rotator Cuff Tear,Shoulder,,Moderate,1,Rotator Cuff Tear Reconstruction,2025-03-01,2025-03-17,
-INJ00390,P00390,Tibial Fracture,Lower Leg,Left,Mild,0,,2023-06-01,,
-INJ00391,P00391,ACL Tear,Knee,Left,Moderate,0,,2025-02-27,,
-INJ00392,P00392,Achilles Tendon Rupture,Ankle,Right,Mild,0,,2023-11-09,,
-INJ00393,P00393,Rotator Cuff Tear,Shoulder,,Moderate,0,,2024-08-28,,
-INJ00394,P00394,ACL Tear,Knee,Left,Mild,0,,2023-01-02,,
-INJ00395,P00395,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2025-10-17,2025-10-29,
-INJ00396,P00396,ACL Tear,Knee,Left,Mild,0,,2025-02-05,,
-INJ00397,P00397,Meniscus Tear,Knee,Left,Moderate,0,,2023-05-09,,
-INJ00398,P00398,Meniscus Tear,Knee,Left,Severe,1,Meniscus Tear Reconstruction,2023-03-05,2023-03-21,
-INJ00399,P00399,ACL Tear,Knee,Left,Mild,0,,2023-11-02,,
-INJ00400,P00400,Ankle Fracture,Ankle,Right,Moderate,1,Ankle Fracture Reconstruction,2023-10-10,2023-10-13,
-INJ00401,P00401,ACL Tear,Knee,Right,Moderate,0,,2025-07-29,,
-INJ00402,P00402,ACL Tear,Knee,Right,Moderate,0,,2024-11-25,,
-INJ00403,P00403,Rotator Cuff Tear,Shoulder,,Moderate,0,,2024-12-25,,
-INJ00404,P00404,Tibial Fracture,Lower Leg,Right,Moderate,1,Tibial Fracture Reconstruction,2025-07-12,2025-07-28,
-INJ00405,P00405,Ankle Fracture,Ankle,Right,Moderate,0,,2025-09-11,,
-INJ00406,P00406,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2024-12-29,2025-01-02,
-INJ00407,P00407,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2022-12-22,2023-01-01,
-INJ00408,P00408,ACL Tear,Knee,Left,Mild,0,,2023-11-03,,
-INJ00409,P00409,ACL Tear,Knee,Left,Moderate,0,,2023-01-17,,
-INJ00410,P00410,ACL Tear,Knee,Left,Mild,0,,2023-04-15,,
-INJ00411,P00411,Achilles Tendon Rupture,Ankle,Left,Moderate,0,,2024-12-03,,
-INJ00412,P00412,Meniscus Tear,Knee,Left,Mild,0,,2023-12-19,,
-INJ00413,P00413,ACL Tear,Knee,Left,Mild,0,,2024-01-28,,
-INJ00414,P00414,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2024-05-09,2024-05-18,
-INJ00415,P00415,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-09-28,2023-10-13,
-INJ00416,P00416,ACL Tear,Knee,Left,Mild,0,,2023-02-25,,
-INJ00417,P00417,Ankle Fracture,Ankle,Left,Moderate,0,,2024-04-16,,
-INJ00418,P00418,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2024-05-23,2024-05-30,
-INJ00419,P00419,Rotator Cuff Tear,Shoulder,,Severe,1,Rotator Cuff Tear Reconstruction,2024-12-27,2025-01-03,
-INJ00420,P00420,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2025-10-03,2025-10-21,
-INJ00421,P00421,ACL Tear,Knee,Right,Mild,0,,2023-01-15,,
-INJ00422,P00422,Tibial Fracture,Lower Leg,Left,Mild,0,,2023-01-21,,
-INJ00423,P00423,ACL Tear,Knee,Right,Moderate,0,,2023-05-03,,
-INJ00424,P00424,ACL Tear,Knee,Left,Mild,0,,2023-07-03,,
-INJ00425,P00425,Meniscus Tear,Knee,Left,Severe,1,Meniscus Tear Reconstruction,2024-01-03,2024-01-14,
-INJ00426,P00426,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2025-05-03,2025-05-19,
-INJ00427,P00427,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-06-27,2023-07-10,
-INJ00428,P00428,ACL Tear,Knee,Left,Mild,0,,2023-08-24,,
-INJ00429,P00429,ACL Tear,Knee,Right,Moderate,0,,2025-08-11,,
-INJ00430,P00430,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2024-06-11,2024-06-25,
-INJ00431,P00431,ACL Tear,Knee,Right,Mild,0,,2023-09-01,,
-INJ00432,P00432,Ankle Fracture,Ankle,Left,Mild,0,,2023-01-13,,
-INJ00433,P00433,Rotator Cuff Tear,Shoulder,,Mild,0,,2025-08-01,,
-INJ00434,P00434,ACL Tear,Knee,Right,Moderate,0,,2023-07-26,,
-INJ00435,P00435,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2024-08-08,2024-08-23,
-INJ00436,P00436,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2025-01-17,2025-02-01,
-INJ00437,P00437,ACL Tear,Knee,Right,Mild,0,,2023-02-03,,
-INJ00438,P00438,ACL Tear,Knee,Right,Moderate,0,,2025-09-06,,
-INJ00439,P00439,Ankle Fracture,Ankle,Left,Mild,0,,2023-12-22,,
-INJ00440,P00440,ACL Tear,Knee,Right,Mild,0,,2023-11-24,,
-INJ00441,P00441,ACL Tear,Knee,Left,Mild,0,,2023-02-28,,
-INJ00442,P00442,Meniscus Tear,Knee,Right,Moderate,0,,2025-08-04,,
-INJ00443,P00443,Rotator Cuff Tear,Shoulder,,Moderate,0,,2023-09-08,,
-INJ00444,P00444,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2023-03-09,2023-03-28,
-INJ00445,P00445,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2025-08-18,2025-09-04,
-INJ00446,P00446,Tibial Fracture,Lower Leg,Right,Mild,0,,2023-04-10,,
-INJ00447,P00447,ACL Tear,Knee,Left,Moderate,0,,2025-12-05,,
-INJ00448,P00448,Meniscus Tear,Knee,Right,Mild,0,,2024-12-08,,
-INJ00449,P00449,Meniscus Tear,Knee,Left,Moderate,0,,2024-01-12,,
-INJ00450,P00450,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2025-05-29,2025-06-06,
-INJ00451,P00451,ACL Tear,Knee,Left,Mild,0,,2025-01-28,,
-INJ00452,P00452,ACL Tear,Knee,Left,Mild,0,,2023-03-06,,
-INJ00453,P00453,ACL Tear,Knee,Left,Mild,0,,2025-07-28,,
-INJ00454,P00454,ACL Tear,Knee,Left,Mild,0,,2025-01-29,,
-INJ00455,P00455,Ankle Fracture,Ankle,Left,Severe,1,Ankle Fracture Reconstruction,2025-12-06,2025-12-12,
-INJ00456,P00456,Ankle Fracture,Ankle,Left,Mild,0,,2024-02-12,,
-INJ00457,P00457,Achilles Tendon Rupture,Ankle,Right,Moderate,1,Achilles Tendon Rupture Reconstruction,2024-10-24,2024-11-11,
-INJ00458,P00458,Tibial Fracture,Lower Leg,Right,Severe,1,Tibial Fracture Reconstruction,2024-12-13,2024-12-22,
-INJ00459,P00459,Ankle Fracture,Ankle,Left,Moderate,0,,2023-04-11,,
-INJ00460,P00460,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2024-06-06,2024-06-14,
-INJ00461,P00461,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2024-01-28,2024-02-01,
-INJ00462,P00462,Meniscus Tear,Knee,Right,Mild,0,,2024-10-17,,
-INJ00463,P00463,Meniscus Tear,Knee,Right,Mild,0,,2023-01-03,,
-INJ00464,P00464,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2024-08-19,2024-08-31,
-INJ00465,P00465,Meniscus Tear,Knee,Left,Moderate,0,,2024-09-12,,
-INJ00466,P00466,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2024-04-21,2024-05-03,
-INJ00467,P00467,ACL Tear,Knee,Left,Mild,0,,2025-10-18,,
-INJ00468,P00468,Rotator Cuff Tear,Shoulder,,Moderate,1,Rotator Cuff Tear Reconstruction,2025-06-12,2025-06-29,
-INJ00469,P00469,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2023-03-09,2023-03-25,
-INJ00470,P00470,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-03-04,2023-03-20,
-INJ00471,P00471,Meniscus Tear,Knee,Left,Mild,0,,2024-02-14,,
-INJ00472,P00472,Meniscus Tear,Knee,Left,Mild,0,,2024-03-15,,
-INJ00473,P00473,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2025-07-22,2025-08-03,
-INJ00474,P00474,Meniscus Tear,Knee,Right,Moderate,0,,2023-02-23,,
-INJ00475,P00475,ACL Tear,Knee,Right,Mild,0,,2023-03-11,,
-INJ00476,P00476,Meniscus Tear,Knee,Right,Mild,0,,2024-02-09,,
-INJ00477,P00477,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2025-10-12,2025-10-30,
-INJ00478,P00478,Tibial Fracture,Lower Leg,Right,Moderate,1,Tibial Fracture Reconstruction,2025-02-14,2025-03-06,
-INJ00479,P00479,Ankle Fracture,Ankle,Left,Moderate,0,,2025-07-08,,
-INJ00480,P00480,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2024-06-10,2024-06-27,
-INJ00481,P00481,ACL Tear,Knee,Left,Mild,0,,2025-11-02,,
-INJ00482,P00482,ACL Tear,Knee,Right,Mild,0,,2023-03-28,,
-INJ00483,P00483,Ankle Fracture,Ankle,Left,Moderate,1,Ankle Fracture Reconstruction,2024-05-05,2024-05-14,
-INJ00484,P00484,Meniscus Tear,Knee,Right,Severe,1,Meniscus Tear Reconstruction,2025-09-01,2025-09-08,
-INJ00485,P00485,Ankle Fracture,Ankle,Right,Mild,0,,2024-02-22,,
-INJ00486,P00486,Rotator Cuff Tear,Shoulder,,Moderate,0,,2025-01-30,,
-INJ00487,P00487,ACL Tear,Knee,Right,Mild,0,,2023-03-16,,
-INJ00488,P00488,Meniscus Tear,Knee,Left,Mild,0,,2023-10-25,,
-INJ00489,P00489,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2024-07-09,2024-07-12,
-INJ00490,P00490,Meniscus Tear,Knee,Left,Mild,0,,2025-10-27,,
-INJ00491,P00491,ACL Tear,Knee,Right,Mild,0,,2023-08-11,,
-INJ00492,P00492,Ankle Fracture,Ankle,Right,Severe,1,Ankle Fracture Reconstruction,2025-07-02,2025-07-22,
-INJ00493,P00493,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2023-08-19,2023-09-04,
-INJ00494,P00494,ACL Tear,Knee,Right,Moderate,0,,2025-03-04,,
-INJ00495,P00495,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2023-12-29,2024-01-17,
-INJ00496,P00496,Achilles Tendon Rupture,Ankle,Right,Mild,0,,2023-10-11,,
-INJ00497,P00497,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2025-03-07,2025-03-24,
-INJ00498,P00498,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2025-02-14,2025-02-24,
-INJ00499,P00499,ACL Tear,Knee,Right,Mild,0,,2024-11-29,,
-INJ00500,P00500,ACL Tear,Knee,Right,Moderate,0,,2023-03-21,,
-INJ00501,P00501,Rotator Cuff Tear,Shoulder,,Moderate,1,Rotator Cuff Tear Reconstruction,2023-11-13,2023-11-18,
-INJ00502,P00502,Tibial Fracture,Lower Leg,Left,Severe,1,Tibial Fracture Reconstruction,2025-09-16,2025-09-19,
-INJ00503,P00503,Rotator Cuff Tear,Shoulder,,Severe,1,Rotator Cuff Tear Reconstruction,2024-05-22,2024-06-08,
-INJ00504,P00504,Rotator Cuff Tear,Shoulder,,Severe,1,Rotator Cuff Tear Reconstruction,2025-11-07,2025-11-15,
-INJ00505,P00505,ACL Tear,Knee,Left,Moderate,0,,2024-01-05,,
-INJ00506,P00506,ACL Tear,Knee,Right,Mild,0,,2025-10-18,,
-INJ00507,P00507,Meniscus Tear,Knee,Right,Severe,1,Meniscus Tear Reconstruction,2023-02-03,2023-02-12,
-INJ00508,P00508,Meniscus Tear,Knee,Right,Moderate,1,Meniscus Tear Reconstruction,2024-09-30,2024-10-18,
-INJ00509,P00509,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2024-09-04,2024-09-15,
-INJ00510,P00510,Ankle Fracture,Ankle,Right,Severe,1,Ankle Fracture Reconstruction,2022-12-30,2023-01-19,
-INJ00511,P00511,ACL Tear,Knee,Right,Mild,0,,2023-09-23,,
-INJ00512,P00512,ACL Tear,Knee,Left,Mild,0,,2024-01-09,,
-INJ00513,P00513,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2025-03-09,2025-03-21,
-INJ00514,P00514,Rotator Cuff Tear,Shoulder,,Moderate,0,,2024-10-16,,
-INJ00515,P00515,Ankle Fracture,Ankle,Left,Mild,0,,2023-05-05,,
-INJ00516,P00516,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2025-04-20,2025-05-07,
-INJ00517,P00517,Rotator Cuff Tear,Shoulder,,Severe,1,Rotator Cuff Tear Reconstruction,2023-06-01,2023-06-06,
-INJ00518,P00518,Rotator Cuff Tear,Shoulder,,Moderate,1,Rotator Cuff Tear Reconstruction,2023-11-26,2023-12-06,
-INJ00519,P00519,ACL Tear,Knee,Right,Mild,0,,2025-11-26,,
-INJ00520,P00520,Ankle Fracture,Ankle,Left,Moderate,0,,2025-07-01,,
-INJ00521,P00521,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2025-09-06,2025-09-12,
-INJ00522,P00522,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2025-05-13,2025-05-17,
-INJ00523,P00523,ACL Tear,Knee,Right,Mild,0,,2024-12-04,,
-INJ00524,P00524,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2023-03-02,2023-03-22,
-INJ00525,P00525,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-09-13,2023-09-25,
-INJ00526,P00526,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2025-07-28,2025-08-06,
-INJ00527,P00527,ACL Tear,Knee,Left,Moderate,0,,2025-10-22,,
-INJ00528,P00528,Meniscus Tear,Knee,Right,Mild,0,,2024-12-18,,
-INJ00529,P00529,Meniscus Tear,Knee,Left,Moderate,0,,2024-04-15,,
-INJ00530,P00530,ACL Tear,Knee,Right,Mild,0,,2023-05-04,,
-INJ00531,P00531,ACL Tear,Knee,Right,Mild,0,,2023-04-13,,
-INJ00532,P00532,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2025-12-17,2025-12-26,
-INJ00533,P00533,Rotator Cuff Tear,Shoulder,,Mild,0,,2023-12-17,,
-INJ00534,P00534,Rotator Cuff Tear,Shoulder,,Severe,1,Rotator Cuff Tear Reconstruction,2024-02-18,2024-02-25,
-INJ00535,P00535,ACL Tear,Knee,Right,Moderate,0,,2025-09-29,,
-INJ00536,P00536,Ankle Fracture,Ankle,Left,Severe,1,Ankle Fracture Reconstruction,2024-08-08,2024-08-13,
-INJ00537,P00537,Meniscus Tear,Knee,Right,Mild,0,,2024-10-17,,
-INJ00538,P00538,Tibial Fracture,Lower Leg,Left,Moderate,0,,2023-01-23,,
-INJ00539,P00539,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2023-03-04,2023-03-23,
-INJ00540,P00540,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-11-11,2023-11-15,
-INJ00541,P00541,Meniscus Tear,Knee,Right,Mild,0,,2023-02-09,,
-INJ00542,P00542,ACL Tear,Knee,Right,Mild,0,,2023-05-28,,
-INJ00543,P00543,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2023-09-28,2023-10-07,
-INJ00544,P00544,ACL Tear,Knee,Left,Mild,0,,2023-07-29,,
-INJ00545,P00545,ACL Tear,Knee,Left,Moderate,0,,2023-05-10,,
-INJ00546,P00546,Meniscus Tear,Knee,Left,Mild,0,,2025-08-14,,
-INJ00547,P00547,Ankle Fracture,Ankle,Left,Mild,0,,2023-04-13,,
-INJ00548,P00548,ACL Tear,Knee,Right,Moderate,0,,2024-10-07,,
-INJ00549,P00549,Rotator Cuff Tear,Shoulder,,Moderate,1,Rotator Cuff Tear Reconstruction,2025-02-07,2025-02-12,
-INJ00550,P00550,ACL Tear,Knee,Right,Moderate,0,,2023-08-11,,
-INJ00551,P00551,Tibial Fracture,Lower Leg,Right,Moderate,0,,2024-08-17,,
-INJ00552,P00552,ACL Tear,Knee,Left,Moderate,0,,2025-02-01,,
-INJ00553,P00553,Rotator Cuff Tear,Shoulder,,Severe,1,Rotator Cuff Tear Reconstruction,2024-11-11,2024-11-30,
-INJ00554,P00554,Achilles Tendon Rupture,Ankle,Left,Mild,0,,2023-10-23,,
-INJ00555,P00555,Rotator Cuff Tear,Shoulder,,Moderate,1,Rotator Cuff Tear Reconstruction,2025-12-13,2025-12-19,
-INJ00556,P00556,Rotator Cuff Tear,Shoulder,,Moderate,0,,2024-08-13,,
-INJ00557,P00557,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2024-12-11,2024-12-21,
-INJ00558,P00558,Ankle Fracture,Ankle,Left,Moderate,0,,2023-02-14,,
-INJ00559,P00559,Meniscus Tear,Knee,Right,Moderate,0,,2023-02-17,,
-INJ00560,P00560,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2025-04-25,2025-05-11,
-INJ00561,P00561,Tibial Fracture,Lower Leg,Right,Moderate,1,Tibial Fracture Reconstruction,2023-12-02,2023-12-15,
-INJ00562,P00562,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-07-04,2023-07-13,
-INJ00563,P00563,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2024-06-25,2024-07-08,
-INJ00564,P00564,Achilles Tendon Rupture,Ankle,Left,Moderate,1,Achilles Tendon Rupture Reconstruction,2025-04-22,2025-05-02,
-INJ00565,P00565,ACL Tear,Knee,Left,Mild,0,,2023-08-17,,
-INJ00566,P00566,ACL Tear,Knee,Right,Moderate,0,,2023-08-14,,
-INJ00567,P00567,ACL Tear,Knee,Right,Mild,0,,2024-06-08,,
-INJ00568,P00568,Ankle Fracture,Ankle,Left,Severe,1,Ankle Fracture Reconstruction,2024-04-01,2024-04-09,
-INJ00569,P00569,Rotator Cuff Tear,Shoulder,,Moderate,1,Rotator Cuff Tear Reconstruction,2024-01-10,2024-01-23,
-INJ00570,P00570,ACL Tear,Knee,Right,Mild,0,,2025-12-26,,
-INJ00571,P00571,Meniscus Tear,Knee,Right,Mild,0,,2023-08-28,,
-INJ00572,P00572,Meniscus Tear,Knee,Left,Moderate,1,Meniscus Tear Reconstruction,2023-07-18,2023-07-27,
-INJ00573,P00573,Meniscus Tear,Knee,Left,Severe,1,Meniscus Tear Reconstruction,2024-01-13,2024-02-02,
-INJ00574,P00574,Meniscus Tear,Knee,Left,Moderate,0,,2023-11-27,,
-INJ00575,P00575,Tibial Fracture,Lower Leg,Left,Mild,0,,2024-02-13,,
-INJ00576,P00576,ACL Tear,Knee,Left,Moderate,0,,2025-08-10,,
-INJ00577,P00577,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2023-03-03,2023-03-14,
-INJ00578,P00578,Meniscus Tear,Knee,Right,Severe,1,Meniscus Tear Reconstruction,2025-05-16,2025-06-01,
-INJ00579,P00579,ACL Tear,Knee,Left,Mild,0,,2023-05-02,,
-INJ00580,P00580,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2024-11-26,2024-12-03,
-INJ00581,P00581,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2024-11-23,2024-12-07,
-INJ00582,P00582,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2024-04-08,2024-04-21,
-INJ00583,P00583,Achilles Tendon Rupture,Ankle,Left,Moderate,0,,2023-10-02,,
-INJ00584,P00584,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2025-08-24,2025-09-09,
-INJ00585,P00585,Meniscus Tear,Knee,Left,Moderate,0,,2025-07-04,,
-INJ00586,P00586,Ankle Fracture,Ankle,Right,Mild,0,,2025-07-21,,
-INJ00587,P00587,ACL Tear,Knee,Left,Mild,0,,2025-10-16,,
-INJ00588,P00588,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2023-05-04,2023-05-15,
-INJ00589,P00589,ACL Tear,Knee,Left,Mild,0,,2024-01-14,,
-INJ00590,P00590,ACL Tear,Knee,Right,Moderate,0,,2023-04-17,,
-INJ00591,P00591,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2025-10-13,2025-10-28,
-INJ00592,P00592,Meniscus Tear,Knee,Right,Severe,1,Meniscus Tear Reconstruction,2023-12-10,2023-12-14,
-INJ00593,P00593,ACL Tear,Knee,Left,Mild,0,,2023-06-05,,
-INJ00594,P00594,ACL Tear,Knee,Right,Mild,0,,2024-05-31,,
-INJ00595,P00595,ACL Tear,Knee,Right,Moderate,0,,2023-09-13,,
-INJ00596,P00596,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2025-11-26,2025-12-11,
-INJ00597,P00597,ACL Tear,Knee,Right,Mild,0,,2023-06-15,,
-INJ00598,P00598,Achilles Tendon Rupture,Ankle,Left,Severe,1,Achilles Tendon Rupture Reconstruction,2024-11-08,2024-11-24,
-INJ00599,P00599,ACL Tear,Knee,Right,Mild,0,,2025-01-03,,
-INJ00600,P00600,ACL Tear,Knee,Right,Mild,0,,2024-10-29,,
-INJ00601,P00601,Meniscus Tear,Knee,Right,Moderate,0,,2023-04-30,,
-INJ00602,P00602,Meniscus Tear,Knee,Right,Moderate,1,Meniscus Tear Reconstruction,2023-09-03,2023-09-14,
-INJ00603,P00603,Meniscus Tear,Knee,Right,Moderate,0,,2023-05-15,,
-INJ00604,P00604,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2023-10-27,2023-10-30,
-INJ00605,P00605,Meniscus Tear,Knee,Right,Severe,1,Meniscus Tear Reconstruction,2024-03-22,2024-04-04,
-INJ00606,P00606,ACL Tear,Knee,Right,Mild,0,,2023-06-25,,
-INJ00607,P00607,Ankle Fracture,Ankle,Left,Moderate,0,,2023-04-04,,
-INJ00608,P00608,ACL Tear,Knee,Left,Mild,0,,2023-05-13,,
-INJ00609,P00609,Ankle Fracture,Ankle,Left,Moderate,0,,2025-07-13,,
-INJ00610,P00610,Meniscus Tear,Knee,Right,Moderate,0,,2023-10-17,,
-INJ00611,P00611,Meniscus Tear,Knee,Left,Moderate,1,Meniscus Tear Reconstruction,2023-08-05,2023-08-22,
-INJ00612,P00612,ACL Tear,Knee,Right,Mild,0,,2024-06-29,,
-INJ00613,P00613,Meniscus Tear,Knee,Left,Severe,1,Meniscus Tear Reconstruction,2023-05-15,2023-05-26,
-INJ00614,P00614,Ankle Fracture,Ankle,Right,Moderate,0,,2025-01-17,,
-INJ00615,P00615,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2023-07-02,2023-07-06,
-INJ00616,P00616,ACL Tear,Knee,Left,Moderate,0,,2024-02-18,,
-INJ00617,P00617,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2024-01-05,2024-01-15,
-INJ00618,P00618,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2025-02-20,2025-03-12,
-INJ00619,P00619,Ankle Fracture,Ankle,Left,Moderate,0,,2024-03-15,,
-INJ00620,P00620,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2025-06-30,2025-07-07,
-INJ00621,P00621,Ankle Fracture,Ankle,Right,Severe,1,Ankle Fracture Reconstruction,2024-09-24,2024-10-06,
-INJ00622,P00622,Ankle Fracture,Ankle,Left,Moderate,1,Ankle Fracture Reconstruction,2024-03-20,2024-03-29,
-INJ00623,P00623,Meniscus Tear,Knee,Right,Moderate,0,,2025-10-20,,
-INJ00624,P00624,Meniscus Tear,Knee,Right,Moderate,1,Meniscus Tear Reconstruction,2024-04-22,2024-05-07,
-INJ00625,P00625,Meniscus Tear,Knee,Left,Moderate,1,Meniscus Tear Reconstruction,2024-06-09,2024-06-19,
-INJ00626,P00626,ACL Tear,Knee,Right,Moderate,0,,2023-08-14,,
-INJ00627,P00627,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-10-06,2023-10-15,
-INJ00628,P00628,Rotator Cuff Tear,Shoulder,,Moderate,0,,2024-01-17,,
-INJ00629,P00629,Tibial Fracture,Lower Leg,Left,Moderate,1,Tibial Fracture Reconstruction,2023-08-14,2023-08-27,
-INJ00630,P00630,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2024-07-12,2024-07-25,
-INJ00631,P00631,Achilles Tendon Rupture,Ankle,Right,Severe,1,Achilles Tendon Rupture Reconstruction,2023-10-18,2023-10-29,
-INJ00632,P00632,Tibial Fracture,Lower Leg,Left,Mild,0,,2024-10-02,,
-INJ00633,P00633,ACL Tear,Knee,Left,Mild,0,,2025-09-25,,
-INJ00634,P00634,Ankle Fracture,Ankle,Left,Mild,0,,2024-03-05,,
-INJ00635,P00635,Meniscus Tear,Knee,Left,Moderate,0,,2024-09-12,,
-INJ00636,P00636,ACL Tear,Knee,Left,Moderate,0,,2023-12-05,,
-INJ00637,P00637,ACL Tear,Knee,Right,Moderate,0,,2023-02-21,,
-INJ00638,P00638,ACL Tear,Knee,Left,Mild,0,,2024-11-13,,
-INJ00639,P00639,Ankle Fracture,Ankle,Right,Severe,1,Ankle Fracture Reconstruction,2025-07-10,2025-07-17,
-INJ00640,P00640,ACL Tear,Knee,Left,Moderate,0,,2025-05-24,,
-INJ00641,P00641,Ankle Fracture,Ankle,Right,Moderate,0,,2024-09-19,,
-INJ00642,P00642,Meniscus Tear,Knee,Right,Mild,0,,2025-10-20,,
-INJ00643,P00643,Meniscus Tear,Knee,Right,Mild,0,,2025-07-03,,
-INJ00644,P00644,ACL Tear,Knee,Left,Mild,0,,2025-08-12,,
-INJ00645,P00645,ACL Tear,Knee,Right,Moderate,0,,2025-06-26,,
-INJ00646,P00646,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2023-12-12,2023-12-16,
-INJ00647,P00647,ACL Tear,Knee,Left,Mild,0,,2023-05-05,,
-INJ00648,P00648,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2024-02-25,2024-03-11,
-INJ00649,P00649,ACL Tear,Knee,Right,Mild,0,,2024-02-29,,
-INJ00650,P00650,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2025-05-27,2025-06-05,
-INJ00651,P00651,Meniscus Tear,Knee,Left,Mild,0,,2023-08-25,,
-INJ00652,P00652,ACL Tear,Knee,Right,Mild,0,,2023-11-10,,
-INJ00653,P00653,ACL Tear,Knee,Right,Mild,0,,2025-02-19,,
-INJ00654,P00654,Rotator Cuff Tear,Shoulder,,Moderate,1,Rotator Cuff Tear Reconstruction,2023-04-20,2023-05-04,
-INJ00655,P00655,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2025-05-08,2025-05-17,
-INJ00656,P00656,Achilles Tendon Rupture,Ankle,Left,Moderate,1,Achilles Tendon Rupture Reconstruction,2023-06-01,2023-06-19,
-INJ00657,P00657,Meniscus Tear,Knee,Left,Mild,0,,2024-02-06,,
-INJ00658,P00658,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2024-05-11,2024-05-26,
-INJ00659,P00659,Achilles Tendon Rupture,Ankle,Right,Severe,1,Achilles Tendon Rupture Reconstruction,2023-06-23,2023-07-03,
-INJ00660,P00660,Rotator Cuff Tear,Shoulder,,Moderate,0,,2023-04-02,,
-INJ00661,P00661,Meniscus Tear,Knee,Left,Mild,0,,2023-01-19,,
-INJ00662,P00662,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2023-01-05,2023-01-13,
-INJ00663,P00663,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-11-09,2023-11-25,
-INJ00664,P00664,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2025-07-20,2025-07-23,
-INJ00665,P00665,Ankle Fracture,Ankle,Right,Moderate,1,Ankle Fracture Reconstruction,2023-10-11,2023-10-15,
-INJ00666,P00666,ACL Tear,Knee,Right,Moderate,0,,2024-08-10,,
-INJ00667,P00667,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2023-02-08,2023-02-12,
-INJ00668,P00668,ACL Tear,Knee,Left,Mild,0,,2025-08-28,,
-INJ00669,P00669,ACL Tear,Knee,Left,Mild,0,,2025-09-03,,
-INJ00670,P00670,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2025-01-06,2025-01-15,
-INJ00671,P00671,ACL Tear,Knee,Right,Mild,0,,2025-03-22,,
-INJ00672,P00672,Rotator Cuff Tear,Shoulder,,Moderate,0,,2023-05-03,,
-INJ00673,P00673,ACL Tear,Knee,Left,Mild,0,,2024-04-28,,
-INJ00674,P00674,ACL Tear,Knee,Left,Mild,0,,2023-12-18,,
-INJ00675,P00675,ACL Tear,Knee,Right,Mild,0,,2025-02-01,,
-INJ00676,P00676,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2024-01-01,2024-01-12,
-INJ00677,P00677,Meniscus Tear,Knee,Right,Moderate,0,,2024-08-17,,
-INJ00678,P00678,ACL Tear,Knee,Left,Moderate,0,,2025-05-30,,
-INJ00679,P00679,Tibial Fracture,Lower Leg,Left,Moderate,0,,2025-01-05,,
-INJ00680,P00680,Tibial Fracture,Lower Leg,Left,Severe,1,Tibial Fracture Reconstruction,2025-04-09,2025-04-17,
-INJ00681,P00681,Rotator Cuff Tear,Shoulder,,Moderate,0,,2023-02-07,,
-INJ00682,P00682,Rotator Cuff Tear,Shoulder,,Severe,1,Rotator Cuff Tear Reconstruction,2023-07-01,2023-07-07,
-INJ00683,P00683,ACL Tear,Knee,Right,Moderate,0,,2023-04-29,,
-INJ00684,P00684,Meniscus Tear,Knee,Left,Mild,0,,2023-12-28,,
-INJ00685,P00685,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2024-04-18,2024-04-26,
-INJ00686,P00686,Ankle Fracture,Ankle,Left,Severe,1,Ankle Fracture Reconstruction,2023-10-31,2023-11-11,
-INJ00687,P00687,ACL Tear,Knee,Right,Mild,0,,2025-04-08,,
-INJ00688,P00688,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2023-08-02,2023-08-10,
-INJ00689,P00689,ACL Tear,Knee,Left,Moderate,0,,2024-10-15,,
-INJ00690,P00690,Meniscus Tear,Knee,Right,Mild,0,,2025-05-02,,
-INJ00691,P00691,Meniscus Tear,Knee,Right,Moderate,1,Meniscus Tear Reconstruction,2024-02-17,2024-03-01,
-INJ00692,P00692,ACL Tear,Knee,Left,Mild,0,,2024-04-27,,
-INJ00693,P00693,ACL Tear,Knee,Right,Mild,0,,2023-08-19,,
-INJ00694,P00694,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-05-28,2023-06-06,
-INJ00695,P00695,Ankle Fracture,Ankle,Right,Moderate,0,,2025-10-29,,
-INJ00696,P00696,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2024-11-03,2024-11-22,
-INJ00697,P00697,ACL Tear,Knee,Right,Moderate,0,,2022-12-30,,
-INJ00698,P00698,Meniscus Tear,Knee,Left,Severe,1,Meniscus Tear Reconstruction,2025-09-15,2025-10-05,
-INJ00699,P00699,Meniscus Tear,Knee,Left,Moderate,1,Meniscus Tear Reconstruction,2024-03-15,2024-03-29,
-INJ00700,P00700,Rotator Cuff Tear,Shoulder,,Moderate,0,,2025-12-17,,
-INJ00701,P00701,Meniscus Tear,Knee,Left,Mild,0,,2024-09-02,,
-INJ00702,P00702,Achilles Tendon Rupture,Ankle,Right,Moderate,1,Achilles Tendon Rupture Reconstruction,2025-08-10,2025-08-22,
-INJ00703,P00703,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2023-02-03,2023-02-06,
-INJ00704,P00704,ACL Tear,Knee,Left,Moderate,0,,2023-11-22,,
-INJ00705,P00705,Tibial Fracture,Lower Leg,Left,Moderate,1,Tibial Fracture Reconstruction,2025-03-14,2025-03-28,
-INJ00706,P00706,ACL Tear,Knee,Left,Mild,0,,2025-07-12,,
-INJ00707,P00707,Ankle Fracture,Ankle,Left,Severe,1,Ankle Fracture Reconstruction,2024-07-13,2024-07-22,
-INJ00708,P00708,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-06-11,2023-06-19,
-INJ00709,P00709,ACL Tear,Knee,Left,Moderate,0,,2023-09-09,,
-INJ00710,P00710,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2025-10-31,2025-11-17,
-INJ00711,P00711,Meniscus Tear,Knee,Right,Moderate,0,,2025-12-10,,
-INJ00712,P00712,Ankle Fracture,Ankle,Right,Severe,1,Ankle Fracture Reconstruction,2023-12-07,2023-12-10,
-INJ00713,P00713,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2023-06-01,2023-06-08,
-INJ00714,P00714,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2024-12-14,2024-12-30,
-INJ00715,P00715,ACL Tear,Knee,Left,Mild,0,,2025-03-26,,
-INJ00716,P00716,ACL Tear,Knee,Right,Mild,0,,2024-09-10,,
-INJ00717,P00717,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2024-06-28,2024-07-17,
-INJ00718,P00718,Tibial Fracture,Lower Leg,Left,Moderate,0,,2025-12-05,,
-INJ00719,P00719,ACL Tear,Knee,Right,Mild,0,,2023-09-11,,
-INJ00720,P00720,ACL Tear,Knee,Right,Mild,0,,2024-07-03,,
-INJ00721,P00721,ACL Tear,Knee,Right,Moderate,0,,2024-11-18,,
-INJ00722,P00722,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2024-11-04,2024-11-16,
-INJ00723,P00723,ACL Tear,Knee,Right,Moderate,0,,2025-11-12,,
-INJ00724,P00724,Ankle Fracture,Ankle,Right,Moderate,1,Ankle Fracture Reconstruction,2024-02-29,2024-03-12,
-INJ00725,P00725,Meniscus Tear,Knee,Right,Severe,1,Meniscus Tear Reconstruction,2024-02-15,2024-03-06,
-INJ00726,P00726,Rotator Cuff Tear,Shoulder,,Moderate,1,Rotator Cuff Tear Reconstruction,2023-03-07,2023-03-11,
-INJ00727,P00727,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2025-09-29,2025-10-10,
-INJ00728,P00728,Meniscus Tear,Knee,Left,Mild,0,,2023-01-04,,
-INJ00729,P00729,Rotator Cuff Tear,Shoulder,,Moderate,0,,2023-02-01,,
-INJ00730,P00730,Rotator Cuff Tear,Shoulder,,Mild,0,,2024-09-10,,
-INJ00731,P00731,Achilles Tendon Rupture,Ankle,Left,Mild,0,,2024-08-29,,
-INJ00732,P00732,ACL Tear,Knee,Left,Mild,0,,2025-10-03,,
-INJ00733,P00733,Tibial Fracture,Lower Leg,Right,Mild,0,,2025-04-13,,
-INJ00734,P00734,Rotator Cuff Tear,Shoulder,,Severe,1,Rotator Cuff Tear Reconstruction,2025-02-14,2025-02-21,
-INJ00735,P00735,Ankle Fracture,Ankle,Right,Moderate,0,,2023-06-03,,
-INJ00736,P00736,Meniscus Tear,Knee,Left,Severe,1,Meniscus Tear Reconstruction,2024-11-28,2024-12-09,
-INJ00737,P00737,Tibial Fracture,Lower Leg,Right,Moderate,0,,2025-01-07,,
-INJ00738,P00738,ACL Tear,Knee,Right,Moderate,0,,2024-12-18,,
-INJ00739,P00739,Ankle Fracture,Ankle,Right,Mild,0,,2025-08-12,,
-INJ00740,P00740,Meniscus Tear,Knee,Right,Moderate,0,,2024-02-02,,
-INJ00741,P00741,Ankle Fracture,Ankle,Left,Moderate,1,Ankle Fracture Reconstruction,2023-04-13,2023-05-02,
-INJ00742,P00742,Ankle Fracture,Ankle,Left,Severe,1,Ankle Fracture Reconstruction,2024-10-26,2024-11-08,
-INJ00743,P00743,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2023-02-16,2023-03-08,
-INJ00744,P00744,ACL Tear,Knee,Right,Mild,0,,2023-06-09,,
-INJ00745,P00745,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2023-02-06,2023-02-18,
-INJ00746,P00746,Ankle Fracture,Ankle,Left,Moderate,1,Ankle Fracture Reconstruction,2022-12-31,2023-01-18,
-INJ00747,P00747,Ankle Fracture,Ankle,Right,Moderate,0,,2024-02-25,,
-INJ00748,P00748,Rotator Cuff Tear,Shoulder,,Mild,0,,2025-12-18,,
-INJ00749,P00749,Ankle Fracture,Ankle,Left,Moderate,1,Ankle Fracture Reconstruction,2024-12-07,2024-12-13,
-INJ00750,P00750,Meniscus Tear,Knee,Right,Severe,1,Meniscus Tear Reconstruction,2025-03-26,2025-04-03,
-INJ00751,P00751,ACL Tear,Knee,Left,Moderate,0,,2024-06-27,,
-INJ00752,P00752,Meniscus Tear,Knee,Left,Moderate,0,,2023-03-17,,
-INJ00753,P00753,Rotator Cuff Tear,Shoulder,,Mild,0,,2023-05-16,,
-INJ00754,P00754,Meniscus Tear,Knee,Right,Severe,1,Meniscus Tear Reconstruction,2025-03-19,2025-03-26,
-INJ00755,P00755,Rotator Cuff Tear,Shoulder,,Mild,0,,2024-09-18,,
-INJ00756,P00756,Tibial Fracture,Lower Leg,Right,Mild,0,,2025-07-19,,
-INJ00757,P00757,ACL Tear,Knee,Left,Mild,0,,2023-05-04,,
-INJ00758,P00758,Ankle Fracture,Ankle,Left,Severe,1,Ankle Fracture Reconstruction,2024-12-23,2025-01-08,
-INJ00759,P00759,ACL Tear,Knee,Left,Moderate,0,,2025-09-29,,
-INJ00760,P00760,ACL Tear,Knee,Right,Mild,0,,2025-01-30,,
-INJ00761,P00761,ACL Tear,Knee,Left,Mild,0,,2023-05-20,,
-INJ00762,P00762,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2025-01-25,2025-02-06,
-INJ00763,P00763,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2024-08-22,2024-08-29,
-INJ00764,P00764,Meniscus Tear,Knee,Right,Mild,0,,2025-06-14,,
-INJ00765,P00765,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2024-06-27,2024-07-03,
-INJ00766,P00766,ACL Tear,Knee,Right,Mild,0,,2024-08-29,,
-INJ00767,P00767,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2024-03-01,2024-03-10,
-INJ00768,P00768,ACL Tear,Knee,Right,Mild,0,,2025-07-10,,
-INJ00769,P00769,Rotator Cuff Tear,Shoulder,,Moderate,0,,2023-07-31,,
-INJ00770,P00770,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2024-04-26,2024-05-01,
-INJ00771,P00771,ACL Tear,Knee,Right,Moderate,0,,2024-04-29,,
-INJ00772,P00772,Tibial Fracture,Lower Leg,Left,Moderate,0,,2025-09-10,,
-INJ00773,P00773,Rotator Cuff Tear,Shoulder,,Severe,1,Rotator Cuff Tear Reconstruction,2024-09-23,2024-10-08,
-INJ00774,P00774,Meniscus Tear,Knee,Right,Severe,1,Meniscus Tear Reconstruction,2023-12-25,2024-01-12,
-INJ00775,P00775,Ankle Fracture,Ankle,Right,Moderate,0,,2024-11-25,,
-INJ00776,P00776,ACL Tear,Knee,Left,Moderate,0,,2024-03-16,,
-INJ00777,P00777,Ankle Fracture,Ankle,Left,Severe,1,Ankle Fracture Reconstruction,2024-06-23,2024-07-13,
-INJ00778,P00778,ACL Tear,Knee,Right,Mild,0,,2025-04-02,,
-INJ00779,P00779,ACL Tear,Knee,Right,Mild,0,,2025-09-29,,
-INJ00780,P00780,ACL Tear,Knee,Left,Mild,0,,2024-03-10,,
-INJ00781,P00781,Ankle Fracture,Ankle,Right,Severe,1,Ankle Fracture Reconstruction,2023-04-01,2023-04-08,
-INJ00782,P00782,ACL Tear,Knee,Left,Mild,0,,2024-10-21,,
-INJ00783,P00783,ACL Tear,Knee,Left,Mild,0,,2023-07-17,,
-INJ00784,P00784,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2023-11-05,2023-11-15,
-INJ00785,P00785,Ankle Fracture,Ankle,Right,Mild,0,,2025-09-25,,
-INJ00786,P00786,ACL Tear,Knee,Left,Moderate,0,,2024-01-20,,
-INJ00787,P00787,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2024-02-12,2024-02-24,
-INJ00788,P00788,ACL Tear,Knee,Left,Mild,0,,2025-06-13,,
-INJ00789,P00789,Ankle Fracture,Ankle,Left,Severe,1,Ankle Fracture Reconstruction,2023-07-21,2023-08-01,
-INJ00790,P00790,ACL Tear,Knee,Left,Mild,0,,2023-05-08,,
-INJ00791,P00791,Achilles Tendon Rupture,Ankle,Right,Severe,1,Achilles Tendon Rupture Reconstruction,2023-12-12,2023-12-23,
-INJ00792,P00792,ACL Tear,Knee,Right,Moderate,0,,2023-11-16,,
-INJ00793,P00793,ACL Tear,Knee,Left,Mild,0,,2025-11-10,,
-INJ00794,P00794,ACL Tear,Knee,Right,Mild,0,,2025-05-10,,
-INJ00795,P00795,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2024-10-05,2024-10-11,
-INJ00796,P00796,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2023-10-10,2023-10-15,
-INJ00797,P00797,ACL Tear,Knee,Left,Mild,0,,2024-03-18,,
-INJ00798,P00798,Rotator Cuff Tear,Shoulder,,Severe,1,Rotator Cuff Tear Reconstruction,2023-11-15,2023-11-25,
-INJ00799,P00799,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2024-03-07,2024-03-11,
-INJ00800,P00800,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2024-11-01,2024-11-05,
-INJ00801,P00801,Rotator Cuff Tear,Shoulder,Right,Moderate,1,Surgical Repair,2026-08-31,2026-08-31,Shoulder
-INJ00802,P00802,Rotator Cuff Tear,Shoulder,Right,Moderate,1,Surgical Repair,2026-08-31,2026-08-31,Shoulder
-INJ00803,P00803,Rotator Cuff Tear,Shoulder,Right,Moderate,1,Surgical Repair,2026-08-31,2026-08-31,Shoulder
+Injury_ID,Patient_ID,Injury_Type,Body_Part,Affected_Leg,Severity,Surgery_Required,Surgery_Type,Injury_Date,Surgery_Date
+INJ00001,P00001,Meniscus Tear,Knee,Right,Severe,1,Meniscus Tear Reconstruction,2023-09-23,2023-10-03
+INJ00002,P00002,Rotator Cuff Tear,Shoulder,,Moderate,1,Rotator Cuff Tear Reconstruction,2025-11-12,2025-11-29
+INJ00003,P00003,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2025-06-19,2025-07-06
+INJ00004,P00004,ACL Tear,Knee,Left,Moderate,0,,2024-12-27,
+INJ00005,P00005,Achilles Tendon Rupture,Ankle,Left,Mild,0,,2023-02-05,
+INJ00006,P00006,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2024-11-13,2024-11-30
+INJ00007,P00007,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2025-09-03,2025-09-18
+INJ00008,P00008,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-12-02,2023-12-05
+INJ00009,P00009,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2025-07-16,2025-08-03
+INJ00010,P00010,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2023-11-23,2023-12-13
+INJ00011,P00011,Meniscus Tear,Knee,Right,Severe,1,Meniscus Tear Reconstruction,2025-08-04,2025-08-22
+INJ00012,P00012,Meniscus Tear,Knee,Left,Mild,0,,2024-06-14,
+INJ00013,P00013,Meniscus Tear,Knee,Right,Mild,0,,2024-09-14,
+INJ00014,P00014,Meniscus Tear,Knee,Right,Moderate,1,Meniscus Tear Reconstruction,2024-08-01,2024-08-12
+INJ00015,P00015,ACL Tear,Knee,Right,Mild,0,,2023-03-02,
+INJ00016,P00016,ACL Tear,Knee,Right,Moderate,0,,2023-06-11,
+INJ00017,P00017,ACL Tear,Knee,Right,Mild,0,,2025-08-21,
+INJ00018,P00018,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2024-09-09,2024-09-15
+INJ00019,P00019,Ankle Fracture,Ankle,Right,Moderate,0,,2024-07-15,
+INJ00020,P00020,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-11-23,2023-12-12
+INJ00021,P00021,Meniscus Tear,Knee,Right,Moderate,1,Meniscus Tear Reconstruction,2024-08-02,2024-08-08
+INJ00022,P00022,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2024-12-15,2025-01-01
+INJ00023,P00023,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2023-01-01,2023-01-21
+INJ00024,P00024,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2025-01-30,2025-02-18
+INJ00025,P00025,ACL Tear,Knee,Left,Moderate,0,,2024-02-20,
+INJ00026,P00026,Meniscus Tear,Knee,Left,Mild,0,,2024-06-06,
+INJ00027,P00027,Rotator Cuff Tear,Shoulder,,Moderate,0,,2025-12-10,
+INJ00028,P00028,ACL Tear,Knee,Right,Moderate,0,,2024-05-28,
+INJ00029,P00029,Meniscus Tear,Knee,Right,Moderate,1,Meniscus Tear Reconstruction,2025-10-11,2025-10-23
+INJ00030,P00030,Ankle Fracture,Ankle,Left,Severe,1,Ankle Fracture Reconstruction,2024-09-21,2024-10-09
+INJ00031,P00031,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2024-02-03,2024-02-20
+INJ00032,P00032,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-09-14,2023-10-04
+INJ00033,P00033,ACL Tear,Knee,Left,Moderate,0,,2023-04-01,
+INJ00034,P00034,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2024-08-27,2024-09-05
+INJ00035,P00035,Rotator Cuff Tear,Shoulder,,Severe,1,Rotator Cuff Tear Reconstruction,2023-12-10,2023-12-24
+INJ00036,P00036,ACL Tear,Knee,Right,Mild,0,,2023-08-23,
+INJ00037,P00037,ACL Tear,Knee,Right,Moderate,0,,2024-11-25,
+INJ00038,P00038,Ankle Fracture,Ankle,Right,Mild,0,,2025-05-15,
+INJ00039,P00039,ACL Tear,Knee,Right,Mild,0,,2023-12-01,
+INJ00040,P00040,Meniscus Tear,Knee,Left,Mild,0,,2025-07-28,
+INJ00041,P00041,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2024-12-30,2025-01-16
+INJ00042,P00042,ACL Tear,Knee,Left,Mild,0,,2025-06-28,
+INJ00043,P00043,ACL Tear,Knee,Left,Mild,0,,2025-12-12,
+INJ00044,P00044,ACL Tear,Knee,Right,Mild,0,,2025-06-09,
+INJ00045,P00045,ACL Tear,Knee,Left,Moderate,0,,2023-06-03,
+INJ00046,P00046,Ankle Fracture,Ankle,Left,Severe,1,Ankle Fracture Reconstruction,2024-08-20,2024-08-27
+INJ00047,P00047,Meniscus Tear,Knee,Left,Severe,1,Meniscus Tear Reconstruction,2025-06-09,2025-06-16
+INJ00048,P00048,Ankle Fracture,Ankle,Left,Moderate,1,Ankle Fracture Reconstruction,2024-11-12,2024-11-22
+INJ00049,P00049,ACL Tear,Knee,Right,Mild,0,,2025-03-19,
+INJ00050,P00050,Tibial Fracture,Lower Leg,Left,Severe,1,Tibial Fracture Reconstruction,2025-10-05,2025-10-14
+INJ00051,P00051,ACL Tear,Knee,Left,Mild,0,,2023-08-07,
+INJ00052,P00052,Rotator Cuff Tear,Shoulder,,Severe,1,Rotator Cuff Tear Reconstruction,2023-03-10,2023-03-26
+INJ00053,P00053,Ankle Fracture,Ankle,Left,Moderate,0,,2024-10-09,
+INJ00054,P00054,Meniscus Tear,Knee,Right,Moderate,0,,2023-07-27,
+INJ00055,P00055,ACL Tear,Knee,Left,Mild,0,,2024-03-02,
+INJ00056,P00056,Ankle Fracture,Ankle,Left,Mild,0,,2025-03-12,
+INJ00057,P00057,Ankle Fracture,Ankle,Right,Moderate,1,Ankle Fracture Reconstruction,2024-07-23,2024-08-11
+INJ00058,P00058,ACL Tear,Knee,Right,Moderate,0,,2023-12-03,
+INJ00059,P00059,Ankle Fracture,Ankle,Left,Severe,1,Ankle Fracture Reconstruction,2025-01-04,2025-01-09
+INJ00060,P00060,ACL Tear,Knee,Left,Moderate,0,,2023-07-04,
+INJ00061,P00061,ACL Tear,Knee,Right,Moderate,0,,2025-01-15,
+INJ00062,P00062,Meniscus Tear,Knee,Right,Mild,0,,2023-04-06,
+INJ00063,P00063,Rotator Cuff Tear,Shoulder,,Moderate,0,,2025-12-04,
+INJ00064,P00064,ACL Tear,Knee,Left,Mild,0,,2024-08-27,
+INJ00065,P00065,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2024-09-23,2024-10-01
+INJ00066,P00066,ACL Tear,Knee,Left,Moderate,0,,2024-11-20,
+INJ00067,P00067,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-02-17,2023-03-08
+INJ00068,P00068,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2024-11-26,2024-12-09
+INJ00069,P00069,ACL Tear,Knee,Left,Mild,0,,2025-07-07,
+INJ00070,P00070,Ankle Fracture,Ankle,Right,Severe,1,Ankle Fracture Reconstruction,2025-09-22,2025-09-28
+INJ00071,P00071,ACL Tear,Knee,Left,Moderate,0,,2023-04-20,
+INJ00072,P00072,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2024-04-01,2024-04-14
+INJ00073,P00073,ACL Tear,Knee,Right,Moderate,0,,2025-02-07,
+INJ00074,P00074,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2025-07-19,2025-08-06
+INJ00075,P00075,ACL Tear,Knee,Right,Mild,0,,2024-11-02,
+INJ00076,P00076,ACL Tear,Knee,Left,Moderate,0,,2023-04-26,
+INJ00077,P00077,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2025-11-08,2025-11-17
+INJ00078,P00078,ACL Tear,Knee,Left,Mild,0,,2024-10-09,
+INJ00079,P00079,Meniscus Tear,Knee,Left,Severe,1,Meniscus Tear Reconstruction,2024-12-18,2024-12-29
+INJ00080,P00080,Rotator Cuff Tear,Shoulder,,Moderate,0,,2025-09-11,
+INJ00081,P00081,ACL Tear,Knee,Right,Mild,0,,2023-01-19,
+INJ00082,P00082,ACL Tear,Knee,Left,Mild,0,,2025-07-07,
+INJ00083,P00083,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2023-09-01,2023-09-15
+INJ00084,P00084,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2025-07-18,2025-08-05
+INJ00085,P00085,Meniscus Tear,Knee,Right,Mild,0,,2025-02-08,
+INJ00086,P00086,Meniscus Tear,Knee,Right,Mild,0,,2025-11-26,
+INJ00087,P00087,ACL Tear,Knee,Right,Mild,0,,2025-03-31,
+INJ00088,P00088,ACL Tear,Knee,Right,Mild,0,,2025-08-29,
+INJ00089,P00089,ACL Tear,Knee,Right,Moderate,0,,2023-10-05,
+INJ00090,P00090,ACL Tear,Knee,Right,Mild,0,,2025-05-09,
+INJ00091,P00091,Tibial Fracture,Lower Leg,Left,Mild,0,,2025-01-10,
+INJ00092,P00092,ACL Tear,Knee,Left,Mild,0,,2024-09-23,
+INJ00093,P00093,ACL Tear,Knee,Right,Moderate,0,,2024-04-03,
+INJ00094,P00094,ACL Tear,Knee,Left,Moderate,0,,2023-10-24,
+INJ00095,P00095,ACL Tear,Knee,Right,Moderate,0,,2024-06-07,
+INJ00096,P00096,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2025-06-04,2025-06-17
+INJ00097,P00097,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2024-08-25,2024-09-14
+INJ00098,P00098,ACL Tear,Knee,Left,Moderate,0,,2024-11-24,
+INJ00099,P00099,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2024-03-20,2024-04-05
+INJ00100,P00100,Meniscus Tear,Knee,Right,Moderate,1,Meniscus Tear Reconstruction,2023-03-22,2023-04-01
+INJ00101,P00101,ACL Tear,Knee,Left,Mild,0,,2025-05-11,
+INJ00102,P00102,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2023-11-12,2023-11-23
+INJ00103,P00103,Rotator Cuff Tear,Shoulder,,Moderate,0,,2023-09-25,
+INJ00104,P00104,ACL Tear,Knee,Left,Moderate,0,,2023-11-14,
+INJ00105,P00105,Tibial Fracture,Lower Leg,Left,Mild,0,,2025-01-29,
+INJ00106,P00106,Achilles Tendon Rupture,Ankle,Left,Moderate,1,Achilles Tendon Rupture Reconstruction,2025-03-22,2025-04-06
+INJ00107,P00107,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2023-04-21,2023-04-25
+INJ00108,P00108,ACL Tear,Knee,Right,Mild,0,,2023-03-14,
+INJ00109,P00109,Rotator Cuff Tear,Shoulder,,Mild,0,,2024-11-30,
+INJ00110,P00110,ACL Tear,Knee,Right,Mild,0,,2023-09-05,
+INJ00111,P00111,ACL Tear,Knee,Left,Moderate,0,,2025-04-13,
+INJ00112,P00112,Meniscus Tear,Knee,Right,Severe,1,Meniscus Tear Reconstruction,2023-08-04,2023-08-11
+INJ00113,P00113,ACL Tear,Knee,Right,Moderate,0,,2024-10-23,
+INJ00114,P00114,Rotator Cuff Tear,Shoulder,,Severe,1,Rotator Cuff Tear Reconstruction,2024-10-24,2024-10-31
+INJ00115,P00115,Ankle Fracture,Ankle,Right,Moderate,0,,2024-03-28,
+INJ00116,P00116,Rotator Cuff Tear,Shoulder,,Moderate,0,,2024-03-14,
+INJ00117,P00117,Ankle Fracture,Ankle,Left,Mild,0,,2023-10-16,
+INJ00118,P00118,Meniscus Tear,Knee,Left,Mild,0,,2023-08-18,
+INJ00119,P00119,ACL Tear,Knee,Right,Moderate,0,,2023-03-09,
+INJ00120,P00120,Tibial Fracture,Lower Leg,Right,Mild,0,,2023-08-31,
+INJ00121,P00121,Tibial Fracture,Lower Leg,Right,Mild,0,,2025-10-26,
+INJ00122,P00122,Rotator Cuff Tear,Shoulder,,Severe,1,Rotator Cuff Tear Reconstruction,2023-10-08,2023-10-25
+INJ00123,P00123,Ankle Fracture,Ankle,Left,Moderate,0,,2023-11-13,
+INJ00124,P00124,Meniscus Tear,Knee,Left,Mild,0,,2023-07-21,
+INJ00125,P00125,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2025-05-07,2025-05-24
+INJ00126,P00126,Rotator Cuff Tear,Shoulder,,Moderate,1,Rotator Cuff Tear Reconstruction,2025-10-21,2025-11-07
+INJ00127,P00127,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2025-04-19,2025-04-23
+INJ00128,P00128,ACL Tear,Knee,Right,Moderate,0,,2024-07-17,
+INJ00129,P00129,ACL Tear,Knee,Left,Mild,0,,2025-01-07,
+INJ00130,P00130,Meniscus Tear,Knee,Right,Mild,0,,2024-05-18,
+INJ00131,P00131,Meniscus Tear,Knee,Right,Mild,0,,2025-02-21,
+INJ00132,P00132,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2025-01-31,2025-02-08
+INJ00133,P00133,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2023-06-22,2023-06-30
+INJ00134,P00134,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2024-05-30,2024-06-02
+INJ00135,P00135,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2023-08-30,2023-09-06
+INJ00136,P00136,ACL Tear,Knee,Right,Moderate,0,,2023-05-10,
+INJ00137,P00137,Meniscus Tear,Knee,Left,Mild,0,,2025-04-13,
+INJ00138,P00138,ACL Tear,Knee,Right,Mild,0,,2023-06-17,
+INJ00139,P00139,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2025-04-12,2025-04-22
+INJ00140,P00140,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2025-08-09,2025-08-27
+INJ00141,P00141,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2024-02-28,2024-03-05
+INJ00142,P00142,Rotator Cuff Tear,Shoulder,,Mild,0,,2024-09-12,
+INJ00143,P00143,ACL Tear,Knee,Left,Moderate,0,,2024-04-14,
+INJ00144,P00144,ACL Tear,Knee,Left,Mild,0,,2025-04-11,
+INJ00145,P00145,Meniscus Tear,Knee,Right,Moderate,0,,2023-09-21,
+INJ00146,P00146,ACL Tear,Knee,Right,Mild,0,,2023-11-05,
+INJ00147,P00147,Rotator Cuff Tear,Shoulder,,Moderate,1,Rotator Cuff Tear Reconstruction,2024-01-28,2024-02-15
+INJ00148,P00148,Tibial Fracture,Lower Leg,Right,Mild,0,,2025-09-14,
+INJ00149,P00149,Meniscus Tear,Knee,Left,Mild,0,,2023-02-06,
+INJ00150,P00150,Tibial Fracture,Lower Leg,Left,Moderate,0,,2024-11-23,
+INJ00151,P00151,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2025-10-06,2025-10-23
+INJ00152,P00152,ACL Tear,Knee,Right,Moderate,0,,2023-05-12,
+INJ00153,P00153,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2023-02-25,2023-03-02
+INJ00154,P00154,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2024-12-03,2024-12-10
+INJ00155,P00155,ACL Tear,Knee,Left,Mild,0,,2023-03-06,
+INJ00156,P00156,ACL Tear,Knee,Right,Moderate,0,,2023-03-10,
+INJ00157,P00157,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2024-01-11,2024-01-22
+INJ00158,P00158,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2024-05-13,2024-06-01
+INJ00159,P00159,Meniscus Tear,Knee,Left,Moderate,0,,2024-07-12,
+INJ00160,P00160,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2024-03-13,2024-03-30
+INJ00161,P00161,ACL Tear,Knee,Left,Mild,0,,2024-10-01,
+INJ00162,P00162,ACL Tear,Knee,Right,Moderate,0,,2024-12-13,
+INJ00163,P00163,Meniscus Tear,Knee,Left,Moderate,0,,2025-08-26,
+INJ00164,P00164,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2025-10-13,2025-11-02
+INJ00165,P00165,Ankle Fracture,Ankle,Left,Severe,1,Ankle Fracture Reconstruction,2024-04-08,2024-04-16
+INJ00166,P00166,ACL Tear,Knee,Left,Mild,0,,2025-01-07,
+INJ00167,P00167,ACL Tear,Knee,Left,Mild,0,,2025-02-15,
+INJ00168,P00168,Tibial Fracture,Lower Leg,Left,Moderate,1,Tibial Fracture Reconstruction,2023-07-03,2023-07-22
+INJ00169,P00169,ACL Tear,Knee,Right,Moderate,0,,2025-09-18,
+INJ00170,P00170,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2025-02-28,2025-03-20
+INJ00171,P00171,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2023-03-13,2023-03-26
+INJ00172,P00172,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2023-01-30,2023-02-04
+INJ00173,P00173,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2024-02-18,2024-02-25
+INJ00174,P00174,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2024-07-14,2024-07-19
+INJ00175,P00175,ACL Tear,Knee,Right,Mild,0,,2025-03-08,
+INJ00176,P00176,Achilles Tendon Rupture,Ankle,Right,Moderate,1,Achilles Tendon Rupture Reconstruction,2024-06-19,2024-07-06
+INJ00177,P00177,ACL Tear,Knee,Right,Moderate,0,,2023-12-10,
+INJ00178,P00178,ACL Tear,Knee,Right,Mild,0,,2023-02-22,
+INJ00179,P00179,Rotator Cuff Tear,Shoulder,,Mild,0,,2025-06-04,
+INJ00180,P00180,ACL Tear,Knee,Left,Moderate,0,,2023-12-05,
+INJ00181,P00181,Rotator Cuff Tear,Shoulder,,Moderate,0,,2025-03-16,
+INJ00182,P00182,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-09-03,2023-09-11
+INJ00183,P00183,Meniscus Tear,Knee,Right,Moderate,0,,2024-09-17,
+INJ00184,P00184,Achilles Tendon Rupture,Ankle,Left,Mild,0,,2024-04-12,
+INJ00185,P00185,ACL Tear,Knee,Left,Moderate,0,,2023-11-03,
+INJ00186,P00186,Rotator Cuff Tear,Shoulder,,Moderate,1,Rotator Cuff Tear Reconstruction,2024-09-20,2024-10-05
+INJ00187,P00187,Meniscus Tear,Knee,Right,Severe,1,Meniscus Tear Reconstruction,2024-12-05,2024-12-12
+INJ00188,P00188,Rotator Cuff Tear,Shoulder,,Moderate,0,,2023-04-15,
+INJ00189,P00189,ACL Tear,Knee,Right,Moderate,0,,2024-06-09,
+INJ00190,P00190,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2025-07-13,2025-08-02
+INJ00191,P00191,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2025-08-11,2025-08-27
+INJ00192,P00192,Tibial Fracture,Lower Leg,Right,Mild,0,,2024-05-10,
+INJ00193,P00193,ACL Tear,Knee,Left,Moderate,0,,2025-08-19,
+INJ00194,P00194,ACL Tear,Knee,Left,Moderate,0,,2023-07-09,
+INJ00195,P00195,Rotator Cuff Tear,Shoulder,,Moderate,0,,2023-05-21,
+INJ00196,P00196,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2024-05-07,2024-05-16
+INJ00197,P00197,Meniscus Tear,Knee,Left,Mild,0,,2024-01-02,
+INJ00198,P00198,ACL Tear,Knee,Right,Moderate,0,,2025-09-01,
+INJ00199,P00199,Meniscus Tear,Knee,Left,Mild,0,,2023-03-21,
+INJ00200,P00200,ACL Tear,Knee,Right,Mild,0,,2024-11-09,
+INJ00201,P00201,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2024-05-12,2024-05-23
+INJ00202,P00202,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-10-02,2023-10-06
+INJ00203,P00203,ACL Tear,Knee,Left,Moderate,0,,2024-02-29,
+INJ00204,P00204,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2024-04-11,2024-04-16
+INJ00205,P00205,ACL Tear,Knee,Right,Mild,0,,2023-02-07,
+INJ00206,P00206,Ankle Fracture,Ankle,Right,Moderate,1,Ankle Fracture Reconstruction,2024-02-17,2024-03-08
+INJ00207,P00207,ACL Tear,Knee,Left,Moderate,0,,2023-07-23,
+INJ00208,P00208,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2025-12-15,2026-01-01
+INJ00209,P00209,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2023-07-20,2023-08-07
+INJ00210,P00210,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2023-03-16,2023-03-30
+INJ00211,P00211,Ankle Fracture,Ankle,Right,Severe,1,Ankle Fracture Reconstruction,2023-06-10,2023-06-16
+INJ00212,P00212,ACL Tear,Knee,Left,Moderate,0,,2023-12-01,
+INJ00213,P00213,Rotator Cuff Tear,Shoulder,,Moderate,0,,2023-05-16,
+INJ00214,P00214,Meniscus Tear,Knee,Left,Moderate,0,,2024-01-10,
+INJ00215,P00215,Rotator Cuff Tear,Shoulder,,Severe,1,Rotator Cuff Tear Reconstruction,2023-11-07,2023-11-11
+INJ00216,P00216,Ankle Fracture,Ankle,Right,Moderate,0,,2023-04-11,
+INJ00217,P00217,ACL Tear,Knee,Left,Moderate,0,,2023-01-01,
+INJ00218,P00218,Tibial Fracture,Lower Leg,Right,Moderate,0,,2024-04-20,
+INJ00219,P00219,Ankle Fracture,Ankle,Right,Moderate,0,,2023-03-10,
+INJ00220,P00220,Meniscus Tear,Knee,Left,Severe,1,Meniscus Tear Reconstruction,2024-06-17,2024-07-03
+INJ00221,P00221,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2024-04-16,2024-04-24
+INJ00222,P00222,ACL Tear,Knee,Left,Mild,0,,2025-05-20,
+INJ00223,P00223,Meniscus Tear,Knee,Left,Mild,0,,2023-10-04,
+INJ00224,P00224,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2025-08-22,2025-08-25
+INJ00225,P00225,Meniscus Tear,Knee,Left,Moderate,0,,2024-06-07,
+INJ00226,P00226,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-12-20,2023-12-23
+INJ00227,P00227,ACL Tear,Knee,Left,Moderate,0,,2024-10-13,
+INJ00228,P00228,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2025-12-13,2025-12-26
+INJ00229,P00229,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2023-08-01,2023-08-19
+INJ00230,P00230,ACL Tear,Knee,Left,Mild,0,,2024-10-05,
+INJ00231,P00231,Rotator Cuff Tear,Shoulder,,Mild,0,,2024-03-11,
+INJ00232,P00232,Meniscus Tear,Knee,Left,Moderate,1,Meniscus Tear Reconstruction,2023-01-27,2023-02-05
+INJ00233,P00233,Achilles Tendon Rupture,Ankle,Left,Mild,0,,2025-07-16,
+INJ00234,P00234,Ankle Fracture,Ankle,Right,Severe,1,Ankle Fracture Reconstruction,2023-01-04,2023-01-24
+INJ00235,P00235,Ankle Fracture,Ankle,Left,Moderate,1,Ankle Fracture Reconstruction,2023-02-24,2023-03-05
+INJ00236,P00236,ACL Tear,Knee,Right,Moderate,0,,2023-03-06,
+INJ00237,P00237,Rotator Cuff Tear,Shoulder,,Mild,0,,2024-06-24,
+INJ00238,P00238,Achilles Tendon Rupture,Ankle,Left,Severe,1,Achilles Tendon Rupture Reconstruction,2025-01-16,2025-02-01
+INJ00239,P00239,Ankle Fracture,Ankle,Right,Moderate,1,Ankle Fracture Reconstruction,2025-11-01,2025-11-08
+INJ00240,P00240,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2025-09-02,2025-09-15
+INJ00241,P00241,Meniscus Tear,Knee,Right,Severe,1,Meniscus Tear Reconstruction,2024-08-18,2024-08-25
+INJ00242,P00242,ACL Tear,Knee,Left,Moderate,0,,2024-07-12,
+INJ00243,P00243,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2024-12-04,2024-12-21
+INJ00244,P00244,Meniscus Tear,Knee,Right,Moderate,0,,2023-03-11,
+INJ00245,P00245,Rotator Cuff Tear,Shoulder,,Moderate,0,,2025-08-31,
+INJ00246,P00246,ACL Tear,Knee,Right,Mild,0,,2024-08-21,
+INJ00247,P00247,ACL Tear,Knee,Right,Mild,0,,2024-04-19,
+INJ00248,P00248,Rotator Cuff Tear,Shoulder,,Moderate,0,,2024-08-09,
+INJ00249,P00249,ACL Tear,Knee,Left,Moderate,0,,2025-08-05,
+INJ00250,P00250,ACL Tear,Knee,Right,Moderate,0,,2023-11-30,
+INJ00251,P00251,Ankle Fracture,Ankle,Left,Severe,1,Ankle Fracture Reconstruction,2025-10-20,2025-10-31
+INJ00252,P00252,Rotator Cuff Tear,Shoulder,,Moderate,0,,2025-03-06,
+INJ00253,P00253,ACL Tear,Knee,Left,Mild,0,,2025-01-14,
+INJ00254,P00254,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2023-05-21,2023-05-24
+INJ00255,P00255,ACL Tear,Knee,Left,Mild,0,,2023-09-19,
+INJ00256,P00256,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2024-01-23,2024-01-30
+INJ00257,P00257,Ankle Fracture,Ankle,Right,Moderate,0,,2025-11-13,
+INJ00258,P00258,Rotator Cuff Tear,Shoulder,,Moderate,1,Rotator Cuff Tear Reconstruction,2025-11-07,2025-11-16
+INJ00259,P00259,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2024-09-15,2024-09-26
+INJ00260,P00260,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2023-07-16,2023-07-23
+INJ00261,P00261,ACL Tear,Knee,Right,Moderate,0,,2023-11-10,
+INJ00262,P00262,ACL Tear,Knee,Right,Mild,0,,2024-08-14,
+INJ00263,P00263,ACL Tear,Knee,Left,Moderate,0,,2023-07-09,
+INJ00264,P00264,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2024-03-03,2024-03-16
+INJ00265,P00265,Ankle Fracture,Ankle,Right,Mild,0,,2025-11-06,
+INJ00266,P00266,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2024-07-19,2024-08-08
+INJ00267,P00267,Meniscus Tear,Knee,Right,Mild,0,,2024-04-05,
+INJ00268,P00268,ACL Tear,Knee,Left,Moderate,0,,2022-12-31,
+INJ00269,P00269,Rotator Cuff Tear,Shoulder,,Mild,0,,2023-07-09,
+INJ00270,P00270,Tibial Fracture,Lower Leg,Left,Severe,1,Tibial Fracture Reconstruction,2024-04-12,2024-04-27
+INJ00271,P00271,ACL Tear,Knee,Left,Mild,0,,2024-03-22,
+INJ00272,P00272,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2023-07-02,2023-07-10
+INJ00273,P00273,Ankle Fracture,Ankle,Right,Mild,0,,2023-08-08,
+INJ00274,P00274,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2023-11-06,2023-11-21
+INJ00275,P00275,ACL Tear,Knee,Right,Mild,0,,2024-11-18,
+INJ00276,P00276,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2024-02-21,2024-03-12
+INJ00277,P00277,Rotator Cuff Tear,Shoulder,,Severe,1,Rotator Cuff Tear Reconstruction,2024-09-09,2024-09-16
+INJ00278,P00278,ACL Tear,Knee,Left,Mild,0,,2024-02-03,
+INJ00279,P00279,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2023-08-02,2023-08-09
+INJ00280,P00280,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2024-05-15,2024-05-18
+INJ00281,P00281,Meniscus Tear,Knee,Left,Moderate,0,,2023-07-14,
+INJ00282,P00282,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2025-03-20,2025-04-07
+INJ00283,P00283,Rotator Cuff Tear,Shoulder,,Mild,0,,2023-05-25,
+INJ00284,P00284,Ankle Fracture,Ankle,Right,Moderate,1,Ankle Fracture Reconstruction,2024-12-10,2024-12-27
+INJ00285,P00285,ACL Tear,Knee,Left,Mild,0,,2023-06-28,
+INJ00286,P00286,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2025-10-28,2025-11-07
+INJ00287,P00287,Rotator Cuff Tear,Shoulder,,Moderate,0,,2023-02-01,
+INJ00288,P00288,Ankle Fracture,Ankle,Right,Severe,1,Ankle Fracture Reconstruction,2025-07-29,2025-08-16
+INJ00289,P00289,ACL Tear,Knee,Right,Mild,0,,2023-10-05,
+INJ00290,P00290,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2025-09-18,2025-10-02
+INJ00291,P00291,ACL Tear,Knee,Left,Mild,0,,2024-10-27,
+INJ00292,P00292,ACL Tear,Knee,Right,Moderate,0,,2023-01-21,
+INJ00293,P00293,ACL Tear,Knee,Right,Moderate,0,,2023-06-18,
+INJ00294,P00294,ACL Tear,Knee,Left,Mild,0,,2024-03-07,
+INJ00295,P00295,ACL Tear,Knee,Right,Mild,0,,2025-02-13,
+INJ00296,P00296,Rotator Cuff Tear,Shoulder,,Moderate,0,,2025-01-20,
+INJ00297,P00297,Ankle Fracture,Ankle,Left,Mild,0,,2023-07-27,
+INJ00298,P00298,Rotator Cuff Tear,Shoulder,,Moderate,0,,2024-06-09,
+INJ00299,P00299,Meniscus Tear,Knee,Left,Severe,1,Meniscus Tear Reconstruction,2023-09-01,2023-09-21
+INJ00300,P00300,Meniscus Tear,Knee,Left,Moderate,1,Meniscus Tear Reconstruction,2023-06-21,2023-07-10
+INJ00301,P00301,ACL Tear,Knee,Left,Mild,0,,2024-07-21,
+INJ00302,P00302,Meniscus Tear,Knee,Left,Mild,0,,2023-11-19,
+INJ00303,P00303,ACL Tear,Knee,Left,Mild,0,,2023-12-15,
+INJ00304,P00304,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2025-07-13,2025-08-02
+INJ00305,P00305,Tibial Fracture,Lower Leg,Left,Moderate,0,,2025-03-14,
+INJ00306,P00306,Rotator Cuff Tear,Shoulder,,Mild,0,,2025-09-20,
+INJ00307,P00307,ACL Tear,Knee,Left,Mild,0,,2023-09-06,
+INJ00308,P00308,Ankle Fracture,Ankle,Right,Moderate,1,Ankle Fracture Reconstruction,2025-04-24,2025-05-04
+INJ00309,P00309,ACL Tear,Knee,Right,Moderate,0,,2024-09-23,
+INJ00310,P00310,ACL Tear,Knee,Left,Moderate,0,,2024-08-14,
+INJ00311,P00311,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-01-02,2023-01-16
+INJ00312,P00312,ACL Tear,Knee,Right,Mild,0,,2025-08-26,
+INJ00313,P00313,Meniscus Tear,Knee,Left,Moderate,1,Meniscus Tear Reconstruction,2024-01-18,2024-01-24
+INJ00314,P00314,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2025-07-31,2025-08-19
+INJ00315,P00315,ACL Tear,Knee,Right,Moderate,0,,2024-06-05,
+INJ00316,P00316,Tibial Fracture,Lower Leg,Right,Severe,1,Tibial Fracture Reconstruction,2025-01-16,2025-01-24
+INJ00317,P00317,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2024-05-16,2024-05-27
+INJ00318,P00318,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2025-02-16,2025-03-01
+INJ00319,P00319,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2023-01-10,2023-01-27
+INJ00320,P00320,ACL Tear,Knee,Right,Moderate,0,,2023-10-11,
+INJ00321,P00321,ACL Tear,Knee,Right,Moderate,0,,2025-04-04,
+INJ00322,P00322,Meniscus Tear,Knee,Right,Moderate,1,Meniscus Tear Reconstruction,2024-05-09,2024-05-25
+INJ00323,P00323,Rotator Cuff Tear,Shoulder,,Moderate,1,Rotator Cuff Tear Reconstruction,2024-08-31,2024-09-20
+INJ00324,P00324,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2025-01-16,2025-01-31
+INJ00325,P00325,ACL Tear,Knee,Right,Mild,0,,2024-07-20,
+INJ00326,P00326,ACL Tear,Knee,Left,Mild,0,,2025-10-09,
+INJ00327,P00327,Rotator Cuff Tear,Shoulder,,Moderate,1,Rotator Cuff Tear Reconstruction,2023-08-05,2023-08-22
+INJ00328,P00328,ACL Tear,Knee,Left,Mild,0,,2025-06-06,
+INJ00329,P00329,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2023-03-16,2023-03-29
+INJ00330,P00330,Tibial Fracture,Lower Leg,Left,Mild,0,,2024-11-10,
+INJ00331,P00331,Meniscus Tear,Knee,Right,Moderate,1,Meniscus Tear Reconstruction,2025-06-04,2025-06-14
+INJ00332,P00332,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2023-10-03,2023-10-22
+INJ00333,P00333,ACL Tear,Knee,Right,Mild,0,,2023-05-06,
+INJ00334,P00334,ACL Tear,Knee,Left,Mild,0,,2023-08-31,
+INJ00335,P00335,Tibial Fracture,Lower Leg,Left,Moderate,0,,2024-02-10,
+INJ00336,P00336,ACL Tear,Knee,Right,Moderate,0,,2024-08-08,
+INJ00337,P00337,ACL Tear,Knee,Right,Moderate,0,,2022-12-25,
+INJ00338,P00338,Meniscus Tear,Knee,Left,Mild,0,,2025-05-11,
+INJ00339,P00339,ACL Tear,Knee,Left,Mild,0,,2023-01-03,
+INJ00340,P00340,ACL Tear,Knee,Right,Mild,0,,2024-05-30,
+INJ00341,P00341,Rotator Cuff Tear,Shoulder,,Mild,0,,2024-08-29,
+INJ00342,P00342,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2023-11-03,2023-11-12
+INJ00343,P00343,Rotator Cuff Tear,Shoulder,,Mild,0,,2023-06-26,
+INJ00344,P00344,Ankle Fracture,Ankle,Right,Mild,0,,2025-08-19,
+INJ00345,P00345,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2024-01-08,2024-01-22
+INJ00346,P00346,Ankle Fracture,Ankle,Right,Moderate,0,,2023-01-14,
+INJ00347,P00347,Ankle Fracture,Ankle,Right,Moderate,0,,2025-04-18,
+INJ00348,P00348,Meniscus Tear,Knee,Left,Moderate,0,,2024-02-17,
+INJ00349,P00349,Meniscus Tear,Knee,Left,Severe,1,Meniscus Tear Reconstruction,2023-06-13,2023-06-21
+INJ00350,P00350,ACL Tear,Knee,Right,Mild,0,,2024-06-30,
+INJ00351,P00351,ACL Tear,Knee,Left,Mild,0,,2024-04-12,
+INJ00352,P00352,Ankle Fracture,Ankle,Right,Severe,1,Ankle Fracture Reconstruction,2023-12-20,2023-12-31
+INJ00353,P00353,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2025-07-07,2025-07-16
+INJ00354,P00354,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-06-10,2023-06-17
+INJ00355,P00355,ACL Tear,Knee,Left,Moderate,0,,2023-05-08,
+INJ00356,P00356,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2023-11-02,2023-11-19
+INJ00357,P00357,Ankle Fracture,Ankle,Left,Moderate,0,,2025-01-11,
+INJ00358,P00358,Rotator Cuff Tear,Shoulder,,Moderate,0,,2025-08-01,
+INJ00359,P00359,Rotator Cuff Tear,Shoulder,,Severe,1,Rotator Cuff Tear Reconstruction,2025-08-25,2025-09-10
+INJ00360,P00360,ACL Tear,Knee,Right,Mild,0,,2023-12-11,
+INJ00361,P00361,ACL Tear,Knee,Right,Mild,0,,2025-07-30,
+INJ00362,P00362,Rotator Cuff Tear,Shoulder,,Moderate,0,,2024-07-10,
+INJ00363,P00363,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2023-11-09,2023-11-24
+INJ00364,P00364,Meniscus Tear,Knee,Right,Mild,0,,2023-12-08,
+INJ00365,P00365,Meniscus Tear,Knee,Left,Severe,1,Meniscus Tear Reconstruction,2025-02-04,2025-02-08
+INJ00366,P00366,ACL Tear,Knee,Left,Moderate,0,,2023-04-14,
+INJ00367,P00367,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2024-10-02,2024-10-09
+INJ00368,P00368,Meniscus Tear,Knee,Left,Moderate,1,Meniscus Tear Reconstruction,2024-05-05,2024-05-11
+INJ00369,P00369,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-01-08,2023-01-23
+INJ00370,P00370,Rotator Cuff Tear,Shoulder,,Mild,0,,2025-02-24,
+INJ00371,P00371,Meniscus Tear,Knee,Right,Moderate,0,,2025-12-09,
+INJ00372,P00372,ACL Tear,Knee,Right,Mild,0,,2024-06-27,
+INJ00373,P00373,Ankle Fracture,Ankle,Right,Severe,1,Ankle Fracture Reconstruction,2024-11-14,2024-12-03
+INJ00374,P00374,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2024-07-08,2024-07-17
+INJ00375,P00375,ACL Tear,Knee,Left,Mild,0,,2025-07-18,
+INJ00376,P00376,Tibial Fracture,Lower Leg,Right,Mild,0,,2023-09-08,
+INJ00377,P00377,Ankle Fracture,Ankle,Left,Moderate,1,Ankle Fracture Reconstruction,2024-09-18,2024-09-26
+INJ00378,P00378,Meniscus Tear,Knee,Right,Moderate,1,Meniscus Tear Reconstruction,2023-04-15,2023-04-28
+INJ00379,P00379,Rotator Cuff Tear,Shoulder,,Severe,1,Rotator Cuff Tear Reconstruction,2024-08-01,2024-08-21
+INJ00380,P00380,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2024-12-08,2024-12-17
+INJ00381,P00381,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2023-05-05,2023-05-13
+INJ00382,P00382,ACL Tear,Knee,Left,Moderate,0,,2025-11-12,
+INJ00383,P00383,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2023-01-09,2023-01-21
+INJ00384,P00384,ACL Tear,Knee,Right,Mild,0,,2023-02-01,
+INJ00385,P00385,ACL Tear,Knee,Left,Mild,0,,2024-07-02,
+INJ00386,P00386,Ankle Fracture,Ankle,Right,Moderate,1,Ankle Fracture Reconstruction,2024-07-07,2024-07-26
+INJ00387,P00387,ACL Tear,Knee,Right,Moderate,0,,2023-07-17,
+INJ00388,P00388,Meniscus Tear,Knee,Left,Mild,0,,2024-02-09,
+INJ00389,P00389,Rotator Cuff Tear,Shoulder,,Moderate,1,Rotator Cuff Tear Reconstruction,2025-03-01,2025-03-17
+INJ00390,P00390,Tibial Fracture,Lower Leg,Left,Mild,0,,2023-06-01,
+INJ00391,P00391,ACL Tear,Knee,Left,Moderate,0,,2025-02-27,
+INJ00392,P00392,Achilles Tendon Rupture,Ankle,Right,Mild,0,,2023-11-09,
+INJ00393,P00393,Rotator Cuff Tear,Shoulder,,Moderate,0,,2024-08-28,
+INJ00394,P00394,ACL Tear,Knee,Left,Mild,0,,2023-01-02,
+INJ00395,P00395,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2025-10-17,2025-10-29
+INJ00396,P00396,ACL Tear,Knee,Left,Mild,0,,2025-02-05,
+INJ00397,P00397,Meniscus Tear,Knee,Left,Moderate,0,,2023-05-09,
+INJ00398,P00398,Meniscus Tear,Knee,Left,Severe,1,Meniscus Tear Reconstruction,2023-03-05,2023-03-21
+INJ00399,P00399,ACL Tear,Knee,Left,Mild,0,,2023-11-02,
+INJ00400,P00400,Ankle Fracture,Ankle,Right,Moderate,1,Ankle Fracture Reconstruction,2023-10-10,2023-10-13
+INJ00401,P00401,ACL Tear,Knee,Right,Moderate,0,,2025-07-29,
+INJ00402,P00402,ACL Tear,Knee,Right,Moderate,0,,2024-11-25,
+INJ00403,P00403,Rotator Cuff Tear,Shoulder,,Moderate,0,,2024-12-25,
+INJ00404,P00404,Tibial Fracture,Lower Leg,Right,Moderate,1,Tibial Fracture Reconstruction,2025-07-12,2025-07-28
+INJ00405,P00405,Ankle Fracture,Ankle,Right,Moderate,0,,2025-09-11,
+INJ00406,P00406,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2024-12-29,2025-01-02
+INJ00407,P00407,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2022-12-22,2023-01-01
+INJ00408,P00408,ACL Tear,Knee,Left,Mild,0,,2023-11-03,
+INJ00409,P00409,ACL Tear,Knee,Left,Moderate,0,,2023-01-17,
+INJ00410,P00410,ACL Tear,Knee,Left,Mild,0,,2023-04-15,
+INJ00411,P00411,Achilles Tendon Rupture,Ankle,Left,Moderate,0,,2024-12-03,
+INJ00412,P00412,Meniscus Tear,Knee,Left,Mild,0,,2023-12-19,
+INJ00413,P00413,ACL Tear,Knee,Left,Mild,0,,2024-01-28,
+INJ00414,P00414,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2024-05-09,2024-05-18
+INJ00415,P00415,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-09-28,2023-10-13
+INJ00416,P00416,ACL Tear,Knee,Left,Mild,0,,2023-02-25,
+INJ00417,P00417,Ankle Fracture,Ankle,Left,Moderate,0,,2024-04-16,
+INJ00418,P00418,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2024-05-23,2024-05-30
+INJ00419,P00419,Rotator Cuff Tear,Shoulder,,Severe,1,Rotator Cuff Tear Reconstruction,2024-12-27,2025-01-03
+INJ00420,P00420,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2025-10-03,2025-10-21
+INJ00421,P00421,ACL Tear,Knee,Right,Mild,0,,2023-01-15,
+INJ00422,P00422,Tibial Fracture,Lower Leg,Left,Mild,0,,2023-01-21,
+INJ00423,P00423,ACL Tear,Knee,Right,Moderate,0,,2023-05-03,
+INJ00424,P00424,ACL Tear,Knee,Left,Mild,0,,2023-07-03,
+INJ00425,P00425,Meniscus Tear,Knee,Left,Severe,1,Meniscus Tear Reconstruction,2024-01-03,2024-01-14
+INJ00426,P00426,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2025-05-03,2025-05-19
+INJ00427,P00427,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-06-27,2023-07-10
+INJ00428,P00428,ACL Tear,Knee,Left,Mild,0,,2023-08-24,
+INJ00429,P00429,ACL Tear,Knee,Right,Moderate,0,,2025-08-11,
+INJ00430,P00430,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2024-06-11,2024-06-25
+INJ00431,P00431,ACL Tear,Knee,Right,Mild,0,,2023-09-01,
+INJ00432,P00432,Ankle Fracture,Ankle,Left,Mild,0,,2023-01-13,
+INJ00433,P00433,Rotator Cuff Tear,Shoulder,,Mild,0,,2025-08-01,
+INJ00434,P00434,ACL Tear,Knee,Right,Moderate,0,,2023-07-26,
+INJ00435,P00435,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2024-08-08,2024-08-23
+INJ00436,P00436,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2025-01-17,2025-02-01
+INJ00437,P00437,ACL Tear,Knee,Right,Mild,0,,2023-02-03,
+INJ00438,P00438,ACL Tear,Knee,Right,Moderate,0,,2025-09-06,
+INJ00439,P00439,Ankle Fracture,Ankle,Left,Mild,0,,2023-12-22,
+INJ00440,P00440,ACL Tear,Knee,Right,Mild,0,,2023-11-24,
+INJ00441,P00441,ACL Tear,Knee,Left,Mild,0,,2023-02-28,
+INJ00442,P00442,Meniscus Tear,Knee,Right,Moderate,0,,2025-08-04,
+INJ00443,P00443,Rotator Cuff Tear,Shoulder,,Moderate,0,,2023-09-08,
+INJ00444,P00444,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2023-03-09,2023-03-28
+INJ00445,P00445,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2025-08-18,2025-09-04
+INJ00446,P00446,Tibial Fracture,Lower Leg,Right,Mild,0,,2023-04-10,
+INJ00447,P00447,ACL Tear,Knee,Left,Moderate,0,,2025-12-05,
+INJ00448,P00448,Meniscus Tear,Knee,Right,Mild,0,,2024-12-08,
+INJ00449,P00449,Meniscus Tear,Knee,Left,Moderate,0,,2024-01-12,
+INJ00450,P00450,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2025-05-29,2025-06-06
+INJ00451,P00451,ACL Tear,Knee,Left,Mild,0,,2025-01-28,
+INJ00452,P00452,ACL Tear,Knee,Left,Mild,0,,2023-03-06,
+INJ00453,P00453,ACL Tear,Knee,Left,Mild,0,,2025-07-28,
+INJ00454,P00454,ACL Tear,Knee,Left,Mild,0,,2025-01-29,
+INJ00455,P00455,Ankle Fracture,Ankle,Left,Severe,1,Ankle Fracture Reconstruction,2025-12-06,2025-12-12
+INJ00456,P00456,Ankle Fracture,Ankle,Left,Mild,0,,2024-02-12,
+INJ00457,P00457,Achilles Tendon Rupture,Ankle,Right,Moderate,1,Achilles Tendon Rupture Reconstruction,2024-10-24,2024-11-11
+INJ00458,P00458,Tibial Fracture,Lower Leg,Right,Severe,1,Tibial Fracture Reconstruction,2024-12-13,2024-12-22
+INJ00459,P00459,Ankle Fracture,Ankle,Left,Moderate,0,,2023-04-11,
+INJ00460,P00460,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2024-06-06,2024-06-14
+INJ00461,P00461,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2024-01-28,2024-02-01
+INJ00462,P00462,Meniscus Tear,Knee,Right,Mild,0,,2024-10-17,
+INJ00463,P00463,Meniscus Tear,Knee,Right,Mild,0,,2023-01-03,
+INJ00464,P00464,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2024-08-19,2024-08-31
+INJ00465,P00465,Meniscus Tear,Knee,Left,Moderate,0,,2024-09-12,
+INJ00466,P00466,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2024-04-21,2024-05-03
+INJ00467,P00467,ACL Tear,Knee,Left,Mild,0,,2025-10-18,
+INJ00468,P00468,Rotator Cuff Tear,Shoulder,,Moderate,1,Rotator Cuff Tear Reconstruction,2025-06-12,2025-06-29
+INJ00469,P00469,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2023-03-09,2023-03-25
+INJ00470,P00470,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-03-04,2023-03-20
+INJ00471,P00471,Meniscus Tear,Knee,Left,Mild,0,,2024-02-14,
+INJ00472,P00472,Meniscus Tear,Knee,Left,Mild,0,,2024-03-15,
+INJ00473,P00473,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2025-07-22,2025-08-03
+INJ00474,P00474,Meniscus Tear,Knee,Right,Moderate,0,,2023-02-23,
+INJ00475,P00475,ACL Tear,Knee,Right,Mild,0,,2023-03-11,
+INJ00476,P00476,Meniscus Tear,Knee,Right,Mild,0,,2024-02-09,
+INJ00477,P00477,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2025-10-12,2025-10-30
+INJ00478,P00478,Tibial Fracture,Lower Leg,Right,Moderate,1,Tibial Fracture Reconstruction,2025-02-14,2025-03-06
+INJ00479,P00479,Ankle Fracture,Ankle,Left,Moderate,0,,2025-07-08,
+INJ00480,P00480,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2024-06-10,2024-06-27
+INJ00481,P00481,ACL Tear,Knee,Left,Mild,0,,2025-11-02,
+INJ00482,P00482,ACL Tear,Knee,Right,Mild,0,,2023-03-28,
+INJ00483,P00483,Ankle Fracture,Ankle,Left,Moderate,1,Ankle Fracture Reconstruction,2024-05-05,2024-05-14
+INJ00484,P00484,Meniscus Tear,Knee,Right,Severe,1,Meniscus Tear Reconstruction,2025-09-01,2025-09-08
+INJ00485,P00485,Ankle Fracture,Ankle,Right,Mild,0,,2024-02-22,
+INJ00486,P00486,Rotator Cuff Tear,Shoulder,,Moderate,0,,2025-01-30,
+INJ00487,P00487,ACL Tear,Knee,Right,Mild,0,,2023-03-16,
+INJ00488,P00488,Meniscus Tear,Knee,Left,Mild,0,,2023-10-25,
+INJ00489,P00489,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2024-07-09,2024-07-12
+INJ00490,P00490,Meniscus Tear,Knee,Left,Mild,0,,2025-10-27,
+INJ00491,P00491,ACL Tear,Knee,Right,Mild,0,,2023-08-11,
+INJ00492,P00492,Ankle Fracture,Ankle,Right,Severe,1,Ankle Fracture Reconstruction,2025-07-02,2025-07-22
+INJ00493,P00493,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2023-08-19,2023-09-04
+INJ00494,P00494,ACL Tear,Knee,Right,Moderate,0,,2025-03-04,
+INJ00495,P00495,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2023-12-29,2024-01-17
+INJ00496,P00496,Achilles Tendon Rupture,Ankle,Right,Mild,0,,2023-10-11,
+INJ00497,P00497,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2025-03-07,2025-03-24
+INJ00498,P00498,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2025-02-14,2025-02-24
+INJ00499,P00499,ACL Tear,Knee,Right,Mild,0,,2024-11-29,
+INJ00500,P00500,ACL Tear,Knee,Right,Moderate,0,,2023-03-21,
+INJ00501,P00501,Rotator Cuff Tear,Shoulder,,Moderate,1,Rotator Cuff Tear Reconstruction,2023-11-13,2023-11-18
+INJ00502,P00502,Tibial Fracture,Lower Leg,Left,Severe,1,Tibial Fracture Reconstruction,2025-09-16,2025-09-19
+INJ00503,P00503,Rotator Cuff Tear,Shoulder,,Severe,1,Rotator Cuff Tear Reconstruction,2024-05-22,2024-06-08
+INJ00504,P00504,Rotator Cuff Tear,Shoulder,,Severe,1,Rotator Cuff Tear Reconstruction,2025-11-07,2025-11-15
+INJ00505,P00505,ACL Tear,Knee,Left,Moderate,0,,2024-01-05,
+INJ00506,P00506,ACL Tear,Knee,Right,Mild,0,,2025-10-18,
+INJ00507,P00507,Meniscus Tear,Knee,Right,Severe,1,Meniscus Tear Reconstruction,2023-02-03,2023-02-12
+INJ00508,P00508,Meniscus Tear,Knee,Right,Moderate,1,Meniscus Tear Reconstruction,2024-09-30,2024-10-18
+INJ00509,P00509,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2024-09-04,2024-09-15
+INJ00510,P00510,Ankle Fracture,Ankle,Right,Severe,1,Ankle Fracture Reconstruction,2022-12-30,2023-01-19
+INJ00511,P00511,ACL Tear,Knee,Right,Mild,0,,2023-09-23,
+INJ00512,P00512,ACL Tear,Knee,Left,Mild,0,,2024-01-09,
+INJ00513,P00513,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2025-03-09,2025-03-21
+INJ00514,P00514,Rotator Cuff Tear,Shoulder,,Moderate,0,,2024-10-16,
+INJ00515,P00515,Ankle Fracture,Ankle,Left,Mild,0,,2023-05-05,
+INJ00516,P00516,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2025-04-20,2025-05-07
+INJ00517,P00517,Rotator Cuff Tear,Shoulder,,Severe,1,Rotator Cuff Tear Reconstruction,2023-06-01,2023-06-06
+INJ00518,P00518,Rotator Cuff Tear,Shoulder,,Moderate,1,Rotator Cuff Tear Reconstruction,2023-11-26,2023-12-06
+INJ00519,P00519,ACL Tear,Knee,Right,Mild,0,,2025-11-26,
+INJ00520,P00520,Ankle Fracture,Ankle,Left,Moderate,0,,2025-07-01,
+INJ00521,P00521,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2025-09-06,2025-09-12
+INJ00522,P00522,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2025-05-13,2025-05-17
+INJ00523,P00523,ACL Tear,Knee,Right,Mild,0,,2024-12-04,
+INJ00524,P00524,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2023-03-02,2023-03-22
+INJ00525,P00525,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-09-13,2023-09-25
+INJ00526,P00526,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2025-07-28,2025-08-06
+INJ00527,P00527,ACL Tear,Knee,Left,Moderate,0,,2025-10-22,
+INJ00528,P00528,Meniscus Tear,Knee,Right,Mild,0,,2024-12-18,
+INJ00529,P00529,Meniscus Tear,Knee,Left,Moderate,0,,2024-04-15,
+INJ00530,P00530,ACL Tear,Knee,Right,Mild,0,,2023-05-04,
+INJ00531,P00531,ACL Tear,Knee,Right,Mild,0,,2023-04-13,
+INJ00532,P00532,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2025-12-17,2025-12-26
+INJ00533,P00533,Rotator Cuff Tear,Shoulder,,Mild,0,,2023-12-17,
+INJ00534,P00534,Rotator Cuff Tear,Shoulder,,Severe,1,Rotator Cuff Tear Reconstruction,2024-02-18,2024-02-25
+INJ00535,P00535,ACL Tear,Knee,Right,Moderate,0,,2025-09-29,
+INJ00536,P00536,Ankle Fracture,Ankle,Left,Severe,1,Ankle Fracture Reconstruction,2024-08-08,2024-08-13
+INJ00537,P00537,Meniscus Tear,Knee,Right,Mild,0,,2024-10-17,
+INJ00538,P00538,Tibial Fracture,Lower Leg,Left,Moderate,0,,2023-01-23,
+INJ00539,P00539,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2023-03-04,2023-03-23
+INJ00540,P00540,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-11-11,2023-11-15
+INJ00541,P00541,Meniscus Tear,Knee,Right,Mild,0,,2023-02-09,
+INJ00542,P00542,ACL Tear,Knee,Right,Mild,0,,2023-05-28,
+INJ00543,P00543,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2023-09-28,2023-10-07
+INJ00544,P00544,ACL Tear,Knee,Left,Mild,0,,2023-07-29,
+INJ00545,P00545,ACL Tear,Knee,Left,Moderate,0,,2023-05-10,
+INJ00546,P00546,Meniscus Tear,Knee,Left,Mild,0,,2025-08-14,
+INJ00547,P00547,Ankle Fracture,Ankle,Left,Mild,0,,2023-04-13,
+INJ00548,P00548,ACL Tear,Knee,Right,Moderate,0,,2024-10-07,
+INJ00549,P00549,Rotator Cuff Tear,Shoulder,,Moderate,1,Rotator Cuff Tear Reconstruction,2025-02-07,2025-02-12
+INJ00550,P00550,ACL Tear,Knee,Right,Moderate,0,,2023-08-11,
+INJ00551,P00551,Tibial Fracture,Lower Leg,Right,Moderate,0,,2024-08-17,
+INJ00552,P00552,ACL Tear,Knee,Left,Moderate,0,,2025-02-01,
+INJ00553,P00553,Rotator Cuff Tear,Shoulder,,Severe,1,Rotator Cuff Tear Reconstruction,2024-11-11,2024-11-30
+INJ00554,P00554,Achilles Tendon Rupture,Ankle,Left,Mild,0,,2023-10-23,
+INJ00555,P00555,Rotator Cuff Tear,Shoulder,,Moderate,1,Rotator Cuff Tear Reconstruction,2025-12-13,2025-12-19
+INJ00556,P00556,Rotator Cuff Tear,Shoulder,,Moderate,0,,2024-08-13,
+INJ00557,P00557,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2024-12-11,2024-12-21
+INJ00558,P00558,Ankle Fracture,Ankle,Left,Moderate,0,,2023-02-14,
+INJ00559,P00559,Meniscus Tear,Knee,Right,Moderate,0,,2023-02-17,
+INJ00560,P00560,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2025-04-25,2025-05-11
+INJ00561,P00561,Tibial Fracture,Lower Leg,Right,Moderate,1,Tibial Fracture Reconstruction,2023-12-02,2023-12-15
+INJ00562,P00562,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-07-04,2023-07-13
+INJ00563,P00563,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2024-06-25,2024-07-08
+INJ00564,P00564,Achilles Tendon Rupture,Ankle,Left,Moderate,1,Achilles Tendon Rupture Reconstruction,2025-04-22,2025-05-02
+INJ00565,P00565,ACL Tear,Knee,Left,Mild,0,,2023-08-17,
+INJ00566,P00566,ACL Tear,Knee,Right,Moderate,0,,2023-08-14,
+INJ00567,P00567,ACL Tear,Knee,Right,Mild,0,,2024-06-08,
+INJ00568,P00568,Ankle Fracture,Ankle,Left,Severe,1,Ankle Fracture Reconstruction,2024-04-01,2024-04-09
+INJ00569,P00569,Rotator Cuff Tear,Shoulder,,Moderate,1,Rotator Cuff Tear Reconstruction,2024-01-10,2024-01-23
+INJ00570,P00570,ACL Tear,Knee,Right,Mild,0,,2025-12-26,
+INJ00571,P00571,Meniscus Tear,Knee,Right,Mild,0,,2023-08-28,
+INJ00572,P00572,Meniscus Tear,Knee,Left,Moderate,1,Meniscus Tear Reconstruction,2023-07-18,2023-07-27
+INJ00573,P00573,Meniscus Tear,Knee,Left,Severe,1,Meniscus Tear Reconstruction,2024-01-13,2024-02-02
+INJ00574,P00574,Meniscus Tear,Knee,Left,Moderate,0,,2023-11-27,
+INJ00575,P00575,Tibial Fracture,Lower Leg,Left,Mild,0,,2024-02-13,
+INJ00576,P00576,ACL Tear,Knee,Left,Moderate,0,,2025-08-10,
+INJ00577,P00577,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2023-03-03,2023-03-14
+INJ00578,P00578,Meniscus Tear,Knee,Right,Severe,1,Meniscus Tear Reconstruction,2025-05-16,2025-06-01
+INJ00579,P00579,ACL Tear,Knee,Left,Mild,0,,2023-05-02,
+INJ00580,P00580,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2024-11-26,2024-12-03
+INJ00581,P00581,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2024-11-23,2024-12-07
+INJ00582,P00582,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2024-04-08,2024-04-21
+INJ00583,P00583,Achilles Tendon Rupture,Ankle,Left,Moderate,0,,2023-10-02,
+INJ00584,P00584,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2025-08-24,2025-09-09
+INJ00585,P00585,Meniscus Tear,Knee,Left,Moderate,0,,2025-07-04,
+INJ00586,P00586,Ankle Fracture,Ankle,Right,Mild,0,,2025-07-21,
+INJ00587,P00587,ACL Tear,Knee,Left,Mild,0,,2025-10-16,
+INJ00588,P00588,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2023-05-04,2023-05-15
+INJ00589,P00589,ACL Tear,Knee,Left,Mild,0,,2024-01-14,
+INJ00590,P00590,ACL Tear,Knee,Right,Moderate,0,,2023-04-17,
+INJ00591,P00591,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2025-10-13,2025-10-28
+INJ00592,P00592,Meniscus Tear,Knee,Right,Severe,1,Meniscus Tear Reconstruction,2023-12-10,2023-12-14
+INJ00593,P00593,ACL Tear,Knee,Left,Mild,0,,2023-06-05,
+INJ00594,P00594,ACL Tear,Knee,Right,Mild,0,,2024-05-31,
+INJ00595,P00595,ACL Tear,Knee,Right,Moderate,0,,2023-09-13,
+INJ00596,P00596,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2025-11-26,2025-12-11
+INJ00597,P00597,ACL Tear,Knee,Right,Mild,0,,2023-06-15,
+INJ00598,P00598,Achilles Tendon Rupture,Ankle,Left,Severe,1,Achilles Tendon Rupture Reconstruction,2024-11-08,2024-11-24
+INJ00599,P00599,ACL Tear,Knee,Right,Mild,0,,2025-01-03,
+INJ00600,P00600,ACL Tear,Knee,Right,Mild,0,,2024-10-29,
+INJ00601,P00601,Meniscus Tear,Knee,Right,Moderate,0,,2023-04-30,
+INJ00602,P00602,Meniscus Tear,Knee,Right,Moderate,1,Meniscus Tear Reconstruction,2023-09-03,2023-09-14
+INJ00603,P00603,Meniscus Tear,Knee,Right,Moderate,0,,2023-05-15,
+INJ00604,P00604,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2023-10-27,2023-10-30
+INJ00605,P00605,Meniscus Tear,Knee,Right,Severe,1,Meniscus Tear Reconstruction,2024-03-22,2024-04-04
+INJ00606,P00606,ACL Tear,Knee,Right,Mild,0,,2023-06-25,
+INJ00607,P00607,Ankle Fracture,Ankle,Left,Moderate,0,,2023-04-04,
+INJ00608,P00608,ACL Tear,Knee,Left,Mild,0,,2023-05-13,
+INJ00609,P00609,Ankle Fracture,Ankle,Left,Moderate,0,,2025-07-13,
+INJ00610,P00610,Meniscus Tear,Knee,Right,Moderate,0,,2023-10-17,
+INJ00611,P00611,Meniscus Tear,Knee,Left,Moderate,1,Meniscus Tear Reconstruction,2023-08-05,2023-08-22
+INJ00612,P00612,ACL Tear,Knee,Right,Mild,0,,2024-06-29,
+INJ00613,P00613,Meniscus Tear,Knee,Left,Severe,1,Meniscus Tear Reconstruction,2023-05-15,2023-05-26
+INJ00614,P00614,Ankle Fracture,Ankle,Right,Moderate,0,,2025-01-17,
+INJ00615,P00615,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2023-07-02,2023-07-06
+INJ00616,P00616,ACL Tear,Knee,Left,Moderate,0,,2024-02-18,
+INJ00617,P00617,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2024-01-05,2024-01-15
+INJ00618,P00618,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2025-02-20,2025-03-12
+INJ00619,P00619,Ankle Fracture,Ankle,Left,Moderate,0,,2024-03-15,
+INJ00620,P00620,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2025-06-30,2025-07-07
+INJ00621,P00621,Ankle Fracture,Ankle,Right,Severe,1,Ankle Fracture Reconstruction,2024-09-24,2024-10-06
+INJ00622,P00622,Ankle Fracture,Ankle,Left,Moderate,1,Ankle Fracture Reconstruction,2024-03-20,2024-03-29
+INJ00623,P00623,Meniscus Tear,Knee,Right,Moderate,0,,2025-10-20,
+INJ00624,P00624,Meniscus Tear,Knee,Right,Moderate,1,Meniscus Tear Reconstruction,2024-04-22,2024-05-07
+INJ00625,P00625,Meniscus Tear,Knee,Left,Moderate,1,Meniscus Tear Reconstruction,2024-06-09,2024-06-19
+INJ00626,P00626,ACL Tear,Knee,Right,Moderate,0,,2023-08-14,
+INJ00627,P00627,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-10-06,2023-10-15
+INJ00628,P00628,Rotator Cuff Tear,Shoulder,,Moderate,0,,2024-01-17,
+INJ00629,P00629,Tibial Fracture,Lower Leg,Left,Moderate,1,Tibial Fracture Reconstruction,2023-08-14,2023-08-27
+INJ00630,P00630,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2024-07-12,2024-07-25
+INJ00631,P00631,Achilles Tendon Rupture,Ankle,Right,Severe,1,Achilles Tendon Rupture Reconstruction,2023-10-18,2023-10-29
+INJ00632,P00632,Tibial Fracture,Lower Leg,Left,Mild,0,,2024-10-02,
+INJ00633,P00633,ACL Tear,Knee,Left,Mild,0,,2025-09-25,
+INJ00634,P00634,Ankle Fracture,Ankle,Left,Mild,0,,2024-03-05,
+INJ00635,P00635,Meniscus Tear,Knee,Left,Moderate,0,,2024-09-12,
+INJ00636,P00636,ACL Tear,Knee,Left,Moderate,0,,2023-12-05,
+INJ00637,P00637,ACL Tear,Knee,Right,Moderate,0,,2023-02-21,
+INJ00638,P00638,ACL Tear,Knee,Left,Mild,0,,2024-11-13,
+INJ00639,P00639,Ankle Fracture,Ankle,Right,Severe,1,Ankle Fracture Reconstruction,2025-07-10,2025-07-17
+INJ00640,P00640,ACL Tear,Knee,Left,Moderate,0,,2025-05-24,
+INJ00641,P00641,Ankle Fracture,Ankle,Right,Moderate,0,,2024-09-19,
+INJ00642,P00642,Meniscus Tear,Knee,Right,Mild,0,,2025-10-20,
+INJ00643,P00643,Meniscus Tear,Knee,Right,Mild,0,,2025-07-03,
+INJ00644,P00644,ACL Tear,Knee,Left,Mild,0,,2025-08-12,
+INJ00645,P00645,ACL Tear,Knee,Right,Moderate,0,,2025-06-26,
+INJ00646,P00646,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2023-12-12,2023-12-16
+INJ00647,P00647,ACL Tear,Knee,Left,Mild,0,,2023-05-05,
+INJ00648,P00648,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2024-02-25,2024-03-11
+INJ00649,P00649,ACL Tear,Knee,Right,Mild,0,,2024-02-29,
+INJ00650,P00650,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2025-05-27,2025-06-05
+INJ00651,P00651,Meniscus Tear,Knee,Left,Mild,0,,2023-08-25,
+INJ00652,P00652,ACL Tear,Knee,Right,Mild,0,,2023-11-10,
+INJ00653,P00653,ACL Tear,Knee,Right,Mild,0,,2025-02-19,
+INJ00654,P00654,Rotator Cuff Tear,Shoulder,,Moderate,1,Rotator Cuff Tear Reconstruction,2023-04-20,2023-05-04
+INJ00655,P00655,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2025-05-08,2025-05-17
+INJ00656,P00656,Achilles Tendon Rupture,Ankle,Left,Moderate,1,Achilles Tendon Rupture Reconstruction,2023-06-01,2023-06-19
+INJ00657,P00657,Meniscus Tear,Knee,Left,Mild,0,,2024-02-06,
+INJ00658,P00658,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2024-05-11,2024-05-26
+INJ00659,P00659,Achilles Tendon Rupture,Ankle,Right,Severe,1,Achilles Tendon Rupture Reconstruction,2023-06-23,2023-07-03
+INJ00660,P00660,Rotator Cuff Tear,Shoulder,,Moderate,0,,2023-04-02,
+INJ00661,P00661,Meniscus Tear,Knee,Left,Mild,0,,2023-01-19,
+INJ00662,P00662,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2023-01-05,2023-01-13
+INJ00663,P00663,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-11-09,2023-11-25
+INJ00664,P00664,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2025-07-20,2025-07-23
+INJ00665,P00665,Ankle Fracture,Ankle,Right,Moderate,1,Ankle Fracture Reconstruction,2023-10-11,2023-10-15
+INJ00666,P00666,ACL Tear,Knee,Right,Moderate,0,,2024-08-10,
+INJ00667,P00667,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2023-02-08,2023-02-12
+INJ00668,P00668,ACL Tear,Knee,Left,Mild,0,,2025-08-28,
+INJ00669,P00669,ACL Tear,Knee,Left,Mild,0,,2025-09-03,
+INJ00670,P00670,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2025-01-06,2025-01-15
+INJ00671,P00671,ACL Tear,Knee,Right,Mild,0,,2025-03-22,
+INJ00672,P00672,Rotator Cuff Tear,Shoulder,,Moderate,0,,2023-05-03,
+INJ00673,P00673,ACL Tear,Knee,Left,Mild,0,,2024-04-28,
+INJ00674,P00674,ACL Tear,Knee,Left,Mild,0,,2023-12-18,
+INJ00675,P00675,ACL Tear,Knee,Right,Mild,0,,2025-02-01,
+INJ00676,P00676,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2024-01-01,2024-01-12
+INJ00677,P00677,Meniscus Tear,Knee,Right,Moderate,0,,2024-08-17,
+INJ00678,P00678,ACL Tear,Knee,Left,Moderate,0,,2025-05-30,
+INJ00679,P00679,Tibial Fracture,Lower Leg,Left,Moderate,0,,2025-01-05,
+INJ00680,P00680,Tibial Fracture,Lower Leg,Left,Severe,1,Tibial Fracture Reconstruction,2025-04-09,2025-04-17
+INJ00681,P00681,Rotator Cuff Tear,Shoulder,,Moderate,0,,2023-02-07,
+INJ00682,P00682,Rotator Cuff Tear,Shoulder,,Severe,1,Rotator Cuff Tear Reconstruction,2023-07-01,2023-07-07
+INJ00683,P00683,ACL Tear,Knee,Right,Moderate,0,,2023-04-29,
+INJ00684,P00684,Meniscus Tear,Knee,Left,Mild,0,,2023-12-28,
+INJ00685,P00685,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2024-04-18,2024-04-26
+INJ00686,P00686,Ankle Fracture,Ankle,Left,Severe,1,Ankle Fracture Reconstruction,2023-10-31,2023-11-11
+INJ00687,P00687,ACL Tear,Knee,Right,Mild,0,,2025-04-08,
+INJ00688,P00688,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2023-08-02,2023-08-10
+INJ00689,P00689,ACL Tear,Knee,Left,Moderate,0,,2024-10-15,
+INJ00690,P00690,Meniscus Tear,Knee,Right,Mild,0,,2025-05-02,
+INJ00691,P00691,Meniscus Tear,Knee,Right,Moderate,1,Meniscus Tear Reconstruction,2024-02-17,2024-03-01
+INJ00692,P00692,ACL Tear,Knee,Left,Mild,0,,2024-04-27,
+INJ00693,P00693,ACL Tear,Knee,Right,Mild,0,,2023-08-19,
+INJ00694,P00694,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-05-28,2023-06-06
+INJ00695,P00695,Ankle Fracture,Ankle,Right,Moderate,0,,2025-10-29,
+INJ00696,P00696,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2024-11-03,2024-11-22
+INJ00697,P00697,ACL Tear,Knee,Right,Moderate,0,,2022-12-30,
+INJ00698,P00698,Meniscus Tear,Knee,Left,Severe,1,Meniscus Tear Reconstruction,2025-09-15,2025-10-05
+INJ00699,P00699,Meniscus Tear,Knee,Left,Moderate,1,Meniscus Tear Reconstruction,2024-03-15,2024-03-29
+INJ00700,P00700,Rotator Cuff Tear,Shoulder,,Moderate,0,,2025-12-17,
+INJ00701,P00701,Meniscus Tear,Knee,Left,Mild,0,,2024-09-02,
+INJ00702,P00702,Achilles Tendon Rupture,Ankle,Right,Moderate,1,Achilles Tendon Rupture Reconstruction,2025-08-10,2025-08-22
+INJ00703,P00703,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2023-02-03,2023-02-06
+INJ00704,P00704,ACL Tear,Knee,Left,Moderate,0,,2023-11-22,
+INJ00705,P00705,Tibial Fracture,Lower Leg,Left,Moderate,1,Tibial Fracture Reconstruction,2025-03-14,2025-03-28
+INJ00706,P00706,ACL Tear,Knee,Left,Mild,0,,2025-07-12,
+INJ00707,P00707,Ankle Fracture,Ankle,Left,Severe,1,Ankle Fracture Reconstruction,2024-07-13,2024-07-22
+INJ00708,P00708,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2023-06-11,2023-06-19
+INJ00709,P00709,ACL Tear,Knee,Left,Moderate,0,,2023-09-09,
+INJ00710,P00710,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2025-10-31,2025-11-17
+INJ00711,P00711,Meniscus Tear,Knee,Right,Moderate,0,,2025-12-10,
+INJ00712,P00712,Ankle Fracture,Ankle,Right,Severe,1,Ankle Fracture Reconstruction,2023-12-07,2023-12-10
+INJ00713,P00713,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2023-06-01,2023-06-08
+INJ00714,P00714,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2024-12-14,2024-12-30
+INJ00715,P00715,ACL Tear,Knee,Left,Mild,0,,2025-03-26,
+INJ00716,P00716,ACL Tear,Knee,Right,Mild,0,,2024-09-10,
+INJ00717,P00717,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2024-06-28,2024-07-17
+INJ00718,P00718,Tibial Fracture,Lower Leg,Left,Moderate,0,,2025-12-05,
+INJ00719,P00719,ACL Tear,Knee,Right,Mild,0,,2023-09-11,
+INJ00720,P00720,ACL Tear,Knee,Right,Mild,0,,2024-07-03,
+INJ00721,P00721,ACL Tear,Knee,Right,Moderate,0,,2024-11-18,
+INJ00722,P00722,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2024-11-04,2024-11-16
+INJ00723,P00723,ACL Tear,Knee,Right,Moderate,0,,2025-11-12,
+INJ00724,P00724,Ankle Fracture,Ankle,Right,Moderate,1,Ankle Fracture Reconstruction,2024-02-29,2024-03-12
+INJ00725,P00725,Meniscus Tear,Knee,Right,Severe,1,Meniscus Tear Reconstruction,2024-02-15,2024-03-06
+INJ00726,P00726,Rotator Cuff Tear,Shoulder,,Moderate,1,Rotator Cuff Tear Reconstruction,2023-03-07,2023-03-11
+INJ00727,P00727,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2025-09-29,2025-10-10
+INJ00728,P00728,Meniscus Tear,Knee,Left,Mild,0,,2023-01-04,
+INJ00729,P00729,Rotator Cuff Tear,Shoulder,,Moderate,0,,2023-02-01,
+INJ00730,P00730,Rotator Cuff Tear,Shoulder,,Mild,0,,2024-09-10,
+INJ00731,P00731,Achilles Tendon Rupture,Ankle,Left,Mild,0,,2024-08-29,
+INJ00732,P00732,ACL Tear,Knee,Left,Mild,0,,2025-10-03,
+INJ00733,P00733,Tibial Fracture,Lower Leg,Right,Mild,0,,2025-04-13,
+INJ00734,P00734,Rotator Cuff Tear,Shoulder,,Severe,1,Rotator Cuff Tear Reconstruction,2025-02-14,2025-02-21
+INJ00735,P00735,Ankle Fracture,Ankle,Right,Moderate,0,,2023-06-03,
+INJ00736,P00736,Meniscus Tear,Knee,Left,Severe,1,Meniscus Tear Reconstruction,2024-11-28,2024-12-09
+INJ00737,P00737,Tibial Fracture,Lower Leg,Right,Moderate,0,,2025-01-07,
+INJ00738,P00738,ACL Tear,Knee,Right,Moderate,0,,2024-12-18,
+INJ00739,P00739,Ankle Fracture,Ankle,Right,Mild,0,,2025-08-12,
+INJ00740,P00740,Meniscus Tear,Knee,Right,Moderate,0,,2024-02-02,
+INJ00741,P00741,Ankle Fracture,Ankle,Left,Moderate,1,Ankle Fracture Reconstruction,2023-04-13,2023-05-02
+INJ00742,P00742,Ankle Fracture,Ankle,Left,Severe,1,Ankle Fracture Reconstruction,2024-10-26,2024-11-08
+INJ00743,P00743,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2023-02-16,2023-03-08
+INJ00744,P00744,ACL Tear,Knee,Right,Mild,0,,2023-06-09,
+INJ00745,P00745,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2023-02-06,2023-02-18
+INJ00746,P00746,Ankle Fracture,Ankle,Left,Moderate,1,Ankle Fracture Reconstruction,2022-12-31,2023-01-18
+INJ00747,P00747,Ankle Fracture,Ankle,Right,Moderate,0,,2024-02-25,
+INJ00748,P00748,Rotator Cuff Tear,Shoulder,,Mild,0,,2025-12-18,
+INJ00749,P00749,Ankle Fracture,Ankle,Left,Moderate,1,Ankle Fracture Reconstruction,2024-12-07,2024-12-13
+INJ00750,P00750,Meniscus Tear,Knee,Right,Severe,1,Meniscus Tear Reconstruction,2025-03-26,2025-04-03
+INJ00751,P00751,ACL Tear,Knee,Left,Moderate,0,,2024-06-27,
+INJ00752,P00752,Meniscus Tear,Knee,Left,Moderate,0,,2023-03-17,
+INJ00753,P00753,Rotator Cuff Tear,Shoulder,,Mild,0,,2023-05-16,
+INJ00754,P00754,Meniscus Tear,Knee,Right,Severe,1,Meniscus Tear Reconstruction,2025-03-19,2025-03-26
+INJ00755,P00755,Rotator Cuff Tear,Shoulder,,Mild,0,,2024-09-18,
+INJ00756,P00756,Tibial Fracture,Lower Leg,Right,Mild,0,,2025-07-19,
+INJ00757,P00757,ACL Tear,Knee,Left,Mild,0,,2023-05-04,
+INJ00758,P00758,Ankle Fracture,Ankle,Left,Severe,1,Ankle Fracture Reconstruction,2024-12-23,2025-01-08
+INJ00759,P00759,ACL Tear,Knee,Left,Moderate,0,,2025-09-29,
+INJ00760,P00760,ACL Tear,Knee,Right,Mild,0,,2025-01-30,
+INJ00761,P00761,ACL Tear,Knee,Left,Mild,0,,2023-05-20,
+INJ00762,P00762,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2025-01-25,2025-02-06
+INJ00763,P00763,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2024-08-22,2024-08-29
+INJ00764,P00764,Meniscus Tear,Knee,Right,Mild,0,,2025-06-14,
+INJ00765,P00765,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2024-06-27,2024-07-03
+INJ00766,P00766,ACL Tear,Knee,Right,Mild,0,,2024-08-29,
+INJ00767,P00767,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2024-03-01,2024-03-10
+INJ00768,P00768,ACL Tear,Knee,Right,Mild,0,,2025-07-10,
+INJ00769,P00769,Rotator Cuff Tear,Shoulder,,Moderate,0,,2023-07-31,
+INJ00770,P00770,ACL Tear,Knee,Right,Severe,1,ACL Tear Reconstruction,2024-04-26,2024-05-01
+INJ00771,P00771,ACL Tear,Knee,Right,Moderate,0,,2024-04-29,
+INJ00772,P00772,Tibial Fracture,Lower Leg,Left,Moderate,0,,2025-09-10,
+INJ00773,P00773,Rotator Cuff Tear,Shoulder,,Severe,1,Rotator Cuff Tear Reconstruction,2024-09-23,2024-10-08
+INJ00774,P00774,Meniscus Tear,Knee,Right,Severe,1,Meniscus Tear Reconstruction,2023-12-25,2024-01-12
+INJ00775,P00775,Ankle Fracture,Ankle,Right,Moderate,0,,2024-11-25,
+INJ00776,P00776,ACL Tear,Knee,Left,Moderate,0,,2024-03-16,
+INJ00777,P00777,Ankle Fracture,Ankle,Left,Severe,1,Ankle Fracture Reconstruction,2024-06-23,2024-07-13
+INJ00778,P00778,ACL Tear,Knee,Right,Mild,0,,2025-04-02,
+INJ00779,P00779,ACL Tear,Knee,Right,Mild,0,,2025-09-29,
+INJ00780,P00780,ACL Tear,Knee,Left,Mild,0,,2024-03-10,
+INJ00781,P00781,Ankle Fracture,Ankle,Right,Severe,1,Ankle Fracture Reconstruction,2023-04-01,2023-04-08
+INJ00782,P00782,ACL Tear,Knee,Left,Mild,0,,2024-10-21,
+INJ00783,P00783,ACL Tear,Knee,Left,Mild,0,,2023-07-17,
+INJ00784,P00784,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2023-11-05,2023-11-15
+INJ00785,P00785,Ankle Fracture,Ankle,Right,Mild,0,,2025-09-25,
+INJ00786,P00786,ACL Tear,Knee,Left,Moderate,0,,2024-01-20,
+INJ00787,P00787,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2024-02-12,2024-02-24
+INJ00788,P00788,ACL Tear,Knee,Left,Mild,0,,2025-06-13,
+INJ00789,P00789,Ankle Fracture,Ankle,Left,Severe,1,Ankle Fracture Reconstruction,2023-07-21,2023-08-01
+INJ00790,P00790,ACL Tear,Knee,Left,Mild,0,,2023-05-08,
+INJ00791,P00791,Achilles Tendon Rupture,Ankle,Right,Severe,1,Achilles Tendon Rupture Reconstruction,2023-12-12,2023-12-23
+INJ00792,P00792,ACL Tear,Knee,Right,Moderate,0,,2023-11-16,
+INJ00793,P00793,ACL Tear,Knee,Left,Mild,0,,2025-11-10,
+INJ00794,P00794,ACL Tear,Knee,Right,Mild,0,,2025-05-10,
+INJ00795,P00795,ACL Tear,Knee,Right,Moderate,1,ACL Tear Reconstruction,2024-10-05,2024-10-11
+INJ00796,P00796,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2023-10-10,2023-10-15
+INJ00797,P00797,ACL Tear,Knee,Left,Mild,0,,2024-03-18,
+INJ00798,P00798,Rotator Cuff Tear,Shoulder,,Severe,1,Rotator Cuff Tear Reconstruction,2023-11-15,2023-11-25
+INJ00799,P00799,ACL Tear,Knee,Left,Moderate,1,ACL Tear Reconstruction,2024-03-07,2024-03-11
+INJ00800,P00800,ACL Tear,Knee,Left,Severe,1,ACL Tear Reconstruction,2024-11-01,2024-11-05
+INJ00801,P00801,ACL Tear,Knee,Right,Moderate,0,,2026-09-15,
+INJ00802,P00802,Rotator Cuff Tear,Shoulder,Right,Moderate,0,,2026-09-15,

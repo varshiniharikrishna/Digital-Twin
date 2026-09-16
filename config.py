@@ -11,7 +11,7 @@ DATA_SOURCE = os.environ.get("DT_DATA_SOURCE", "mysql")  # "mysql" or "csv"
 
 MYSQL_CONFIG = {
     "user": os.environ.get("DT_MYSQL_USER", "root"),
-    "password": os.environ.get("DT_MYSQL_PASSWORD", ""),
+    "password": os.environ.get("DT_MYSQL_PASSWORD", "varshu2508"),
     "host": os.environ.get("DT_MYSQL_HOST", "localhost"),
     "port": int(os.environ.get("DT_MYSQL_PORT", "3306")),
     "database": os.environ.get("DT_MYSQL_DB", "DigitalTwinDB"),
