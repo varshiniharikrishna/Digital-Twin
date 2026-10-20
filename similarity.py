@@ -1,67 +1,104 @@
 """
 similarity.py
 -------------
-Phase 4 requires: "Find and display the Top 5 most similar historical
-patients from ONLY the 2023-2024 training data" for a chosen 2025 test
-patient.
+Formal patient-similarity metric + retrieval rule (patent claim support).
 
-This module recomputes similarity at request time, restricted explicitly to
-whatever DataFrame you pass in as the candidate pool (i.e. the training set only).
-Distance measure: Gower-like blend of normalized numeric distance + categorical mismatch rate.
+Definition
+    sim(q, c) = 1 - ( W_NUM * d_num(q, c) + W_CAT * d_cat(q, c) )
+
+    d_num(q, c) = || (q_num - c_num) / range_num ||_2 / sqrt(n_num)      in [0, 1]
+                  (range_num = min-max range of each feature in the candidate pool;
+                   scaled differences are clipped to [0, 1], so the score does NOT
+                   depend on the farthest patient in the pool, unlike the old version)
+    d_cat(q, c) = (# categorical features that differ) / n_cat           in [0, 1]
+
+Retrieval rule
+    neighbours = patients with sim >= SIM_MIN_SCORE, at least SIM_MIN_K,
+                 at most SIM_TOP_K (sorted by sim, descending).
+
+Fixes vs. previous version
+    * best_pathway_for_cohort() now actually uses the cohort (similarity-weighted
+      success) when similar patients carry a Pathway_ID; it previously ignored them.
+    * The query patient is excluded from its own neighbours (no self-match).
 """
 
 import numpy as np
 import pandas as pd
+
 import config
 
-NUM_COLS = ["Age", "BMI", "Pain_Score", "Range_of_Motion_deg", "Quadriceps_Strength_pct", "Balance_Score"]
-CAT_COLS = ["Gender", "Injury_Type", "Severity", "Diabetes", "Smoking_Status"]
+
+def similarity_scores(query_row: pd.Series, pool: pd.DataFrame) -> np.ndarray:
+    """Vector of sim(query, c) for every row c in `pool` (formal definition above)."""
+    num_cols = [c for c in config.SIM_NUM_COLS if c in pool.columns]
+    cat_cols = [c for c in config.SIM_CAT_COLS if c in pool.columns]
+
+    num = pool[num_cols].astype(float).values
+    q = np.array([float(query_row[c]) for c in num_cols])
+    lo, hi = np.nanmin(num, axis=0), np.nanmax(num, axis=0)
+    rng = np.where((hi - lo) == 0, 1.0, hi - lo)
+    diff = np.clip(np.abs(num - q) / rng, 0.0, 1.0)
+    d_num = np.sqrt((diff ** 2).sum(axis=1)) / np.sqrt(len(num_cols))
+
+    d_cat = np.zeros(len(pool))
+    for c in cat_cols:
+        d_cat += (pool[c].astype(str).values != str(query_row[c])).astype(float)
+    d_cat /= max(len(cat_cols), 1)
+
+    return 1.0 - (config.SIM_W_NUM * d_num + config.SIM_W_CAT * d_cat)
 
 
-def find_similar_patients(query_row: pd.Series, candidate_pool: pd.DataFrame, top_k: int = 5) -> pd.DataFrame:
+def find_similar_patients(query_row: pd.Series, candidate_pool: pd.DataFrame,
+                          top_k: int = None, min_score: float = None,
+                          min_k: int = None) -> pd.DataFrame:
     """
-    query_row: a single row (Series) from the merged modelling dataset.
-    candidate_pool: DataFrame of candidate patients (should be TRAIN only).
-    Returns candidate_pool rows for the top_k most similar patients, with
-    an added Similarity_Score column, sorted descending.
+    Retrieve neighbours of `query_row` from `candidate_pool` (use TRAIN data only).
+    Returns pool rows + 'Similarity_Score', sorted descending.
     """
+    top_k = config.SIM_TOP_K if top_k is None else top_k
+    min_score = config.SIM_MIN_SCORE if min_score is None else min_score
+    min_k = config.SIM_MIN_K if min_k is None else min_k
+
     pool = candidate_pool.reset_index(drop=True).copy()
+    if "Patient_ID" in pool.columns and "Patient_ID" in query_row.index:
+        pool = pool[pool["Patient_ID"] != query_row["Patient_ID"]].reset_index(drop=True)
 
-    # ---- numeric distance (min-max normalized) ----
-    num_matrix = pool[NUM_COLS].astype(float).values
-    query_num = np.array([float(query_row[c]) for c in NUM_COLS])
-    
-    ranges = num_matrix.max(axis=0) - num_matrix.min(axis=0)
-    ranges[ranges == 0] = 1.0
-    
-    norm_pool = (num_matrix - num_matrix.min(axis=0)) / ranges
-    norm_query = (query_num - num_matrix.min(axis=0)) / ranges
-    
-    num_dist = np.sqrt(((norm_pool - norm_query) ** 2).sum(axis=1))
-    num_dist = num_dist / (num_dist.max() or 1)
+    pool["Similarity_Score"] = np.round(similarity_scores(query_row, pool), 3)
+    pool = pool.sort_values("Similarity_Score", ascending=False)
 
-    # ---- categorical mismatch rate ----
-    cat_dist = np.zeros(len(pool))
-    for c in CAT_COLS:
-        cat_dist += (pool[c].astype(str).values != str(query_row[c])).astype(float)
-    cat_dist /= len(CAT_COLS)
+    passing = pool[pool["Similarity_Score"] >= min_score]
+    chosen = passing if len(passing) >= min_k else pool.head(min_k)
+    return chosen.head(max(top_k, min_k)).reset_index(drop=True)
 
-    total_dist = 0.6 * num_dist + 0.4 * cat_dist
-    similarity = 1 - total_dist
 
-    pool["Similarity_Score"] = np.round(similarity, 3)
-    top = pool.sort_values("Similarity_Score", ascending=False).head(top_k)
-    return top.reset_index(drop=True)
+def cohort_outcome_estimate(neighbours: pd.DataFrame, target_col: str) -> float:
+    """Similarity-weighted mean outcome of the retrieved cohort."""
+    w = neighbours["Similarity_Score"].astype(float).clip(lower=1e-6).values
+    y = neighbours[target_col].astype(float).values
+    return float(np.sum(w * y) / np.sum(w))
 
 
 def best_pathway_for_cohort(similar_patients: pd.DataFrame, pathways: pd.DataFrame,
-                             archetypes_by_patient: dict = None) -> pd.Series:
+                            archetypes_by_patient: dict = None):
     """
-    Given a set of similar patients, pick the Recovery_Pathway row with the
-    highest Success_Rate among pathways.
+    Pick the recovery pathway best supported by the *retrieved cohort*.
+
+    If `similar_patients` has a 'Pathway_ID' column that matches `pathways`,
+    pathways are scored by  sum_i sim_i * Success_Rate(path_i) / sum_i sim_i.
+    Otherwise falls back to the highest global Success_Rate (old behaviour).
     """
-    if pathways.empty:
+    if pathways is None or pathways.empty:
         return None
+    if ("Pathway_ID" in similar_patients.columns and "Pathway_ID" in pathways.columns
+            and "Success_Rate" in pathways.columns):
+        merged = similar_patients[["Pathway_ID", "Similarity_Score"]].merge(
+            pathways[["Pathway_ID", "Success_Rate"]], on="Pathway_ID", how="inner")
+        if not merged.empty:
+            merged["w"] = merged["Similarity_Score"].astype(float).clip(lower=1e-6)
+            score = (merged.assign(ws=merged["w"] * merged["Success_Rate"].astype(float))
+                     .groupby("Pathway_ID").agg(ws=("ws", "sum"), w=("w", "sum")))
+            best_id = (score["ws"] / score["w"]).idxmax()
+            return pathways[pathways["Pathway_ID"] == best_id].iloc[0]
     return pathways.sort_values("Success_Rate", ascending=False).iloc[0]
 
 
@@ -72,8 +109,8 @@ if __name__ == "__main__":
     tables = load_all_tables()
     full = build_modelling_dataset(tables)
     train, test = chronological_split(full)
-
     query = test.iloc[0]
-    top5 = find_similar_patients(query, train, top_k=5)
-    print(f"Query patient: {query['Patient_ID']} ({query['Injury_Type']}, {query['Severity']})")
-    print(top5[["Patient_ID", "Similarity_Score", config.TARGET_RECOVERY_PCT, config.TARGET_RECOVERY_WEEKS]])
+    top = find_similar_patients(query, train)
+    print(f"Query {query['Patient_ID']} ({query['Injury_Type']}, {query['Severity']})")
+    print(top[["Patient_ID", "Similarity_Score", config.TARGET_RECOVERY_PCT,
+               config.TARGET_RECOVERY_WEEKS]])

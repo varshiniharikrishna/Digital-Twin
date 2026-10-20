@@ -15,7 +15,8 @@ timelines, live recalibration, and a final multi-page dashboard.
 | `similarity.py` | Finds top-K similar historical patients, restricted to a given pool |
 | `simulation.py` | Builds predicted weekly trajectories, Phase 6 recalibration logic |
 | `evaluation.py` | Plotly figures for Phase 3 |
-| `app.py` | Streamlit dashboard - the entry point |
+| `server.py` | Flask backend and browser-based multi-portal application |
+| `app.py` | Separate Streamlit dashboard |
 
 ## Setup
 
@@ -55,6 +56,15 @@ set `DATA_SOURCE = "csv"` in `config.py` (or `export DT_DATA_SOURCE=csv`)
 if you ever want to run the app without MySQL running at all.
 
 ## Step 3 - run it
+
+To run the browser-based multi-portal application:
+
+```bash
+python server.py
+```
+
+This starts the Flask server on port 5000 and opens the app in your browser.
+The Streamlit dashboard is a separate application and can be started with:
 
 ```bash
 streamlit run app.py

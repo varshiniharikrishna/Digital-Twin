@@ -11,6 +11,8 @@ import io
 import datetime
 import secrets
 import functools
+import threading
+import webbrowser
 import pandas as pd
 import numpy as np
 from flask import Flask, jsonify, request, render_template, send_file
@@ -1000,4 +1002,5 @@ def get_metrics():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    threading.Timer(1, webbrowser.open, args=("http://127.0.0.1:5000",)).start()
+    app.run(host="0.0.0.0", port=5000, debug=True, use_reloader=False)
