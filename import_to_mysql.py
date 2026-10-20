@@ -83,6 +83,26 @@ def get_args():
     return p.parse_args()
 
 
+def unique_email(email, fallback, used_emails):
+    candidate = str(email).strip() if pd.notna(email) else ""
+    if not candidate or candidate.casefold() in used_emails:
+        candidate = fallback
+
+    if candidate.casefold() in used_emails:
+        local_part, separator, domain = fallback.rpartition("@")
+        suffix = 2
+        while candidate.casefold() in used_emails:
+            candidate = (
+                f"{local_part}_{suffix}@{domain}"
+                if separator
+                else f"{fallback}_{suffix}"
+            )
+            suffix += 1
+
+    used_emails.add(candidate.casefold())
+    return candidate
+
+
 def main():
     args = get_args()
     url = f"mysql+pymysql://{args.user}:{args.password}@{args.host}:{args.port}/{args.database}"
@@ -164,15 +184,21 @@ def main():
                 "Linked_Doctor_ID": None,
                 "Linked_Patient_ID": None
             })
+            used_emails = {"admin@digitaltwin.com"}
 
             # 2. Doctors Accounts
             doc_df = pd.read_csv(os.path.join(OUT_DIR, "Doctor.csv"))
             for _, doc in doc_df.iterrows():
                 doc_id = str(doc["Doctor_ID"])
+                email = unique_email(
+                    doc.get("Contact_Email", ""),
+                    f"{doc_id.lower()}@hospital.com",
+                    used_emails,
+                )
                 user_records.append({
                     "User_ID": f"USR_{doc_id}",
                     "Username": doc_id.lower(), # e.g. doc0001
-                    "Email": str(doc.get("Contact_Email", f"{doc_id.lower()}@hospital.com")),
+                    "Email": email,
                     "Password_Hash": generate_password_hash("doc123"),
                     "Role": "DOCTOR",
                     "Linked_Doctor_ID": doc_id,
@@ -183,10 +209,15 @@ def main():
             patient_df = pd.read_csv(os.path.join(OUT_DIR, "Patient.csv"))
             for _, pat in patient_df.iterrows():
                 p_id = str(pat["Patient_ID"])
+                email = unique_email(
+                    f"{p_id.lower()}@digitaltwin.com",
+                    f"{p_id.lower()}@digitaltwin.com",
+                    used_emails,
+                )
                 user_records.append({
                     "User_ID": f"USR_{p_id}",
                     "Username": p_id, # e.g. P00001
-                    "Email": f"{p_id.lower()}@digitaltwin.com",
+                    "Email": email,
                     "Password_Hash": generate_password_hash("patient123"),
                     "Role": "PATIENT",
                     "Linked_Doctor_ID": None,
