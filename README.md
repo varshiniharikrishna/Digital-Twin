@@ -1,56 +1,63 @@
 # Digital Twin — orthopaedic rehabilitation research prototype
 
-The main application is the browser-based HTML frontend in `templates/index.html` served by the Flask API/backend in `server.py`. It has Patient, Doctor, and Admin access modes. `app.py` is a separate optional Streamlit research dashboard; it is not required to run the browser app. The checked-in `output/*.csv` files are **synthetic demo records**, not patient data or clinical validation.
+The app to run is the browser-based HTML frontend in `templates/index.html`, served by the Flask backend in `server.py`. It includes Patient, Doctor, and Admin access modes. **Streamlit is not part of the run steps below.** The checked-in `output/*.csv` files are synthetic demo records, not patient data or clinical validation.
 
-## Run the app
+## Run the HTML app with MySQL
 
-Install only the Flask app dependencies (Streamlit is not needed):
+### 1. Install the app dependencies once
 
-```bash
+In Terminal:
+
+```zsh
+cd "/Users/varshini/Desktop/Digital twin"
 python3 -m pip install -r requirements-flask.txt
 ```
 
-First-time setup: copy the sample config. The launcher asks for your MySQL username and password at startup; it does not save the password. Edit `DT_MYSQL_DB` in `.env` only if your database has a different name. The real `.env` file is ignored by Git.
+This installs the Flask app's Python dependencies into the Python installation used by `python3`; no virtual environment or Streamlit setup is needed.
 
-```bash
+### 2. Set your MySQL connection details
+
+Create the local settings file and open it:
+
+```zsh
 cp .env.example .env
+open -e .env
 ```
 
-Start the HTML app with one command:
+Fill in the values for the MySQL server and database you already use, then save the file:
 
-```bash
+```env
+DT_DATA_SOURCE=mysql
+DT_MYSQL_USER=your_mysql_username
+DT_MYSQL_PASSWORD=your_mysql_password
+DT_MYSQL_HOST=localhost
+DT_MYSQL_PORT=3306
+DT_MYSQL_DB=DigitalTwinDB
+```
+
+Replace the example username, password, and database name with your actual MySQL details. `.env` is ignored by Git, so these credentials are kept out of commits. Keep your MySQL server running.
+
+### 3. Start the app
+
+```zsh
 ./run_app.command
 ```
 
-You can also double-click `run_app.command` in Finder. It starts the same Flask server that serves the HTML frontend and `/api` backend. Install dependencies once with `python3 -m pip install -r requirements-flask.txt` if needed.
+The launcher reads `.env`, asks in Terminal for the MySQL username or password if either is blank, and starts Flask. Leave that Terminal window open and visit **http://127.0.0.1:5000** in your browser. Press **Control+C** in Terminal to stop it. You can also double-click `run_app.command` in Finder.
 
-Before the first login, make sure `User_Account` exists and configure a password for each account you plan to demo. These commands create or reset only the specified login; they do not import or drop your application tables:
+### 4. Log in
 
-```bash
+The login page checks accounts in the MySQL `User_Account` table. Use an existing account's ID/username and password for its matching Patient, Doctor, or Admin card. If you need to create or reset a demo account, run the relevant command from the project folder:
+
+```zsh
 python3 setup_login.py --role ADMIN --login admin
 python3 setup_login.py --role DOCTOR --login DOC0001
 python3 setup_login.py --role PATIENT --login P00001
 ```
 
-Each command prompts twice for a password (12+ characters). Use the matching ID and password in that role's login card. Repeat the Doctor/Patient command with other IDs when you need more demo accounts. `setup_login.py` requires that the selected Doctor_ID or Patient_ID already exists in the corresponding MySQL table.
+Run only the command for the role/account you need. It prompts you to enter a password twice. A Doctor_ID or Patient_ID must already exist in its respective MySQL table. These commands create or reset the selected login; they do not import or drop your application tables.
 
-Start the HTML app:
-
-```bash
-python3 server.py
-```
-
-Open **http://127.0.0.1:5000**. The Patient, Doctor, and Admin cards call the Flask `/api` routes in this same app. Patient accounts are limited to their own record, Doctors to assigned patients, and Admins to system-wide management. The HTML app requires MySQL for login and account lookup; CSV mode can load synthetic data for inspection but cannot authenticate users.
-
-If you want to inspect the bundled data without logging in, you can start the server in CSV mode:
-
-```bash
-DT_DATA_SOURCE=csv python3 server.py
-```
-
-The research dashboard is optional and separate: `DT_DATA_SOURCE=csv python3 -m streamlit run app.py`. The Flask launcher loads `.env`; when starting `server.py` directly, the app reads settings from that Terminal's environment.
-
-**Do not run `import_to_mysql.py` against an existing database to fix a login.** That importer drops and recreates project tables. Use `setup_login.py` to configure one account without replacing patient or injury data.
+If the page reports a MySQL connection error, check that MySQL is running and the `.env` username, password, host, port, and database name match your setup. **Do not run `import_to_mysql.py` against your existing database to fix a login:** that importer drops and recreates project tables.
 
 ## Real-data workflow
 
