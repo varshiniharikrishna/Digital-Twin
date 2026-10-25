@@ -14,6 +14,7 @@ This module provides:
 import numpy as np
 import pandas as pd
 import config
+from similarity import find_similar_patients
 
 SEVERITY_MULT_NPI = {"Mild": 0.0, "Moderate": 0.15, "Severe": 0.30}
 SWELLING_MULT_NPI = {"None": 0.0, "Mild": 0.10, "Moderate": 0.20, "Severe": 0.35}
@@ -183,8 +184,10 @@ def get_actual_trajectory(weekly_progress_df: pd.DataFrame, patient_id: str) -> 
     return p_df
 
 
-def check_deviation(pred_row: pd.Series, actual_dict: dict, threshold_pct: float = 15.0) -> dict:
-    """Checks if actual patient observation deviates from predicted twin state."""
+def check_deviation(pred_row: pd.Series, actual_dict: dict, threshold_pct: float = None) -> dict:
+    """Flag pain increases or ROM/strength decreases >15% from prediction."""
+    if threshold_pct is None:
+        threshold_pct = config.DEVIATION_THRESHOLD_PCT
     results = {}
     
     # Pain check
@@ -229,22 +232,34 @@ def check_deviation(pred_row: pd.Series, actual_dict: dict, threshold_pct: float
 def recalibrate(patient_row, actual_dict, current_week, train_data, pathways_df, pct_model, weeks_model, feature_extractor, dev_dict=None):
     """Re-simulates patient recovery based on actual clinical observations."""
     updated_row = patient_row.copy()
-    if "Pain" in actual_dict: updated_row["Pain_Score"] = float(actual_dict["Pain"])
-    if "ROM_deg" in actual_dict: updated_row["Range_of_Motion_deg"] = float(actual_dict["ROM_deg"])
-    if "Strength_pct" in actual_dict: updated_row["Quadriceps_Strength_pct"] = float(actual_dict["Strength_pct"])
+    observation_to_state = {
+        "Pain": "Pain_Score",
+        "ROM_deg": "Range_of_Motion_deg",
+        "Strength_pct": "Quadriceps_Strength_pct",
+        "Hamstring_Strength_pct": "Hamstring_Strength_pct",
+        "Balance_Score": "Balance_Score",
+        "Walking_Speed_mps": "Walking_Speed_mps",
+    }
+    for observation, state_name in observation_to_state.items():
+        if observation in actual_dict and pd.notna(actual_dict[observation]):
+            updated_row[state_name] = float(actual_dict[observation])
 
     X = feature_extractor(pd.DataFrame([updated_row]))
     new_pct = float(pct_model.predict(X)[0])
     new_weeks = float(weeks_model.predict(X)[0])
 
-    explanation = f"Digital Twin recalibrated at Week {current_week} based on updated clinical observation. Projected recovery % adjusted to {new_pct:.1f}% over {new_weeks:.1f} weeks."
+    explanation = (f"Model prediction refreshed at Week {current_week} using the supplied observation. "
+                   f"Estimated recovery is {new_pct:.1f}% over {new_weeks:.1f} weeks. "
+                   "This is a prediction update, not evidence that treatment or recalibration improves outcomes.")
     
     return {
         "new_predicted_pct": new_pct,
         "new_predicted_weeks": new_weeks,
         "explanation": explanation,
-        "new_neighbors": train_data.head(5),
-        "recommended_pathway": pathways_df.iloc[0] if pathways_df is not None and not pathways_df.empty else None
+        "new_neighbors": find_similar_patients(updated_row, train_data, top_k=5),
+        # A pathway cannot be selected from efficacy because patient-level
+        # treatment assignments are absent. Never return the first arbitrary row.
+        "recommended_pathway": None
     }
 
 

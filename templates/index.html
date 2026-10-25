@@ -32,11 +32,11 @@
                         <form id="patientLoginForm" class="login-form">
                             <div class="form-group">
                                 <label for="patientLoginId">Patient ID / Username:</label>
-                                <input type="text" id="patientLoginId" value="p00001" placeholder="e.g. p00001 or P00001" required>
+                                <input type="text" id="patientLoginId" placeholder="e.g. p00001 or P00001" required autocomplete="username">
                             </div>
                             <div class="form-group">
                                 <label for="patientPassword">Password:</label>
-                                <input type="password" id="patientPassword" value="patient123" required>
+                                <input type="password" id="patientPassword" required autocomplete="current-password">
                             </div>
                             <button type="submit" class="btn btn-primary btn-full" style="background-color: #8B5CF6;">Login as Patient</button>
                         </form>
@@ -54,11 +54,11 @@
                         <form id="doctorLoginForm" class="login-form">
                             <div class="form-group">
                                 <label for="docLoginId">Doctor ID / Username:</label>
-                                <input type="text" id="docLoginId" value="doc0001" placeholder="e.g. doc0001 or DOC0001" required>
+                                <input type="text" id="docLoginId" placeholder="e.g. doc0001 or DOC0001" required autocomplete="username">
                             </div>
                             <div class="form-group">
                                 <label for="docPassword">Password:</label>
-                                <input type="password" id="docPassword" value="doc123" required>
+                                <input type="password" id="docPassword" required autocomplete="current-password">
                             </div>
                             <button type="submit" class="btn btn-primary btn-full">Login as Doctor</button>
                         </form>
@@ -76,11 +76,11 @@
                         <form id="adminLoginForm" class="login-form">
                             <div class="form-group">
                                 <label for="adminLoginId">Admin Username:</label>
-                                <input type="text" id="adminLoginId" value="admin" required>
+                                <input type="text" id="adminLoginId" required autocomplete="username">
                             </div>
                             <div class="form-group">
                                 <label for="adminPassword">Password:</label>
-                                <input type="password" id="adminPassword" value="admin123" required>
+                                <input type="password" id="adminPassword" required autocomplete="current-password">
                             </div>
                             <button type="submit" class="btn btn-primary btn-full" style="background-color: #F59E0B;">Login as Admin</button>
                         </form>
@@ -104,6 +104,7 @@
             <button id="adminQuickAddDocBtn" class="btn btn-sm btn-secondary hidden" style="background:#F59E0B; color:#fff;">+ Add Doctor</button>
             <button id="docQuickAddPatBtn" class="btn btn-sm btn-secondary hidden" style="background:#10B981; color:#fff;">+ Register Patient</button>
             <button id="logoutBtn" class="btn btn-sm btn-secondary">Logout</button>
+            <button id="changePasswordBtn" class="btn btn-sm btn-secondary">Change password</button>
         </div>
     </div>
 
@@ -140,7 +141,7 @@
         <section id="tab-weekByWeek" class="tab-content active">
             <div class="card concept-card mb-4">
                 <h3>What is the Dynamic Digital Twin?</h3>
-                <p>The Dynamic Digital Twin is a computational virtual copy of a human patient's physiological and musculoskeletal state. It continuously updates week-by-week using real recorded clinical observations (Pain, Range of Motion, Quad/Hamstring strength, Balance, Walking speed). By combining baseline intake features with machine learning models trained on historical patient cohorts, the twin forecasts individual recovery trajectories and simulates physiological reactions across alternative treatment pathways.</p>
+                <p>The Dynamic Digital Twin is a computational representation of a patient's physiological and musculoskeletal state. It updates week by week from entered observations such as pain, range of motion, strength, balance, and walking speed. It combines baseline features with models trained on the configured cohort data to estimate recovery trajectories and simulate alternative treatment pathways. The included data are synthetic and do not demonstrate clinical performance.</p>
             </div>
 
             <!-- Timeline Header Card -->
@@ -148,7 +149,7 @@
                 <div class="timeline-slider-row">
                     <div>
                         <h2 class="section-title">Week-by-Week Patient Twin Progression</h2>
-                        <p class="section-desc">Track real recorded metrics evolving across recovery weeks.</p>
+                        <p class="section-desc">Track recorded values across recovery weeks. The bundled sample values are synthetic.</p>
                     </div>
                     <div class="slider-control">
                         <label for="weekSlider">Timeline Stage: <span id="weekSliderVal" class="badge-emerald">Week 1</span></label>
@@ -339,7 +340,7 @@
         <section id="tab-treatmentClones" class="tab-content">
             <div class="card">
                 <h2 class="section-title">Single Digital Twin Treatment Reaction Simulator</h2>
-                <p class="section-desc">Select specific clinical treatment interventions, exercise sub-protocols, recovery stages, and intensity levels to simulate how this patient's digital twin reacts in real time.</p>
+                <p class="section-desc">Explore hypothetical changes produced by the prototype's configured intervention multipliers. These simulated changes are not measured treatment effects and should not guide clinical care.</p>
                 
                 <form id="treatmentSimForm" class="recal-form mt-4">
                     <div class="form-group" style="grid-column: span 2;">
@@ -421,7 +422,7 @@
         <section id="tab-pathways" class="tab-content">
             <div class="card concept-card mb-4">
                 <h2 class="section-title">Pathway Mining</h2>
-                <p class="section-desc">Mined recovery pathways extracted from historical patient cohort outcomes in MySQL, filtered specifically for your allocated clinical patients.</p>
+                <p class="section-desc">Pathway templates are matched to patient cohorts. Displayed outcomes are descriptive cohort summaries, not effects of a pathway; the current data do not link treatment assignment to patient outcomes. Clinician views use assigned patients only and suppress groups with fewer than five records.</p>
             </div>
 
             <div id="minedPathwaysCardsWrapper" class="pathways-cards-container">
@@ -433,7 +434,7 @@
         <section id="tab-twinOverview" class="tab-content">
             <div class="grid-2col">
                 <div class="card twin-card-real">
-                    <h3>Real Patient Profile</h3>
+                    <h3>Patient Profile</h3>
                     <table class="info-table" id="realPatientInfoTable"></table>
                 </div>
                 <div class="card twin-card-twin">
@@ -496,18 +497,29 @@
         <!-- TAB 6: EVALUATION METRICS -->
         <section id="tab-evaluation" class="tab-content">
             <div class="card">
-                <h2 class="section-title">Upgraded Model Evaluation Metrics (2025 Test Set)</h2>
-                <p class="section-desc">Ensemble Model combining HistGradientBoosting, ExtraTrees, and RandomForest.</p>
+                <h2 class="section-title">Model Evaluation Metrics</h2>
+                <p class="section-desc">Recovery-proxy and duration metrics on the configured chronological holdout set.</p>
+                <p class="section-desc" role="note" id="evaluationDataNote">Bundled CSV records are synthetic demonstration material. Metrics are not clinical validation.</p>
             </div>
             <div class="metric-grid mt-4">
-                <div class="metric-card"><div class="metric-label">Recovery % R&sup2;</div><div class="metric-val text-emerald" id="kpiPctR2">-</div></div>
-                <div class="metric-card"><div class="metric-label">Recovery % RMSE</div><div class="metric-val" id="kpiPctRmse">-</div></div>
+                <div class="metric-card"><div class="metric-label">Recovery proxy R&sup2;</div><div class="metric-val text-emerald" id="kpiPctR2">-</div></div>
+                <div class="metric-card"><div class="metric-label">Recovery proxy RMSE</div><div class="metric-val" id="kpiPctRmse">-</div></div>
                 <div class="metric-card"><div class="metric-label">Recovery Time R&sup2;</div><div class="metric-val text-emerald" id="kpiWksR2">-</div></div>
                 <div class="metric-card"><div class="metric-label">Recovery Time RMSE</div><div class="metric-val" id="kpiWksRmse">-</div></div>
             </div>
             <div class="card mt-4">
+                <h3>Training-mean baseline comparison</h3>
+                <p class="section-desc" id="evaluationBaselineNote">Loading baseline comparison…</p>
+            </div>
+            <div class="card mt-4">
                 <h3>Top Feature Importances</h3>
                 <div id="featureImportanceList" class="fi-list"></div>
+            </div>
+            <div class="card mt-4">
+                <h3>Local SHAP explanation</h3>
+                <p class="section-desc">Explains the selected patient's model prediction. This is an explanation of model behavior, not a causal or clinical justification.</p>
+                <button type="button" class="btn btn-primary" id="explainPatientBtn">Explain selected patient's prediction</button>
+                <div id="patientExplanation" class="mt-4" aria-live="polite"></div>
             </div>
         </section>
 
@@ -573,6 +585,13 @@
                         <div class="form-group" style="grid-column: span 2;"><label for="reassignPatientSelect">Select Patient:</label><select id="reassignPatientSelect" class="patient-dropdown"></select></div>
                         <div class="form-group" style="grid-column: span 2;"><label for="reassignDoctorSelect">Assign to Doctor:</label><select id="reassignDoctorSelect" class="patient-dropdown"></select></div>
                         <button type="submit" class="btn btn-primary" style="grid-column: span 2; background-color: #F59E0B;">Execute Doctor Reassignment</button>
+                    </form>
+                </div>
+                <div class="card">
+                    <h3>Issue One-Time Account Password</h3>
+                    <form id="adminResetPasswordForm" class="recal-form">
+                        <div class="form-group" style="grid-column: span 2;"><label for="resetAccountId">Doctor or Patient Login ID:</label><input type="text" id="resetAccountId" autocomplete="off" required></div>
+                        <button type="submit" class="btn btn-primary" style="grid-column: span 2; background-color: #F59E0B;">Generate One-Time Password</button>
                     </form>
                 </div>
             </div>

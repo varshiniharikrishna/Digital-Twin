@@ -1,0 +1,588 @@
+{
+  "data_source": "csv",
+  "provenance": "Configured data provenance is not independently verified. Bundled generator records are synthetic.",
+  "target_definition": {
+    "recovery_pct": "Recorded Final_Recovery_Pct when present; otherwise a 50:50 proxy from both observed final strength and ROM, using a fixed 140-degree scale. This proxy is not region-normalized or validated; cross-region results are descriptive only. No baseline or imputed outcome fallback.",
+    "recovery_weeks": "Observed Actual_Recovery_Time_weeks only. Missing durations remain missing and are excluded from fitting/scoring."
+  },
+  "outcome_availability_note": "The source schema has no actual outcome-recorded timestamp. Training eligibility is conservatively approximated as Enrollment_Date + Actual_Recovery_Time_weeks; this estimated date is used only for backtest eligibility and never as a feature.",
+  "data_quality": {
+    "n_all_patients": 803,
+    "duplicate_patient_rows": 0,
+    "n_train_rows": 412,
+    "n_test_rows": 242,
+    "n_rows_excluded_outside_split": 149,
+    "training_candidates_before_outcome_maturity_filter": 558,
+    "training_rows_excluded_because_outcome_not_yet_available": 146,
+    "training_outcome_availability_estimated_from_duration": true,
+    "estimated_training_outcome_available_through": "2024-12-31",
+    "reported_year_vs_enrollment_date_mismatch_n": 3,
+    "enrollment_date_min": "2023-01-01",
+    "enrollment_date_max": "2026-10-25",
+    "recovery_pct_target_source_counts": {
+      "derived strength-ROM proxy": 800,
+      "missing": 3
+    },
+    "duration_target_source_counts": {
+      "observed duration": 800,
+      "missing": 3
+    },
+    "train_recovery_pct_labeled_n": 412,
+    "train_duration_labeled_n": 412,
+    "test_recovery_pct_labeled_n": 242,
+    "test_duration_labeled_n": 242
+  },
+  "split": {
+    "configured_train_years": [
+      2023,
+      2024
+    ],
+    "configured_test_years": [
+      2025
+    ],
+    "date_is_authoritative_for_year": true,
+    "training_labels_matured_before_test_start": true,
+    "train_date_min": "2023-01-01",
+    "train_date_max": "2024-10-22",
+    "test_date_min": "2025-01-03",
+    "test_date_max": "2025-12-26"
+  },
+  "model": {
+    "recovery_pct": "weighted VotingRegressor: HistGradientBoostingRegressor weight 2, ExtraTrees weight 1, RandomForest weight 1",
+    "recovery_weeks": "VotingRegressor: HistGradientBoosting, ExtraTrees, RandomForest; equal weights",
+    "configured_hyperparameters": {
+      "recovery_booster": {
+        "estimator": "HistGradientBoostingRegressor",
+        "parameters": {
+          "max_iter": 400,
+          "learning_rate": 0.03,
+          "max_depth": 5,
+          "l2_regularization": 2.0
+        }
+      },
+      "extra_trees_pct": {
+        "n_estimators": 400,
+        "max_depth": 16,
+        "min_samples_leaf": 1
+      },
+      "random_forest_pct": {
+        "n_estimators": 400,
+        "max_depth": 16,
+        "min_samples_leaf": 1
+      },
+      "recovery_ensemble_weights": {
+        "HistGradientBoostingRegressor": 2,
+        "ExtraTreesRegressor": 1,
+        "RandomForestRegressor": 1
+      }
+    }
+  },
+  "chronological_holdout": {
+    "recovery_pct": {
+      "model": {
+        "MAE": 1.99046,
+        "RMSE": 2.59737,
+        "MAPE": 2.28818,
+        "R2": 0.84791,
+        "n": 242.0
+      },
+      "training_mean_baseline": {
+        "MAE": 5.53842,
+        "RMSE": 6.67223,
+        "MAPE": 6.45387,
+        "R2": -0.00365,
+        "n": 242.0
+      },
+      "bootstrap_intervals": {
+        "resamples": 1000,
+        "MAE_95pct_CI": [
+          1.80176,
+          2.20913
+        ],
+        "R2_95pct_CI": [
+          0.80686,
+          0.87596
+        ],
+        "method": "paired patient-level percentile bootstrap; descriptive only"
+      }
+    },
+    "recovery_weeks": {
+      "model": {
+        "MAE": 5.09741,
+        "RMSE": 6.71096,
+        "MAPE": 19.21434,
+        "R2": 0.75175,
+        "n": 242.0
+      },
+      "training_mean_baseline": {
+        "MAE": 10.98833,
+        "RMSE": 13.81923,
+        "MAPE": 52.22749,
+        "R2": -0.05267,
+        "n": 242.0
+      },
+      "bootstrap_intervals": {
+        "resamples": 1000,
+        "MAE_95pct_CI": [
+          4.55884,
+          5.63911
+        ],
+        "R2_95pct_CI": [
+          0.68635,
+          0.80497
+        ],
+        "method": "paired patient-level percentile bootstrap; descriptive only"
+      }
+    }
+  },
+  "expanding_window_cross_validation": {
+    "recovery_pct": {
+      "method": "expanding-window temporal CV, whole enrollment dates held together",
+      "folds": 3,
+      "skipped_folds": [
+        {
+          "fold": 1,
+          "training_n": 4,
+          "validation_n": 67,
+          "reason": "Insufficient outcome-matured training observations."
+        },
+        {
+          "fold": 2,
+          "training_n": 24,
+          "validation_n": 72,
+          "reason": "Insufficient outcome-matured training observations."
+        }
+      ],
+      "n_validation_total": 196,
+      "metrics_pooled": {
+        "MAE": 2.2368,
+        "RMSE": 2.87197,
+        "MAPE": 2.55777,
+        "R2": 0.82412,
+        "n": 196.0
+      },
+      "training_mean_baseline_pooled": {
+        "MAE": 5.67952,
+        "RMSE": 7.01381,
+        "MAPE": 6.68235,
+        "R2": -0.04899,
+        "n": 196.0
+      },
+      "fold_metrics": [
+        {
+          "fold": 3,
+          "train_n": 72,
+          "validation_n": 72,
+          "train_end": "2023-07-21",
+          "latest_training_outcome_available": "2023-09-24",
+          "validation_start": "2023-09-26",
+          "validation_end": "2023-12-22",
+          "metrics": {
+            "MAE": 2.35607,
+            "RMSE": 3.1415,
+            "MAPE": 2.75308,
+            "R2": 0.78772,
+            "n": 72.0
+          }
+        },
+        {
+          "fold": 4,
+          "train_n": 137,
+          "validation_n": 68,
+          "train_end": "2023-10-27",
+          "latest_training_outcome_available": "2023-12-22",
+          "validation_start": "2023-12-23",
+          "validation_end": "2024-04-10",
+          "metrics": {
+            "MAE": 2.14757,
+            "RMSE": 2.67408,
+            "MAPE": 2.40662,
+            "R2": 0.84066,
+            "n": 68.0
+          }
+        },
+        {
+          "fold": 5,
+          "train_n": 219,
+          "validation_n": 56,
+          "train_end": "2024-02-19",
+          "latest_training_outcome_available": "2024-04-11",
+          "validation_start": "2024-04-12",
+          "validation_end": "2024-10-22",
+          "metrics": {
+            "MAE": 2.19181,
+            "RMSE": 2.73807,
+            "MAPE": 2.49017,
+            "R2": 0.83255,
+            "n": 56.0
+          }
+        }
+      ]
+    },
+    "recovery_weeks": {
+      "method": "expanding-window temporal CV, whole enrollment dates held together",
+      "folds": 3,
+      "skipped_folds": [
+        {
+          "fold": 1,
+          "training_n": 4,
+          "validation_n": 67,
+          "reason": "Insufficient outcome-matured training observations."
+        },
+        {
+          "fold": 2,
+          "training_n": 24,
+          "validation_n": 72,
+          "reason": "Insufficient outcome-matured training observations."
+        }
+      ],
+      "n_validation_total": 196,
+      "metrics_pooled": {
+        "MAE": 5.48938,
+        "RMSE": 8.24449,
+        "MAPE": 22.90706,
+        "R2": 0.53418,
+        "n": 196.0
+      },
+      "training_mean_baseline_pooled": {
+        "MAE": 10.34508,
+        "RMSE": 13.50992,
+        "MAPE": 58.50144,
+        "R2": -0.25082,
+        "n": 196.0
+      },
+      "fold_metrics": [
+        {
+          "fold": 3,
+          "train_n": 72,
+          "validation_n": 72,
+          "train_end": "2023-07-21",
+          "latest_training_outcome_available": "2023-09-24",
+          "validation_start": "2023-09-26",
+          "validation_end": "2023-12-22",
+          "metrics": {
+            "MAE": 8.23608,
+            "RMSE": 11.74525,
+            "MAPE": 23.90944,
+            "R2": 0.22368,
+            "n": 72.0
+          }
+        },
+        {
+          "fold": 4,
+          "train_n": 137,
+          "validation_n": 68,
+          "train_end": "2023-10-27",
+          "latest_training_outcome_available": "2023-12-22",
+          "validation_start": "2023-12-23",
+          "validation_end": "2024-04-10",
+          "metrics": {
+            "MAE": 4.1589,
+            "RMSE": 5.47394,
+            "MAPE": 22.19577,
+            "R2": 0.71826,
+            "n": 68.0
+          }
+        },
+        {
+          "fold": 5,
+          "train_n": 219,
+          "validation_n": 56,
+          "train_end": "2024-02-19",
+          "latest_training_outcome_available": "2024-04-11",
+          "validation_start": "2024-04-12",
+          "validation_end": "2024-10-22",
+          "metrics": {
+            "MAE": 3.57349,
+            "RMSE": 4.91429,
+            "MAPE": 22.48199,
+            "R2": 0.61295,
+            "n": 56.0
+          }
+        }
+      ]
+    }
+  },
+  "adaptive_landmark_forecast_comparison": {
+    "week_4": {
+      "n_train": 412,
+      "n_test": 242,
+      "median_latest_observation_week": 4.0,
+      "static_baseline_model": {
+        "MAE": 1.99046,
+        "RMSE": 2.59737,
+        "MAPE": 2.28818,
+        "R2": 0.84791,
+        "n": 242.0
+      },
+      "current_app_logic_same_baseline_model_with_updated_observations": {
+        "MAE": 1.91715,
+        "RMSE": 2.60872,
+        "MAPE": 2.21659,
+        "R2": 0.84658,
+        "n": 242.0
+      },
+      "week_specific_model_retrained_on_training_landmark_data": {
+        "MAE": 1.83558,
+        "RMSE": 2.40835,
+        "MAPE": 2.1145,
+        "R2": 0.86924,
+        "n": 242.0
+      },
+      "interpretation": "Same-model result mirrors the current recalibration method. The retrained landmark model is a separate alternative requiring deployment changes. Prediction error is not patient benefit or a causal treatment effect."
+    },
+    "week_8": {
+      "n_train": 412,
+      "n_test": 242,
+      "median_latest_observation_week": 8.0,
+      "static_baseline_model": {
+        "MAE": 1.99046,
+        "RMSE": 2.59737,
+        "MAPE": 2.28818,
+        "R2": 0.84791,
+        "n": 242.0
+      },
+      "current_app_logic_same_baseline_model_with_updated_observations": {
+        "MAE": 1.96283,
+        "RMSE": 2.71215,
+        "MAPE": 2.27576,
+        "R2": 0.83417,
+        "n": 242.0
+      },
+      "week_specific_model_retrained_on_training_landmark_data": {
+        "MAE": 1.79038,
+        "RMSE": 2.35054,
+        "MAPE": 2.0653,
+        "R2": 0.87544,
+        "n": 242.0
+      },
+      "interpretation": "Same-model result mirrors the current recalibration method. The retrained landmark model is a separate alternative requiring deployment changes. Prediction error is not patient benefit or a causal treatment effect."
+    }
+  },
+  "deviation_threshold_sensitivity": {
+    "threshold_results": {
+      "5.0": {
+        "flagged": 6670,
+        "eligible_metric_observations": 20544,
+        "flag_rate_percent": 32.467
+      },
+      "10.0": {
+        "flagged": 4698,
+        "eligible_metric_observations": 20544,
+        "flag_rate_percent": 22.868
+      },
+      "15.0": {
+        "flagged": 3765,
+        "eligible_metric_observations": 20544,
+        "flag_rate_percent": 18.327
+      },
+      "20.0": {
+        "flagged": 3177,
+        "eligible_metric_observations": 20544,
+        "flag_rate_percent": 15.464
+      },
+      "25.0": {
+        "flagged": 2687,
+        "eligible_metric_observations": 20544,
+        "flag_rate_percent": 13.079
+      }
+    },
+    "interpretation": "Flag counts/rates only on held-out observations; no adjudicated deterioration labels exist, so this is not clinical sensitivity/specificity."
+  },
+  "ablations": {
+    "status": "Not estimable from current specification/data.",
+    "reason": "The three claimed pillars are not operationally defined, and the data lack patient-level treatment-pathway assignment and counterfactual outcomes."
+  },
+  "recovery_pct_subgroups": {
+    "Body_Part": {
+      "Ankle": {
+        "n": 31.0,
+        "target_mean": 88.49585,
+        "target_sd": 6.98215,
+        "mean_prediction_error": -0.99841,
+        "MAE": 2.69485,
+        "RMSE": 3.07289,
+        "MAPE": 3.03919,
+        "R2": 0.79985
+      },
+      "Knee": {
+        "n": 167.0,
+        "target_mean": 88.77742,
+        "target_sd": 6.60246,
+        "mean_prediction_error": -0.14333,
+        "MAE": 1.81244,
+        "RMSE": 2.44261,
+        "MAPE": 2.07954,
+        "R2": 0.86231
+      },
+      "Lower Leg": {
+        "n": 18.0,
+        "target_mean": 88.49563,
+        "target_sd": 8.20972,
+        "mean_prediction_error": -0.20522,
+        "MAE": 2.63442,
+        "RMSE": 3.21101,
+        "MAPE": 3.11751,
+        "R2": 0.83802
+      },
+      "Shoulder": {
+        "n": 26.0,
+        "target_mean": 87.96099,
+        "target_sd": 5.91131,
+        "mean_prediction_error": 0.88353,
+        "MAE": 1.84822,
+        "RMSE": 2.46445,
+        "MAPE": 2.15872,
+        "R2": 0.81924
+      }
+    },
+    "Gender": {
+      "Female": {
+        "n": 108.0,
+        "target_mean": 89.17765,
+        "target_sd": 6.74871,
+        "mean_prediction_error": -0.45817,
+        "MAE": 2.03755,
+        "RMSE": 2.57916,
+        "MAPE": 2.29731,
+        "R2": 0.85258
+      },
+      "Male": {
+        "n": 134.0,
+        "target_mean": 88.19344,
+        "target_sd": 6.6055,
+        "mean_prediction_error": 0.10353,
+        "MAE": 1.9525,
+        "RMSE": 2.61195,
+        "MAPE": 2.28082,
+        "R2": 0.84247
+      }
+    },
+    "Injury_Type": {
+      "ACL Tear": {
+        "n": 139.0,
+        "target_mean": 88.93654,
+        "target_sd": 6.43335,
+        "mean_prediction_error": -0.2412,
+        "MAE": 1.80123,
+        "RMSE": 2.39527,
+        "MAPE": 2.05892,
+        "R2": 0.86037
+      },
+      "Ankle Fracture": {
+        "n": 26.0,
+        "target_mean": 88.58544,
+        "target_sd": 7.05282,
+        "mean_prediction_error": -1.09282,
+        "MAE": 2.8221,
+        "RMSE": 3.18853,
+        "MAPE": 3.18859,
+        "R2": 0.78744
+      },
+      "Meniscus Tear": {
+        "n": 28.0,
+        "target_mean": 87.9875,
+        "target_sd": 7.46302,
+        "mean_prediction_error": 0.34252,
+        "MAE": 1.86805,
+        "RMSE": 2.66521,
+        "MAPE": 2.18192,
+        "R2": 0.86774
+      },
+      "Rotator Cuff Tear": {
+        "n": 26.0,
+        "target_mean": 87.96099,
+        "target_sd": 5.91131,
+        "mean_prediction_error": 0.88353,
+        "MAE": 1.84822,
+        "RMSE": 2.46445,
+        "MAPE": 2.15872,
+        "R2": 0.81924
+      },
+      "Tibial Fracture": {
+        "n": 18.0,
+        "target_mean": 88.49563,
+        "target_sd": 8.20972,
+        "mean_prediction_error": -0.20522,
+        "MAE": 2.63442,
+        "RMSE": 3.21101,
+        "MAPE": 3.11751,
+        "R2": 0.83802
+      }
+    },
+    "Severity": {
+      "Mild": {
+        "n": 84.0,
+        "target_mean": 94.78308,
+        "target_sd": 2.55476,
+        "mean_prediction_error": 0.13463,
+        "MAE": 1.91423,
+        "RMSE": 2.46492,
+        "MAPE": 2.03008,
+        "R2": 0.05787
+      },
+      "Moderate": {
+        "n": 103.0,
+        "target_mean": 88.87926,
+        "target_sd": 3.40722,
+        "mean_prediction_error": -0.10341,
+        "MAE": 1.94179,
+        "RMSE": 2.56391,
+        "MAPE": 2.20956,
+        "R2": 0.4282
+      },
+      "Severe": {
+        "n": 55.0,
+        "target_mean": 78.77753,
+        "target_sd": 2.99058,
+        "mean_prediction_error": -0.6594,
+        "MAE": 2.198,
+        "RMSE": 2.84494,
+        "MAPE": 2.82959,
+        "R2": 0.07827
+      }
+    },
+    "Age_Band": {
+      "25-40": {
+        "n": 58.0,
+        "target_mean": 89.02217,
+        "target_sd": 6.79509,
+        "mean_prediction_error": -0.49722,
+        "MAE": 1.71792,
+        "RMSE": 2.28281,
+        "MAPE": 1.92801,
+        "R2": 0.88516
+      },
+      "40-55": {
+        "n": 74.0,
+        "target_mean": 88.99073,
+        "target_sd": 6.94135,
+        "mean_prediction_error": -0.36502,
+        "MAE": 1.87835,
+        "RMSE": 2.38221,
+        "MAPE": 2.16981,
+        "R2": 0.88061
+      },
+      "55+": {
+        "n": 71.0,
+        "target_mean": 88.57958,
+        "target_sd": 6.76211,
+        "mean_prediction_error": 0.2867,
+        "MAE": 2.22063,
+        "RMSE": 2.94292,
+        "MAPE": 2.5907,
+        "R2": 0.80789
+      },
+      "<25": {
+        "n": 39.0,
+        "target_mean": 87.4707,
+        "target_sd": 5.87866,
+        "mean_prediction_error": -0.00292,
+        "MAE": 2.18945,
+        "RMSE": 2.7526,
+        "MAPE": 2.49767,
+        "R2": 0.77498
+      }
+    }
+  }
+}

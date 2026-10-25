@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const sessionRoleBadge = document.getElementById('sessionRoleBadge');
     const sessionScopeDesc = document.getElementById('sessionScopeDesc');
     const logoutBtn = document.getElementById('logoutBtn');
+    const changePasswordBtn = document.getElementById('changePasswordBtn');
 
     const patientSelect = document.getElementById('patientSelect');
     const weekSlider = document.getElementById('weekSlider');
@@ -60,6 +61,10 @@ document.addEventListener('DOMContentLoaded', () => {
             throw new Error("Session expired. Please log in again.");
         }
         return res;
+    }
+
+    function escapeHtml(value) {
+        return String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
     }
 
     function showLoginOverlay() {
@@ -105,6 +110,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (logoutBtn) {
             logoutBtn.addEventListener('click', logout);
+        }
+        if (changePasswordBtn) {
+            changePasswordBtn.addEventListener('click', async () => {
+                const current = window.prompt('Current password:');
+                if (current === null) return;
+                const next = window.prompt('New password (at least 12 characters):');
+                if (next === null) return;
+                const res = await fetchWithAuth('/api/auth/password', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ current_password: current, new_password: next })
+                });
+                const result = await res.json();
+                window.alert(res.ok ? result.message : (result.error || 'Password update failed.'));
+            });
         }
     }
 
@@ -177,8 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentAuthToken) {
             fetch('/api/auth/logout', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ token: currentAuthToken })
+                headers: { 'Authorization': `Bearer ${currentAuthToken}` }
             }).catch(err => console.error(err));
         }
 
@@ -342,6 +360,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function setupEventListeners() {
+        const explainBtn = document.getElementById('explainPatientBtn');
+        if (explainBtn) {
+            explainBtn.addEventListener('click', async () => {
+                const target = document.getElementById('patientExplanation');
+                if (!currentPatientId) { target.textContent = 'Select a patient first.'; return; }
+                target.textContent = 'Calculating SHAP values…';
+                try {
+                    const response = await fetchWithAuth(`/api/patient/${encodeURIComponent(currentPatientId)}/explanation`);
+                    const result = await response.json();
+                    if (!response.ok) throw new Error(result.error || 'Explanation unavailable.');
+                    const rows = result.features.map(item => `<tr><td>${item.feature}</td><td>${Number(item.shap_value).toFixed(4)}</td></tr>`).join('');
+                    target.innerHTML = `<p>Predicted recovery: ${Number(result.prediction).toFixed(1)}%. Base value: ${Number(result.base_value).toFixed(1)}%.</p><p>${result.caveat}</p><div class="table-wrapper"><table class="data-table"><thead><tr><th>Model feature</th><th>SHAP value</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+                } catch (err) { target.textContent = err.message; }
+            });
+        }
+
         if (patientSelect) {
             patientSelect.addEventListener('change', async (e) => {
                 currentPatientId = e.target.value;
@@ -358,8 +392,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (downloadPdfBtn) {
-            downloadPdfBtn.addEventListener('click', () => {
-                window.location.href = `/api/patient/${currentPatientId}/pdf?week=${weekSlider.value}&token=${currentAuthToken}`;
+            downloadPdfBtn.addEventListener('click', async () => {
+                const res = await fetchWithAuth(`/api/patient/${currentPatientId}/pdf?week=${weekSlider.value}`);
+                if (!res.ok) throw new Error('Could not download the patient document.');
+                const objectUrl = URL.createObjectURL(await res.blob());
+                const link = document.createElement('a');
+                link.href = objectUrl;
+                link.download = `Digital_Twin_Report_${currentPatientId}_W${weekSlider.value}.pdf`;
+                link.click();
+                URL.revokeObjectURL(objectUrl);
             });
         }
 
@@ -396,7 +437,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                     const data = await res.json();
                     if (res.ok) {
-                        alert(data.message);
+                        alert(`${data.message}\nLogin ID: ${data.doctor_id}\nTemporary password: ${data.initial_password}\nShare this once and ask the doctor to change it after signing in.`);
                         addDocModal.classList.add('hidden');
                         await loadDoctorRoster();
                     } else alert(`Error: ${data.error}`);
@@ -449,7 +490,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                     const data = await res.json();
                     if (res.ok) {
-                        alert(data.message);
+                        alert(`${data.message}\nLogin ID: ${data.patient_id}\nTemporary password: ${data.initial_password}\nShare this securely and ask the patient to change it after signing in.`);
                         if (regPatModal) regPatModal.classList.add('hidden');
                         await loadPatientList();
                         if (data.patient_id) {
@@ -485,7 +526,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                     const data = await res.json();
                     if (res.ok) {
-                        alert(data.message);
+                        alert(`${data.message}\nLogin ID: ${data.patient_id}\nTemporary password: ${data.initial_password}\nShare this securely and ask the patient to change it after signing in.`);
                         await loadPatientList();
                         if (currentUserRole === 'ADMIN') await loadAdminOverview();
                     } else alert(`Error: ${data.error}`);
@@ -509,6 +550,22 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (res.ok) alert(data.message);
                     else alert(`Error: ${data.error}`);
                 } catch (err) { alert(`Failed: ${err}`); }
+            });
+        }
+
+        const adminResetPasswordForm = document.getElementById('adminResetPasswordForm');
+        if (adminResetPasswordForm) {
+            adminResetPasswordForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const res = await fetchWithAuth('/api/admin/account/reset-password', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ login_input: document.getElementById('resetAccountId').value })
+                });
+                const data = await res.json();
+                window.alert(res.ok
+                    ? `Login ID: ${data.login_id}\nOne-time password: ${data.initial_password}\n${data.message}`
+                    : (data.error || 'Password reset failed.'));
+                if (res.ok) adminResetPasswordForm.reset();
             });
         }
 
@@ -596,43 +653,42 @@ document.addEventListener('DOMContentLoaded', () => {
                 let stepsHtml = (pw.step_flow || []).map((s, idx) => `
                     <div class="pathway-step-card">
                         <div class="step-badge">Phase ${idx+1}</div>
-                        <div class="step-title">${s}</div>
+                        <div class="step-title">${escapeHtml(s)}</div>
                     </div>
                 `).join('<div class="step-arrow">&rarr;</div>');
 
                 wrapper.innerHTML += `
-                <div class="pathway-story-card">
+                    <div class="pathway-story-card">
                     <div class="pathway-header">
-                        <div class="pathway-title">${pw.title || pw.layman_title}</div>
-                        <span class="badge-emerald">${pw.Archetype_Label || 'Standard'}</span>
+                        <div class="pathway-title">${escapeHtml(pw.title || pw.layman_title)}</div>
+                        <span class="badge-emerald">${escapeHtml(pw.Archetype_Label || 'Standard')}</span>
                     </div>
-                    <div class="pathway-cohort">${pw.cohort_desc || pw.layman_cohort}</div>
+                    <div class="pathway-cohort">${escapeHtml(pw.cohort_desc || pw.layman_cohort)}</div>
                     
                     <div class="pathway-stats-grid">
                         <div class="pstat-box">
                             <div class="pstat-label">⏱️ Avg Duration</div>
-                            <div class="pstat-val">${pw.Average_Recovery_Time_weeks} Wks</div>
+                            <div class="pstat-val">${escapeHtml(pw.Average_Recovery_Time_weeks ?? '—')} Wks</div>
                         </div>
                         <div class="pstat-box">
-                            <div class="pstat-label">📈 Success Rate</div>
-                            <div class="pstat-val text-emerald">${pw.Success_Rate}%</div>
+                            <div class="pstat-label">Cohort ≥80% proxy</div>
+                            <div class="pstat-val text-emerald">${pw.Success_Rate == null ? '—' : `${escapeHtml(pw.Success_Rate)}%`}</div>
                         </div>
                         <div class="pstat-box">
-                            <div class="pstat-label">📉 Pain Reduction</div>
-                            <div class="pstat-val">-${pw.Average_Pain_Reduction} Points</div>
+                            <div class="pstat-label">Mean recovery proxy</div>
+                            <div class="pstat-val">${pw.Average_Recovery_Pct == null ? '—' : `${escapeHtml(pw.Average_Recovery_Pct)}%`}</div>
                         </div>
                         <div class="pstat-box">
                             <div class="pstat-label">👥 Cohort Pool</div>
-                            <div class="pstat-val">${pw.Sample_Size} Patients</div>
+                            <div class="pstat-val">${escapeHtml(pw.Sample_Size)} Patients</div>
                         </div>
                     </div>
 
-                    <p class="pathway-story-txt">${pw.story || pw.layman_story}</p>
+                    <p class="pathway-story-txt">${escapeHtml(pw.story || pw.layman_story)}</p>
                     
-                    <div class="pathway-flowchart-title">Visual Step-by-Step Recovery Plan</div>
-                    <div class="pathway-step-flow">
-                        ${stepsHtml}
-                    </div>
+                    <div class="pathway-flowchart-title">Recorded pathway-template steps</div>
+                    <div class="pathway-step-flow">${stepsHtml || '<p>No step records are linked to this pathway template.</p>'}</div>
+                    <p class="section-desc">${escapeHtml(pw.Outcome_Evidence_Scope || '')} Metric: ${escapeHtml(pw.Outcome_Metric || 'not specified')}.</p>
                 </div>
                 `;
             });
@@ -805,7 +861,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('recalPanelExplanation').textContent = recal.explanation;
         const pathway = recal.recommended_pathway;
         document.getElementById('recalPanelPathway').textContent =
-            pathway ? (pathway.Archetype_Label || pathway.Pathway_Name || 'Standard Protocol') : 'Standard Protocol';
+            pathway ? (pathway.Archetype_Label || pathway.Pathway_Name || 'Unspecified') : 'No pathway recommendation: treatment outcome linkage is unavailable';
     }
 
     async function loadDoctorRoster() {
@@ -1096,10 +1152,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const res = await fetchWithAuth('/api/metrics');
             const data = await res.json();
 
-            if (document.getElementById('kpiPctR2')) document.getElementById('kpiPctR2').textContent = data.metrics_pct.R2.toFixed(3);
-            if (document.getElementById('kpiPctRmse')) document.getElementById('kpiPctRmse').textContent = data.metrics_pct.RMSE.toFixed(2);
-            if (document.getElementById('kpiWksR2')) document.getElementById('kpiWksR2').textContent = data.metrics_weeks.R2.toFixed(3);
-            if (document.getElementById('kpiWksRmse')) document.getElementById('kpiWksRmse').textContent = data.metrics_weeks.RMSE.toFixed(2);
+            const dataNote = document.getElementById('evaluationDataNote');
+            if (dataNote) dataNote.textContent = `${data.evaluation_data_note} ${data.recovery_target_note}`;
+            const baselineNote = document.getElementById('evaluationBaselineNote');
+            if (baselineNote) {
+                const fmt = value => Number.isFinite(value) ? Number(value).toFixed(3) : '—';
+                baselineNote.textContent = `Recovery proxy: model R² ${fmt(data.metrics_pct.R2)} / RMSE ${fmt(data.metrics_pct.RMSE)}; training-mean R² ${fmt(data.baseline_metrics_pct.R2)} / RMSE ${fmt(data.baseline_metrics_pct.RMSE)}. Duration: model R² ${fmt(data.metrics_weeks.R2)} / RMSE ${fmt(data.metrics_weeks.RMSE)}; training-mean R² ${fmt(data.baseline_metrics_weeks.R2)} / RMSE ${fmt(data.baseline_metrics_weeks.RMSE)}.`;
+            }
+
+            if (document.getElementById('kpiPctR2')) document.getElementById('kpiPctR2').textContent = Number.isFinite(data.metrics_pct.R2) ? data.metrics_pct.R2.toFixed(3) : 'Unavailable (insufficient observed outcomes)';
+            if (document.getElementById('kpiPctRmse')) document.getElementById('kpiPctRmse').textContent = Number.isFinite(data.metrics_pct.RMSE) ? data.metrics_pct.RMSE.toFixed(2) : '—';
+            if (document.getElementById('kpiWksR2')) document.getElementById('kpiWksR2').textContent = Number.isFinite(data.metrics_weeks.R2) ? data.metrics_weeks.R2.toFixed(3) : 'Unavailable (insufficient observed outcomes)';
+            if (document.getElementById('kpiWksRmse')) document.getElementById('kpiWksRmse').textContent = Number.isFinite(data.metrics_weeks.RMSE) ? data.metrics_weeks.RMSE.toFixed(2) : '—';
 
             const fiContainer = document.getElementById('featureImportanceList');
             if (fiContainer) {

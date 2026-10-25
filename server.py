@@ -24,12 +24,17 @@ import similarity as sim
 import simulation as simmod
 import pathway_mining as pm
 import pdf_generator
+import explainability
 
 app = Flask(__name__, template_folder="templates", static_folder="static")
 app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY", secrets.token_hex(16))
 
 # Active session token store
 ACTIVE_SESSIONS = {}
+SESSION_TTL = datetime.timedelta(hours=8)
+LOGIN_ATTEMPTS = {}
+LOGIN_WINDOW = datetime.timedelta(minutes=15)
+MAX_LOGIN_ATTEMPTS = 10
 
 print("Initializing Digital Twin backend and training models...")
 TABLES = db.load_all_tables()
@@ -48,8 +53,20 @@ TEST_DATA = TEST_DATA.copy()
 TEST_DATA["Predicted_Recovery_Pct"] = PRED_PCT
 TEST_DATA["Predicted_Recovery_Weeks"] = PRED_WEEKS
 
-METRICS_PCT = modeling.evaluate(TEST_DATA[config.TARGET_RECOVERY_PCT], PRED_PCT)
-METRICS_WEEKS = modeling.evaluate(TEST_DATA[config.TARGET_RECOVERY_WEEKS], PRED_WEEKS)
+PCT_EVAL_MASK = pd.to_numeric(TEST_DATA[config.TARGET_RECOVERY_PCT], errors="coerce").notna()
+WEEKS_EVAL_MASK = pd.to_numeric(TEST_DATA[config.TARGET_RECOVERY_WEEKS], errors="coerce").notna()
+METRICS_PCT = modeling.evaluate(TEST_DATA.loc[PCT_EVAL_MASK, config.TARGET_RECOVERY_PCT], PRED_PCT[PCT_EVAL_MASK.to_numpy()])
+METRICS_WEEKS = modeling.evaluate(TEST_DATA.loc[WEEKS_EVAL_MASK, config.TARGET_RECOVERY_WEEKS], PRED_WEEKS[WEEKS_EVAL_MASK.to_numpy()])
+PCT_TRAIN_LABELS = pd.to_numeric(TRAIN_DATA[config.TARGET_RECOVERY_PCT], errors="coerce").dropna()
+WEEKS_TRAIN_LABELS = pd.to_numeric(TRAIN_DATA[config.TARGET_RECOVERY_WEEKS], errors="coerce").dropna()
+METRICS_PCT_BASELINE = modeling.evaluate(
+    TEST_DATA.loc[PCT_EVAL_MASK, config.TARGET_RECOVERY_PCT],
+    np.full(int(PCT_EVAL_MASK.sum()), float(PCT_TRAIN_LABELS.mean())),
+)
+METRICS_WEEKS_BASELINE = modeling.evaluate(
+    TEST_DATA.loc[WEEKS_EVAL_MASK, config.TARGET_RECOVERY_WEEKS],
+    np.full(int(WEEKS_EVAL_MASK.sum()), float(WEEKS_TRAIN_LABELS.mean())),
+)
 FEATURE_IMPORTANCE = modeling.get_feature_importance(PCT_MODEL)
 
 print("Backend initialization complete!")
@@ -61,7 +78,17 @@ def add_security_headers(response):
     response.headers['X-Content-Type-Options'] = 'nosniff'
     response.headers['X-Frame-Options'] = 'DENY'
     response.headers['X-XSS-Protection'] = '1; mode=block'
+    response.headers['Referrer-Policy'] = 'no-referrer'
+    response.headers['Cache-Control'] = 'no-store'
     return response
+
+
+@app.before_request
+def require_api_authentication():
+    """Fail closed: every API route except login needs a live bearer session."""
+    if request.path.startswith('/api/') and request.path != '/api/auth/login':
+        if get_current_session() is None:
+            return jsonify({"error": "Authentication required."}), 401
 
 
 def sanitize_val(v):
@@ -120,16 +147,17 @@ def predict_row(row: pd.Series):
 # AUTHENTICATION & SECURITY SCOPE UTILITIES
 # ----------------------------------------------------------------------
 def get_current_session():
-    """Extracts session context from Authorization header or token param."""
+    """Resolve a live session from the Authorization header only."""
     auth_header = request.headers.get("Authorization", "")
     token = None
     if auth_header.startswith("Bearer "):
         token = auth_header.split(" ")[1].strip()
-    if not token:
-        token = request.args.get("token") or (request.json and request.json.get("token"))
-    
     if token and token in ACTIVE_SESSIONS:
-        return ACTIVE_SESSIONS[token]
+        session = ACTIVE_SESSIONS[token]
+        created = datetime.datetime.fromisoformat(session["created_at"])
+        if datetime.datetime.now() - created <= SESSION_TTL:
+            return session
+        ACTIVE_SESSIONS.pop(token, None)
     return None
 
 
@@ -161,21 +189,29 @@ def index():
 # ----------------------------------------------------------------------
 @app.route("/api/auth/login", methods=["POST"])
 def auth_login():
+    now = datetime.datetime.now()
+    ip = request.remote_addr or "unknown"
+    attempts, started = LOGIN_ATTEMPTS.get(ip, (0, now))
+    if now - started > LOGIN_WINDOW:
+        attempts, started = 0, now
+    if attempts >= MAX_LOGIN_ATTEMPTS:
+        return jsonify({"error": "Too many login attempts. Try again later."}), 429
+
     data = request.json or {}
     login_input = str(data.get("login_input") or data.get("username") or data.get("user_id") or "").strip()
-    password = str(data.get("password") or "").strip()
+    password = str(data.get("password") or "")
 
     if not login_input or not password:
         return jsonify({"error": "Username/Email/ID and Password are required."}), 400
 
     user_rec = db.get_user_by_login_input(login_input)
-    if not user_rec:
-        return jsonify({"error": f"User '{login_input}' not found in Digital Twin database."}), 404
-
-    if not check_password_hash(user_rec["Password_Hash"], password):
+    if not user_rec or not check_password_hash(user_rec.get("Password_Hash", ""), password):
+        LOGIN_ATTEMPTS[ip] = (attempts + 1, started)
         return jsonify({"error": "Invalid password authentication."}), 401
 
-    token = f"token_{secrets.token_hex(16)}"
+    LOGIN_ATTEMPTS.pop(ip, None)
+
+    token = secrets.token_urlsafe(32)
     role = user_rec["Role"].upper()
     user_id = user_rec["User_ID"]
     linked_doc = user_rec.get("Linked_Doctor_ID")
@@ -222,8 +258,7 @@ def auth_login():
 
 @app.route("/api/auth/logout", methods=["POST"])
 def auth_logout():
-    data = request.json or {}
-    token = data.get("token") or request.headers.get("Authorization", "").replace("Bearer ", "").strip()
+    token = request.headers.get("Authorization", "").removeprefix("Bearer ").strip()
     if token in ACTIVE_SESSIONS:
         del ACTIVE_SESSIONS[token]
     return jsonify({"status": "success", "message": "Logged out successfully."})
@@ -235,6 +270,21 @@ def auth_me():
     if not sess:
         return jsonify({"error": "Unauthorized"}), 401
     return jsonify(sanitize_dict({"user": sess}))
+
+
+@app.route("/api/auth/password", methods=["POST"])
+def auth_change_password():
+    sess = get_current_session()
+    data = request.json or {}
+    current_password = str(data.get("current_password") or "")
+    new_password = str(data.get("new_password") or "")
+    if len(new_password) < 12:
+        return jsonify({"error": "New password must be at least 12 characters."}), 400
+    account = db.get_user_by_id(sess["user_id"])
+    if not account or not check_password_hash(account.get("Password_Hash", ""), current_password):
+        return jsonify({"error": "Current password is incorrect."}), 401
+    db.update_user_password(sess["user_id"], new_password)
+    return jsonify({"status": "success", "message": "Password updated."})
 
 
 # ----------------------------------------------------------------------
@@ -296,12 +346,14 @@ def admin_add_doctor():
     }
 
     try:
-        db.create_doctor_record(doc_dict)
+        initial_password = secrets.token_urlsafe(18)
+        db.create_doctor_record(doc_dict, initial_password)
         refresh_tables()
         return jsonify({
             "status": "success",
             "message": f"Doctor {new_doc_id} ({doc_dict['Doctor_Name']}) successfully added!",
-            "doctor_id": new_doc_id
+            "doctor_id": new_doc_id,
+            "initial_password": initial_password
         })
     except Exception as e:
         return jsonify({"error": f"Failed to create doctor: {e}"}), 500
@@ -331,11 +383,33 @@ def admin_reassign_patient():
         return jsonify({"error": f"Failed to reassign patient: {e}"}), 500
 
 
+@app.route("/api/admin/account/reset-password", methods=["POST"])
+def admin_reset_account_password():
+    sess = get_current_session()
+    if sess.get("role") != "ADMIN":
+        return jsonify({"error": "Admin authorization required."}), 403
+    login_input = str((request.json or {}).get("login_input") or "").strip()
+    account = db.get_user_by_login_input(login_input)
+    if not account or account.get("Role", "").upper() == "ADMIN":
+        return jsonify({"error": "Doctor or patient account not found."}), 404
+    initial_password = secrets.token_urlsafe(24)
+    db.update_user_password(account["User_ID"], initial_password)
+    return jsonify({
+        "status": "success",
+        "login_id": account["Username"],
+        "initial_password": initial_password,
+        "message": "One-time password created. Share it securely and ask the user to change it after signing in."
+    })
+
+
 # ----------------------------------------------------------------------
 # DOCTOR PORTAL ENDPOINTS
 # ----------------------------------------------------------------------
 @app.route("/api/doctors", methods=["GET"])
 def get_all_doctors():
+    sess = get_current_session()
+    if sess.get("role") not in ("ADMIN", "DOCTOR"):
+        return jsonify({"error": "Access denied."}), 403
     if "Doctor" in TABLES and not TABLES["Doctor"].empty:
         doc_list = TABLES["Doctor"][["Doctor_ID", "Doctor_Name", "Specialization", "Hospital_Branch", "Years_Experience", "Contact_Email"]].to_dict(orient="records")
         return jsonify(sanitize_dict({"doctors": doc_list}))
@@ -348,6 +422,8 @@ def get_doctor_portal(doctor_id):
     if not sess:
         return jsonify({"error": "Unauthorized"}), 401
 
+    if sess.get("role") not in ("ADMIN", "DOCTOR"):
+        return jsonify({"error": "Access denied."}), 403
     if sess.get("role") == "DOCTOR" and str(sess.get("linked_doctor_id")) != str(doctor_id):
         return jsonify({"error": "Forbidden. You can only view your own assigned patient roster."}), 403
 
@@ -452,7 +528,8 @@ def doctor_add_patient():
         "Recovery_Goal": str(data.get("Recovery_Goal", "Return to Sport"))
     }
 
-    db.add_new_patient_record(patient_rec, injury_rec, assessment_rec)
+    initial_password = secrets.token_urlsafe(18)
+    db.add_new_patient_record(patient_rec, injury_rec, assessment_rec, initial_password)
 
     w1_rec = {
         "Weekly_ID": f"WP{new_pid}_01",
@@ -476,7 +553,8 @@ def doctor_add_patient():
     return jsonify({
         "status": "success",
         "message": f"New Patient {new_pid} successfully created and assigned to Doctor {doc_id}!",
-        "patient_id": new_pid
+        "patient_id": new_pid,
+        "initial_password": initial_password
     })
 
 
@@ -486,10 +564,6 @@ def doctor_add_patient():
 @app.route("/api/patients", methods=["GET"])
 def get_patients():
     sess = get_current_session()
-    if not sess:
-        patient_ids = sorted(FULL_DATASET["Patient_ID"].unique().tolist())
-        return jsonify({"patients": patient_ids})
-
     role = sess.get("role")
     if role == "ADMIN":
         patient_ids = sorted(FULL_DATASET["Patient_ID"].unique().tolist())
@@ -500,7 +574,7 @@ def get_patients():
     elif role == "PATIENT":
         patient_ids = [sess.get("linked_patient_id")]
     else:
-        patient_ids = sorted(FULL_DATASET["Patient_ID"].unique().tolist())
+        return jsonify({"error": "Access denied."}), 403
 
     return jsonify({"patients": patient_ids})
 
@@ -508,7 +582,7 @@ def get_patients():
 @app.route("/api/patient/<patient_id>", methods=["GET"])
 def get_patient_details(patient_id):
     sess = get_current_session()
-    if sess and not is_patient_accessible(sess, patient_id):
+    if not is_patient_accessible(sess, patient_id):
         return jsonify({"error": f"Access denied. Patient {patient_id} is not allocated to your account."}), 403
 
     row = get_patient_row(patient_id)
@@ -545,7 +619,7 @@ def get_patient_details(patient_id):
 @app.route("/api/patient/<patient_id>/weekly", methods=["GET"])
 def get_patient_weekly(patient_id):
     sess = get_current_session()
-    if sess and not is_patient_accessible(sess, patient_id):
+    if not is_patient_accessible(sess, patient_id):
         return jsonify({"error": "Access denied. Patient is not allocated to you."}), 403
 
     actual_df = simmod.get_actual_trajectory(TABLES["Weekly_Progress"], patient_id)
@@ -566,7 +640,7 @@ def get_patient_weekly(patient_id):
 @app.route("/api/patient/<patient_id>/week/<int:week>", methods=["GET"])
 def get_patient_week_detail(patient_id, week):
     sess = get_current_session()
-    if sess and not is_patient_accessible(sess, patient_id):
+    if not is_patient_accessible(sess, patient_id):
         return jsonify({"error": "Access denied. Patient is not allocated to you."}), 403
 
     row = get_patient_row(patient_id)
@@ -683,7 +757,7 @@ def get_patient_week_detail(patient_id, week):
 @app.route("/api/patient/<patient_id>/weekly/save", methods=["POST"])
 def save_weekly_checkin(patient_id):
     sess = get_current_session()
-    if sess and not is_patient_accessible(sess, patient_id):
+    if not is_patient_accessible(sess, patient_id):
         return jsonify({"error": "Access denied. Patient is not allocated to you."}), 403
 
     row = get_patient_row(patient_id)
@@ -774,7 +848,7 @@ def save_weekly_checkin(patient_id):
 @app.route("/api/patient/<patient_id>/recalibrate", methods=["POST"])
 def recalibrate_patient(patient_id):
     sess = get_current_session()
-    if sess and not is_patient_accessible(sess, patient_id):
+    if not is_patient_accessible(sess, patient_id):
         return jsonify({"error": "Access denied. Patient is not allocated to you."}), 403
 
     row = get_patient_row(patient_id)
@@ -839,7 +913,7 @@ def recalibrate_patient(patient_id):
 @app.route("/api/patient/<patient_id>/recalibration_history", methods=["GET"])
 def get_recalibration_history_endpoint(patient_id):
     sess = get_current_session()
-    if sess and not is_patient_accessible(sess, patient_id):
+    if not is_patient_accessible(sess, patient_id):
         return jsonify({"error": "Access denied. Patient is not allocated to you."}), 403
 
     history = db.get_patient_recalibration_history(patient_id)
@@ -857,7 +931,7 @@ def get_treatment_taxonomy():
 @app.route("/api/patient/<patient_id>/treatment/simulate", methods=["POST"])
 def simulate_single_treatment(patient_id):
     sess = get_current_session()
-    if sess and not is_patient_accessible(sess, patient_id):
+    if not is_patient_accessible(sess, patient_id):
         return jsonify({"error": "Access denied. Patient is not allocated to you."}), 403
 
     row = get_patient_row(patient_id)
@@ -891,7 +965,7 @@ def simulate_single_treatment(patient_id):
 @app.route("/api/patient/<patient_id>/clones", methods=["GET"])
 def get_patient_clones(patient_id):
     sess = get_current_session()
-    if sess and not is_patient_accessible(sess, patient_id):
+    if not is_patient_accessible(sess, patient_id):
         return jsonify({"error": "Access denied."}), 403
 
     row = get_patient_row(patient_id)
@@ -913,7 +987,7 @@ def get_patient_clones(patient_id):
 @app.route("/api/patient/<patient_id>/pdf", methods=["GET"])
 def download_patient_pdf(patient_id):
     sess = get_current_session()
-    if sess and not is_patient_accessible(sess, patient_id):
+    if not is_patient_accessible(sess, patient_id):
         return jsonify({"error": "Access denied."}), 403
 
     row = get_patient_row(patient_id)
@@ -970,6 +1044,8 @@ def get_mined_pathways():
             doc_id = sess.get("linked_doctor_id")
             doc_pathways = pm.mine_pathways_for_doctor(doc_id, TABLES)
             return jsonify(sanitize_dict({"pathways": doc_pathways}))
+        elif role != "ADMIN":
+            return jsonify({"error": "Access denied."}), 403
 
     mined = pm.mine_pathways_from_tables(TABLES)
     return jsonify(sanitize_dict({"pathways": mined}))
@@ -978,7 +1054,7 @@ def get_mined_pathways():
 @app.route("/api/patient/<patient_id>/recommended_pathways", methods=["GET"])
 def get_recommended_pathways(patient_id):
     sess = get_current_session()
-    if sess and not is_patient_accessible(sess, patient_id):
+    if not is_patient_accessible(sess, patient_id):
         return jsonify({"error": "Access denied. Patient is not allocated to you."}), 403
 
     row = get_patient_row(patient_id)
@@ -992,12 +1068,41 @@ def get_recommended_pathways(patient_id):
 @app.route("/api/metrics", methods=["GET"])
 def get_metrics():
     top_fi = FEATURE_IMPORTANCE.head(12).to_dict(orient="records")
+    if config.DATA_SOURCE == "csv":
+        data_note = "Configured CSV provenance is unverified; repository generator data are synthetic. Metrics are not clinical validation."
+    else:
+        data_note = "MySQL data provenance has not been independently verified; metrics are not clinical validation."
     return jsonify(sanitize_dict({
         "metrics_pct": METRICS_PCT,
         "metrics_weeks": METRICS_WEEKS,
-        "feature_importance": top_fi
+        "baseline_metrics_pct": METRICS_PCT_BASELINE,
+        "baseline_metrics_weeks": METRICS_WEEKS_BASELINE,
+        "feature_importance": top_fi,
+        "evaluation_data_note": data_note,
+        "recovery_target_note": "When Final_Recovery_Pct is absent, the target is a 50:50 final strength/ROM proxy using 140 degrees for ROM. This is not validated or region-normalized; cross-injury metrics are descriptive only."
     }))
 
 
+@app.route("/api/patient/<patient_id>/explanation", methods=["GET"])
+def explain_patient_prediction(patient_id):
+    sess = get_current_session()
+    if not is_patient_accessible(sess, patient_id):
+        return jsonify({"error": "Access denied."}), 403
+    row = get_patient_row(patient_id)
+    if row is None:
+        return jsonify({"error": "Patient not found."}), 404
+    try:
+        result = explainability.explain_prediction(
+            PCT_MODEL, X_TRAIN, get_feature_frame(pd.DataFrame([row]))
+        )
+        return jsonify(sanitize_dict(result))
+    except RuntimeError as exc:
+        return jsonify({"error": str(exc), "available": False}), 503
+    except Exception as exc:
+        app.logger.exception("SHAP explanation failed")
+        return jsonify({"error": "Could not calculate a local explanation."}), 500
+
+
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host=os.environ.get("DT_HOST", "127.0.0.1"),
+            port=int(os.environ.get("DT_PORT", "5000")), debug=False)

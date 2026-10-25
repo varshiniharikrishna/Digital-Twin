@@ -1,180 +1,171 @@
-"""
-pathway_mining.py
-------------------
-Dynamic Pathway Mining & Patient Pathway Recommendation Module.
-Extracts clinical recovery patterns across cohorts from MySQL historical tables
-and computes layman-understandable visual recovery pathways and personalized recommendations.
+"""Cohort summaries and exploratory pathway-template retrieval.
+
+The bundled schema does not link a patient's observed treatment exposure to a
+Recovery_Pathway row. Consequently, cohort outcomes below are descriptive only
+and are never presented as a pathway effect or used as a success-rate feature
+in personalized ranking.
 """
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 import config
 from similarity import find_similar_patients
 
 
+AGE_BANDS = {"<25": (0, 25), "25-40": (25, 40), "40-55": (40, 55), "55+": (55, np.inf)}
+
+
+def _age_band(age):
+    if pd.isna(age):
+        return None
+    for label, (low, high) in AGE_BANDS.items():
+        if low <= float(age) < high:
+            return label
+    return None
+
+
+def _cohort_patients(cohort, patients, injuries):
+    if patients.empty or injuries.empty or "Patient_ID" not in patients or "Patient_ID" not in injuries:
+        return set()
+    joined = patients.merge(injuries, on="Patient_ID", suffixes=("", "_inj"))
+    injury_type = cohort.get("Injury_Type")
+    severity = cohort.get("Severity")
+    age_band = cohort.get("Age_Band")
+    injury_col = "Injury_Type" if "Injury_Type" in joined else "Injury_Type_inj"
+    severity_col = "Severity" if "Severity" in joined else "Severity_inj"
+    if injury_type is not None and injury_col in joined:
+        joined = joined[joined[injury_col].astype(str).str.casefold() == str(injury_type).casefold()]
+    if severity is not None and severity_col in joined:
+        joined = joined[joined[severity_col].astype(str).str.casefold() == str(severity).casefold()]
+    if age_band in AGE_BANDS and "Age" in joined:
+        joined = joined[joined["Age"].apply(_age_band) == age_band]
+    return set(joined["Patient_ID"].astype(str))
+
+
 def mine_pathways_from_tables(tables: dict) -> list:
-    """
-    Dynamically mines recovery pathways from database tables, aggregating real
-    historical statistics from Final_Outcome, Weekly_Progress, Injury, and Patient tables.
-    """
-    pathways_list = []
-    
-    if "Recovery_Pathway" not in tables or tables["Recovery_Pathway"].empty:
-        return pathways_list
+    """Build template-level cohort summaries, not treatment-effect claims."""
+    templates = tables.get("Recovery_Pathway", pd.DataFrame())
+    cohorts = tables.get("Cohort_Definition", pd.DataFrame())
+    patients = tables.get("Patient", pd.DataFrame())
+    injuries = tables.get("Injury", pd.DataFrame())
+    outcomes = tables.get("Final_Outcome", pd.DataFrame()).copy()
+    steps = tables.get("Pathway_Steps", pd.DataFrame())
+    if templates.empty or cohorts.empty or outcomes.empty or "Patient_ID" not in outcomes:
+        return []
 
-    pw_df = tables["Recovery_Pathway"].copy()
+    derived_proxy = False
+    if "Final_Recovery_Pct" not in outcomes and {"Actual_Strength_pct", "Actual_ROM_deg"}.issubset(outcomes.columns):
+        # The application target is a constructed score, not an observed clinical scale.
+        outcomes["Final_Recovery_Pct"] = (
+            0.5 * pd.to_numeric(outcomes["Actual_Strength_pct"], errors="coerce")
+            + 0.5 * pd.to_numeric(outcomes["Actual_ROM_deg"], errors="coerce") / 140.0 * 100.0
+        ).clip(0, 100)
+        derived_proxy = True
 
-    # Merge Cohort_Definition if present
-    if "Cohort_Definition" in tables and not tables["Cohort_Definition"].empty:
-        cd_df = tables["Cohort_Definition"].set_index("Cohort_ID")
-        pw_df = pw_df.merge(cd_df, left_on="Cohort_ID", right_index=True, how="left")
+    cohort_map = cohorts.set_index("Cohort_ID").to_dict(orient="index") if "Cohort_ID" in cohorts else {}
+    results = []
+    for i, template in templates.iterrows():
+        cohort_id = str(template.get("Cohort_ID", ""))
+        cohort = cohort_map.get(cohort_id, {})
+        pids = _cohort_patients(cohort, patients, injuries)
+        observed = outcomes[outcomes["Patient_ID"].astype(str).isin(pids)] if pids else pd.DataFrame()
+        if len(observed) < config.PATHWAY_MIN_SAMPLE_SIZE:
+            continue
 
-    final_outcome_df = tables.get("Final_Outcome", pd.DataFrame())
-    injury_df = tables.get("Injury", pd.DataFrame())
-
-    for idx, row in pw_df.iterrows():
-        pw_id = str(row.get("Pathway_ID", f"PW{idx+1:03d}"))
-        cohort_id = str(row.get("Cohort_ID", ""))
-        region = str(row.get("Body_Region", row.get("Body_Part", "Knee")))
-        injury_type = str(row.get("Injury_Type", "ACL Tear"))
-        archetype = str(row.get("Archetype_Label", "Standard")).replace("_", " ")
-
-        cohort_outcomes = pd.DataFrame()
-        if not final_outcome_df.empty:
-            if "Cohort_ID" in final_outcome_df.columns:
-                cohort_outcomes = final_outcome_df[final_outcome_df["Cohort_ID"] == cohort_id]
-            elif not injury_df.empty:
-                region_col = "Body_Region" if "Body_Region" in injury_df.columns else ("Body_Part" if "Body_Part" in injury_df.columns else None)
-                inj_col = "Injury_Type" if "Injury_Type" in injury_df.columns else None
-
-                if region_col and inj_col:
-                    matched_injuries = injury_df[
-                        (injury_df[region_col].astype(str).str.lower() == region.lower()) & 
-                        (injury_df[inj_col].astype(str).str.lower() == injury_type.lower())
-                    ]
-                    matched_pids = matched_injuries["Patient_ID"].unique()
-                    cohort_outcomes = final_outcome_df[final_outcome_df["Patient_ID"].isin(matched_pids)]
-
-        if not cohort_outcomes.empty and "Final_Recovery_Pct" in cohort_outcomes.columns:
-            sample_size = len(cohort_outcomes)
-            avg_weeks = float(cohort_outcomes["Actual_Recovery_Time_weeks"].mean()) if "Actual_Recovery_Time_weeks" in cohort_outcomes.columns else float(row.get("Average_Recovery_Time_weeks", 12.0))
-            avg_rec_pct = float(cohort_outcomes["Final_Recovery_Pct"].mean())
-            successful_count = (cohort_outcomes["Final_Recovery_Pct"] >= 80.0).sum()
-            success_rate = (successful_count / sample_size) * 100.0 if sample_size > 0 else 85.0
-            
-            if "Initial_Pain" in cohort_outcomes.columns and "Final_Pain" in cohort_outcomes.columns:
-                pain_red = float((cohort_outcomes["Initial_Pain"] - cohort_outcomes["Final_Pain"]).mean())
-            else:
-                pain_red = float(row.get("Average_Pain_Reduction", 3.5))
-        else:
-            sample_size = int(row.get("Sample_Size", 25))
-            avg_weeks = float(row.get("Average_Recovery_Time_weeks", 12.0))
-            avg_rec_pct = 88.5
-            success_val = float(row.get("Success_Rate", 0.85))
-            success_rate = success_val * 100.0 if success_val <= 1.0 else success_val
-            pain_red = float(row.get("Average_Pain_Reduction", 3.5))
-
-        title = f"Pathway {pw_id}: {region} {injury_type} — {archetype} Plan"
-        cohort_desc = f"Target Group: Patients with {injury_type} in {region} following {archetype} protocols."
-        story = (
-            f"Analysis of {sample_size} historical patient records shows that this {archetype.lower()} pathway "
-            f"achieved a {success_rate:.0f}% success rate (recovery ≥ 80%) over an average duration of {avg_weeks:.1f} weeks, "
-            f"with an average pain score reduction of {pain_red:.1f} points."
-        )
-
-        wks_int = max(int(round(avg_weeks)), 4)
-        step_flow = [
-            f"Phase 1: Mobilization & Pain Control (Weeks 1-{max(2, int(wks_int * 0.25))})",
-            f"Phase 2: Progressive Load & Muscle Activation (Weeks {max(3, int(wks_int * 0.25) + 1)}-{max(5, int(wks_int * 0.65))})",
-            f"Phase 3: Functional Mobility & Return-to-Activity (Weeks {max(6, int(wks_int * 0.65) + 1)}-{wks_int})"
-        ]
-
-        pathways_list.append({
-            "Pathway_ID": pw_id,
+        pct = pd.to_numeric(observed.get("Final_Recovery_Pct", pd.Series(dtype=float)), errors="coerce")
+        avg_pct = float(pct.mean()) if pct.notna().any() else None
+        success_rate = float((pct >= 80).mean() * 100) if pct.notna().any() else None
+        weeks = pd.to_numeric(observed.get("Actual_Recovery_Time_weeks", pd.Series(dtype=float)), errors="coerce")
+        avg_weeks = float(weeks.mean()) if weeks.notna().any() else None
+        body_region = template.get("Body_Region", template.get("Body_Part", ""))
+        injury_type = cohort.get("Injury_Type", template.get("Injury_Type", "Unspecified"))
+        severity = cohort.get("Severity", "Unspecified")
+        archetype = str(template.get("Archetype_Label", "Unspecified")).replace("_", " ")
+        pathway_steps = []
+        if not steps.empty and {"Pathway_ID", "Step_Order", "Exercise_Category"}.issubset(steps.columns):
+            path_steps = steps[steps["Pathway_ID"].astype(str) == str(template.get("Pathway_ID", ""))].sort_values("Step_Order")
+            for _, step in path_steps.iterrows():
+                week = step.get("Week_Offset")
+                week_text = f"Week {int(week)}" if pd.notna(week) else "Week not specified"
+                pathway_steps.append(f"{week_text}: {step['Exercise_Category']}")
+        results.append({
+            "Pathway_ID": str(template.get("Pathway_ID", f"PW{i+1:03d}")),
             "Cohort_ID": cohort_id,
-            "Body_Region": region,
-            "Injury_Type": injury_type,
+            "Body_Region": str(body_region),
+            "Injury_Type": str(injury_type),
+            "Severity": str(severity),
+            "Age_Band": str(cohort.get("Age_Band", "Unspecified")),
             "Archetype_Label": archetype,
-            "Sample_Size": sample_size,
-            "Average_Recovery_Time_weeks": round(avg_weeks, 1),
-            "Average_Recovery_Pct": round(avg_rec_pct, 1),
-            "Success_Rate": round(success_rate, 1),
-            "Average_Pain_Reduction": round(pain_red, 1),
-            "title": title,
-            "cohort_desc": cohort_desc,
-            "story": story,
-            "step_flow": step_flow
+            "Sample_Size": int(len(observed)),
+            "Average_Recovery_Time_weeks": round(avg_weeks, 1) if avg_weeks is not None else None,
+            "Average_Recovery_Pct": round(avg_pct, 1) if avg_pct is not None else None,
+            "Success_Rate": round(success_rate, 1) if success_rate is not None else None,
+            "Outcome_Metric": "derived strength-ROM proxy" if derived_proxy else "configured recovery percentage",
+            "Outcome_Evidence_Scope": "Descriptive cohort outcomes only; pathway assignment is not linked to patient outcomes.",
+            "title": f"Pathway template {template.get('Pathway_ID', '')}: {injury_type} — {archetype}",
+            "cohort_desc": f"Cohort: {injury_type}, {severity}, age band {cohort.get('Age_Band', 'unspecified')}.",
+            "story": (f"{len(observed)} outcome records match this cohort. These are cohort-level summaries; "
+                      "they do not establish that the listed pathway caused or improved these outcomes."),
+            "step_flow": pathway_steps,
         })
-
-    return pathways_list
+    return results
 
 
 def mine_pathways_for_doctor(doctor_id: str, tables: dict) -> list:
-    """
-    Mines recovery pathways specifically restricted to the body regions and injury types
-    of patients allocated to the specified doctor_id.
-    """
-    all_mined = mine_pathways_from_tables(tables)
-    patient_df = tables.get("Patient", pd.DataFrame())
-    injury_df = tables.get("Injury", pd.DataFrame())
-
-    if patient_df.empty or "Assigned_Doctor_ID" not in patient_df.columns:
-        return all_mined
-
-    doc_patients = patient_df[patient_df["Assigned_Doctor_ID"] == doctor_id]
-    if doc_patients.empty:
+    """Summarize only records belonging to the doctor's assigned patients."""
+    patients = tables.get("Patient", pd.DataFrame())
+    if patients.empty or "Assigned_Doctor_ID" not in patients:
         return []
-
-    doc_pids = doc_patients["Patient_ID"].tolist()
-
-    region_col = "Body_Region" if "Body_Region" in injury_df.columns else ("Body_Part" if "Body_Part" in injury_df.columns else None)
-    inj_col = "Injury_Type" if "Injury_Type" in injury_df.columns else None
-
-    doc_injuries = injury_df[injury_df["Patient_ID"].isin(doc_pids)] if (not injury_df.empty and "Patient_ID" in injury_df.columns) else pd.DataFrame()
-
-    regions = set(doc_injuries[region_col].astype(str).str.lower().tolist()) if (not doc_injuries.empty and region_col) else set()
-    injuries = set(doc_injuries[inj_col].astype(str).str.lower().tolist()) if (not doc_injuries.empty and inj_col) else set()
-
-    filtered = []
-    for pw in all_mined:
-        pw_region = str(pw["Body_Region"]).lower()
-        pw_injury = str(pw["Injury_Type"]).lower()
-
-        if (not regions or pw_region in regions) and (not injuries or pw_injury in injuries):
-            filtered.append(pw)
-
-    return filtered if filtered else all_mined
+    assigned = patients[patients["Assigned_Doctor_ID"].astype(str) == str(doctor_id)].copy()
+    if assigned.empty:
+        return []
+    ids = set(assigned["Patient_ID"].astype(str))
+    scoped = dict(tables)
+    scoped["Patient"] = assigned
+    for name in ("Injury", "Final_Outcome"):
+        frame = tables.get(name, pd.DataFrame())
+        scoped[name] = frame[frame["Patient_ID"].astype(str).isin(ids)].copy() if not frame.empty and "Patient_ID" in frame else pd.DataFrame()
+    return mine_pathways_from_tables(scoped)
 
 
 def recommend_pathways_for_patient(patient_row: pd.Series, candidate_pool: pd.DataFrame, tables: dict, top_k: int = 3) -> list:
-    """
-    Ranks mined recovery pathways for a target patient by combining Gower similarity
-    to historical cohort matches with historical pathway success statistics.
+    """Rank compatible templates by similarity and cohort compatibility only.
+
+    The score is a retrieval score, not a predicted treatment benefit. No
+    pathway-specific success statistic is used because outcome linkage is absent.
     """
     mined = mine_pathways_from_tables(tables)
     if not mined:
         return []
+    p_region = str(patient_row.get("Body_Region", patient_row.get("Body_Part", ""))).casefold()
+    p_injury = str(patient_row.get("Injury_Type", "")).casefold()
+    p_severity = str(patient_row.get("Severity", "")).casefold()
+    p_age = _age_band(patient_row.get("Age"))
+    similar = find_similar_patients(patient_row, candidate_pool, top_k=10)
+    if similar.empty:
+        return []
+    patient_similarity = float(similar["Similarity_Score"].mean())
 
-    p_region = str(patient_row.get("Body_Region", patient_row.get("Body_Part", "Knee")))
-    p_injury = str(patient_row.get("Injury_Type", "ACL Tear"))
-
-    top_similar = find_similar_patients(patient_row, candidate_pool, top_k=10)
-
-    scored_pathways = []
-    for pw in mined:
-        score = 0.0
-
-        if pw["Body_Region"].lower() in p_region.lower() or p_region.lower() in pw["Body_Region"].lower():
-            score += 40.0
-        if pw["Injury_Type"].lower() in p_injury.lower() or p_injury.lower() in pw["Injury_Type"].lower():
-            score += 30.0
-
-        score += (pw["Success_Rate"] * 0.2)
-        score += max(0.0, 15.0 - (pw["Average_Recovery_Time_weeks"] * 0.5))
-
-        pw_copy = dict(pw)
-        pw_copy["match_score"] = round(score, 1)
-        scored_pathways.append(pw_copy)
-
-    scored_pathways.sort(key=lambda x: x["match_score"], reverse=True)
-    return scored_pathways[:top_k]
+    ranked = []
+    for pathway in mined:
+        if pathway["Injury_Type"].casefold() != p_injury:
+            continue
+        region = pathway.get("Body_Region", "").casefold()
+        if p_region and region and region != p_region:
+            continue
+        severity_match = bool(p_severity and pathway["Severity"].casefold() == p_severity)
+        age_match = bool(p_age and pathway["Age_Band"] == p_age)
+        compatibility = (float(severity_match) + float(age_match)) / 2.0
+        similarity_score = 100.0 * patient_similarity
+        cohort_score = 100.0 * compatibility
+        score = 0.70 * similarity_score + 0.30 * cohort_score
+        item = dict(pathway)
+        item["match_score"] = round(score, 1)
+        item["ranking_components"] = {
+            "mean_top_10_gower_similarity": round(similarity_score, 1),
+            "severity_and_age_band_compatibility": round(cohort_score, 1),
+        }
+        item["ranking_interpretation"] = "Exploratory cohort-template similarity; not a treatment efficacy estimate."
+        ranked.append(item)
+    ranked.sort(key=lambda x: (-x["match_score"], x["Pathway_ID"]))
+    return ranked[:top_k]

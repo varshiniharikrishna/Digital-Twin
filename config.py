@@ -11,7 +11,7 @@ DATA_SOURCE = os.environ.get("DT_DATA_SOURCE", "mysql")  # "mysql" or "csv"
 
 MYSQL_CONFIG = {
     "user": os.environ.get("DT_MYSQL_USER", "root"),
-    "password": os.environ.get("DT_MYSQL_PASSWORD", "varshu2508"),
+    "password": os.environ.get("DT_MYSQL_PASSWORD", ""),
     "host": os.environ.get("DT_MYSQL_HOST", "localhost"),
     "port": int(os.environ.get("DT_MYSQL_PORT", "3306")),
     "database": os.environ.get("DT_MYSQL_DB", "DigitalTwinDB"),
@@ -74,6 +74,14 @@ TARGET_RECOVERY_PCT = "Final_Recovery_Pct"
 TARGET_RECOVERY_WEEKS = "Actual_Recovery_Time_weeks"
 
 DEVIATION_THRESHOLD_PCT = 15.0
+# Recalibration trigger sensitivity analysis values; these are engineering
+# settings to evaluate, not clinically validated decision thresholds.
+DEVIATION_SENSITIVITY_THRESHOLDS_PCT = (5.0, 10.0, 15.0, 20.0, 25.0)
+# Similarity dimensions and fixed component weights are shared by retrieval
+# and pathway ranking. Distances are computed only from the training pool.
+SIMILARITY_NUMERIC_WEIGHT = 0.60
+SIMILARITY_CATEGORICAL_WEIGHT = 0.40
+PATHWAY_MIN_SAMPLE_SIZE = 5
 RANDOM_STATE = 42
 
 # Light Clinical Professional Theme Colors (White Background, Zero Blue)

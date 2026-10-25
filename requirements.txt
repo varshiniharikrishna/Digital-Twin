@@ -3,7 +3,11 @@ numpy
 scikit-learn
 plotly
 streamlit
+flask
+reportlab
 sqlalchemy
 pymysql
-# optional, only needed if you set USE_XGBOOST = True in modeling.py
+# Optional: improves recovery-percentage ensemble when installed.
 # xgboost
+# Optional: enables the local SHAP explanation in the Evaluation tab.
+# shap

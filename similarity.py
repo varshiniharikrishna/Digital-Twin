@@ -27,27 +27,35 @@ def find_similar_patients(query_row: pd.Series, candidate_pool: pd.DataFrame, to
     """
     pool = candidate_pool.reset_index(drop=True).copy()
 
-    # ---- numeric distance (min-max normalized) ----
-    num_matrix = pool[NUM_COLS].astype(float).values
-    query_num = np.array([float(query_row[c]) for c in NUM_COLS])
-    
-    ranges = num_matrix.max(axis=0) - num_matrix.min(axis=0)
-    ranges[ranges == 0] = 1.0
-    
-    norm_pool = (num_matrix - num_matrix.min(axis=0)) / ranges
-    norm_query = (query_num - num_matrix.min(axis=0)) / ranges
-    
-    num_dist = np.sqrt(((norm_pool - norm_query) ** 2).sum(axis=1))
-    num_dist = num_dist / (num_dist.max() or 1)
+    # Standard Gower-style distance: numeric absolute differences are scaled
+    # by each feature's training-pool range; categoricals use 0/1 mismatch.
+    # Missing comparisons are omitted from the relevant component average.
+    num_dists = []
+    for col in NUM_COLS:
+        values = pd.to_numeric(pool[col], errors="coerce")
+        query_value = pd.to_numeric(pd.Series([query_row.get(col)]), errors="coerce").iloc[0]
+        valid = values.notna() & pd.notna(query_value)
+        span = values[valid].max() - values[valid].min() if valid.any() else 0
+        if span > 0:
+            num_dists.append((values - query_value).abs().div(span).clip(0, 1).where(valid))
+        elif valid.any():
+            num_dists.append((values != query_value).astype(float).where(valid))
+    numeric_distance = pd.concat(num_dists, axis=1).mean(axis=1) if num_dists else pd.Series(np.nan, index=pool.index)
 
-    # ---- categorical mismatch rate ----
-    cat_dist = np.zeros(len(pool))
-    for c in CAT_COLS:
-        cat_dist += (pool[c].astype(str).values != str(query_row[c])).astype(float)
-    cat_dist /= len(CAT_COLS)
+    cat_dists = []
+    for col in CAT_COLS:
+        values = pool[col].astype("string")
+        query_value = pd.NA if pd.isna(query_row.get(col)) else str(query_row.get(col))
+        valid = values.notna() & pd.notna(query_value)
+        cat_dists.append((values != query_value).astype(float).where(valid))
+    categorical_distance = pd.concat(cat_dists, axis=1).mean(axis=1) if cat_dists else pd.Series(np.nan, index=pool.index)
 
-    total_dist = 0.6 * num_dist + 0.4 * cat_dist
-    similarity = 1 - total_dist
+    numeric_weight = config.SIMILARITY_NUMERIC_WEIGHT * numeric_distance.notna()
+    categorical_weight = config.SIMILARITY_CATEGORICAL_WEIGHT * categorical_distance.notna()
+    weight_total = numeric_weight + categorical_weight
+    total_distance = (numeric_weight * numeric_distance.fillna(0)
+                      + categorical_weight * categorical_distance.fillna(0)).div(weight_total.replace(0, np.nan))
+    similarity = 1 - total_distance.fillna(1.0)
 
     pool["Similarity_Score"] = np.round(similarity, 3)
     top = pool.sort_values("Similarity_Score", ascending=False).head(top_k)
@@ -57,12 +65,23 @@ def find_similar_patients(query_row: pd.Series, candidate_pool: pd.DataFrame, to
 def best_pathway_for_cohort(similar_patients: pd.DataFrame, pathways: pd.DataFrame,
                              archetypes_by_patient: dict = None) -> pd.Series:
     """
-    Given a set of similar patients, pick the Recovery_Pathway row with the
-    highest Success_Rate among pathways.
+    Select a pathway template by observed prevalence among similar patients.
+    Return None when patient-to-pathway assignments are not supplied; template
+    success-rate fields are not evidence of pathway effect.
     """
-    if pathways.empty:
+    if pathways.empty or not archetypes_by_patient:
         return None
-    return pathways.sort_values("Success_Rate", ascending=False).iloc[0]
+    ids = set(similar_patients.get("Patient_ID", pd.Series(dtype=str)).astype(str))
+    assigned = [str(archetypes_by_patient[pid]) for pid in ids if pid in archetypes_by_patient]
+    if not assigned:
+        return None
+    counts = pd.Series(assigned).value_counts()
+    candidates = pathways[pathways["Pathway_ID"].astype(str).isin(counts.index)]
+    if candidates.empty:
+        return None
+    candidates = candidates.copy()
+    candidates["_assignment_count"] = candidates["Pathway_ID"].astype(str).map(counts)
+    return candidates.sort_values(["_assignment_count", "Pathway_ID"], ascending=[False, True]).iloc[0].drop(labels="_assignment_count")
 
 
 if __name__ == "__main__":

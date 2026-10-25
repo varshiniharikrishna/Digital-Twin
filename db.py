@@ -15,6 +15,8 @@ import config
 def get_db_engine():
     """Returns a SQLAlchemy engine connecting to MySQL DigitalTwinDB."""
     cfg = config.MYSQL_CONFIG
+    if not cfg["password"]:
+        raise RuntimeError("Set DT_MYSQL_PASSWORD in the environment before connecting to MySQL.")
     url = (
         f"mysql+pymysql://{cfg['user']}:{cfg['password']}"
         f"@{cfg['host']}:{cfg['port']}/{cfg['database']}"
@@ -25,9 +27,11 @@ def get_db_engine():
 def _load_from_csv():
     tables = {}
     for name in config.TABLE_NAMES:
-        path = os.path.join("output", f"{name}.csv")
+        # Honor an explicitly configured CSV directory first; otherwise use
+        # the project's bundled output/ files as the normal CSV mode source.
+        path = os.path.join(config.CSV_DIR, f"{name}.csv")
         if not os.path.exists(path):
-            path = os.path.join(config.CSV_DIR, f"{name}.csv")
+            path = os.path.join("output", f"{name}.csv")
         if os.path.exists(path):
             tables[name] = pd.read_csv(path)
         else:
@@ -113,7 +117,27 @@ def get_user_by_login_input(login_input: str):
     return None
 
 
-def create_doctor_record(doctor_dict: dict):
+def get_user_by_id(user_id: str):
+    engine = get_db_engine()
+    try:
+        with engine.connect() as conn:
+            row = conn.execute(text("SELECT * FROM `User_Account` WHERE `User_ID` = :id"), {"id": user_id}).mappings().first()
+            return dict(row) if row else None
+    except Exception as e:
+        print(f"Error querying account: {e}")
+        return None
+
+
+def update_user_password(user_id: str, new_password: str):
+    engine = get_db_engine()
+    with engine.begin() as conn:
+        conn.execute(
+            text("UPDATE `User_Account` SET `Password_Hash` = :password WHERE `User_ID` = :id"),
+            {"password": generate_password_hash(new_password), "id": user_id},
+        )
+
+
+def create_doctor_record(doctor_dict: dict, initial_password: str):
     """Inserts a new doctor into Doctor table and creates/updates a User_Account."""
     doc_id = doctor_dict["Doctor_ID"]
     engine = get_db_engine()
@@ -128,7 +152,7 @@ def create_doctor_record(doctor_dict: dict):
             "User_ID": f"USR_{doc_id}",
             "Username": doc_id.lower(),
             "Email": doctor_dict.get("Contact_Email", f"{doc_id.lower()}@hospital.com"),
-            "Password_Hash": generate_password_hash("doc123"),
+            "Password_Hash": generate_password_hash(initial_password),
             "Role": "DOCTOR",
             "Linked_Doctor_ID": doc_id,
             "Linked_Patient_ID": None
@@ -162,7 +186,7 @@ def reassign_patient_doctor(patient_id: str, new_doctor_id: str):
         df.to_csv(csv_path, index=False)
 
 
-def add_new_patient_record(patient_dict, injury_dict, assessment_dict):
+def add_new_patient_record(patient_dict, injury_dict, assessment_dict, initial_password: str):
     """Inserts a newly registered patient into Patient, Injury, Initial_Assessment, and User_Account."""
     p_id = patient_dict["Patient_ID"]
     engine = get_db_engine()
@@ -179,7 +203,7 @@ def add_new_patient_record(patient_dict, injury_dict, assessment_dict):
             "User_ID": f"USR_{p_id}",
             "Username": p_id,
             "Email": f"{p_id.lower()}@digitaltwin.com",
-            "Password_Hash": generate_password_hash("patient123"),
+            "Password_Hash": generate_password_hash(initial_password),
             "Role": "PATIENT",
             "Linked_Doctor_ID": None,
             "Linked_Patient_ID": p_id

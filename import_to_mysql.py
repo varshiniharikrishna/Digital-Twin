@@ -8,6 +8,7 @@ and initializes the User_Account authentication table with hashed passwords.
 
 import argparse
 import os
+import secrets
 import sys
 import pandas as pd
 from sqlalchemy import create_engine, text, VARCHAR
@@ -84,6 +85,9 @@ def get_args():
 
 
 def main():
+    admin_password = os.environ.get("DT_INITIAL_ADMIN_PASSWORD", "")
+    if len(admin_password) < 14:
+        raise SystemExit("Set DT_INITIAL_ADMIN_PASSWORD to a unique value of at least 14 characters before importing accounts.")
     args = get_args()
     url = f"mysql+pymysql://{args.user}:{args.password}@{args.host}:{args.port}/{args.database}"
     
@@ -159,7 +163,7 @@ def main():
                 "User_ID": "USR_ADMIN_01",
                 "Username": "admin",
                 "Email": "admin@digitaltwin.com",
-                "Password_Hash": generate_password_hash("admin123"),
+                "Password_Hash": generate_password_hash(admin_password),
                 "Role": "ADMIN",
                 "Linked_Doctor_ID": None,
                 "Linked_Patient_ID": None
@@ -173,7 +177,7 @@ def main():
                     "User_ID": f"USR_{doc_id}",
                     "Username": doc_id.lower(), # e.g. doc0001
                     "Email": str(doc.get("Contact_Email", f"{doc_id.lower()}@hospital.com")),
-                    "Password_Hash": generate_password_hash("doc123"),
+                    "Password_Hash": generate_password_hash(secrets.token_urlsafe(24)),
                     "Role": "DOCTOR",
                     "Linked_Doctor_ID": doc_id,
                     "Linked_Patient_ID": None
@@ -187,7 +191,7 @@ def main():
                     "User_ID": f"USR_{p_id}",
                     "Username": p_id, # e.g. P00001
                     "Email": f"{p_id.lower()}@digitaltwin.com",
-                    "Password_Hash": generate_password_hash("patient123"),
+                    "Password_Hash": generate_password_hash(secrets.token_urlsafe(24)),
                     "Role": "PATIENT",
                     "Linked_Doctor_ID": None,
                     "Linked_Patient_ID": p_id
