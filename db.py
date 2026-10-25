@@ -38,8 +38,8 @@ def _column_sql(columns):
 def get_db_engine():
     """Returns a SQLAlchemy engine connecting to MySQL DigitalTwinDB."""
     cfg = config.MYSQL_CONFIG
-    if not cfg["password"]:
-        raise RuntimeError("Set DT_MYSQL_PASSWORD in the environment before connecting to MySQL.")
+    if not cfg["user"] or not cfg["password"]:
+        raise RuntimeError("Set DT_MYSQL_USER and DT_MYSQL_PASSWORD in the environment before connecting to MySQL.")
     url = (
         f"mysql+pymysql://{cfg['user']}:{cfg['password']}"
         f"@{cfg['host']}:{cfg['port']}/{cfg['database']}"

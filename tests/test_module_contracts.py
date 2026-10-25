@@ -77,6 +77,12 @@ def test_sql_identifier_allowlist_rejects_untrusted_identifier():
     with pytest.raises(ValueError, match="Invalid SQL identifier"):
         db._quoted_identifier("Patient; DROP TABLE Doctor", table=True)
 
+def test_mysql_connection_requires_explicit_credentials(monkeypatch):
+    monkeypatch.setitem(db.config.MYSQL_CONFIG, "user", "")
+    monkeypatch.setitem(db.config.MYSQL_CONFIG, "password", "")
+    with pytest.raises(RuntimeError, match="DT_MYSQL_USER and DT_MYSQL_PASSWORD"):
+        db.get_db_engine()
+
 def test_pathway_mining_excludes_chronological_holdout_patients():
     tables = {"Recovery_Pathway": pd.DataFrame([{"Pathway_ID": "PW1", "Cohort_ID": "C1", "Body_Region": "knee"}]),
               "Cohort_Definition": pd.DataFrame([{"Cohort_ID": "C1", "Injury_Type": "ACL Tear", "Severity": "Moderate", "Age_Band": "25-40"}]),
