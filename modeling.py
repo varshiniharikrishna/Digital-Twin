@@ -180,10 +180,16 @@ def load_or_train_models(X_train, y_train_pct, y_train_weeks, data_hash,
     xgb_version = getattr(__import__("xgboost"), "__version__", None) if XGBRegressor else None
     benchmark_path = directory.parent / "benchmark.json"
     interval_half_width = None
+    selected_cv_metrics = None
+    selected_holdout_metrics = None
     if not model_name and benchmark_path.is_file():
         benchmark = json.loads(benchmark_path.read_text())
         if benchmark.get("data_hash") == pct_data_hash and benchmark.get("selected_by_training_cv") == selected_name:
             interval_half_width = benchmark.get("prediction_interval", {}).get("half_width")
+            selected_cv_metrics = benchmark.get("models", {}).get(selected_name, {}).get("fold_mean_sd")
+            selected_holdout_metrics = benchmark.get("chronological_holdout", {}).get("metrics")
+    evaluation_path = directory.parent.parent / "research_evaluation" / "research_evaluation.json"
+    evaluation = json.loads(evaluation_path.read_text()) if evaluation_path.is_file() else {}
     if metadata_path.exists() and model_path.exists():
         metadata = json.loads(metadata_path.read_text())
         if (metadata.get("data_hash") == data_hash
@@ -195,7 +201,12 @@ def load_or_train_models(X_train, y_train_pct, y_train_weeks, data_hash,
             if interval_half_width is not None:
                 metadata["prediction_interval_half_width"] = float(interval_half_width)
                 metadata["prediction_interval_method"] = "empirical repeated grouped-CV residual; descriptive, no formal coverage guarantee"
-                metadata_path.write_text(json.dumps(metadata, indent=2, default=str))
+            metadata["cv_metrics_recovery_pct"] = selected_cv_metrics
+            metadata["holdout_metrics_recovery_pct"] = selected_holdout_metrics
+            metadata["temporal_metrics"] = evaluation.get("expanding_window_cross_validation")
+            metadata["holdout_metrics_weeks"] = (evaluation.get("chronological_holdout", {})
+                                                 .get("recovery_weeks", {}).get("model"))
+            metadata_path.write_text(json.dumps(metadata, indent=2, default=str))
             return saved["recovery_pct"], saved["recovery_weeks"], metadata
     pct, weeks = train_models(X_train, y_train_pct, y_train_weeks, selected_name, selected_params)
     joblib.dump({"recovery_pct": pct, "recovery_weeks": weeks}, model_path)
@@ -203,6 +214,11 @@ def load_or_train_models(X_train, y_train_pct, y_train_weeks, data_hash,
                 "features": list(X_train.columns), "python": __import__("platform").python_version(),
                 "scikit_learn": __import__("sklearn").__version__,
                 "xgboost": xgb_version}
+    metadata["cv_metrics_recovery_pct"] = selected_cv_metrics
+    metadata["holdout_metrics_recovery_pct"] = selected_holdout_metrics
+    metadata["temporal_metrics"] = evaluation.get("expanding_window_cross_validation")
+    metadata["holdout_metrics_weeks"] = (evaluation.get("chronological_holdout", {})
+                                         .get("recovery_weeks", {}).get("model"))
     if interval_half_width is not None:
         metadata["prediction_interval_half_width"] = float(interval_half_width)
         metadata["prediction_interval_method"] = "empirical repeated grouped-CV residual; descriptive, no formal coverage guarantee"

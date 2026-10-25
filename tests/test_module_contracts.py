@@ -6,6 +6,7 @@ import pytest
 import model_benchmark, multi_condition_eval, similarity_eval, twin_trajectory_eval, eval_adaptive_loop, ablation, validate_real_data, run_all, fairness_analysis, wearable_robustness
 import modeling
 import db
+import pathway_mining
 from eval_adaptive_loop import observations_as_of, patient_level_error_differences
 
 def test_new_analysis_modules_expose_expected_entrypoints():
@@ -75,6 +76,16 @@ def test_sql_identifier_allowlist_rejects_untrusted_identifier():
     assert db._quoted_identifier("Patient", table=True) == "`Patient`"
     with pytest.raises(ValueError, match="Invalid SQL identifier"):
         db._quoted_identifier("Patient; DROP TABLE Doctor", table=True)
+
+def test_pathway_mining_excludes_chronological_holdout_patients():
+    tables = {"Recovery_Pathway": pd.DataFrame([{"Pathway_ID": "PW1", "Cohort_ID": "C1", "Body_Region": "knee"}]),
+              "Cohort_Definition": pd.DataFrame([{"Cohort_ID": "C1", "Injury_Type": "ACL Tear", "Severity": "Moderate", "Age_Band": "25-40"}]),
+              "Patient": pd.DataFrame([{"Patient_ID": f"P{i}", "Age": 30, "Enrollment_Year": 2023 if i < 5 else 2025} for i in range(6)]),
+              "Injury": pd.DataFrame([{"Patient_ID": f"P{i}", "Injury_Type": "ACL Tear", "Severity": "Moderate"} for i in range(6)]),
+              "Final_Outcome": pd.DataFrame([{"Patient_ID": f"P{i}", "Final_Recovery_Pct": 90} for i in range(6)]),
+              "Pathway_Steps": pd.DataFrame()}
+    mined = pathway_mining.mine_pathways_from_tables(tables)
+    assert mined and mined[0]["Sample_Size"] == 5
 
 def test_evaluation_reports_wape_instead_of_percentage_error_at_zero():
     result = modeling.evaluate([0, 10], [4, 12])

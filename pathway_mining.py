@@ -43,7 +43,7 @@ def _cohort_patients(cohort, patients, injuries):
 
 
 def mine_pathways_from_tables(tables: dict) -> list:
-    """Build template-level cohort summaries, not treatment-effect claims."""
+    """Build template-level summaries from training-year patients only."""
     templates = tables.get("Recovery_Pathway", pd.DataFrame())
     cohorts = tables.get("Cohort_Definition", pd.DataFrame())
     patients = tables.get("Patient", pd.DataFrame())
@@ -51,6 +51,22 @@ def mine_pathways_from_tables(tables: dict) -> list:
     outcomes = tables.get("Final_Outcome", pd.DataFrame()).copy()
     steps = tables.get("Pathway_Steps", pd.DataFrame())
     if templates.empty or cohorts.empty or outcomes.empty or "Patient_ID" not in outcomes:
+        return []
+
+    # Enforce the split at the mining boundary, even when a caller supplies
+    # complete tables. The outcome table is then restricted to the same IDs.
+    patients = patients.copy()
+    if "Enrollment_Date" in patients:
+        year = pd.to_datetime(patients["Enrollment_Date"], errors="coerce").dt.year
+    elif "Enrollment_Year" in patients:
+        year = pd.to_numeric(patients["Enrollment_Year"], errors="coerce")
+    else:
+        return []
+    patients = patients.loc[year.isin(config.TRAIN_YEARS)].copy()
+    training_ids = set(patients["Patient_ID"].astype(str)) if "Patient_ID" in patients else set()
+    outcomes = outcomes[outcomes["Patient_ID"].astype(str).isin(training_ids)].copy()
+    injuries = injuries[injuries["Patient_ID"].astype(str).isin(training_ids)].copy() if "Patient_ID" in injuries else pd.DataFrame()
+    if not training_ids or outcomes.empty:
         return []
 
     derived_proxy = False

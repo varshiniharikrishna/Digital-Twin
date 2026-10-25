@@ -488,7 +488,7 @@ if page == "Week-by-Week Twin":
                 "ROM_deg": float(week_row["ROM_deg"]),
                 "Strength_pct": float(week_row["Quadriceps_Strength_pct"]),
             }
-            dev_dict = simmod.check_deviation(p_row, current_state, residual_sigmas=residual_sigmas)
+            dev_dict = simmod.check_deviation(p_row, current_state, residual_sigmas=residual_sigmas, week=selected_week)
             
             c_ev1, c_ev2, c_ev3 = st.columns(3)
             for col, (met, d) in zip([c_ev1, c_ev2, c_ev3], dev_dict.items()):

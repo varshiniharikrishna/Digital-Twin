@@ -203,11 +203,19 @@ def get_actual_trajectory(weekly_progress_df: pd.DataFrame, patient_id: str) -> 
 
 
 def check_deviation(pred_row: pd.Series, actual_dict: dict, threshold_pct: float = None,
-                    method: str = "zscore", residual_sigmas: dict | None = None) -> dict:
+                    method: str = "zscore", residual_sigmas: dict | None = None,
+                    week: int | None = None) -> dict:
     """Flag adverse standardized residuals; percentage is retained as a selectable baseline."""
     if threshold_pct is None:
         threshold_pct = config.DEVIATION_THRESHOLD_PCT
     results = {}
+    sigma_config = residual_sigmas or config.DEVIATION_SIGMA_FLOOR
+    week = int(week if week is not None else pred_row.get("Week", 1))
+    bucket = "1-4" if week <= 4 else "5-8" if week <= 8 else "9+"
+    selected_sigmas = dict(sigma_config)
+    for metric, buckets in sigma_config.get("by_week_bucket", {}).items():
+        if bucket in buckets:
+            selected_sigmas[metric] = buckets[bucket]
     
     # Pain check
     if "Pain" in actual_dict and "Predicted_Pain" in pred_row:
@@ -219,7 +227,7 @@ def check_deviation(pred_row: pd.Series, actual_dict: dict, threshold_pct: float
             "actual": p_act,
             "pct_deviation": round(dev, 1),
         }
-        z_result = standardized_deviation(p_exp, p_act, residual_sigmas or config.DEVIATION_SIGMA_FLOOR, "Pain")
+        z_result = standardized_deviation(p_exp, p_act, selected_sigmas, "Pain")
         result.update(z_result); result["flagged"] = dev > threshold_pct if method == "percentage" else z_result["flagged"]
         result["method"] = method; results["Pain"] = result
 
@@ -233,7 +241,7 @@ def check_deviation(pred_row: pd.Series, actual_dict: dict, threshold_pct: float
             "actual": r_act,
             "pct_deviation": round(dev, 1),
         }
-        z_result = standardized_deviation(r_exp, r_act, residual_sigmas or config.DEVIATION_SIGMA_FLOOR, "ROM_deg")
+        z_result = standardized_deviation(r_exp, r_act, selected_sigmas, "ROM_deg")
         result.update(z_result); result["flagged"] = dev < -threshold_pct if method == "percentage" else z_result["flagged"]
         result["method"] = method; results["ROM_deg"] = result
 
@@ -247,7 +255,7 @@ def check_deviation(pred_row: pd.Series, actual_dict: dict, threshold_pct: float
             "actual": s_act,
             "pct_deviation": round(dev, 1),
         }
-        z_result = standardized_deviation(s_exp, s_act, residual_sigmas or config.DEVIATION_SIGMA_FLOOR, "Strength_pct")
+        z_result = standardized_deviation(s_exp, s_act, selected_sigmas, "Strength_pct")
         result.update(z_result); result["flagged"] = dev < -threshold_pct if method == "percentage" else z_result["flagged"]
         result["method"] = method; results["Strength_pct"] = result
 
@@ -324,7 +332,7 @@ def process_weekly_stage_recalibration(patient_row, week, weekly_entry, train_po
             "Hamstring_Strength_pct":weekly_entry.get("Hamstring_Strength_pct"),
             "Balance_Score":weekly_entry.get("Balance_Score"),
             "Walking_Speed_mps":weekly_entry.get("Walking_Speed_mps")}
-    dev=check_deviation(row,actual,residual_sigmas=residual_sigmas)
+    dev=check_deviation(row,actual,residual_sigmas=residual_sigmas,week=int(week))
     result=recalibrate(patient_row,actual,int(week),train_pool,pathways_table,pct_model,weeks_model,feature_fn,dev,similarity_model,cohort_priors)
     result["old_predicted_pct"]=predicted_pct;result["old_predicted_weeks"]=predicted_weeks
     result["discharge_delta"]=result["new_predicted_weeks"]-predicted_weeks
