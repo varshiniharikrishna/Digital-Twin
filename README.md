@@ -51,6 +51,14 @@ To use a different directory of CSV tables, also set `DT_CSV_DIR=/absolute/path/
 
 ## Step 3 - run it
 
+To run the browser-based multi-portal application:
+
+```bash
+python server.py
+```
+
+Open `http://127.0.0.1:5000` in your browser. The Streamlit dashboard is a separate application and can be started with:
+
 ```bash
 python server.py
 ```

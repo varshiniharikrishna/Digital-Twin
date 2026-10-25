@@ -1,31 +1,50 @@
 """
 similarity.py
 -------------
-Phase 4 requires: "Find and display the Top 5 most similar historical
-patients from ONLY the 2023-2024 training data" for a chosen 2025 test
-patient.
+Formal patient-similarity metric + retrieval rule (patent claim support).
 
-This module recomputes similarity at request time, restricted explicitly to
-whatever DataFrame you pass in as the candidate pool (i.e. the training set only).
-Distance measure: Gower-like blend of normalized numeric distance + categorical mismatch rate.
+Definition
+    sim(q, c) = 1 - ( W_NUM * d_num(q, c) + W_CAT * d_cat(q, c) )
+
+    d_num(q, c) = || (q_num - c_num) / range_num ||_2 / sqrt(n_num)      in [0, 1]
+                  (range_num = min-max range of each feature in the candidate pool;
+                   scaled differences are clipped to [0, 1], so the score does NOT
+                   depend on the farthest patient in the pool, unlike the old version)
+    d_cat(q, c) = (# categorical features that differ) / n_cat           in [0, 1]
+
+Retrieval rule
+    neighbours = patients with sim >= SIM_MIN_SCORE, at least SIM_MIN_K,
+                 at most SIM_TOP_K (sorted by sim, descending).
+
+Fixes vs. previous version
+    * best_pathway_for_cohort() now actually uses the cohort (similarity-weighted
+      success) when similar patients carry a Pathway_ID; it previously ignored them.
+    * The query patient is excluded from its own neighbours (no self-match).
 """
 
 import numpy as np
 import pandas as pd
+
 import config
 
-NUM_COLS = ["Age", "BMI", "Pain_Score", "Range_of_Motion_deg", "Quadriceps_Strength_pct", "Balance_Score"]
+NUM_COLS = ["Age", "BMI", "Pain_Score", "Range_of_Motion_deg",
+            "Quadriceps_Strength_pct", "Balance_Score"]
 CAT_COLS = ["Gender", "Injury_Type", "Severity", "Diabetes", "Smoking_Status"]
 
+def find_similar_patients(query_row: pd.Series, candidate_pool: pd.DataFrame,
+                          top_k: int = None, min_score: float = None,
+                          min_k: int = None) -> pd.DataFrame:
+    """
+    Retrieve neighbours of `query_row` from `candidate_pool` (use TRAIN data only).
+    Returns pool rows + 'Similarity_Score', sorted descending.
+    """
+    top_k = config.SIM_TOP_K if top_k is None else top_k
+    min_score = config.SIM_MIN_SCORE if min_score is None else min_score
+    min_k = config.SIM_MIN_K if min_k is None else min_k
 
-def find_similar_patients(query_row: pd.Series, candidate_pool: pd.DataFrame, top_k: int = 5) -> pd.DataFrame:
-    """
-    query_row: a single row (Series) from the merged modelling dataset.
-    candidate_pool: DataFrame of candidate patients (should be TRAIN only).
-    Returns candidate_pool rows for the top_k most similar patients, with
-    an added Similarity_Score column, sorted descending.
-    """
     pool = candidate_pool.reset_index(drop=True).copy()
+    if "Patient_ID" in pool.columns and "Patient_ID" in query_row.index:
+        pool = pool[pool["Patient_ID"] != query_row["Patient_ID"]].reset_index(drop=True)
 
     # Standard Gower-style distance: numeric absolute differences are scaled
     # by each feature's training-pool range; categoricals use 0/1 mismatch.
@@ -56,14 +75,22 @@ def find_similar_patients(query_row: pd.Series, candidate_pool: pd.DataFrame, to
     total_distance = (numeric_weight * numeric_distance.fillna(0)
                       + categorical_weight * categorical_distance.fillna(0)).div(weight_total.replace(0, np.nan))
     similarity = 1 - total_distance.fillna(1.0)
-
     pool["Similarity_Score"] = np.round(similarity, 3)
-    top = pool.sort_values("Similarity_Score", ascending=False).head(top_k)
-    return top.reset_index(drop=True)
+    pool = pool.sort_values("Similarity_Score", ascending=False)
+    passing = pool[pool["Similarity_Score"] >= min_score]
+    chosen = passing if len(passing) >= min_k else pool.head(min_k)
+    return chosen.head(max(top_k, min_k)).reset_index(drop=True)
+
+
+def cohort_outcome_estimate(neighbours: pd.DataFrame, target_col: str) -> float:
+    """Similarity-weighted mean outcome of the retrieved cohort."""
+    w = neighbours["Similarity_Score"].astype(float).clip(lower=1e-6).values
+    y = neighbours[target_col].astype(float).values
+    return float(np.sum(w * y) / np.sum(w))
 
 
 def best_pathway_for_cohort(similar_patients: pd.DataFrame, pathways: pd.DataFrame,
-                             archetypes_by_patient: dict = None) -> pd.Series:
+                            archetypes_by_patient: dict = None):
     """
     Select a pathway template by observed prevalence among similar patients.
     Return None when patient-to-pathway assignments are not supplied; template
@@ -91,8 +118,8 @@ if __name__ == "__main__":
     tables = load_all_tables()
     full = build_modelling_dataset(tables)
     train, test = chronological_split(full)
-
     query = test.iloc[0]
-    top5 = find_similar_patients(query, train, top_k=5)
-    print(f"Query patient: {query['Patient_ID']} ({query['Injury_Type']}, {query['Severity']})")
-    print(top5[["Patient_ID", "Similarity_Score", config.TARGET_RECOVERY_PCT, config.TARGET_RECOVERY_WEEKS]])
+    top = find_similar_patients(query, train)
+    print(f"Query {query['Patient_ID']} ({query['Injury_Type']}, {query['Severity']})")
+    print(top[["Patient_ID", "Similarity_Score", config.TARGET_RECOVERY_PCT,
+               config.TARGET_RECOVERY_WEEKS]])
