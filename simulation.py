@@ -146,6 +146,16 @@ def _asymptotic_curve(start_value, target_value, n_weeks, ceiling=None, floor=No
     return values
 
 
+def _region_rom_max(patient_row):
+    text = " ".join(str(patient_row.get(c, "")) for c in ("Body_Region", "Body_Part", "Injury_Type")).casefold()
+    aliases = {"knee": ("knee", "acl", "meniscus", "patella"), "shoulder": ("shoulder", "rotator", "frozen shoulder"),
+               "hip": ("hip",), "ankle": ("ankle", "achilles"), "spine": ("spine", "lumbar", "disc"), "wrist": ("wrist", "radius")}
+    for region, terms in aliases.items():
+        if any(term in text for term in terms):
+            return config.ROM_MAX_BY_REGION[region]
+    return config.ROM_MAX_BY_REGION["knee"]
+
+
 def build_predicted_trajectory(patient_row: pd.Series, predicted_pct: float, predicted_weeks: float, protocol_key: str = "Standard") -> pd.DataFrame:
     """
     Builds a week-by-week predicted trajectory for Pain, ROM, Strength,
@@ -155,7 +165,8 @@ def build_predicted_trajectory(patient_row: pd.Series, predicted_pct: float, pre
     n_weeks = max(int(round(predicted_weeks)), 1)
 
     target_strength = np.clip(predicted_pct, 0, 100)
-    target_rom = np.clip(predicted_pct / 100 * 145, 0, 145)
+    rom_max = _region_rom_max(patient_row)
+    target_rom = np.clip(predicted_pct / 100 * rom_max, 0, rom_max)
     target_pain = 0.5 if predicted_pct > 90 else (1.0 if predicted_pct > 75 else 1.8)
     target_walk = 0.9 + (predicted_pct / 100) * 0.75
 
@@ -163,11 +174,14 @@ def build_predicted_trajectory(patient_row: pd.Series, predicted_pct: float, pre
     start_rom = float(patient_row.get("Range_of_Motion_deg", 75.0))
     start_quad = float(patient_row.get("Quadriceps_Strength_pct", 50.0))
     start_speed = float(patient_row.get("Walking_Speed_mps", 0.9))
+    start_balance = float(patient_row.get("Balance_Score", np.nan))
 
     pain_curve = np.array(_asymptotic_curve(start_pain, target_pain, n_weeks, floor=target_pain * 0.6))
-    rom_curve = np.array(_asymptotic_curve(start_rom, target_rom, n_weeks, ceiling=145))
+    rom_curve = np.array(_asymptotic_curve(start_rom, target_rom, n_weeks, ceiling=rom_max))
     strength_curve = np.array(_asymptotic_curve(start_quad, target_strength, n_weeks, ceiling=100))
     walk_curve = np.array(_asymptotic_curve(start_speed, target_walk, n_weeks, ceiling=1.8))
+    balance_curve = (np.array(_asymptotic_curve(start_balance, 100.0, n_weeks, ceiling=100.0))
+                     if np.isfinite(start_balance) else np.full(n_weeks, np.nan))
 
     df = pd.DataFrame({
         "Week": range(1, n_weeks + 1),
@@ -175,6 +189,7 @@ def build_predicted_trajectory(patient_row: pd.Series, predicted_pct: float, pre
         "Predicted_ROM_deg": np.round(rom_curve, 1),
         "Predicted_Strength_pct": np.round(strength_curve, 1),
         "Predicted_Walking_Speed_mps": np.round(walk_curve, 2),
+        "Predicted_Balance_Score": np.round(balance_curve, 1),
         "Predicted_Recovery_Pct": np.round(strength_curve, 1),
         "Predicted_Function_Score": np.round(np.clip(strength_curve * 0.9, 0, 100), 1)
     })
@@ -402,6 +417,7 @@ def simulate_single_treatment_reaction(patient_row, category, exercise_type, sta
     
     rx_pain = base_traj["Predicted_Pain"].values.copy()
     rx_rom = base_traj["Predicted_ROM_deg"].values.copy()
+    rom_max = _region_rom_max(patient_row)
     rx_strength = base_traj["Predicted_Strength_pct"].values.copy()
     rx_speed = base_traj["Predicted_Walking_Speed_mps"].values.copy()
 
@@ -412,13 +428,13 @@ def simulate_single_treatment_reaction(patient_row, category, exercise_type, sta
         if idx < end_w:
             weight = (idx - (start_week - 1) + 1) / float(duration_weeks)
             rx_pain[idx] = np.clip(rx_pain[idx] + pain_modifier * weight, 0.5, 10.0)
-            rx_rom[idx] = np.clip(rx_rom[idx] + (ex_info["rom_boost"] * int_mult * 0.4 * weight), 0, 145.0)
+            rx_rom[idx] = np.clip(rx_rom[idx] + (ex_info["rom_boost"] * int_mult * 0.4 * weight), 0, rom_max)
             rx_strength[idx] = np.clip(rx_strength[idx] + (ex_info["strength_boost"] * strength_mod * 0.4 * weight), 0, 100.0)
             rx_speed[idx] = np.clip(rx_speed[idx] + (ex_info["speed_boost"] * int_mult * 0.3 * weight), 0.2, 1.8)
         else:
             carry = (end_w - (start_week - 1)) / float(duration_weeks)
             rx_pain[idx] = np.clip(rx_pain[idx] + pain_modifier * 0.5 * carry, 0.5, 10.0)
-            rx_rom[idx] = np.clip(rx_rom[idx] + (ex_info["rom_boost"] * int_mult * 0.4 * carry), 0, 145.0)
+            rx_rom[idx] = np.clip(rx_rom[idx] + (ex_info["rom_boost"] * int_mult * 0.4 * carry), 0, rom_max)
             rx_strength[idx] = np.clip(rx_strength[idx] + (ex_info["strength_boost"] * strength_mod * 0.4 * carry), 0, 100.0)
             rx_speed[idx] = np.clip(rx_speed[idx] + (ex_info["speed_boost"] * int_mult * 0.3 * carry), 0.2, 1.8)
 

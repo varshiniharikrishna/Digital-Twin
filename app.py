@@ -9,6 +9,7 @@ Run with:
 
 import os
 import json
+import html
 from pathlib import Path
 import pandas as pd
 import numpy as np
@@ -134,13 +135,19 @@ def load_everything():
     X_train = get_feature_frame(train)
     X_test = get_feature_frame(test)
 
-    pct_model, weeks_model = modeling.train_models(
-        X_train, train[config.TARGET_RECOVERY_PCT], train[config.TARGET_RECOVERY_WEEKS]
+    training_payload = X_train.copy()
+    training_payload["__target_pct"] = train[config.TARGET_RECOVERY_PCT].to_numpy()
+    training_payload["__target_weeks"] = train[config.TARGET_RECOVERY_WEEKS].to_numpy()
+    data_hash = modeling.dataframe_fingerprint(training_payload)
+    pct_model, weeks_model, model_metadata = modeling.load_or_train_models(
+        X_train, train[config.TARGET_RECOVERY_PCT], train[config.TARGET_RECOVERY_WEEKS], data_hash
     )
     pred_pct, pred_weeks = modeling.predict(pct_model, weeks_model, X_test)
 
     metrics_pct = modeling.evaluate(test[config.TARGET_RECOVERY_PCT], pred_pct)
     metrics_weeks = modeling.evaluate(test[config.TARGET_RECOVERY_WEEKS], pred_weeks)
+    metrics_pct["bootstrap_intervals"] = modeling.bootstrap_metric_intervals(test[config.TARGET_RECOVERY_PCT], pred_pct)
+    metrics_weeks["bootstrap_intervals"] = modeling.bootstrap_metric_intervals(test[config.TARGET_RECOVERY_WEEKS], pred_weeks)
     fi = modeling.get_feature_importance(pct_model)
     similarity_model = sim.SimilarityModel.fit(train, config.TARGET_RECOVERY_PCT)
     train_ids=set(train["Patient_ID"].astype(str))
@@ -160,6 +167,7 @@ def load_everything():
         "test": test,
         "pct_model": pct_model,
         "weeks_model": weeks_model,
+        "model_metadata": model_metadata,
         "metrics_pct": metrics_pct,
         "metrics_weeks": metrics_weeks,
         "feature_importance": fi,
@@ -194,6 +202,7 @@ if "recal_history" not in st.session_state:
 # ----------------------------------------------------------------------
 st.sidebar.title("Orthopaedic Digital Twin")
 st.sidebar.caption("Dynamic Living Patient Simulation System")
+st.sidebar.caption(f"Production model: {state['model_metadata']['model_name']} · evaluated on the chronological holdout")
 
 page = st.sidebar.radio(
     "Navigation Menu",
@@ -204,6 +213,7 @@ page = st.sidebar.radio(
         "Patient Information",
         "Weekly Recovery Timeline",
         "Simulation & Recalibration",
+        "New Patient Intake",
         "Recommendations",
         "Evaluation Metrics",
         "Model Benchmark", "Similarity Spec / Explain", "Deviation Analysis",
@@ -214,6 +224,27 @@ page = st.sidebar.radio(
 st.sidebar.markdown("---")
 patient_id = st.sidebar.selectbox("Select 2025 Test Patient", sorted(test["Patient_ID"].unique()))
 patient_row = test[test["Patient_ID"] == patient_id].iloc[0]
+
+
+def region_alert_thresholds(row):
+    """Choose configured alert thresholds from the patient's region/injury."""
+    text = " ".join(str(row.get(key, "")) for key in ("Body_Region", "Body_Part", "Injury_Type")).casefold()
+    aliases = {"knee": ("knee", "acl", "meniscus", "patella"),
+               "shoulder": ("shoulder", "rotator", "frozen shoulder"), "hip": ("hip",),
+               "ankle": ("ankle", "achilles"), "spine": ("spine", "lumbar", "disc"),
+               "wrist": ("wrist", "radius")}
+    region = next((name for name, terms in aliases.items() if any(term in text for term in terms)), "knee")
+    return config.REGION_ALERT_THRESHOLDS[region]
+
+
+def training_only_tables(source_tables, training_frame):
+    """Return tables restricted to patient IDs in the training partition."""
+    ids = set(training_frame["Patient_ID"].astype(str))
+    return {
+        name: frame[frame["Patient_ID"].astype(str).isin(ids)].copy()
+        if isinstance(frame, pd.DataFrame) and "Patient_ID" in frame else frame
+        for name, frame in source_tables.items()
+    }
 
 
 # ----------------------------------------------------------------------
@@ -297,8 +328,8 @@ def render_svg_pain_spot(pain_score: float, body_part: str, compensation_event: 
 
     comp_marker = ""
     if compensation_event:
-        comp_m = compensation_event.get("Muscle_Overloaded", "Muscle")
-        comp_l = compensation_event.get("Compensation_Level", "Moderate")
+        comp_m = html.escape(str(compensation_event.get("Muscle_Overloaded", "Muscle")))
+        comp_l = html.escape(str(compensation_event.get("Compensation_Level", "Moderate")))
         comp_marker = f"""
         <g transform="translate(260, {spot_y - 20})">
             <rect x="0" y="0" width="110" height="38" rx="6" fill="#7F1D1D" stroke="#EF4444" stroke-width="1.5"/>
@@ -415,17 +446,18 @@ if page == "Week-by-Week Twin":
         with col_flags:
             st.markdown("### 2. Flagged Recovery Pressure Points")
             flags = []
+            thresholds = region_alert_thresholds(patient_row)
 
-            if float(week_row["Pain"]) > 5.0:
-                flags.append({"Category": "High Pain Alert", "Actual": f"{week_row['Pain']}/10", "Flag": "Pain > 5.0 (Moderate to Severe)"})
-            if float(week_row["ROM_deg"]) < 90.0:
-                flags.append({"Category": "Low ROM Restrict", "Actual": f"{week_row['ROM_deg']}°", "Flag": "ROM < 90° (Flexion deficit)"})
-            if float(week_row["Quadriceps_Strength_pct"]) < 60.0:
-                flags.append({"Category": "Quad Weakness", "Actual": f"{week_row['Quadriceps_Strength_pct']}%", "Flag": "Strength < 60% (Atrophy risk)"})
-            if float(week_row["Balance_Score"]) < 60.0:
-                flags.append({"Category": "Impaired Balance", "Actual": f"{week_row['Balance_Score']}", "Flag": "Balance < 60 (Fall risk)"})
-            if float(week_row["Compliance_pct"]) < 70.0:
-                flags.append({"Category": "Low Compliance", "Actual": f"{week_row['Compliance_pct']}%", "Flag": "Compliance < 70%"})
+            if float(week_row["Pain"]) > thresholds["pain"]:
+                flags.append({"Category": "High Pain Alert", "Actual": f"{week_row['Pain']}/10", "Flag": f"Pain > {thresholds['pain']:.1f}"})
+            if float(week_row["ROM_deg"]) < thresholds["rom_min"]:
+                flags.append({"Category": "Low ROM Restrict", "Actual": f"{week_row['ROM_deg']}°", "Flag": f"ROM < {thresholds['rom_min']:.1f}°"})
+            if float(week_row["Quadriceps_Strength_pct"]) < thresholds["strength_min"]:
+                flags.append({"Category": "Quad Weakness", "Actual": f"{week_row['Quadriceps_Strength_pct']}%", "Flag": f"Strength < {thresholds['strength_min']:.1f}%"})
+            if float(week_row["Balance_Score"]) < thresholds["balance_min"]:
+                flags.append({"Category": "Impaired Balance", "Actual": f"{week_row['Balance_Score']}", "Flag": f"Balance < {thresholds['balance_min']:.1f}"})
+            if float(week_row["Compliance_pct"]) < thresholds["compliance_min"]:
+                flags.append({"Category": "Low Compliance", "Actual": f"{week_row['Compliance_pct']}%", "Flag": f"Compliance < {thresholds['compliance_min']:.1f}%"})
             if week_row["Swelling"] in ["Severe", "Moderate"]:
                 flags.append({"Category": "Joint Swelling", "Actual": str(week_row['Swelling']), "Flag": "Persistent inflammation"})
             if comp_event:
@@ -435,8 +467,8 @@ if page == "Week-by-Week Twin":
                 for flg in flags:
                     st.markdown(f"""
                     <div class="flag-box">
-                        <div class="flag-box-title">⚠ {flg['Category']} — {flg['Flag']}</div>
-                        <div style="font-size:0.88rem;">Recorded Value: <b>{flg['Actual']}</b></div>
+                        <div class="flag-box-title">⚠ {html.escape(str(flg['Category']))} — {html.escape(str(flg['Flag']))}</div>
+                        <div style="font-size:0.88rem;">Recorded Value: <b>{html.escape(str(flg['Actual']))}</b></div>
                     </div>
                     """, unsafe_allow_html=True)
             else:
@@ -616,6 +648,14 @@ elif page == "Treatment Clones":
 elif page == "Digital Twin Overview":
     st.title(f"Digital Twin Overview — {patient_id}")
     pred_pct, pred_weeks = predict_for_row(patient_row)
+    r2_interval = state["metrics_pct"].get("bootstrap_intervals", {}).get("R2")
+    interval_label = (f"n={state['metrics_pct']['n']}, 95% CI {r2_interval[0]:.3f}–{r2_interval[1]:.3f}"
+                      if r2_interval else f"n={state['metrics_pct']['n']}, CI unavailable")
+    prediction_half_width = state["model_metadata"].get("prediction_interval_half_width")
+    if prediction_half_width is not None:
+        st.caption(f"Selected patient recovery prediction: {pred_pct:.1f}% ± {prediction_half_width:.1f} points ({state['model_metadata'].get('prediction_interval_method')}).")
+    else:
+        st.caption(f"Selected patient recovery prediction: {pred_pct:.1f}%. No matching CV prediction interval is available; run the benchmark first.")
     actual_traj = simmod.get_actual_trajectory(tables["Weekly_Progress"], patient_id)
 
     col1, col2 = st.columns(2)
@@ -623,21 +663,21 @@ elif page == "Digital Twin Overview":
         st.markdown(f"""
         <div class="twin-card-real">
             <h4 style="color:#94A3B8; margin-top:0;">Real Patient Profile</h4>
-            <div><b>Patient ID:</b> {patient_id}</div>
-            <div><b>Age / Gender:</b> {patient_row['Age']} / {patient_row['Gender']}</div>
-            <div><b>Injury:</b> {patient_row['Injury_Type']} ({patient_row['Severity']})</div>
-            <div><b>Initial Pain / ROM:</b> {patient_row['Pain_Score']}/10 | {patient_row['Range_of_Motion_deg']}°</div>
-            <div><b>Initial Strength:</b> {patient_row['Quadriceps_Strength_pct']}%</div>
+            <div><b>Patient ID:</b> {html.escape(str(patient_id))}</div>
+            <div><b>Age / Gender:</b> {html.escape(str(patient_row['Age']))} / {html.escape(str(patient_row['Gender']))}</div>
+            <div><b>Injury:</b> {html.escape(str(patient_row['Injury_Type']))} ({html.escape(str(patient_row['Severity']))})</div>
+            <div><b>Initial Pain / ROM:</b> {html.escape(str(patient_row['Pain_Score']))}/10 | {html.escape(str(patient_row['Range_of_Motion_deg']))}°</div>
+            <div><b>Initial Strength:</b> {html.escape(str(patient_row['Quadriceps_Strength_pct']))}%</div>
         </div>
         """, unsafe_allow_html=True)
     with col2:
         st.markdown(f"""
         <div class="twin-card-twin">
             <h4 style="color:#10B981; margin-top:0;">Digital Twin Prediction</h4>
-            <div><b>Twin ID:</b> DT_{patient_id}</div>
+            <div><b>Twin ID:</b> DT_{html.escape(str(patient_id))}</div>
             <div><b>Predicted Recovery %:</b> {pred_pct:.1f}%</div>
             <div><b>Predicted Total Weeks:</b> {pred_weeks:.1f} weeks</div>
-            <div><b>Model Confidence R²:</b> {state['metrics_pct']['R2']:.3f}</div>
+            <div><b>Holdout R² ({interval_label}):</b> {state['metrics_pct']['R2']:.3f}</div>
         </div>
         """, unsafe_allow_html=True)
 
@@ -713,7 +753,9 @@ elif page == "Simulation & Recalibration":
 
     pred_pct, pred_weeks = predict_for_row(patient_row)
     predicted_traj = simmod.build_predicted_trajectory(patient_row, pred_pct, pred_weeks)
-    max_w = int(predicted_traj["Week"].max())
+    patient_weeks = tables["Weekly_Progress"][tables["Weekly_Progress"]["Patient_ID"].astype(str).eq(str(patient_id))]
+    observed_max = pd.to_numeric(patient_weeks.get("Week", pd.Series(dtype=float)), errors="coerce").max()
+    max_w = max(1, int(observed_max)) if pd.notna(observed_max) else 1
 
     rec_w = st.slider("Select Weekly Stage for Check-In Recalibration", 1, max_w, min(4, max_w))
 
@@ -725,7 +767,7 @@ elif page == "Simulation & Recalibration":
     exp_cols[0].metric("Expected Pain", f"{p_row['Predicted_Pain']:.1f}/10")
     exp_cols[1].metric("Expected ROM", f"{p_row['Predicted_ROM_deg']:.1f}°")
     exp_cols[2].metric("Expected Quad Strength", f"{p_row['Predicted_Strength_pct']:.1f}%")
-    exp_cols[3].metric("Expected Balance", "75.0")
+    exp_cols[3].metric("Expected Balance", f"{p_row['Predicted_Balance_Score']:.1f}" if "Predicted_Balance_Score" in p_row else "Unavailable")
     exp_cols[4].metric("Expected Speed", f"{p_row['Predicted_Walking_Speed_mps']:.2f} m/s")
 
     st.markdown("---")
@@ -742,15 +784,24 @@ elif page == "Simulation & Recalibration":
     else:
         c1, c2, c3 = st.columns(3)
         with c1:
-            p_in = st.number_input("Recorded Pain (0-10)", 0.0, 10.0, float(p_row['Predicted_Pain']), 0.5)
-            quad_in = st.number_input("Recorded Primary Strength (%)", 0.0, 100.0, float(p_row['Predicted_Strength_pct']), 1.0)
+            pain_observed = st.selectbox("Pain observation", ["Not observed", "Observed"], key="pain_observed") == "Observed"
+            p_in = st.number_input("Recorded Pain (0-10)", 0.0, 10.0, 0.0, 0.5, disabled=not pain_observed)
+            strength_observed = st.selectbox("Strength observation", ["Not observed", "Observed"], key="strength_observed") == "Observed"
+            quad_in = st.number_input("Recorded Primary Strength (%)", 0.0, 100.0, 0.0, 1.0, disabled=not strength_observed)
         with c2:
-            rom_in = st.number_input("Recorded Primary ROM (deg)", 0.0, 360.0, float(p_row['Predicted_ROM_deg']), 1.0)
-            bal_in = st.number_input("Recorded Balance Score", 0.0, 100.0, 75.0, 1.0)
+            rom_observed = st.selectbox("ROM observation", ["Not observed", "Observed"], key="rom_observed") == "Observed"
+            rom_in = st.number_input("Recorded Primary ROM (deg)", 0.0, 360.0, 0.0, 1.0, disabled=not rom_observed)
+            balance_observed = st.selectbox("Balance observation", ["Not observed", "Observed"], key="balance_observed") == "Observed"
+            bal_in = st.number_input("Recorded Balance Score", 0.0, 100.0, 0.0, 1.0, disabled=not balance_observed)
         with c3:
-            speed_in = st.number_input("Recorded Speed (m/s)", 0.0, 3.0, float(p_row['Predicted_Walking_Speed_mps']), 0.1)
-            swelling_in = st.selectbox("Swelling Level", ["None", "Mild", "Moderate", "Severe"], index=0)
-        weekly_entry={"Pain":p_in,"ROM_deg":rom_in,"Quadriceps_Strength_pct":quad_in,"Balance_Score":bal_in,"Walking_Speed_mps":speed_in,"Swelling":swelling_in}
+            speed_observed = st.selectbox("Speed observation", ["Not observed", "Observed"], key="speed_observed") == "Observed"
+            speed_in = st.number_input("Recorded Speed (m/s)", 0.0, 3.0, 0.0, 0.1, disabled=not speed_observed)
+            swelling_in = st.selectbox("Swelling Level", ["Not observed", "None", "Mild", "Moderate", "Severe"], index=0)
+        weekly_entry={"Pain":p_in if pain_observed else None,"ROM_deg":rom_in if rom_observed else None,
+                      "Quadriceps_Strength_pct":quad_in if strength_observed else None,
+                      "Balance_Score":bal_in if balance_observed else None,
+                      "Walking_Speed_mps":speed_in if speed_observed else None,
+                      "Swelling":None if swelling_in == "Not observed" else swelling_in}
 
     if st.button("Run Weekly Stage Recalibration", type="primary"):
         res = simmod.process_weekly_stage_recalibration(
@@ -825,13 +876,57 @@ elif page == "Simulation & Recalibration":
 
 
 # ========================================================================
+# NEW PATIENT BASELINE INTAKE
+# ========================================================================
+elif page == "New Patient Intake":
+    st.title("New Patient Digital Twin Intake")
+    st.caption("Creates an in-session baseline twin and prediction. This prototype does not write patient data to the database.")
+    with st.form("new_patient_intake"):
+        c1, c2, c3 = st.columns(3)
+        with c1:
+            age = st.number_input("Age", min_value=0, max_value=120, value=40)
+            bmi = st.number_input("BMI", min_value=10.0, max_value=80.0, value=25.0)
+            pain = st.number_input("Baseline pain (0–10)", min_value=0.0, max_value=10.0, value=5.0)
+            rom = st.number_input("Baseline ROM (degrees)", min_value=0.0, max_value=360.0, value=75.0)
+        with c2:
+            strength = st.number_input("Primary strength (%)", min_value=0.0, max_value=200.0, value=50.0)
+            balance = st.number_input("Balance score", min_value=0.0, max_value=100.0, value=60.0)
+            speed = st.number_input("Walking speed (m/s)", min_value=0.0, max_value=4.0, value=0.8)
+            gender = st.selectbox("Gender", ["Unknown", "Female", "Male", "Other"])
+        with c3:
+            injury_type = st.selectbox("Injury type", sorted(train["Injury_Type"].dropna().astype(str).unique()))
+            severity = st.selectbox("Severity", ["Mild", "Moderate", "Severe"])
+            activity = st.selectbox("Activity level", ["Low", "Moderate", "High"])
+            surgery = st.selectbox("Surgery required", ["No", "Yes"])
+        submitted = st.form_submit_button("Create baseline twin")
+    if submitted:
+        new_row = {name: np.nan for name in config.ALL_FEATURES}
+        new_row.update({"Age": age, "BMI": bmi, "Pain_Score": pain, "Primary_ROM_deg": rom,
+                        "Range_of_Motion_deg": rom, "Primary_Strength_pct": strength,
+                        "Quadriceps_Strength_pct": strength, "Balance_Score": balance,
+                        "Walking_Speed_mps": speed, "Gender": gender, "Injury_Type": injury_type,
+                        "Severity": severity, "Activity_Level": activity, "Surgery_Required": surgery})
+        intake = pd.DataFrame([new_row])
+        feature_row = get_feature_frame(intake)
+        estimate_pct, estimate_weeks = modeling.predict(pct_model, weeks_model, feature_row)
+        twin = simmod.build_predicted_trajectory(intake.iloc[0], float(estimate_pct[0]), float(estimate_weeks[0]))
+        st.metric("Predicted recovery proxy", f"{estimate_pct[0]:.1f}%")
+        st.metric("Predicted recovery duration", f"{estimate_weeks[0]:.1f} weeks")
+        st.line_chart(twin.set_index("Week")[["Predicted_Pain", "Predicted_ROM_deg", "Predicted_Strength_pct", "Predicted_Balance_Score"]])
+        st.warning("Exploratory model output from synthetic development data; not a clinical recommendation.")
+
+
 # PAGE 7: RECOMMENDATIONS
 # ========================================================================
 elif page == "Recommendations":
     st.title("Clinical Pathway Recommendations")
-    pathways = tables["Recovery_Pathway"].sort_values("Success_Rate", ascending=False)
-    st.markdown("### All Mined Recovery Pathways")
-    st.dataframe(pathways, width="stretch")
+    training_tables = training_only_tables(tables, train)
+    ranked = pm.recommend_pathways_for_patient(patient_row, train, training_tables, similarity_model=similarity_model)
+    st.markdown("### Pathways ranked for the selected patient")
+    if ranked:
+        st.dataframe(pd.DataFrame(ranked), width="stretch")
+    else:
+        st.info("No patient-linked pathway evidence is available in the training cohort.")
 
 
 # ========================================================================
@@ -852,6 +947,9 @@ elif page == "Evaluation Metrics":
     st.markdown("---")
     col1, col2 = st.columns(2)
     with col1:
+        ci = m_pct.get("bootstrap_intervals", {}).get("R2")
+        if ci:
+            st.caption(f"Recovery holdout R² 95% bootstrap CI: {ci[0]:.3f}–{ci[1]:.3f}; n={m_pct['n']}")
         st.plotly_chart(ev.actual_vs_predicted_scatter(test[config.TARGET_RECOVERY_PCT], test["Predicted_Recovery_Pct"], "Actual vs Predicted Recovery %", "Recovery %"), width="stretch")
         st.plotly_chart(ev.residual_plot(test[config.TARGET_RECOVERY_PCT], test["Predicted_Recovery_Pct"], "Residuals — Recovery %", "Recovery %"), width="stretch")
     with col2:
@@ -894,7 +992,7 @@ elif page == "Pathway Ranking":
     st.title("Pathway ranking evidence")
     path=Path("reports/pathway_ranking/evaluation.json")
     if path.exists(): st.json(json.loads(path.read_text()))
-    mined=pm.mine_pathways_from_tables(tables)
+    mined=pm.mine_pathways_from_tables(training_only_tables(tables, train))
     if mined: st.dataframe(pd.DataFrame(mined),width="stretch")
     st.warning("Bundled data do not link patient-level treatment exposure to outcomes. Cohort templates are descriptive; displayed intervention effects are assumed demo values, not treatment benefits.")
 

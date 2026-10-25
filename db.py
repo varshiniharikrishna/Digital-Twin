@@ -6,12 +6,33 @@ Provides CRUD and authentication operations for the Digital Twin application.
 """
 
 import os
+import logging
+import re
 import pandas as pd
 from sqlalchemy import create_engine, text
+from sqlalchemy.exc import SQLAlchemyError, ProgrammingError
 from werkzeug.security import generate_password_hash
 import config
 
 LAST_DATA_ORIGIN = "unknown"
+logger = logging.getLogger(__name__)
+_ALLOWED_TABLES = set(config.TABLE_NAMES) | {"User_Account", "Recalibration_Log"}
+
+
+def _quoted_identifier(identifier, *, table=False):
+    """Validate and quote a SQL identifier (SQL parameters cannot bind identifiers)."""
+    value = str(identifier)
+    allowed = _ALLOWED_TABLES if table else None
+    if not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", value) or (allowed is not None and value not in allowed):
+        raise ValueError("Invalid SQL identifier requested.")
+    return f"`{value}`"
+
+
+def _column_sql(columns):
+    """Return comma-separated validated column identifiers and bind names."""
+    quoted = [_quoted_identifier(column) for column in columns]
+    binds = [f":{column}" for column in columns]
+    return ", ".join(quoted), ", ".join(binds)
 
 
 def get_db_engine():
@@ -47,8 +68,8 @@ def _load_from_mysql():
     with engine.connect() as conn:
         for name in config.TABLE_NAMES:
             try:
-                tables[name] = pd.read_sql(f"SELECT * FROM `{name}`", conn)
-            except Exception:
+                tables[name] = pd.read_sql(f"SELECT * FROM {_quoted_identifier(name, table=True)}", conn)
+            except (SQLAlchemyError, ValueError):
                 csv_path = os.path.join("output", f"{name}.csv")
                 if not os.path.exists(csv_path):
                     csv_path = os.path.join(config.CSV_DIR, f"{name}.csv")
@@ -59,7 +80,7 @@ def _load_from_mysql():
         
         try:
             tables["User_Account"] = pd.read_sql("SELECT * FROM `User_Account`", conn)
-        except Exception:
+        except (SQLAlchemyError, ValueError):
             tables["User_Account"] = pd.DataFrame()
 
     return tables
@@ -79,8 +100,8 @@ def load_all_tables():
         try:
             tables = _load_from_mysql()
             LAST_DATA_ORIGIN = os.environ.get("DT_MYSQL_PROVENANCE", "unknown MySQL provenance")
-        except Exception as e:
-            print(f"MySQL connection error ({e}). Using CSV fallback.")
+        except (SQLAlchemyError, RuntimeError) as exc:
+            logger.warning("MySQL connection failed; using configured CSV fallback (%s).", type(exc).__name__)
             tables = _load_from_csv()
             external_csv=os.path.exists(os.path.join(config.CSV_DIR,"Patient.csv"))
             LAST_DATA_ORIGIN = os.environ.get("DT_CSV_PROVENANCE") or ("CSV provenance unverified" if external_csv else "synthetic bundled CSV fallback")
@@ -126,8 +147,8 @@ def get_user_by_login_input(login_input: str):
             res = conn.execute(query, {"inp": login_input.strip()}).mappings().first()
             if res:
                 return dict(res)
-    except Exception as e:
-        print(f"Error querying User_Account: {e}")
+    except SQLAlchemyError as exc:
+        logger.error("Account lookup failed (%s).", type(exc).__name__)
     return None
 
 
@@ -137,8 +158,8 @@ def get_user_by_id(user_id: str):
         with engine.connect() as conn:
             row = conn.execute(text("SELECT * FROM `User_Account` WHERE `User_ID` = :id"), {"id": user_id}).mappings().first()
             return dict(row) if row else None
-    except Exception as e:
-        print(f"Error querying account: {e}")
+    except SQLAlchemyError as exc:
+        logger.error("Account lookup failed (%s).", type(exc).__name__)
         return None
 
 
@@ -157,9 +178,8 @@ def create_doctor_record(doctor_dict: dict, initial_password: str):
     engine = get_db_engine()
     with engine.begin() as conn:
         cols = list(doctor_dict.keys())
-        cols_str = ", ".join([f"`{c}`" for c in cols])
-        vals_str = ", ".join([f":{c}" for c in cols])
-        update_doc = ", ".join([f"`{c}` = :{c}" for c in cols if c != "Doctor_ID"])
+        cols_str, vals_str = _column_sql(cols)
+        update_doc = ", ".join([f"{_quoted_identifier(c)} = :{c}" for c in cols if c != "Doctor_ID"])
         conn.execute(text(f"INSERT INTO `Doctor` ({cols_str}) VALUES ({vals_str}) ON DUPLICATE KEY UPDATE {update_doc}"), doctor_dict)
 
         user_rec = {
@@ -172,9 +192,8 @@ def create_doctor_record(doctor_dict: dict, initial_password: str):
             "Linked_Patient_ID": None
         }
         u_cols = list(user_rec.keys())
-        u_cols_str = ", ".join([f"`{c}`" for c in u_cols])
-        u_vals_str = ", ".join([f":{c}" for c in u_cols])
-        u_update = ", ".join([f"`{c}` = :{c}" for c in u_cols if c != "User_ID"])
+        u_cols_str, u_vals_str = _column_sql(u_cols)
+        u_update = ", ".join([f"{_quoted_identifier(c)} = :{c}" for c in u_cols if c != "User_ID"])
         conn.execute(text(f"INSERT INTO `User_Account` ({u_cols_str}) VALUES ({u_vals_str}) ON DUPLICATE KEY UPDATE {u_update}"), user_rec)
 
     csv_path = os.path.join("output", "Doctor.csv")
@@ -207,10 +226,9 @@ def add_new_patient_record(patient_dict, injury_dict, assessment_dict, initial_p
     with engine.begin() as conn:
         for tbl, data in [("Patient", patient_dict), ("Injury", injury_dict), ("Initial_Assessment", assessment_dict)]:
             cols = list(data.keys())
-            cols_str = ", ".join([f"`{c}`" for c in cols])
-            vals_str = ", ".join([f":{c}" for c in cols])
-            update_str = ", ".join([f"`{c}` = :{c}" for c in cols if c != cols[0]])
-            sql = text(f"INSERT INTO `{tbl}` ({cols_str}) VALUES ({vals_str}) ON DUPLICATE KEY UPDATE {update_str}")
+            cols_str, vals_str = _column_sql(cols)
+            update_str = ", ".join([f"{_quoted_identifier(c)} = :{c}" for c in cols if c != cols[0]])
+            sql = text(f"INSERT INTO {_quoted_identifier(tbl, table=True)} ({cols_str}) VALUES ({vals_str}) ON DUPLICATE KEY UPDATE {update_str}")
             conn.execute(sql, data)
 
         user_rec = {
@@ -223,9 +241,8 @@ def add_new_patient_record(patient_dict, injury_dict, assessment_dict, initial_p
             "Linked_Patient_ID": p_id
         }
         u_cols = list(user_rec.keys())
-        u_cols_str = ", ".join([f"`{c}`" for c in u_cols])
-        u_vals_str = ", ".join([f":{c}" for c in u_cols])
-        u_update = ", ".join([f"`{c}` = :{c}" for c in u_cols if c != "User_ID"])
+        u_cols_str, u_vals_str = _column_sql(u_cols)
+        u_update = ", ".join([f"{_quoted_identifier(c)} = :{c}" for c in u_cols if c != "User_ID"])
         conn.execute(text(f"INSERT INTO `User_Account` ({u_cols_str}) VALUES ({u_vals_str}) ON DUPLICATE KEY UPDATE {u_update}"), user_rec)
 
     for tbl, data in [("Patient", patient_dict), ("Injury", injury_dict), ("Initial_Assessment", assessment_dict)]:
@@ -243,9 +260,8 @@ def save_weekly_progress_record(record_dict):
 
     engine = get_db_engine()
     cols = list(record_dict.keys())
-    cols_str = ", ".join([f"`{c}`" for c in cols])
-    vals_str = ", ".join([f":{c}" for c in cols])
-    update_str = ", ".join([f"`{c}` = :{c}" for c in cols if c not in ["Patient_ID", "Week"]])
+    cols_str, vals_str = _column_sql(cols)
+    update_str = ", ".join([f"{_quoted_identifier(c)} = :{c}" for c in cols if c not in ["Patient_ID", "Week"]])
     
     sql = text(f"""
         INSERT INTO `Weekly_Progress` ({cols_str})
@@ -337,14 +353,15 @@ def save_patient_recalibration_record(patient_id, week, recal_dict):
         }
         for col_n, col_t in col_types.items():
             try:
-                conn.execute(text(f"ALTER TABLE `Recalibration_Log` ADD COLUMN `{col_n}` {col_t}"))
-            except Exception:
-                pass
+                conn.execute(text(f"ALTER TABLE {_quoted_identifier('Recalibration_Log', table=True)} ADD COLUMN {_quoted_identifier(col_n)} {col_t}"))
+            except ProgrammingError as exc:
+                # MySQL duplicate-column error 1060 means this migration already ran.
+                if getattr(getattr(exc, "orig", None), "args", [None])[0] != 1060:
+                    raise
 
         cols = list(rec_data.keys())
-        cols_str = ", ".join([f"`{c}`" for c in cols])
-        vals_str = ", ".join([f":{c}`" if False else f":{c}" for c in cols])
-        update_str = ", ".join([f"`{c}` = :{c}" for c in cols if c not in ["Patient_ID", "Week"]])
+        cols_str, vals_str = _column_sql(cols)
+        update_str = ", ".join([f"{_quoted_identifier(c)} = :{c}" for c in cols if c not in ["Patient_ID", "Week"]])
         upsert_sql = text(f"""
             INSERT INTO `Recalibration_Log` ({cols_str})
             VALUES ({vals_str})
@@ -377,8 +394,8 @@ def get_patient_recalibration_history(patient_id: str) -> list:
             rows = conn.execute(query, {"p_id": patient_id}).mappings().all()
             if rows:
                 return [dict(r) for r in rows]
-    except Exception as e:
-        print(f"Recalibration_Log DB query notice: {e}")
+    except SQLAlchemyError as exc:
+        logger.warning("Recalibration history unavailable (%s).", type(exc).__name__)
 
     csv_path = os.path.join("output", "Recalibration_Log.csv")
     if os.path.exists(csv_path):

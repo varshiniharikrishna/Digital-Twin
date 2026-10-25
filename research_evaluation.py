@@ -6,6 +6,9 @@ written; source CSVs are never modified.
 """
 
 import json
+import hashlib
+import platform
+import subprocess
 from pathlib import Path
 
 import numpy as np
@@ -28,24 +31,27 @@ def _metrics(y, pred):
 def _bootstrap_intervals(y, pred, seed=42, samples=1000):
     y, pred = np.asarray(y, dtype=float), np.asarray(pred, dtype=float)
     if len(y) < 2:
-        return {"MAE_95pct_CI": None, "R2_95pct_CI": None}
+        return {"MAE_95pct_CI": None, "RMSE_95pct_CI": None, "R2_95pct_CI": None}
     rng = np.random.default_rng(seed)
-    maes, r2s = [], []
+    maes, rmses, r2s = [], [], []
     for _ in range(samples):
         take = rng.integers(0, len(y), size=len(y))
         by, bp = y[take], pred[take]
         maes.append(mean_absolute_error(by, bp))
+        rmses.append(float(np.sqrt(np.mean((by - bp) ** 2))))
         if np.ptp(by) > 0:
             r2s.append(r2_score(by, bp))
     return {
         "resamples": samples,
         "MAE_95pct_CI": [round(float(x), 5) for x in np.quantile(maes, [0.025, 0.975])],
+        "RMSE_95pct_CI": [round(float(x), 5) for x in np.quantile(rmses, [0.025, 0.975])],
         "R2_95pct_CI": [round(float(x), 5) for x in np.quantile(r2s, [0.025, 0.975])] if r2s else None,
         "method": "paired patient-level percentile bootstrap; descriptive only",
     }
 
 
-def _temporal_cv(X, y, dates, outcome_available, target_type, max_splits=5):
+def _temporal_cv(X, y, dates, outcome_available, target_type, max_splits=5,
+                 extra_numeric_features=None, model_name=None):
     """Expanding-window CV; train labels must be available before each fold."""
     y = pd.to_numeric(y, errors="coerce")
     valid = y.notna() & np.isfinite(y)
@@ -73,7 +79,8 @@ def _temporal_cv(X, y, dates, outcome_available, target_type, max_splits=5):
                                  "validation_n": int(valid_mask.sum()),
                                  "reason": "Insufficient outcome-matured training observations."})
             continue
-        estimator = modeling.build_pipeline(target_type)
+        estimator = modeling.build_pipeline(target_type, model_name=model_name,
+                                            extra_numeric_features=extra_numeric_features)
         estimator.fit(X.loc[train_mask], y.loc[train_mask])
         pred = estimator.predict(X.loc[valid_mask])
         baseline_pred = np.full(int(valid_mask.sum()), float(y.loc[train_mask].mean()))
@@ -97,6 +104,7 @@ def _temporal_cv(X, y, dates, outcome_available, target_type, max_splits=5):
         "skipped_folds": skipped_folds,
         "n_validation_total": len(y_all),
         "metrics_pooled": _metrics(y_all, pred_all) if y_all else None,
+        "bootstrap_intervals": _bootstrap_intervals(y_all, pred_all) if y_all else None,
         "training_mean_baseline_pooled": _metrics(y_all, baseline_all) if y_all else None,
         "fold_metrics": fold_results,
     }
@@ -166,6 +174,9 @@ def run(tables=None, output_path="output/research_evaluation.json", emit=True):
 
     x_train = get_feature_frame(train)
     x_test = get_feature_frame(test)
+    selected_model_name, selected_model_params, _ = modeling.cv_model_selection(
+        x_train, train[config.TARGET_RECOVERY_PCT]
+    )
     pct_model, weeks_model = modeling.train_models(
         x_train, train[config.TARGET_RECOVERY_PCT], train[config.TARGET_RECOVERY_WEEKS]
     )
@@ -181,7 +192,7 @@ def run(tables=None, output_path="output/research_evaluation.json", emit=True):
     weeks_train_mask = pd.to_numeric(train[config.TARGET_RECOVERY_WEEKS], errors="coerce").notna()
     pct_mean_baseline = np.full(len(y_pct), float(train.loc[pct_train_mask, config.TARGET_RECOVERY_PCT].mean()))
     weeks_mean_baseline = np.full(len(y_weeks), float(train.loc[weeks_train_mask, config.TARGET_RECOVERY_WEEKS].mean()))
-    booster_name = modeling.get_recovery_boost_model_name()
+    booster_name = selected_model_name
     booster_params = (
         {"max_iter": 400, "learning_rate": 0.03, "max_depth": 5, "l2_regularization": 2.0}
         if booster_name == "HistGradientBoostingRegressor"
@@ -191,8 +202,43 @@ def run(tables=None, output_path="output/research_evaluation.json", emit=True):
 
     date_series = pd.to_datetime(train["Enrollment_Date"], errors="coerce")
     availability = pd.to_datetime(train["Estimated_Outcome_Availability_Date"], errors="coerce")
-    pct_cv = _temporal_cv(x_train, train[config.TARGET_RECOVERY_PCT], date_series, availability, "pct")
-    weeks_cv = _temporal_cv(x_train, train[config.TARGET_RECOVERY_WEEKS], date_series, availability, "weeks")
+    pct_cv = _temporal_cv(x_train, train[config.TARGET_RECOVERY_PCT], date_series, availability, "pct", model_name=selected_model_name)
+    weeks_cv = _temporal_cv(x_train, train[config.TARGET_RECOVERY_WEEKS], date_series, availability, "weeks", model_name=selected_model_name)
+    clinical_estimate_ablation = {"feature": "Clinical_Est_Weeks", "status": "unavailable"}
+    if "Clinical_Est_Weeks" in train and "Clinical_Est_Weeks" in test:
+        x_train_with_estimate = x_train.copy()
+        x_test_with_estimate = x_test.copy()
+        x_train_with_estimate["Clinical_Est_Weeks"] = pd.to_numeric(train["Clinical_Est_Weeks"], errors="coerce").to_numpy()
+        x_test_with_estimate["Clinical_Est_Weeks"] = pd.to_numeric(test["Clinical_Est_Weeks"], errors="coerce").to_numpy()
+        cv_with_estimate = _temporal_cv(x_train_with_estimate, train[config.TARGET_RECOVERY_PCT],
+                                        date_series, availability, "pct",
+                                        extra_numeric_features=["Clinical_Est_Weeks"],
+                                        model_name=selected_model_name)
+        ablation_mask = pd.to_numeric(train[config.TARGET_RECOVERY_PCT], errors="coerce").notna()
+        model_with_estimate = modeling.build_pipeline("pct", model_name=selected_model_name,
+                                                      extra_numeric_features=["Clinical_Est_Weeks"])
+        model_with_estimate.fit(x_train_with_estimate.loc[ablation_mask],
+                                train.loc[ablation_mask, config.TARGET_RECOVERY_PCT])
+        estimate_test_pred = model_with_estimate.predict(x_test_with_estimate.loc[pct_mask])
+        with_cv_r2 = (cv_with_estimate.get("metrics_pooled") or {}).get("R2")
+        without_cv_r2 = (pct_cv.get("metrics_pooled") or {}).get("R2")
+        clinical_estimate_ablation = {
+            "feature_in_production": False,
+            "same_model_and_splits": True,
+            "without_feature": {"temporal_cv": pct_cv.get("metrics_pooled"),
+                                "temporal_cv_bootstrap": pct_cv.get("bootstrap_intervals"),
+                                "holdout": _metrics(y_pct, pred_pct_labeled),
+                                "holdout_bootstrap": _bootstrap_intervals(y_pct, pred_pct_labeled)},
+            "with_feature": {"temporal_cv": cv_with_estimate.get("metrics_pooled"),
+                             "temporal_cv_bootstrap": cv_with_estimate.get("bootstrap_intervals"),
+                             "holdout": _metrics(y_pct, estimate_test_pred),
+                             "holdout_bootstrap": _bootstrap_intervals(y_pct, estimate_test_pred)},
+            "delta_R2_with_minus_without": {
+                "temporal_cv": round(float(with_cv_r2 - without_cv_r2), 5) if with_cv_r2 is not None and without_cv_r2 is not None else None,
+                "holdout": round(float(r2_score(y_pct, estimate_test_pred) - r2_score(y_pct, pred_pct_labeled)), 5) if len(y_pct) > 1 else None,
+            },
+            "interpretation": "Controlled feature ablation on the same synthetic snapshot, XGBoost, temporal folds, and holdout. It measures association, not proof that the estimate is clinically valid or safe.",
+        }
 
     enrollment_date = pd.to_datetime(data.get("Enrollment_Date", pd.Series(dtype="datetime64[ns]")), errors="coerce")
     mismatch = data.get("Enrollment_Year_Mismatch", pd.Series(False, index=data.index)).fillna(False)
@@ -209,7 +255,7 @@ def run(tables=None, output_path="output/research_evaluation.json", emit=True):
         "provenance": db.LAST_DATA_ORIGIN,
         "selected_target": {"key": config.TARGET_SELECTION, "column": config.TARGET_OUTCOME_COLUMN, "display_label": config.TARGET_DISPLAY_LABEL},
         "target_definition": {
-            "recovery_pct": "Recorded Final_Recovery_Pct when present; otherwise a 50:50 proxy from both observed final strength and ROM, using a fixed 140-degree scale. This proxy is not region-normalized or validated; cross-region results are descriptive only. No baseline or imputed outcome fallback.",
+            "recovery_pct": "Recorded Final_Recovery_Pct when present; otherwise a 50:50 proxy from both observed final strength and ROM, normalized with config.ROM_MAX_BY_REGION. The proxy is not a clinical PROM. No baseline or imputed outcome fallback.",
             "recovery_weeks": "Observed Actual_Recovery_Time_weeks only. Missing durations remain missing and are excluded from fitting/scoring.",
         },
         "outcome_availability_note": "The source schema has no actual outcome-recorded timestamp. Training eligibility is conservatively approximated as Enrollment_Date + Actual_Recovery_Time_weeks; this estimated date is used only for backtest eligibility and never as a feature.",
@@ -244,13 +290,11 @@ def run(tables=None, output_path="output/research_evaluation.json", emit=True):
             "test_date_max": str(pd.to_datetime(test["Enrollment_Date"]).max().date()),
         },
         "model": {
-            "recovery_pct": f"weighted VotingRegressor: {booster_name} weight 2, ExtraTrees weight 1, RandomForest weight 1",
-            "recovery_weeks": "VotingRegressor: HistGradientBoosting, ExtraTrees, RandomForest; equal weights",
+            "recovery_pct": f"{booster_name}",
+            "recovery_weeks": f"{booster_name}",
             "configured_hyperparameters": {
-                "recovery_booster": {"estimator": booster_name, "parameters": booster_params},
-                "extra_trees_pct": {"n_estimators": 400, "max_depth": 16, "min_samples_leaf": 1},
-                "random_forest_pct": {"n_estimators": 400, "max_depth": 16, "min_samples_leaf": 1},
-                "recovery_ensemble_weights": {booster_name: 2, "ExtraTreesRegressor": 1, "RandomForestRegressor": 1},
+                "recovery_booster": {"estimator": booster_name, "parameters": selected_model_params or booster_params},
+                "production_model": {"name": booster_name, "parameters": selected_model_params or booster_params},
             },
         },
         "chronological_holdout": {
@@ -265,6 +309,7 @@ def run(tables=None, output_path="output/research_evaluation.json", emit=True):
             "recovery_pct": pct_cv,
             "recovery_weeks": weeks_cv,
         },
+        "clinical_est_weeks_ablation": clinical_estimate_ablation,
         "adaptive_landmark_forecast_comparison": {},
         "deviation_threshold_sensitivity": {},
         "ablations": {
@@ -364,6 +409,20 @@ def run(tables=None, output_path="output/research_evaluation.json", emit=True):
         report["recovery_pct_subgroups"]["Age_Band"] = _subgroup_metrics(
             age_test, y_pct, pred_pct_labeled, "Age_Band_Eval"
         )
+    try:
+        commit = subprocess.run(["git", "rev-parse", "HEAD"], cwd=Path(__file__).resolve().parent,
+                                capture_output=True, text=True, check=True).stdout.strip()
+    except (OSError, subprocess.CalledProcessError):
+        commit = "unavailable"
+    data_digest = hashlib.sha256(
+        json.dumps(list(data.columns), separators=(",", ":")).encode()
+        + pd.util.hash_pandas_object(data, index=True).values.tobytes()
+    ).hexdigest()
+    report["stamp"] = {"git_commit": commit, "data_sha256": data_digest,
+                       "features": list(config.ALL_FEATURES), "python": platform.python_version(),
+                       "numpy": np.__version__, "pandas": pd.__version__,
+                       "scikit_learn": __import__("sklearn").__version__,
+                       "xgboost": getattr(__import__("xgboost"), "__version__", None) if modeling.XGBRegressor else None}
     out = Path(output_path)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(report, indent=2, allow_nan=False) + "\n", encoding="utf-8")

@@ -8,12 +8,18 @@ and active therapy plans.
 """
 
 import io
+from xml.sax.saxutils import escape
 from reportlab.lib.pagesizes import letter
 from reportlab.lib import colors
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, HRFlowable
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 
 import simulation as simmod
+
+
+def _safe(value):
+    """Escape patient-controlled text before passing it to ReportLab Paragraph."""
+    return escape(str(value))
 
 
 def generate_twin_pdf(patient_id: str, patient_row, week_data: dict, pressure_points: list,
@@ -78,20 +84,20 @@ def generate_twin_pdf(patient_id: str, patient_row, week_data: dict, pressure_po
 
     info_data = [
         [
-            Paragraph("<b>Patient ID:</b>", text_style), Paragraph(str(patient_id), text_style),
-            Paragraph("<b>Treating Doctor:</b>", text_style), Paragraph(str(doc_name), text_style)
+            Paragraph("<b>Patient ID:</b>", text_style), Paragraph(_safe(patient_id), text_style),
+            Paragraph("<b>Treating Doctor:</b>", text_style), Paragraph(_safe(doc_name), text_style)
         ],
         [
-            Paragraph("<b>Age / Gender:</b>", text_style), Paragraph(f"{patient_row.get('Age', '-')} yrs / {patient_row.get('Gender', '-')}", text_style),
-            Paragraph("<b>Specialization:</b>", text_style), Paragraph(str(doc_spec), text_style)
+            Paragraph("<b>Age / Gender:</b>", text_style), Paragraph(_safe(f"{patient_row.get('Age', '-')} yrs / {patient_row.get('Gender', '-')}") , text_style),
+            Paragraph("<b>Specialization:</b>", text_style), Paragraph(_safe(doc_spec), text_style)
         ],
         [
-            Paragraph("<b>Injury Type:</b>", text_style), Paragraph(str(patient_row.get("Injury_Type", "-")), text_style),
-            Paragraph("<b>Body Region / Part:</b>", text_style), Paragraph(f"{patient_row.get('Body_Region', '-')} / {patient_row.get('Body_Part', '-')}", text_style)
+            Paragraph("<b>Injury Type:</b>", text_style), Paragraph(_safe(patient_row.get("Injury_Type", "-")), text_style),
+            Paragraph("<b>Body Region / Part:</b>", text_style), Paragraph(_safe(f"{patient_row.get('Body_Region', '-')} / {patient_row.get('Body_Part', '-')}") , text_style)
         ],
         [
-            Paragraph("<b>Severity:</b>", text_style), Paragraph(str(patient_row.get("Severity", "-")), text_style),
-            Paragraph("<b>Report Stage:</b>", text_style), Paragraph(f"Week {week_data.get('Week', 1)} Review", bold_text_style)
+            Paragraph("<b>Severity:</b>", text_style), Paragraph(_safe(patient_row.get("Severity", "-")), text_style),
+            Paragraph("<b>Report Stage:</b>", text_style), Paragraph(_safe(f"Week {week_data.get('Week', 1)} Review"), bold_text_style)
         ],
     ]
     t_info = Table(info_data, colWidths=[110, 160, 110, 160])
@@ -125,7 +131,7 @@ def generate_twin_pdf(patient_id: str, patient_row, week_data: dict, pressure_po
         [Paragraph("Primary Strength (%)", text_style), Paragraph(f"{week_data.get('Quadriceps_Strength_pct', 0):.1f}%", text_style), Paragraph("Target >= 85%", text_style)],
         [Paragraph("Function / Balance Score", text_style), Paragraph(f"{week_data.get('Balance_Score', 0):.1f}", text_style), Paragraph("Target >= 75", text_style)],
         [Paragraph("Walking Speed (m/s)", text_style), Paragraph(f"{week_data.get('Walking_Speed_mps', 0):.2f} m/s", text_style), Paragraph("Target >= 1.2 m/s", text_style)],
-        [Paragraph("Swelling / Compliance", text_style), Paragraph(f"{week_data.get('Swelling', '-')} / {week_data.get('Compliance_pct', '-')}%", text_style), Paragraph("Target <= Mild / >= 80%", text_style)],
+        [Paragraph("Swelling / Compliance", text_style), Paragraph(_safe(f"{week_data.get('Swelling', '-')} / {week_data.get('Compliance_pct', '-')}%"), text_style), Paragraph("Target <= Mild / >= 80%", text_style)],
     ]
     t_metrics = Table(metrics_data, colWidths=[180, 180, 180])
     t_metrics.setStyle(TableStyle([
@@ -142,7 +148,7 @@ def generate_twin_pdf(patient_id: str, patient_row, week_data: dict, pressure_po
         story.append(Paragraph("Flagged Recovery Pressure Points", heading_style))
         pp_data = [[Paragraph("<b>Category</b>", bold_text_style), Paragraph("<b>Observation</b>", bold_text_style), Paragraph("<b>Clinical Risk Flag</b>", bold_text_style)]]
         for pp in pressure_points:
-            pp_data.append([Paragraph(str(pp.get("Category", "-")), text_style), Paragraph(str(pp.get("Actual", "-")), text_style), Paragraph(str(pp.get("Flag", "-")), text_style)])
+            pp_data.append([Paragraph(_safe(pp.get("Category", "-")), text_style), Paragraph(_safe(pp.get("Actual", "-")), text_style), Paragraph(_safe(pp.get("Flag", "-")), text_style)])
         t_pp = Table(pp_data, colWidths=[140, 140, 260])
         t_pp.setStyle(TableStyle([
             ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#FEF2F2')),
@@ -165,7 +171,7 @@ def generate_twin_pdf(patient_id: str, patient_row, week_data: dict, pressure_po
         ]]
         for cl in treatment_clones:
             cl_data.append([
-                Paragraph(str(cl.get("name", "-")), text_style),
+                Paragraph(_safe(cl.get("name", "-")), text_style),
                 Paragraph(f"{cl.get('weeks', 0):.1f} wks", text_style),
                 Paragraph(f"{cl.get('final_rom', 0):.1f}°", text_style),
                 Paragraph(f"{cl.get('final_strength', 0):.1f}%", text_style),
@@ -262,20 +268,20 @@ def generate_twin_pdf(patient_id: str, patient_row, week_data: dict, pressure_po
 
     info_data = [
         [
-            Paragraph("<b>Patient ID:</b>", text_style), Paragraph(str(patient_id), text_style),
-            Paragraph("<b>Treating Doctor:</b>", text_style), Paragraph(str(doc_name), text_style)
+            Paragraph("<b>Patient ID:</b>", text_style), Paragraph(_safe(patient_id), text_style),
+            Paragraph("<b>Treating Doctor:</b>", text_style), Paragraph(_safe(doc_name), text_style)
         ],
         [
-            Paragraph("<b>Age / Gender:</b>", text_style), Paragraph(f"{patient_row.get('Age', '-')} yrs / {patient_row.get('Gender', '-')}", text_style),
-            Paragraph("<b>Specialization:</b>", text_style), Paragraph(str(doc_spec), text_style)
+            Paragraph("<b>Age / Gender:</b>", text_style), Paragraph(_safe(f"{patient_row.get('Age', '-')} yrs / {patient_row.get('Gender', '-')}") , text_style),
+            Paragraph("<b>Specialization:</b>", text_style), Paragraph(_safe(doc_spec), text_style)
         ],
         [
-            Paragraph("<b>Injury Type:</b>", text_style), Paragraph(str(patient_row.get("Injury_Type", "-")), text_style),
-            Paragraph("<b>Body Region / Part:</b>", text_style), Paragraph(f"{patient_row.get('Body_Region', '-')} / {patient_row.get('Body_Part', '-')}", text_style)
+            Paragraph("<b>Injury Type:</b>", text_style), Paragraph(_safe(patient_row.get("Injury_Type", "-")), text_style),
+            Paragraph("<b>Body Region / Part:</b>", text_style), Paragraph(_safe(f"{patient_row.get('Body_Region', '-')} / {patient_row.get('Body_Part', '-')}") , text_style)
         ],
         [
-            Paragraph("<b>Severity:</b>", text_style), Paragraph(str(patient_row.get("Severity", "-")), text_style),
-            Paragraph("<b>Report Stage:</b>", text_style), Paragraph(f"Week {week_data.get('Week', 1)} Review", bold_text_style)
+            Paragraph("<b>Severity:</b>", text_style), Paragraph(_safe(patient_row.get("Severity", "-")), text_style),
+            Paragraph("<b>Report Stage:</b>", text_style), Paragraph(_safe(f"Week {week_data.get('Week', 1)} Review"), bold_text_style)
         ],
     ]
     t_info = Table(info_data, colWidths=[110, 160, 110, 160])
@@ -309,7 +315,7 @@ def generate_twin_pdf(patient_id: str, patient_row, week_data: dict, pressure_po
         [Paragraph("Primary Strength (%)", text_style), Paragraph(f"{week_data.get('Quadriceps_Strength_pct', 0):.1f}%", text_style), Paragraph("Target >= 85%", text_style)],
         [Paragraph("Function / Balance Score", text_style), Paragraph(f"{week_data.get('Balance_Score', 0):.1f}", text_style), Paragraph("Target >= 75", text_style)],
         [Paragraph("Walking Speed (m/s)", text_style), Paragraph(f"{week_data.get('Walking_Speed_mps', 0):.2f} m/s", text_style), Paragraph("Target >= 1.2 m/s", text_style)],
-        [Paragraph("Swelling / Compliance", text_style), Paragraph(f"{week_data.get('Swelling', '-')} / {week_data.get('Compliance_pct', '-')}%", text_style), Paragraph("Target <= Mild / >= 80%", text_style)],
+        [Paragraph("Swelling / Compliance", text_style), Paragraph(_safe(f"{week_data.get('Swelling', '-')} / {week_data.get('Compliance_pct', '-')}%"), text_style), Paragraph("Target <= Mild / >= 80%", text_style)],
     ]
     t_metrics = Table(metrics_data, colWidths=[180, 180, 180])
     t_metrics.setStyle(TableStyle([
@@ -326,7 +332,7 @@ def generate_twin_pdf(patient_id: str, patient_row, week_data: dict, pressure_po
         story.append(Paragraph("Flagged Recovery Pressure Points", heading_style))
         pp_data = [[Paragraph("<b>Category</b>", bold_text_style), Paragraph("<b>Observation</b>", bold_text_style), Paragraph("<b>Clinical Risk Flag</b>", bold_text_style)]]
         for pp in pressure_points:
-            pp_data.append([Paragraph(str(pp.get("Category", "-")), text_style), Paragraph(str(pp.get("Actual", "-")), text_style), Paragraph(str(pp.get("Flag", "-")), text_style)])
+            pp_data.append([Paragraph(_safe(pp.get("Category", "-")), text_style), Paragraph(_safe(pp.get("Actual", "-")), text_style), Paragraph(_safe(pp.get("Flag", "-")), text_style)])
         t_pp = Table(pp_data, colWidths=[140, 140, 260])
         t_pp.setStyle(TableStyle([
             ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#FEF2F2')),
@@ -349,7 +355,7 @@ def generate_twin_pdf(patient_id: str, patient_row, week_data: dict, pressure_po
         ]]
         for cl in treatment_clones:
             cl_data.append([
-                Paragraph(str(cl.get("name", "-")), text_style),
+                Paragraph(_safe(cl.get("name", "-")), text_style),
                 Paragraph(f"{cl.get('weeks', 0):.1f} wks", text_style),
                 Paragraph(f"{cl.get('final_rom', 0):.1f}°", text_style),
                 Paragraph(f"{cl.get('final_strength', 0):.1f}%", text_style),

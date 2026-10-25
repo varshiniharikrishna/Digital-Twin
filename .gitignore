@@ -2,10 +2,13 @@ __pycache__/
 *.pyc
 .DS_Store
 .env
+.env.*
+!.env.example
 .venv/
 venv/.env.*
 !.env.example
-reports/
+reports/*
+!reports/AUDIT.md
 .pytest_cache/
 htmlcov/
 coverage.xml

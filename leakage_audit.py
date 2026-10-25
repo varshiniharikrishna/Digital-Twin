@@ -3,7 +3,7 @@ import re
 import config
 
 POST_BASELINE = re.compile(r"(week|weekly|actual_|final_|discharge|outcome|recovery_pct_target|availability|timestamp|observed_after)", re.I)
-SAFE_ENGINEERED = {"Clinical_Est_Weeks"}
+SAFE_ENGINEERED = set()
 
 def audit_feature_names(feature_names=None):
     names = list(config.ALL_FEATURES if feature_names is None else feature_names)

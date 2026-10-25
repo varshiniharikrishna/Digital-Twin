@@ -21,18 +21,18 @@ def main():
         try: result=fn();summary["experiments"][name]={"status":"complete","result":result if isinstance(result,(str,int,float,bool,dict,list,type(None))) else str(type(result))}
         except Exception as exc:
             summary["experiments"][name]={"status":"not completed","error":f"{type(exc).__name__}: {exc}"};_write_status(name,"not completed",str(exc))
-    try:
-        import research_evaluation
-        run("research_evaluation",lambda:research_evaluation.run(tables,REPORTS/"research_evaluation"/"research_evaluation.json",emit=False))
-    except Exception as exc: summary["experiments"]["research_evaluation"]={"status":"not completed","error":str(exc)}
     if not args.skip_benchmark:
         def do_bench():
             import model_benchmark
             ytr=train[config.TARGET_RECOVERY_PCT];yte=test[config.TARGET_RECOVERY_PCT]
-            report,_=model_benchmark.benchmark(get_feature_frame(train),ytr,get_feature_frame(test),yte,origin,out_dir=REPORTS/"model_benchmark")
+            report,_=model_benchmark.benchmark(get_feature_frame(train),ytr,get_feature_frame(test),yte,origin,out_dir=REPORTS/"model_benchmark",groups=train["Patient_ID"])
             return {"selected_model":report["selected_by_training_cv"],"holdout":report["chronological_holdout"],"cv_mean_R2":report["models"][report["selected_by_training_cv"]]["fold_mean_sd"]["R2"]["mean"]}
         run("model_benchmark",do_bench)
     else:_write_status("model_benchmark","skipped by flag")
+    try:
+        import research_evaluation
+        run("research_evaluation",lambda:research_evaluation.run(tables,REPORTS/"research_evaluation"/"research_evaluation.json",emit=False))
+    except Exception as exc: summary["experiments"]["research_evaluation"]={"status":"not completed","error":str(exc)}
     def do_similarity():
         import similarity_eval
         return similarity_eval.run(train,test,REPORTS/"similarity")

@@ -1,6 +1,5 @@
 pandas
 numpy
-scikit-learn
 plotly
 streamlit
 flask
@@ -10,10 +9,13 @@ pymysql
 scipy
 PyYAML
 pyarrow
-pytest
-# Optional models and XAI/PNG support; benchmark gracefully omits unavailable estimators:
-xgboost
-lightgbm
-catboost
-shap
-kaleido
+# Optional models and XAI/PNG support; benchmark gracefully omits unavailable estimators.
+# XGBoost 1.7.6 was verified with the repository's sklearn 1.8 runtime.
+xgboost==1.7.6
+lightgbm==4.6.0
+catboost==1.2.8
+optuna==4.2.1
+shap==0.47.2
+kaleido==0.2.1
+scikit-learn==1.8.0
+pytest==8.3.5

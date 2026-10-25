@@ -21,11 +21,31 @@ INJURY_BASE_WEEKS = {
     "Distal Radius Fracture": 10,
 }
 SEVERITY_MULT = {"Mild": 0.75, "Moderate": 1.0, "Severe": 1.35}
+BASELINE_SCHEMA = {
+    "Patient": ("Patient_ID", "Age"),
+    "Injury": ("Patient_ID", "Injury_Type", "Severity"),
+    "Initial_Assessment": ("Patient_ID", "Pain_Score", "Range_of_Motion_deg", "Muscle_Strength_pct"),
+}
+
+
+def _rom_max_for_region(row):
+    """Resolve the configured normalisation range from baseline injury fields."""
+    text = " ".join(str(row.get(col, "")) for col in ("Body_Region", "Body_Part", "Injury_Type")).casefold()
+    aliases = {"knee": ("knee", "acl", "meniscus", "patella"),
+               "shoulder": ("shoulder", "rotator", "frozen shoulder"),
+               "hip": ("hip",), "ankle": ("ankle", "achilles"),
+               "spine": ("spine", "lumbar", "disc"), "wrist": ("wrist", "radius")}
+    for region, terms in aliases.items():
+        if any(term in text for term in terms):
+            return config.ROM_MAX_BY_REGION[region]
+    return np.nan
 
 
 def compute_derived_features(df: pd.DataFrame) -> pd.DataFrame:
     """Create region-aware generic measures without inventing missing observations."""
-    df = df.copy()
+    # Duplicate source indexes occur when a patient is expanded into several
+    # check-in rows; arithmetic across aligned Series needs unique row labels.
+    df = df.copy().reset_index(drop=True)
     region_text = df.get("Body_Region", df.get("Body_Part", df.get("Injury_Type", pd.Series("", index=df.index)))).astype("string").str.casefold()
     def first_available(columns):
         result = pd.Series(np.nan,index=df.index,dtype=float)
@@ -128,15 +148,23 @@ def build_modelling_dataset(tables: dict) -> pd.DataFrame:
     injury = tables["Injury"].copy()
     assessment = tables["Initial_Assessment"].copy()
     outcome = tables["Final_Outcome"].copy() if "Final_Outcome" in tables else pd.DataFrame()
+    for table_name, required in BASELINE_SCHEMA.items():
+        source = tables.get(table_name)
+        missing = [column for column in required if source is None or column not in source.columns]
+        if missing:
+            raise ValueError(f"Baseline schema error in {table_name}: missing required column(s) {missing}.")
+    for table_name, frame in (("Patient", patient), ("Injury", injury), ("Initial_Assessment", assessment)):
+        if frame["Patient_ID"].duplicated().any():
+            raise ValueError(f"Baseline schema error in {table_name}: Patient_ID must be unique for one-to-one baseline records.")
     # Baseline predictors must not contain measurements collected after
     # enrollment. Weekly_Progress starts after Initial_Assessment, so do not
     # join week-1 values into the baseline prediction dataset.
 
     df = (
         patient
-        .merge(injury, on="Patient_ID", how="left", suffixes=("", "_inj"))
-        .merge(assessment, on="Patient_ID", how="left", suffixes=("", "_ia"))
-        .merge(outcome, on="Patient_ID", how="left", suffixes=("", "_out"))
+        .merge(injury, on="Patient_ID", how="left", suffixes=("", "__injury"), validate="one_to_one")
+        .merge(assessment, on="Patient_ID", how="left", suffixes=("", "__assessment"), validate="one_to_one")
+        .merge(outcome, on="Patient_ID", how="left", suffixes=("", "__outcome"), validate="one_to_one")
     )
 
     df = compute_derived_features(df)
@@ -147,11 +175,12 @@ def build_modelling_dataset(tables: dict) -> pd.DataFrame:
     actual_rom = pd.to_numeric(
         df.get("Actual_ROM_deg", pd.Series(np.nan, index=df.index)), errors="coerce"
     )
-    proxy_valid = actual_strength.notna() & actual_rom.notna()
+    rom_max = df.apply(_rom_max_for_region, axis=1)
+    proxy_valid = actual_strength.notna() & actual_rom.notna() & rom_max.notna()
     proxy_pct = pd.Series(np.nan, index=df.index, dtype=float)
     proxy_pct.loc[proxy_valid] = np.clip(
         0.5 * actual_strength.loc[proxy_valid]
-        + 0.5 * (actual_rom.loc[proxy_valid] / 140.0 * 100.0), 0, 100
+        + 0.5 * (actual_rom.loc[proxy_valid] / rom_max.loc[proxy_valid] * 100.0), 0, 100
     )
     recorded_pct = pd.to_numeric(
         df.get(config.TARGET_RECOVERY_PCT, pd.Series(np.nan, index=df.index)), errors="coerce"
@@ -258,7 +287,11 @@ def get_feature_frame(df: pd.DataFrame) -> pd.DataFrame:
     # Always recompute engineered features. In particular, weekly observations
     # can change pain, ROM, strength, balance, and walking speed on a row that
     # already contains the derived columns from the baseline state.
+    source_index = df.index
     df_clean = compute_derived_features(df)
+    # Feature engineering uses unique internal row labels, but callers rely on
+    # the input row index when aligning supervised targets after filtering.
+    df_clean.index = source_index
     for col in config.ALL_FEATURES:
         if col not in df_clean: df_clean[col] = np.nan
     X = df_clean[config.ALL_FEATURES].copy()

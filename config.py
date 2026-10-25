@@ -27,7 +27,9 @@ TARGET_OUTCOME_COLUMN = TARGET_CANDIDATES.get(TARGET_SELECTION, TARGET_CANDIDATE
 TARGET_DISPLAY_LABEL = {"composite_proxy": "Composite recovery proxy (%)", "fim": "FIM final score", "vas_pain": "Final VAS pain", "dash": "DASH final score", "koos": "KOOS final score", "lefs": "LEFS final score"}.get(TARGET_SELECTION, "Composite recovery proxy (%)")
 
 MYSQL_CONFIG = {
-    "user": os.environ.get("DT_MYSQL_USER", "root"),
+    # No usable database credentials are assumed. MySQL mode requires explicit
+    # environment configuration in the process that starts the application.
+    "user": os.environ.get("DT_MYSQL_USER", ""),
     "password": os.environ.get("DT_MYSQL_PASSWORD", ""),
     "host": os.environ.get("DT_MYSQL_HOST", "localhost"),
     "port": int(os.environ.get("DT_MYSQL_PORT", "3306")),
@@ -50,7 +52,7 @@ NUMERIC_FEATURES = [
     "Age", "BMI", "Previous_Injuries", "Pain_Score", "Primary_ROM_deg",
     "Primary_Strength_pct", "Secondary_Strength_pct", "Balance_Score",
     "Walking_Speed_mps", "Quad_Ham_Ratio", "Comorbidity_Score", "Pain_ROM_Ratio",
-    "Mobility_Index", "Clinical_Est_Weeks",
+    "Mobility_Index",
 ]
 
 CATEGORICAL_FEATURES = [
@@ -59,6 +61,17 @@ CATEGORICAL_FEATURES = [
 ]
 
 ALL_FEATURES = NUMERIC_FEATURES + CATEGORICAL_FEATURES
+PRODUCTION_MODEL_NAME = os.environ.get("DT_MODEL", "XGBoost")
+MODEL_ARTIFACT_DIR = os.environ.get("DT_MODEL_ARTIFACT_DIR", "reports/model_benchmark/artifacts")
+ROM_MAX_BY_REGION = {"knee": 140.0, "shoulder": 180.0, "hip": 130.0, "ankle": 50.0, "spine": 120.0, "wrist": 80.0}
+REGION_ALERT_THRESHOLDS = {
+    "knee": {"pain": 5.0, "rom_min": 90.0, "strength_min": 60.0, "balance_min": 60.0, "compliance_min": 70.0},
+    "shoulder": {"pain": 5.0, "rom_min": 90.0, "strength_min": 60.0, "balance_min": 60.0, "compliance_min": 70.0},
+    "hip": {"pain": 5.0, "rom_min": 90.0, "strength_min": 60.0, "balance_min": 60.0, "compliance_min": 70.0},
+    "ankle": {"pain": 5.0, "rom_min": 20.0, "strength_min": 60.0, "balance_min": 60.0, "compliance_min": 70.0},
+    "spine": {"pain": 5.0, "rom_min": 30.0, "strength_min": 60.0, "balance_min": 60.0, "compliance_min": 70.0},
+    "wrist": {"pain": 5.0, "rom_min": 30.0, "strength_min": 60.0, "balance_min": 60.0, "compliance_min": 70.0},
+}
 
 TARGET_RECOVERY_PCT = "Final_Recovery_Pct"
 TARGET_RECOVERY_WEEKS = "Actual_Recovery_Time_weeks"
@@ -71,6 +84,7 @@ DEVIATION_SENSITIVITY_THRESHOLDS_PCT = (5.0, 10.0, 15.0, 20.0, 25.0)
 SIMILARITY_NUMERIC_WEIGHT = 0.60
 SIMILARITY_CATEGORICAL_WEIGHT = 0.40
 PATHWAY_MIN_SAMPLE_SIZE = 5
+PATHWAY_SUCCESS_THRESHOLD_PCT = 80.0  # descriptive proxy threshold only; not an efficacy claim
 RANDOM_STATE = 42
 
 # ------------------------------------------------- PATIENT SIMILARITY (claim)

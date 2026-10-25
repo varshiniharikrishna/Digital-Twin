@@ -2,6 +2,7 @@ import pandas as pd
 import pytest
 from data_adapter import DataValidationError, validate_real_records, to_tables, load_real_records
 from leakage_audit import audit_feature_names
+from data_prep import compute_derived_features, get_feature_frame
 
 def valid_frame():
     return pd.DataFrame({"Patient_ID":["PSEUDO-1","PSEUDO-2"],"Age":[31,47],"Injury_Type":["ACL Tear","Rotator Cuff Tear"],"Severity":["Moderate","Mild"],"Enrollment_Date":["2023-01-01","2024-02-01"],"Primary_ROM_deg":[75,80],"Primary_Strength_pct":[45,50],"FIM_Final":[90,100]})
@@ -23,3 +24,17 @@ def test_missing_path_never_generates_data(tmp_path):
 
 def test_leakage_audit_rejects_weekly_feature():
     with pytest.raises(ValueError,match="leakage"):audit_feature_names(["Age","Week_1_Strength"])
+
+def test_leakage_audit_rejects_estimated_duration_feature():
+    with pytest.raises(ValueError, match="leakage"):
+        audit_feature_names(["Age", "Clinical_Est_Weeks"])
+
+def test_feature_engineering_handles_repeated_source_indexes():
+    frame = pd.DataFrame({"Age": [30, 40], "Diabetes": ["No", "Yes"],
+                          "Injury_Type": ["ACL Tear", "ACL Tear"], "Severity": ["Mild", "Moderate"]},
+                         index=[7, 7])
+    result = compute_derived_features(frame)
+    assert result.index.is_unique
+    assert len(result) == 2
+    features = get_feature_frame(frame)
+    assert features.index.tolist() == [7, 7]

@@ -1,6 +1,6 @@
 # Digital Twin — orthopaedic rehabilitation research prototype
 
-This repository contains a Flask multi-portal app (`server.py`) and a separate Streamlit research dashboard (`app.py`), baseline outcome models, exploratory cohort similarity, an observation-updated state prototype, and report-generation scripts. The checked-in `output/*.csv` files are **synthetic demo records**, not patient data or clinical validation.
+This repository contains a Flask multi-portal app (`server.py`) and a separate Streamlit research dashboard (`app.py`), an XGBoost production model with an optional estimator benchmark, exploratory cohort similarity, an observation-updated state prototype, and report-generation scripts. The checked-in `output/*.csv` files are **synthetic demo records**, not patient data or clinical validation.
 
 ## Run the app
 

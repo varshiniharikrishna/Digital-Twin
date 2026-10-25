@@ -69,12 +69,12 @@ def mine_pathways_from_tables(tables: dict) -> list:
         cohort = cohort_map.get(cohort_id, {})
         pids = _cohort_patients(cohort, patients, injuries)
         observed = outcomes[outcomes["Patient_ID"].astype(str).isin(pids)] if pids else pd.DataFrame()
-        if len(observed) < config.PATHWAY_MIN_SAMPLE_SIZE:
-            continue
+        enough_evidence = len(observed) >= config.PATHWAY_MIN_SAMPLE_SIZE
 
         pct = pd.to_numeric(observed.get("Final_Recovery_Pct", pd.Series(dtype=float)), errors="coerce")
         avg_pct = float(pct.mean()) if pct.notna().any() else None
-        success_rate = float((pct >= 80).mean() * 100) if pct.notna().any() else None
+        success_rate = (float((pct >= config.PATHWAY_SUCCESS_THRESHOLD_PCT).mean() * 100)
+                        if enough_evidence and pct.notna().any() else None)
         weeks = pd.to_numeric(observed.get("Actual_Recovery_Time_weeks", pd.Series(dtype=float)), errors="coerce")
         avg_weeks = float(weeks.mean()) if weeks.notna().any() else None
         body_region = template.get("Body_Region", template.get("Body_Part", ""))
@@ -97,9 +97,10 @@ def mine_pathways_from_tables(tables: dict) -> list:
             "Age_Band": str(cohort.get("Age_Band", "Unspecified")),
             "Archetype_Label": archetype,
             "Sample_Size": int(len(observed)),
-            "Average_Recovery_Time_weeks": round(avg_weeks, 1) if avg_weeks is not None else None,
-            "Average_Recovery_Pct": round(avg_pct, 1) if avg_pct is not None else None,
+            "Average_Recovery_Time_weeks": round(avg_weeks, 1) if enough_evidence and avg_weeks is not None else None,
+            "Average_Recovery_Pct": round(avg_pct, 1) if enough_evidence and avg_pct is not None else None,
             "Success_Rate": round(success_rate, 1) if success_rate is not None else None,
+            "evidence_status": "sufficient descriptive sample" if enough_evidence else f"insufficient sample: n={len(observed)}, requires {config.PATHWAY_MIN_SAMPLE_SIZE}",
             "Outcome_Metric": "derived strength-ROM proxy" if derived_proxy else "configured recovery percentage",
             "Outcome_Evidence_Scope": "Descriptive cohort outcomes only; pathway assignment is not linked to patient outcomes.",
             "title": f"Pathway template {template.get('Pathway_ID', '')}: {injury_type} — {archetype}",
