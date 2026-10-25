@@ -650,6 +650,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
             wrapper.innerHTML = '';
             data.pathways.forEach(pw => {
+                const pctN = Number(pw.Recovery_Pct_N || 0);
+                const weeksN = Number(pw.Recovery_Weeks_N || 0);
+                const threshold = Number(pw.Success_Threshold_Pct || 80);
+                const durationValue = pw.Average_Recovery_Time_weeks == null
+                    ? 'No observed duration' : `${escapeHtml(pw.Average_Recovery_Time_weeks)} weeks`;
+                const proxyValue = pw.Average_Recovery_Pct == null
+                    ? 'No observed proxy' : `${escapeHtml(pw.Average_Recovery_Pct)}%`;
+                const thresholdValue = pw.Success_Rate == null
+                    ? 'No observed proxy' : `${escapeHtml(pw.Success_Count)}/${escapeHtml(pctN)} (${escapeHtml(pw.Success_Rate)}%)`;
                 let stepsHtml = (pw.step_flow || []).map((s, idx) => `
                     <div class="pathway-step-card">
                         <div class="step-badge">Phase ${idx+1}</div>
@@ -667,22 +676,24 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     <div class="pathway-stats-grid">
                         <div class="pstat-box">
-                            <div class="pstat-label">⏱️ Avg Duration</div>
-                            <div class="pstat-val">${escapeHtml(pw.Average_Recovery_Time_weeks ?? '—')} Wks</div>
+                            <div class="pstat-label">Observed mean duration (n=${escapeHtml(weeksN)})</div>
+                            <div class="pstat-val">${durationValue}</div>
                         </div>
                         <div class="pstat-box">
-                            <div class="pstat-label">Cohort ≥80% proxy</div>
-                            <div class="pstat-val text-emerald">${pw.Success_Rate == null ? '—' : `${escapeHtml(pw.Success_Rate)}%`}</div>
+                            <div class="pstat-label">Observed proxy ≥${escapeHtml(threshold)}% (n=${escapeHtml(pctN)})</div>
+                            <div class="pstat-val text-emerald">${thresholdValue}</div>
                         </div>
                         <div class="pstat-box">
-                            <div class="pstat-label">Mean recovery proxy</div>
-                            <div class="pstat-val">${pw.Average_Recovery_Pct == null ? '—' : `${escapeHtml(pw.Average_Recovery_Pct)}%`}</div>
+                            <div class="pstat-label">Observed mean recovery proxy (n=${escapeHtml(pctN)})</div>
+                            <div class="pstat-val">${proxyValue}</div>
                         </div>
                         <div class="pstat-box">
-                            <div class="pstat-label">👥 Cohort Pool</div>
-                            <div class="pstat-val">${escapeHtml(pw.Sample_Size)} Patients</div>
+                            <div class="pstat-label">👥 Patients with observed outcomes</div>
+                            <div class="pstat-val">${escapeHtml(pw.Sample_Size)} of ${escapeHtml(pw.Cohort_Pool_Size ?? pw.Sample_Size)}</div>
                         </div>
                     </div>
+
+                    ${pw.evidence_status !== 'sufficient descriptive sample' ? `<div class="alert-box-info" style="margin-top:12px; border-left-color:#F59E0B; color:#92400E;">${escapeHtml(pw.evidence_status)}. Values above are observed cohort summaries only; they are not estimates of pathway benefit.</div>` : ''}
 
                     <p class="pathway-story-txt">${escapeHtml(pw.story || pw.layman_story)}</p>
                     

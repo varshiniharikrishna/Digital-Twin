@@ -160,6 +160,22 @@ def test_pathway_mining_excludes_chronological_holdout_patients():
     mined = pathway_mining.mine_pathways_from_tables(tables)
     assert mined and mined[0]["Sample_Size"] == 5
 
+def test_pathway_shows_observed_small_sample_values_with_insufficient_evidence_flag():
+    tables={
+        "Recovery_Pathway":pd.DataFrame([{"Pathway_ID":"PW1","Cohort_ID":"C1","Body_Region":"knee","Archetype_Label":"Test"}]),
+        "Cohort_Definition":pd.DataFrame([{"Cohort_ID":"C1","Age_Band":"<25","Injury_Type":"ACL Tear","Severity":"Mild"}]),
+        "Patient":pd.DataFrame([{"Patient_ID":"P1","Age":20,"Enrollment_Date":"2023-01-01"},{"Patient_ID":"P2","Age":22,"Enrollment_Date":"2024-01-01"}]),
+        "Injury":pd.DataFrame([{"Patient_ID":"P1","Injury_Type":"ACL Tear","Severity":"Mild","Body_Part":"Knee"},{"Patient_ID":"P2","Injury_Type":"ACL Tear","Severity":"Mild","Body_Part":"Knee"}]),
+        "Final_Outcome":pd.DataFrame([{"Patient_ID":"P1","Actual_Recovery_Time_weeks":10,"Actual_ROM_deg":70,"Actual_Strength_pct":60},{"Patient_ID":"P2","Actual_Recovery_Time_weeks":20,"Actual_ROM_deg":140,"Actual_Strength_pct":80}]),
+        "Pathway_Steps":pd.DataFrame(),
+    }
+    pathway=pathway_mining.mine_pathways_from_tables(tables)[0]
+    assert pathway["Average_Recovery_Time_weeks"] == 15.0
+    assert pathway["Average_Recovery_Pct"] == 72.5
+    assert pathway["Success_Count"] == 1 and pathway["Success_Rate"] == 50.0
+    assert pathway["Sample_Size"] == 2
+    assert pathway["evidence_status"].startswith("insufficient evidence")
+
 def test_evaluation_reports_wape_instead_of_percentage_error_at_zero():
     result = modeling.evaluate([0, 10], [4, 12])
     assert result["WAPE"] == 6 / 10 * 100

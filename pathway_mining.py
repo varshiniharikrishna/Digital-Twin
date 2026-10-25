@@ -10,6 +10,7 @@ import numpy as np
 import pandas as pd
 import config
 from similarity import find_similar_patients
+from data_prep import _rom_max_for_region
 
 
 AGE_BANDS = {"<25": (0, 25), "25-40": (25, 40), "40-55": (40, 55), "55+": (55, np.inf)}
@@ -42,6 +43,36 @@ def _cohort_patients(cohort, patients, injuries):
     return set(joined["Patient_ID"].astype(str))
 
 
+def _recovery_percentage_values(outcomes, injuries):
+    """Return observed target values, using the same region-aware proxy as modeling."""
+    rows = outcomes.copy()
+    injury_fields = [name for name in ("Patient_ID", "Body_Region", "Body_Part", "Injury_Type") if name in injuries]
+    if not rows.empty and "Patient_ID" in injury_fields:
+        rows = rows.merge(injuries[injury_fields].drop_duplicates("Patient_ID", keep="first"),
+                          on="Patient_ID", how="left", suffixes=("", "_injury"))
+    if config.TARGET_SELECTION != "composite_proxy":
+        values = pd.to_numeric(rows.get(config.TARGET_OUTCOME_COLUMN, pd.Series(np.nan, index=rows.index)), errors="coerce")
+        return rows, values, False, f"configured target: {config.TARGET_OUTCOME_COLUMN}"
+
+    recorded = pd.to_numeric(rows.get("Final_Recovery_Pct", pd.Series(np.nan, index=rows.index)), errors="coerce")
+    derived = pd.Series(np.nan, index=rows.index, dtype=float)
+    if {"Actual_Strength_pct", "Actual_ROM_deg"}.issubset(rows.columns):
+        strength = pd.to_numeric(rows["Actual_Strength_pct"], errors="coerce")
+        rom = pd.to_numeric(rows["Actual_ROM_deg"], errors="coerce")
+        rom_max = pd.to_numeric(rows.apply(_rom_max_for_region, axis=1), errors="coerce")
+        valid = strength.notna() & rom.notna() & rom_max.notna()
+        derived.loc[valid] = (0.5 * strength.loc[valid]
+                              + 0.5 * rom.loc[valid] / rom_max.loc[valid] * 100.0).clip(0, 100)
+    values = recorded.combine_first(derived)
+    used_derived = bool((recorded.isna() & derived.notna()).any())
+    has_recorded = bool(recorded.notna().any())
+    metric = ("recorded recovery percentage with region-normalized proxy for missing rows" if has_recorded and used_derived else
+              "region-normalized derived strength-ROM proxy" if used_derived else
+              "recorded recovery percentage" if has_recorded else
+              "no observed recovery metric")
+    return rows, values, used_derived, metric
+
+
 def mine_pathways_from_tables(tables: dict) -> list:
     """Build template-level summaries from training-year patients only."""
     templates = tables.get("Recovery_Pathway", pd.DataFrame())
@@ -69,15 +100,6 @@ def mine_pathways_from_tables(tables: dict) -> list:
     if not training_ids or outcomes.empty:
         return []
 
-    derived_proxy = False
-    if "Final_Recovery_Pct" not in outcomes and {"Actual_Strength_pct", "Actual_ROM_deg"}.issubset(outcomes.columns):
-        # The application target is a constructed score, not an observed clinical scale.
-        outcomes["Final_Recovery_Pct"] = (
-            0.5 * pd.to_numeric(outcomes["Actual_Strength_pct"], errors="coerce")
-            + 0.5 * pd.to_numeric(outcomes["Actual_ROM_deg"], errors="coerce") / 140.0 * 100.0
-        ).clip(0, 100)
-        derived_proxy = True
-
     cohort_map = cohorts.set_index("Cohort_ID").to_dict(orient="index") if "Cohort_ID" in cohorts else {}
     results = []
     for i, template in templates.iterrows():
@@ -85,13 +107,16 @@ def mine_pathways_from_tables(tables: dict) -> list:
         cohort = cohort_map.get(cohort_id, {})
         pids = _cohort_patients(cohort, patients, injuries)
         observed = outcomes[outcomes["Patient_ID"].astype(str).isin(pids)] if pids else pd.DataFrame()
-        enough_evidence = len(observed) >= config.PATHWAY_MIN_SAMPLE_SIZE
-
-        pct = pd.to_numeric(observed.get("Final_Recovery_Pct", pd.Series(dtype=float)), errors="coerce")
-        avg_pct = float(pct.mean()) if pct.notna().any() else None
-        success_rate = (float((pct >= config.PATHWAY_SUCCESS_THRESHOLD_PCT).mean() * 100)
-                        if enough_evidence and pct.notna().any() else None)
-        weeks = pd.to_numeric(observed.get("Actual_Recovery_Time_weeks", pd.Series(dtype=float)), errors="coerce")
+        outcome_rows, pct, used_derived_proxy, outcome_metric = _recovery_percentage_values(observed, injuries)
+        pct = pd.Series(pct, index=outcome_rows.index, dtype=float)
+        weeks = pd.to_numeric(outcome_rows.get("Actual_Recovery_Time_weeks", pd.Series(np.nan, index=outcome_rows.index)), errors="coerce")
+        pct_n = int(pct.notna().sum())
+        weeks_n = int(weeks.notna().sum())
+        observed_n = int(outcome_rows.loc[pct.notna() | weeks.notna(), "Patient_ID"].astype(str).nunique()) if "Patient_ID" in outcome_rows else 0
+        enough_evidence = observed_n >= config.PATHWAY_MIN_SAMPLE_SIZE
+        avg_pct = float(pct.mean()) if pct_n else None
+        success_count = int((pct >= config.PATHWAY_SUCCESS_THRESHOLD_PCT).sum()) if pct_n else None
+        success_rate = float(success_count / pct_n * 100.0) if pct_n else None
         avg_weeks = float(weeks.mean()) if weeks.notna().any() else None
         body_region = template.get("Body_Region", template.get("Body_Part", ""))
         injury_type = cohort.get("Injury_Type", template.get("Injury_Type", "Unspecified"))
@@ -112,17 +137,23 @@ def mine_pathways_from_tables(tables: dict) -> list:
             "Severity": str(severity),
             "Age_Band": str(cohort.get("Age_Band", "Unspecified")),
             "Archetype_Label": archetype,
-            "Sample_Size": int(len(observed)),
-            "Average_Recovery_Time_weeks": round(avg_weeks, 1) if enough_evidence and avg_weeks is not None else None,
-            "Average_Recovery_Pct": round(avg_pct, 1) if enough_evidence and avg_pct is not None else None,
+            "Sample_Size": observed_n,
+            "Cohort_Pool_Size": int(len(pids)),
+            "Recovery_Pct_N": pct_n,
+            "Recovery_Weeks_N": weeks_n,
+            "Success_Count": success_count,
+            "Success_Threshold_Pct": float(config.PATHWAY_SUCCESS_THRESHOLD_PCT),
+            "Average_Recovery_Time_weeks": round(avg_weeks, 1) if avg_weeks is not None else None,
+            "Average_Recovery_Pct": round(avg_pct, 1) if avg_pct is not None else None,
             "Success_Rate": round(success_rate, 1) if success_rate is not None else None,
-            "evidence_status": "sufficient descriptive sample" if enough_evidence else f"insufficient sample: n={len(observed)}, requires {config.PATHWAY_MIN_SAMPLE_SIZE}",
-            "Outcome_Metric": "derived strength-ROM proxy" if derived_proxy else "configured recovery percentage",
+            "evidence_status": "sufficient descriptive sample" if enough_evidence else f"insufficient evidence: n={observed_n}, requires {config.PATHWAY_MIN_SAMPLE_SIZE}; observed summaries are descriptive only",
+            "Outcome_Metric": outcome_metric,
             "Outcome_Evidence_Scope": "Descriptive cohort outcomes only; pathway assignment is not linked to patient outcomes.",
             "title": f"Pathway template {template.get('Pathway_ID', '')}: {injury_type} — {archetype}",
             "cohort_desc": f"Cohort: {injury_type}, {severity}, age band {cohort.get('Age_Band', 'unspecified')}.",
-            "story": (f"{len(observed)} outcome records match this cohort. These are cohort-level summaries; "
-                      "they do not establish that the listed pathway caused or improved these outcomes."),
+            "story": (f"{observed_n} patients with observed outcomes match this cohort. "
+                      + (f"This is below the configured minimum n={config.PATHWAY_MIN_SAMPLE_SIZE}; observed values are descriptive only. " if not enough_evidence else "")
+                      + "These summaries do not establish that the listed pathway caused or improved these outcomes."),
             "step_flow": pathway_steps,
         })
     return results
