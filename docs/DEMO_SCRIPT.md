@@ -2,7 +2,7 @@
 
 ## Before the demo
 
-From the `Digital twin` project folder, make sure the reports and selected model artifacts exist. `make all` regenerates the model benchmark and analysis reports; run it ahead of the presentation because grouped cross-validation can take several minutes. Then start the Streamlit dashboard with:
+From the `Digital twin` project folder, make sure the reports and selected model artifacts exist. `DT_DATA_SOURCE=csv make all` regenerates the model benchmark and analysis reports; run it ahead of the presentation because grouped cross-validation can take several minutes. Then start the Streamlit dashboard with:
 
 ```bash
 DT_DATA_SOURCE=csv python3 -m streamlit run app.py
