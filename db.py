@@ -10,6 +10,7 @@ import logging
 import re
 import pandas as pd
 from sqlalchemy import create_engine, text
+from sqlalchemy.engine import URL
 from sqlalchemy.exc import SQLAlchemyError, ProgrammingError
 from werkzeug.security import generate_password_hash
 import config
@@ -40,10 +41,9 @@ def get_db_engine():
     cfg = config.MYSQL_CONFIG
     if not cfg["user"] or not cfg["password"]:
         raise RuntimeError("Set DT_MYSQL_USER and DT_MYSQL_PASSWORD in the environment before connecting to MySQL.")
-    url = (
-        f"mysql+pymysql://{cfg['user']}:{cfg['password']}"
-        f"@{cfg['host']}:{cfg['port']}/{cfg['database']}"
-    )
+    # URL.create safely handles reserved characters in usernames/passwords.
+    url = URL.create("mysql+pymysql", username=cfg["user"], password=cfg["password"],
+                    host=cfg["host"], port=cfg["port"], database=cfg["database"])
     return create_engine(url)
 
 
@@ -133,7 +133,6 @@ def get_user_by_login_input(login_input: str):
     if not login_input:
         return None
 
-    engine = get_db_engine()
     query = text("""
         SELECT * FROM `User_Account`
         WHERE LOWER(`Username`) = LOWER(:inp)
@@ -143,12 +142,14 @@ def get_user_by_login_input(login_input: str):
         LIMIT 1
     """)
     try:
+        engine = get_db_engine()
         with engine.connect() as conn:
             res = conn.execute(query, {"inp": login_input.strip()}).mappings().first()
             if res:
                 return dict(res)
-    except SQLAlchemyError as exc:
+    except (SQLAlchemyError, RuntimeError) as exc:
         logger.error("Account lookup failed (%s).", type(exc).__name__)
+        raise RuntimeError("Unable to query MySQL login accounts. Check the database connection and User_Account table.") from exc
     return None
 
 

@@ -1,16 +1,16 @@
 # Digital Twin — orthopaedic rehabilitation research prototype
 
-This repository contains a Flask multi-portal app (`server.py`) and a separate Streamlit research dashboard (`app.py`), an XGBoost production model with an optional estimator benchmark, exploratory cohort similarity, an observation-updated state prototype, and report-generation scripts. The checked-in `output/*.csv` files are **synthetic demo records**, not patient data or clinical validation.
+The main application is the browser-based HTML frontend in `templates/index.html` served by the Flask API/backend in `server.py`. It has Patient, Doctor, and Admin access modes. `app.py` is a separate optional Streamlit research dashboard; it is not required to run the browser app. The checked-in `output/*.csv` files are **synthetic demo records**, not patient data or clinical validation.
 
 ## Run the app
 
-Install the project requirements once:
+Install only the Flask app dependencies (Streamlit is not needed):
 
 ```bash
-python3 -m pip install -r requirements.txt
+python3 -m pip install -r requirements-flask.txt
 ```
 
-For the browser-based Flask app, set your MySQL details in the Terminal session (password is not stored in source files), then start it:
+From the project folder, point the Flask app at your existing MySQL database. The password is read silently and is not saved in the repository:
 
 ```bash
 export DT_DATA_SOURCE=mysql
@@ -19,16 +19,35 @@ read -s 'DT_MYSQL_PASSWORD?MySQL password: '; export DT_MYSQL_PASSWORD
 export DT_MYSQL_HOST=localhost
 export DT_MYSQL_PORT=3306
 export DT_MYSQL_DB=DigitalTwinDB
+```
+
+Before the first login, make sure `User_Account` exists and configure a password for each account you plan to demo. These commands create or reset only the specified login; they do not import or drop your application tables:
+
+```bash
+python3 setup_login.py --role ADMIN --login admin
+python3 setup_login.py --role DOCTOR --login DOC0001
+python3 setup_login.py --role PATIENT --login P00001
+```
+
+Each command prompts twice for a password (12+ characters). Use the matching ID and password in that role's login card. Repeat the Doctor/Patient command with other IDs when you need more demo accounts. `setup_login.py` requires that the selected Doctor_ID or Patient_ID already exists in the corresponding MySQL table.
+
+Start the HTML app:
+
+```bash
 python3 server.py
 ```
 
-To use the bundled synthetic CSVs without MySQL:
+Open **http://127.0.0.1:5000**. The Patient, Doctor, and Admin cards call the Flask `/api` routes in this same app. Patient accounts are limited to their own record, Doctors to assigned patients, and Admins to system-wide management. The HTML app requires MySQL for login and account lookup; CSV mode can load synthetic data for inspection but cannot authenticate users.
+
+If you want to inspect the bundled data without logging in, you can start the server in CSV mode:
 
 ```bash
 DT_DATA_SOURCE=csv python3 server.py
 ```
 
-The HTML frontend is served at `http://127.0.0.1:5000`. The separate Streamlit dashboard is started with `DT_DATA_SOURCE=csv streamlit run app.py` (or set MySQL environment variables first). `.env.example` lists supported variables; copy it to `.env` only if your launcher loads dotenv. The application reads environment variables directly and does not automatically parse `.env`.
+The research dashboard is optional and separate: `DT_DATA_SOURCE=csv python3 -m streamlit run app.py`. `.env.example` lists supported variables; copy it to `.env` only if your launcher loads dotenv. The application reads environment variables directly and does not automatically parse `.env`.
+
+**Do not run `import_to_mysql.py` against an existing database to fix a login.** That importer drops and recreates project tables. Use `setup_login.py` to configure one account without replacing patient or injury data.
 
 ## Real-data workflow
 
@@ -64,7 +83,9 @@ All synthetic results are labelled synthetic/demo. If there is no patient-level 
 
 | Module | Purpose |
 |---|---|
-| `app.py`, `server.py` | Streamlit research dashboard and Flask browser app |
+| `templates/index.html`, `static/app.js`, `server.py` | Main HTML frontend, role-specific access UI, and Flask API/backend |
+| `app.py` | Optional Streamlit research dashboard |
+| `setup_login.py` | Create or reset a selected MySQL login without re-importing project tables |
 | `data_adapter.py`, `validate_real_data.py` | Real-data schema checking and validation CLI |
 | `data_prep.py`, `leakage_audit.py`, `modeling.py` | Baseline-only preparation, audit and models |
 | `model_benchmark.py`, `research_evaluation.py` | Training-fold benchmark and chronological evaluation |

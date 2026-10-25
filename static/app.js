@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.preventDefault();
                 const inp = document.getElementById('patientLoginId').value;
                 const pwd = document.getElementById('patientPassword').value;
-                await performLogin(inp, pwd);
+                await performLogin(inp, pwd, 'PATIENT');
             });
         }
 
@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.preventDefault();
                 const inp = document.getElementById('docLoginId').value;
                 const pwd = document.getElementById('docPassword').value;
-                await performLogin(inp, pwd);
+                await performLogin(inp, pwd, 'DOCTOR');
             });
         }
 
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.preventDefault();
                 const inp = document.getElementById('adminLoginId').value;
                 const pwd = document.getElementById('adminPassword').value;
-                await performLogin(inp, pwd);
+                await performLogin(inp, pwd, 'ADMIN');
             });
         }
 
@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    async function performLogin(loginInput, password) {
+    async function performLogin(loginInput, password, expectedRole) {
         const statusMsg = document.getElementById('loginStatusMsg');
         if (statusMsg) {
             statusMsg.style.color = '#F59E0B';
@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const res = await fetch('/api/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ login_input: loginInput, password: password })
+                body: JSON.stringify({ login_input: loginInput, password: password, expected_role: expectedRole })
             });
             const data = await res.json();
 

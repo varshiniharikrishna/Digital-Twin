@@ -1,51 +1,64 @@
-# Five-minute teacher demo
+# Five-minute HTML app demo
 
-## Before the demo
+This is the walkthrough for the main Flask-served HTML frontend, not the optional Streamlit research dashboard.
 
-From the `Digital twin` project folder, make sure the reports and selected model artifacts exist. `DT_DATA_SOURCE=csv make all` regenerates the model benchmark and analysis reports; run it ahead of the presentation because grouped cross-validation can take several minutes. Then start the Streamlit dashboard with:
+## Start the app
+
+Open Terminal and run these commands from the project directory:
 
 ```bash
-DT_DATA_SOURCE=csv python3 -m streamlit run app.py
+cd "/Users/varshini/Desktop/Digital twin"
+python3 -m pip install -r requirements-flask.txt
+export DT_DATA_SOURCE=mysql
+export DT_MYSQL_USER="your_mysql_username"
+read -s 'DT_MYSQL_PASSWORD?MySQL password: '; export DT_MYSQL_PASSWORD
+export DT_MYSQL_HOST=localhost
+export DT_MYSQL_PORT=3306
+export DT_MYSQL_DB=DigitalTwinDB
 ```
 
-The bundled CSV records are synthetic demo data. This demo shows the software and its measured behavior on that dataset, not a validated clinical decision-support tool.
+Set passwords for the accounts you will use. Each command prompts for a hidden password twice. Repeat with any other doctor or patient IDs you want to demo:
+
+```bash
+python3 setup_login.py --role ADMIN --login admin
+python3 setup_login.py --role DOCTOR --login DOC0001
+python3 setup_login.py --role PATIENT --login P00001
+```
+
+Start Flask and open the local address:
+
+```bash
+python3 server.py
+```
+
+Open **http://127.0.0.1:5000** in Chrome. Leave this Terminal window running while you use the app. Stop the app with `Control+C`.
+
+`setup_login.py` only creates or resets the selected MySQL login and stores a password hash. It does not re-import/drop project tables. Do not run `import_to_mysql.py` on an existing database to fix credentials; it drops and recreates tables. You need database permissions for account writes and existing `Doctor`/`Patient` rows for those roles.
 
 ## Walkthrough
 
-### 0:00–0:45 — Digital Twin Overview
+### 0:00–0:45 — Show the three sign-in modes
 
-Open **Digital Twin Overview** and select a patient from the 2025 test cohort. Say: “The dashboard separates the baseline record from the model estimate. Recovery percentage is an observed value when present or a formula-based strength/ROM proxy; weeks uses recorded recovery duration. These are generated demo records, not clinical outcome validation.”
+Point to **Patient Login**, **Doctor Portal**, and **Central Admin**. Say: “This is the actual HTML frontend. The same Flask server serves this page and the API behind it. The page sends credentials to `/api/auth/login`; the backend checks the MySQL `User_Account` password hash and role.”
 
-Point out the model names and the holdout R² interval. The app uses separate persisted models for recovery percentage and recovery weeks. Do not call the confidence interval a probability that this patient's outcome is correct.
+### 0:45–1:45 — Patient access
 
-### 0:45–1:45 — Model Benchmark
+Sign in with a Patient ID and the password you set for it. Show the patient’s own recovery record, digital twin, weekly timeline, and recommendations. Say: “A patient account can access only the linked patient record.”
 
-Open **Model Benchmark**. Show both target tables. Say: “We select with repeated patient-grouped cross-validation on the development portion of the 2023–24 cohort. A patient-disjoint subset calibrates the prediction interval. The chronological 2025 cohort is held out for one final measurement.”
+### 1:45–2:45 — Doctor access
 
-Numbers from the latest generated reports:
+Log out, then sign in through **Doctor Portal** with a Doctor ID and its configured password. Show the assigned patient roster and weekly observation/recalibration workflow. Say: “The server checks patient assignment on the API routes; the frontend visibility controls are not the only access check.”
 
-- Recovery percentage: VotingRegressor; CV R² **0.8829 ± 0.0477**, grouped OOF bootstrap 95% CI **0.8491–0.9094**. Holdout R² **0.9227** (patient-bootstrap 95% CI **0.8971–0.9431**), MAE **1.6102 points**, RMSE **2.2685 points**, n=224.
-- Recovery weeks: VotingRegressor; CV R² **0.7397 ± 0.0408**, grouped OOF bootstrap 95% CI **0.6889–0.7843**. Holdout R² **0.7458** (patient-bootstrap 95% CI **0.6836–0.7954**), MAE **5.2012 weeks**, RMSE **6.7903 weeks**, n=242.
-- Split-conformal intervals had observed 2025 holdout coverage **95.98%** for recovery percentage (half-width **4.5081 points**, calibration n=80) and **96.28%** for weeks (half-width **13.9085 weeks**, calibration n=83). Coverage is an observed sample result; exchangeability may not hold for future or shifted populations.
+### 2:45–3:30 — Admin access
 
-### 1:45–2:35 — Week-by-Week Twin and Timeline
+Log out and sign in through **Central Admin**. Show the admin overview, doctor roster, patient reassignment, and account reset tools. Say: “Admin actions are separately restricted by backend role checks.”
 
-Open **Week-by-Week Twin**, then **Weekly Recovery Timeline**. Show the same twin state progressing across weeks. Say: “The pages use the shared state-update engine. Weekly inputs are observations; the predicted line is a model trajectory. Missing values stay missing instead of being presented as measurements.”
+### 3:30–4:15 — Pathway Mining
 
-### 2:35–3:25 — Simulation & Recalibration
+Open **Pathway Mining** from the Doctor view if that tab is available. Say: “Pathway data are limited to the training-year pool and small samples are marked insufficient evidence. These are historical similarity summaries, not proven treatment effects.”
 
-Open **Simulation & Recalibration**. Demonstrate entering an observed value and leaving another metric as not observed. Say: “Recalibration updates the estimate using available observations. The evaluation is a forecast-error replay; it does not establish that adaptive changes improve health outcomes.”
+### 4:15–5:00 — Model numbers and limits
 
-If asked about the prior replay result, report it plainly: on the generated data, recalibration's patient-level forecast MAE was higher than static by **0.2072 points** on-trigger (95% cluster-bootstrap CI **0.1187–0.3057**) and **0.4206 points** when recalibrated every week (**0.2685–0.5681**), n=224. These older replay measurements have not been rerun against the latest shared trajectory update.
+Open the metrics area. On the bundled snapshot, the research benchmark selected VotingRegressor for recovery percentage and recovery weeks. Its 2025 holdout R² values were **0.9227** and **0.7458**, respectively. The backend reports that the bundled CSV data are synthetic and not clinical validation. Say: “These scores describe generated demo data only. The percentage can be a strength/ROM proxy, and this prototype does not establish treatment benefit or clinical safety.”
 
-### 3:25–4:15 — Recommendations and Pathway Ranking
-
-Open **Recommendations**, then **Pathway Ranking**. Say: “Pathway summaries use training-year patients only, and small cohorts are marked insufficient evidence. Similarity ranks historical matches; it is not a treatment-effect estimate.”
-
-### 4:15–5:00 — Close with limitations
-
-Say: “The system is a prototype. Its inputs are synthetic, the primary percentage can be a proxy, and no prospective or governed clinical validation was supplied. The metrics do not show treatment benefit or support autonomous clinical decisions. A next validation step needs an approved, de-identified clinical dataset and a prespecified external evaluation.”
-
-## If asked about before/after performance
-
-An earlier full-training grouped benchmark measured recovery percentage R² **0.8964** (95% CI **0.8757–0.9150**) and weeks R² **0.7577** (**0.7175–0.7923**). The current benchmark reserves 20% of training patients for independent interval calibration, so the development sample is smaller and the scores are not a controlled estimate of the effect of removing a feature. The clean baseline feature list excludes `Clinical_Est_Weeks`; its earlier controlled ablation showed small changes, not a clinically meaningful model improvement.
+For exact grouped-CV results, confidence intervals, and calibration coverage, see the generated `reports/model_benchmark/benchmark.json` and `reports/model_benchmark/weeks/benchmark.json`. Regenerate reports before presenting if source data change; the app itself is started with `python3 server.py`.

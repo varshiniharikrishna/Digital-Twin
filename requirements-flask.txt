@@ -1,0 +1,10 @@
+# Dependencies used by the HTML + Flask app (server.py); Streamlit is not needed.
+Flask
+pandas
+numpy
+scikit-learn==1.8.0
+xgboost==1.7.6
+SQLAlchemy
+PyMySQL
+reportlab
+scipy

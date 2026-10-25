@@ -48,8 +48,13 @@ TRAIN_DATA, TEST_DATA = chronological_split(FULL_DATASET)
 X_TRAIN = get_feature_frame(TRAIN_DATA)
 X_TEST = get_feature_frame(TEST_DATA)
 
-PCT_MODEL, WEEKS_MODEL = modeling.train_models(
-    X_TRAIN, TRAIN_DATA[config.TARGET_RECOVERY_PCT], TRAIN_DATA[config.TARGET_RECOVERY_WEEKS]
+training_payload = X_TRAIN.copy()
+training_payload["__target_pct"] = TRAIN_DATA[config.TARGET_RECOVERY_PCT].to_numpy()
+training_payload["__target_weeks"] = TRAIN_DATA[config.TARGET_RECOVERY_WEEKS].to_numpy()
+MODEL_DATA_HASH = modeling.dataframe_fingerprint(training_payload)
+PCT_MODEL, WEEKS_MODEL, MODEL_METADATA = modeling.load_or_train_models(
+    X_TRAIN, TRAIN_DATA[config.TARGET_RECOVERY_PCT],
+    TRAIN_DATA[config.TARGET_RECOVERY_WEEKS], MODEL_DATA_HASH
 )
 SIMILARITY_MODEL = sim.SimilarityModel.fit(TRAIN_DATA, config.TARGET_RECOVERY_PCT)
 TWIN_PRIORS = fit_hierarchical_priors(TABLES.get("Weekly_Progress",pd.DataFrame()),set(TRAIN_DATA.get("Patient_ID",pd.Series(dtype=str)).astype(str)))
@@ -225,7 +230,11 @@ def auth_login():
     if not login_input or not password:
         return jsonify({"error": "Username/Email/ID and Password are required."}), 400
 
-    user_rec = db.get_user_by_login_input(login_input)
+    try:
+        user_rec = db.get_user_by_login_input(login_input)
+    except RuntimeError as exc:
+        app.logger.warning("Login account store unavailable: %s", exc)
+        return jsonify({"error": str(exc)}), 503
     if not user_rec or not check_password_hash(user_rec.get("Password_Hash", ""), password):
         LOGIN_ATTEMPTS[ip] = (attempts + 1, started)
         return jsonify({"error": "Invalid password authentication."}), 401
@@ -234,6 +243,9 @@ def auth_login():
 
     token = secrets.token_urlsafe(32)
     role = user_rec["Role"].upper()
+    expected_role = str(data.get("expected_role") or "").upper()
+    if expected_role and expected_role != role:
+        return jsonify({"error": f"This account is registered as {role}. Use the {role.title()} login."}), 403
     user_id = user_rec["User_ID"]
     linked_doc = user_rec.get("Linked_Doctor_ID")
     linked_pat = user_rec.get("Linked_Patient_ID")
@@ -1099,8 +1111,15 @@ def get_metrics():
         "baseline_metrics_pct": METRICS_PCT_BASELINE,
         "baseline_metrics_weeks": METRICS_WEEKS_BASELINE,
         "feature_importance": top_fi,
+        "production_models": {
+            "recovery_pct": MODEL_METADATA.get("model_name"),
+            "recovery_weeks": MODEL_METADATA.get("weeks_model_name"),
+            "fit_protocol": MODEL_METADATA.get("fit_protocol"),
+            "recovery_pct_interval_half_width": MODEL_METADATA.get("prediction_interval_half_width"),
+            "recovery_weeks_interval_half_width": MODEL_METADATA.get("prediction_interval_weeks_half_width"),
+        },
         "evaluation_data_note": data_note,
-        "recovery_target_note": "When Final_Recovery_Pct is absent, the target is a 50:50 final strength/ROM proxy using 140 degrees for ROM. This is not validated or region-normalized; cross-injury metrics are descriptive only."
+        "recovery_target_note": "When Final_Recovery_Pct is absent, the target is a strength/ROM proxy normalized by configured injury-region ranges. It is not a validated patient-reported outcome; cross-injury metrics are descriptive only."
     }))
 
 

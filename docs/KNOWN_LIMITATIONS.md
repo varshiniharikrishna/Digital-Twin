@@ -24,5 +24,6 @@
 ## Explainability and deployment
 
 - SHAP was unavailable during the latest run. Tree-specific explanations for both targets, aggregation of encoded categories, and bootstrap stability of top features remain incomplete.
+- The main HTML interface is served by Flask (`server.py`) and authenticates against the MySQL `User_Account` table. CSV mode can load records for inspection but cannot authenticate. Existing doctor/patient passwords are not recoverable from their hashes; set a new one for each selected account with `setup_login.py`.
 - The app is a prototype, not a regulated medical device or autonomous decision maker. Privacy/security and regulatory requirements must be assessed for the actual deployment jurisdiction, data controller, and intended use before real patient data are used.
 - The Streamlit app remains a large monolithic module; report freshness checks are not universal. Run `make all` before presenting results so ignored local report/artifact outputs match the current data and source.

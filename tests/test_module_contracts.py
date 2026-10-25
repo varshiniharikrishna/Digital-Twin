@@ -7,6 +7,7 @@ import model_benchmark, multi_condition_eval, similarity_eval, twin_trajectory_e
 import modeling
 import db
 import pathway_mining
+import setup_login
 from eval_adaptive_loop import observations_as_of, patient_level_error_differences
 
 def test_new_analysis_modules_expose_expected_entrypoints():
@@ -136,6 +137,18 @@ def test_mysql_connection_requires_explicit_credentials(monkeypatch):
     monkeypatch.setitem(db.config.MYSQL_CONFIG, "password", "")
     with pytest.raises(RuntimeError, match="DT_MYSQL_USER and DT_MYSQL_PASSWORD"):
         db.get_db_engine()
+
+def test_mysql_url_preserves_special_characters_in_password(monkeypatch):
+    monkeypatch.setitem(db.config.MYSQL_CONFIG,"user","demo")
+    monkeypatch.setitem(db.config.MYSQL_CONFIG,"password","pa:ss@word/#")
+    monkeypatch.setattr(db,"create_engine",lambda url:url)
+    url=db.get_db_engine()
+    assert url.password == "pa:ss@word/#"
+
+def test_login_setup_requires_long_password_before_database_access(monkeypatch):
+    monkeypatch.setattr(setup_login.db,"get_db_engine",lambda:pytest.fail("should validate first"))
+    with pytest.raises(ValueError,match="at least 12"):
+        setup_login.configure_login("ADMIN","admin","short")
 
 def test_pathway_mining_excludes_chronological_holdout_patients():
     tables = {"Recovery_Pathway": pd.DataFrame([{"Pathway_ID": "PW1", "Cohort_ID": "C1", "Body_Region": "knee"}]),
