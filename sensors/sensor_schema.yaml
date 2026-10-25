@@ -1,0 +1,9 @@
+version: 1
+origin: Observed data must include device and algorithm provenance; simulated examples are labelled.
+required: [Patient_ID, timestamp]
+optional:
+  knee_flexion_angle_deg: {unit: degrees, range: [-20, 180]}
+  step_count: {unit: steps per interval, range: [0, 100000]}
+  gait_speed_mps: {unit: m/s, range: [0, 5]}
+  cadence_spm: {unit: steps/min, range: [0, 300]}
+  adherence: {unit: fraction, range: [0, 1]}

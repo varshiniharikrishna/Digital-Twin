@@ -1,0 +1,34 @@
+version: 1
+purpose: De-identified retrospective orthopaedic rehabilitation research export; one row per patient.
+required:
+  Patient_ID: {type: string, meaning: pseudonymous study identifier, prohibited: direct identifier}
+  Age: {type: number, unit: years, range: [0, 120]}
+  Injury_Type: {type: string, allowed_values: site-defined controlled vocabulary}
+  Severity: {type: string, allowed_values: [Mild, Moderate, Severe, site-defined]}
+  Enrollment_Date: {type: date, meaning: index/enrollment date; exact dates require approved governance}
+optional:
+  Sex: {type: category, allowed_values: site-defined; record source and handling of unknown values}
+  Gender: {type: category, allowed_values: site-defined}
+  BMI: {type: number, unit: kg/m^2, range: [8, 100]}
+  Pain_Score: {type: number, unit: 0-10 scale, range: [0, 10], timepoint: baseline}
+  Range_of_Motion_deg: {type: number, unit: degrees, range: [0, 360], timepoint: baseline}
+  Quadriceps_Strength_pct: {type: number, unit: percent of reference, range: [0, 200], timepoint: baseline, region: knee}
+  Hamstring_Strength_pct: {type: number, unit: percent of reference, range: [0, 200], timepoint: baseline, region: knee}
+  Balance_Score: {type: number, unit: instrument-specific; include instrument metadata}
+  Walking_Speed_mps: {type: number, unit: m/s, range: [0, 5], timepoint: baseline}
+  Actual_Recovery_Time_weeks: {type: number, unit: weeks, meaning: observed time to discharge/outcome}
+  Outcome_Recorded_Date: {type: date, meaning: date final endpoint was recorded; needed for strict time-aware outcome maturity}
+  Final_Recovery_Pct: {type: number, unit: percent, range: [0, 100], meaning: independently recorded outcome; not proxy}
+  Actual_Strength_pct: {type: number, unit: percent of reference, range: [0, 200], timepoint: final}
+  Actual_ROM_deg: {type: number, unit: degrees, range: [0, 360], timepoint: final}
+  FIM_Final: {type: number, unit: FIM points, range: [18, 126], timepoint: final}
+  VAS_Pain_Final: {type: number, unit: 0-10, range: [0, 10], timepoint: final}
+  DASH_Final: {type: number, unit: 0-100, range: [0, 100], timepoint: final}
+  KOOS_Final: {type: number, unit: 0-100, range: [0, 100], timepoint: final}
+  LEFS_Final: {type: number, unit: 0-80, range: [0, 80], timepoint: final}
+prohibited_columns_pattern: [name, email, phone, mobile, address, exact date_of_birth, DOB, MRN, medical_record_number, SSN]
+notes:
+  - Provide measurement timepoints and instrument/version metadata in a separate data dictionary.
+  - Do not use post-baseline values as baseline predictors.
+  - PROM scoring direction differs by instrument; normalize/interpret only under its official scoring manual.
+  - This is a technical schema, not authorization to access or process patient data.

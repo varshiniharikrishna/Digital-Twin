@@ -7,7 +7,13 @@ flask
 reportlab
 sqlalchemy
 pymysql
-# Optional: improves recovery-percentage ensemble when installed.
-# xgboost
-# Optional: enables the local SHAP explanation in the Evaluation tab.
-# shap
+scipy
+PyYAML
+pyarrow
+pytest
+# Optional models and XAI/PNG support; benchmark gracefully omits unavailable estimators:
+xgboost
+lightgbm
+catboost
+shap
+kaleido

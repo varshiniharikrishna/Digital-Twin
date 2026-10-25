@@ -1,0 +1,3 @@
+# TRL assessment — DRAFT – requires expert review
+
+**Provisional TRL 3**: analytical proof-of-concept demonstrated in software with synthetic bundled data. This is not a clinically validated prototype and no real-patient evaluation is included. Advancement roadmap: (4) verify components with approved de-identified retrospective clinical data and a prespecified protocol; (5) validate workflow in a relevant clinical setting with human oversight and safety review; (6) prospective multi-site evaluation, quality management, cybersecurity/privacy controls and regulatory pathway confirmation. TRL assignments require institutional/technology-transfer review.

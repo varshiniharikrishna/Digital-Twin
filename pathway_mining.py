@@ -128,7 +128,7 @@ def mine_pathways_for_doctor(doctor_id: str, tables: dict) -> list:
     return mine_pathways_from_tables(scoped)
 
 
-def recommend_pathways_for_patient(patient_row: pd.Series, candidate_pool: pd.DataFrame, tables: dict, top_k: int = 3) -> list:
+def recommend_pathways_for_patient(patient_row: pd.Series, candidate_pool: pd.DataFrame, tables: dict, top_k: int = 3, similarity_model=None) -> list:
     """Rank compatible templates by similarity and cohort compatibility only.
 
     The score is a retrieval score, not a predicted treatment benefit. No
@@ -141,7 +141,7 @@ def recommend_pathways_for_patient(patient_row: pd.Series, candidate_pool: pd.Da
     p_injury = str(patient_row.get("Injury_Type", "")).casefold()
     p_severity = str(patient_row.get("Severity", "")).casefold()
     p_age = _age_band(patient_row.get("Age"))
-    similar = find_similar_patients(patient_row, candidate_pool, top_k=10)
+    similar = find_similar_patients(patient_row, candidate_pool, top_k=10, model=similarity_model)
     if similar.empty:
         return []
     patient_similarity = float(similar["Similarity_Score"].mean())
@@ -166,6 +166,7 @@ def recommend_pathways_for_patient(patient_row: pd.Series, candidate_pool: pd.Da
             "severity_and_age_band_compatibility": round(cohort_score, 1),
         }
         item["ranking_interpretation"] = "Exploratory cohort-template similarity; not a treatment efficacy estimate."
+        item["neighbor_confidence"] = similar.attrs.get("confidence", "unknown")
         ranked.append(item)
     ranked.sort(key=lambda x: (-x["match_score"], x["Pathway_ID"]))
     return ranked[:top_k]

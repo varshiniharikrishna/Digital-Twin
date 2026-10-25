@@ -1,0 +1,5 @@
+# Deviation rule — DRAFT
+
+For metric `m` and week `t`, residual `e_(m,t)=y_(m,t)-ŷ_(m,t)`. Let `σ_m` be the standard deviation of training residuals for that metric (eventually estimate by week bucket); floors in `config.DEVIATION_SIGMA_FLOOR` are engineering placeholders, not literature MCIDs. Adverse standardized residuals are `z_pain=e/σ` for pain increase, and `z_ROM=-e/σ`, `z_strength=-e/σ` for ROM/strength decline. Trigger if adverse `z>δ_m`; default `δ=1.5 SD`, configurable persistence is 2 consecutive weeks. Legacy relative threshold remains available via `method="percentage"`; pain denominator floors are used.
+
+`deviation_analysis.py` evaluates threshold grids 0.5–3.0 SD and 5–30% when longitudinal outcomes exist. The bundled generator's final recovery `<80` label is an engineering proxy only. It is not a validated poor-recovery label. Current sigma estimation/report states limitations; no clinical sensitivity/specificity should be inferred. MCID values remain `null` with TODO citations until validated instrument-, region-, and population-specific sources are reviewed.

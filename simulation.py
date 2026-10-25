@@ -15,6 +15,8 @@ import numpy as np
 import pandas as pd
 import config
 from similarity import find_similar_patients
+from twin_state import DigitalTwin
+from deviation_analysis import standardized_deviation
 
 SEVERITY_MULT_NPI = {"Mild": 0.0, "Moderate": 0.15, "Severe": 0.30}
 SWELLING_MULT_NPI = {"None": 0.0, "Mild": 0.10, "Moderate": 0.20, "Severe": 0.35}
@@ -124,6 +126,7 @@ def build_treatment_clones(patient_row: pd.Series, base_pred_pct: float, base_pr
             "final_rom": float(traj["Predicted_ROM_deg"].iloc[-1]) if not traj.empty else 120.0,
             "final_strength": float(traj["Predicted_Strength_pct"].iloc[-1]) if not traj.empty else 80.0,
             "trajectory": traj
+            ,"effect_evidence": "assumed demo perturbation; not estimated from observed treatment data"
         })
     return clones
 
@@ -184,8 +187,9 @@ def get_actual_trajectory(weekly_progress_df: pd.DataFrame, patient_id: str) -> 
     return p_df
 
 
-def check_deviation(pred_row: pd.Series, actual_dict: dict, threshold_pct: float = None) -> dict:
-    """Flag pain increases or ROM/strength decreases >15% from prediction."""
+def check_deviation(pred_row: pd.Series, actual_dict: dict, threshold_pct: float = None,
+                    method: str = "zscore", residual_sigmas: dict | None = None) -> dict:
+    """Flag adverse standardized residuals; percentage is retained as a selectable baseline."""
     if threshold_pct is None:
         threshold_pct = config.DEVIATION_THRESHOLD_PCT
     results = {}
@@ -195,72 +199,132 @@ def check_deviation(pred_row: pd.Series, actual_dict: dict, threshold_pct: float
         p_act = float(actual_dict["Pain"])
         p_exp = float(pred_row["Predicted_Pain"])
         dev = ((p_act - p_exp) / max(p_exp, 1e-5)) * 100.0
-        results["Pain"] = {
+        result = {
             "predicted": p_exp,
             "actual": p_act,
             "pct_deviation": round(dev, 1),
-            "flagged": dev > threshold_pct
         }
+        z_result = standardized_deviation(p_exp, p_act, residual_sigmas or config.DEVIATION_SIGMA_FLOOR, "Pain")
+        result.update(z_result); result["flagged"] = dev > threshold_pct if method == "percentage" else z_result["flagged"]
+        result["method"] = method; results["Pain"] = result
 
     # ROM check
     if "ROM_deg" in actual_dict and "Predicted_ROM_deg" in pred_row:
         r_act = float(actual_dict["ROM_deg"])
         r_exp = float(pred_row["Predicted_ROM_deg"])
         dev = ((r_act - r_exp) / max(r_exp, 1e-5)) * 100.0
-        results["ROM_deg"] = {
+        result = {
             "predicted": r_exp,
             "actual": r_act,
             "pct_deviation": round(dev, 1),
-            "flagged": dev < -threshold_pct
         }
+        z_result = standardized_deviation(r_exp, r_act, residual_sigmas or config.DEVIATION_SIGMA_FLOOR, "ROM_deg")
+        result.update(z_result); result["flagged"] = dev < -threshold_pct if method == "percentage" else z_result["flagged"]
+        result["method"] = method; results["ROM_deg"] = result
 
     # Strength check
     if "Strength_pct" in actual_dict and "Predicted_Strength_pct" in pred_row:
         s_act = float(actual_dict["Strength_pct"])
         s_exp = float(pred_row["Predicted_Strength_pct"])
         dev = ((s_act - s_exp) / max(s_exp, 1e-5)) * 100.0
-        results["Strength_pct"] = {
+        result = {
             "predicted": s_exp,
             "actual": s_act,
             "pct_deviation": round(dev, 1),
-            "flagged": dev < -threshold_pct
         }
+        z_result = standardized_deviation(s_exp, s_act, residual_sigmas or config.DEVIATION_SIGMA_FLOOR, "Strength_pct")
+        result.update(z_result); result["flagged"] = dev < -threshold_pct if method == "percentage" else z_result["flagged"]
+        result["method"] = method; results["Strength_pct"] = result
 
     return results
 
 
-def recalibrate(patient_row, actual_dict, current_week, train_data, pathways_df, pct_model, weeks_model, feature_extractor, dev_dict=None):
-    """Re-simulates patient recovery based on actual clinical observations."""
+def recalibrate(patient_row, actual_dict, current_week, train_data, pathways_df, pct_model, weeks_model, feature_extractor, dev_dict=None, similarity_model=None, cohort_priors=None):
+    """Update twin state at the observed week, re-predict, and retrieve TRAIN-only neighbors."""
     updated_row = patient_row.copy()
+    twin = DigitalTwin.from_baseline(patient_row,priors=cohort_priors)
+    observations = {"Pain": actual_dict.get("Pain"), "ROM_deg": actual_dict.get("ROM_deg"),
+                    "Strength_pct": actual_dict.get("Strength_pct"),
+                    "Hamstring_Strength_pct": actual_dict.get("Hamstring_Strength_pct"),
+                    "Balance_Score": actual_dict.get("Balance_Score"),
+                    "Walking_Speed_mps": actual_dict.get("Walking_Speed_mps")}
+    twin.update(observations, week=int(current_week))
     observation_to_state = {
         "Pain": "Pain_Score",
-        "ROM_deg": "Range_of_Motion_deg",
-        "Strength_pct": "Quadriceps_Strength_pct",
-        "Hamstring_Strength_pct": "Hamstring_Strength_pct",
+        "ROM_deg": "Primary_ROM_deg",
+        "Strength_pct": "Primary_Strength_pct",
+        "Hamstring_Strength_pct": "Secondary_Strength_pct",
         "Balance_Score": "Balance_Score",
         "Walking_Speed_mps": "Walking_Speed_mps",
     }
     for observation, state_name in observation_to_state.items():
-        if observation in actual_dict and pd.notna(actual_dict[observation]):
-            updated_row[state_name] = float(actual_dict[observation])
+        state_key = {"Pain": "Pain", "ROM_deg": "ROM_deg", "Strength_pct": "Strength_pct"}.get(observation, observation)
+        if state_key in twin.state:
+            updated_row[state_name] = float(twin.state[state_key])
+            if state_name=="Primary_ROM_deg":updated_row["Range_of_Motion_deg"]=float(twin.state[state_key])
+            elif state_name=="Primary_Strength_pct":updated_row["Quadriceps_Strength_pct"]=float(twin.state[state_key])
+            elif state_name=="Secondary_Strength_pct":updated_row["Hamstring_Strength_pct"]=float(twin.state[state_key])
 
     X = feature_extractor(pd.DataFrame([updated_row]))
     new_pct = float(pct_model.predict(X)[0])
     new_weeks = float(weeks_model.predict(X)[0])
 
-    explanation = (f"Model prediction refreshed at Week {current_week} using the supplied observation. "
+    named = []
+    for metric, detail in (dev_dict or {}).items():
+        if detail.get("flagged"):
+            named.append(f"{metric} ({detail.get('z_adverse', 0):+.2f} SD adverse; {detail.get('pct_deviation', 0):+.1f}% relative)")
+    finding = "; ".join(named) if named else "no supplied metric exceeded the configured trigger"
+    explanation = (f"At week {current_week}, recalibration incorporated the observation through a shrinkage update. "
+                   f"Deviation findings: {finding}. "
                    f"Estimated recovery is {new_pct:.1f}% over {new_weeks:.1f} weeks. "
                    "This is a prediction update, not evidence that treatment or recalibration improves outcomes.")
-    
+    neighbours = find_similar_patients(updated_row, train_data, top_k=5, model=similarity_model)
     return {
+        "old_predicted_pct": float(pct_model.predict(feature_extractor(pd.DataFrame([patient_row])))[0]),
+        "old_predicted_weeks": float(weeks_model.predict(feature_extractor(pd.DataFrame([patient_row])))[0]),
         "new_predicted_pct": new_pct,
         "new_predicted_weeks": new_weeks,
+        "discharge_delta": new_weeks - float(weeks_model.predict(feature_extractor(pd.DataFrame([patient_row])))[0]),
+        "expected_vs_real": dev_dict or {},
         "explanation": explanation,
-        "new_neighbors": find_similar_patients(updated_row, train_data, top_k=5),
+        "new_neighbors": neighbours,
+        "neighbour_confidence": neighbours.attrs.get("confidence", "unknown"),
+        "twin_state": twin.state,
+        "twin_update": twin.history[-1] if twin.history else {},
         # A pathway cannot be selected from efficacy because patient-level
         # treatment assignments are absent. Never return the first arbitrary row.
         "recommended_pathway": None
     }
+
+
+def process_weekly_stage_recalibration(patient_row, week, weekly_entry, train_pool,
+                                       pathways_table, pct_model, weeks_model, feature_fn, similarity_model=None, cohort_priors=None, residual_sigmas=None):
+    """Compatibility wrapper used by the Streamlit weekly check-in page."""
+    predicted_pct=float(pct_model.predict(feature_fn(pd.DataFrame([patient_row])))[0])
+    predicted_weeks=float(weeks_model.predict(feature_fn(pd.DataFrame([patient_row])))[0])
+    curve=build_predicted_trajectory(patient_row,predicted_pct,predicted_weeks)
+    row=curve.iloc[min(max(int(week),1),len(curve))-1]
+    actual={"Pain":weekly_entry.get("Pain"),"ROM_deg":weekly_entry.get("ROM_deg"),
+            "Strength_pct":weekly_entry.get("Quadriceps_Strength_pct"),
+            "Hamstring_Strength_pct":weekly_entry.get("Hamstring_Strength_pct"),
+            "Balance_Score":weekly_entry.get("Balance_Score"),
+            "Walking_Speed_mps":weekly_entry.get("Walking_Speed_mps")}
+    dev=check_deviation(row,actual,residual_sigmas=residual_sigmas)
+    result=recalibrate(patient_row,actual,int(week),train_pool,pathways_table,pct_model,weeks_model,feature_fn,dev,similarity_model,cohort_priors)
+    result["old_predicted_pct"]=predicted_pct;result["old_predicted_weeks"]=predicted_weeks
+    result["discharge_delta"]=result["new_predicted_weeks"]-predicted_weeks
+    return result
+
+
+def simulate_treatment_intervention(patient_row, category, exercise_type, intensity,
+                                    start_week, duration_weeks, base_pred_pct=None,
+                                    base_pred_weeks=None):
+    """Run a clearly assumed intervention visualization; no effect inference."""
+    if base_pred_pct is None or base_pred_weeks is None:
+        raise ValueError("Pass baseline model predictions; treatment UI must not use held-out outcomes as predictions.")
+    base_traj=build_predicted_trajectory(patient_row,float(base_pred_pct),float(base_pred_weeks))
+    return simulate_single_treatment_reaction(patient_row,category,exercise_type,
+        int(start_week),int(duration_weeks),intensity,float(base_pred_weeks),base_traj)
 
 
 TREATMENT_TAXONOMY = {
@@ -310,9 +374,29 @@ def simulate_single_treatment_reaction(patient_row, category, exercise_type, sta
     strength_mod = 1.0 * int_mult
 
     stage_short = f"Week {start_week}"
-    appr_status = "success"
-    appr_msg = f"APPROPRIATE: {ex_info['name']} introduced at Week {start_week} fits active rehabilitation goals."
-    week_delta = -1.0 * int_mult
+    preferred = str(ex_info.get("preferred_stage", "")).casefold()
+    if start_week <= 4: phase = "early"
+    elif start_week <= 10: phase = "mid"
+    else: phase = "late"
+    matches = (phase in preferred) or (phase == "early" and "early" in preferred) or (phase == "mid" and "mid" in preferred) or (phase == "late" and "late" in preferred)
+    pain = float(patient_row.get("Pain_Score", 0) or 0)
+    rom = float(patient_row.get("Range_of_Motion_deg", 0) or 0)
+    strength = float(patient_row.get("Quadriceps_Strength_pct", 0) or 0)
+    reasons = []
+    appr_status = "success" if matches else "warning"
+    if not matches:
+        reasons.append(f"selected {phase} phase differs from listed preferred stage ({ex_info.get('preferred_stage', 'unspecified')})")
+    if intensity == "Aggressive" and pain >= 8:
+        appr_status = "contraindicated"; reasons.append("pain score is >=8/10 with aggressive intensity")
+    if phase == "late" and rom < 30:
+        appr_status = "contraindicated"; reasons.append("ROM is below the demo late-stage safety screen")
+    if not reasons:
+        appr_msg = "No configured rule conflict detected. This is not clinical clearance or a treatment recommendation."
+    else:
+        appr_msg = "; ".join(reasons) + ". The rule set is a demo heuristic and requires clinician review."
+    # No linked treatment-effect data exists in this dataset. Do not claim a
+    # treatment shortens discharge; hold duration constant in this demo.
+    week_delta = 0.0
 
     new_weeks = max(int(round(base_weeks + week_delta)), 1)
     
@@ -349,7 +433,8 @@ def simulate_single_treatment_reaction(patient_row, category, exercise_type, sta
     reaction_summary = (
         f"For {patient_row.get('Patient_ID')} ({patient_row.get('Injury_Type')}), introducing {ex_info['name']} "
         f"at Week {start_week} for {duration_weeks} weeks ({intensity} intensity) results in a {rx_strength[-1]:.0f}% strength recovery "
-        f"and {rx_rom[-1]:.0f}° ROM. Discharge timeline estimated at {new_weeks} weeks ({week_delta:+.1f} wks vs standard)."
+        f"and {rx_rom[-1]:.0f}° ROM under assumed demo multipliers. Discharge duration is held at {new_weeks} weeks "
+        "because linked treatment-effect data are unavailable."
     )
 
     return {
@@ -358,6 +443,7 @@ def simulate_single_treatment_reaction(patient_row, category, exercise_type, sta
         "duration_weeks": duration_weeks,
         "stage_eval": stage_short,
         "appropriateness": {"status": appr_status, "message": appr_msg},
+        "effect_evidence": "assumed (expert prior/demo constants); not estimated from patient treatment outcomes",
         "impact": {
             "pain_delta": round(float(pain_modifier), 1),
             "rom_boost": round(float(ex_info["rom_boost"] * int_mult), 1),

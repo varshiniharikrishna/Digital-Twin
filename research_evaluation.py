@@ -151,8 +151,8 @@ def _subgroup_metrics(test, y, pred, column, minimum_n=10):
     return results
 
 
-def run():
-    tables = db.load_all_tables()
+def run(tables=None, output_path="output/research_evaluation.json", emit=True):
+    tables = db.load_all_tables() if tables is None else tables
     data = build_modelling_dataset(tables)
     duplicate_patient_rows = int(data["Patient_ID"].duplicated().sum())
     if duplicate_patient_rows:
@@ -206,7 +206,8 @@ def run():
 
     report = {
         "data_source": config.DATA_SOURCE,
-        "provenance": "Configured data provenance is not independently verified. Bundled generator records are synthetic.",
+        "provenance": db.LAST_DATA_ORIGIN,
+        "selected_target": {"key": config.TARGET_SELECTION, "column": config.TARGET_OUTCOME_COLUMN, "display_label": config.TARGET_DISPLAY_LABEL},
         "target_definition": {
             "recovery_pct": "Recorded Final_Recovery_Pct when present; otherwise a 50:50 proxy from both observed final strength and ROM, using a fixed 140-degree scale. This proxy is not region-normalized or validated; cross-region results are descriptive only. No baseline or imputed outcome fallback.",
             "recovery_weeks": "Observed Actual_Recovery_Time_weeks only. Missing durations remain missing and are excluded from fitting/scoring.",
@@ -334,7 +335,7 @@ def run():
                 actual = {"Pain": observation.get("Pain"), "ROM_deg": observation.get("ROM_deg"),
                           "Strength_pct": observation.get("Quadriceps_Strength_pct")}
                 for threshold in config.DEVIATION_SENSITIVITY_THRESHOLDS_PCT:
-                    flags = simulation.check_deviation(predicted, actual, threshold_pct=threshold)
+                    flags = simulation.check_deviation(predicted, actual, threshold_pct=threshold, method="percentage")
                     key = str(float(threshold))
                     for detail in flags.values():
                         if pd.notna(detail.get("actual")) and pd.notna(detail.get("predicted")):
@@ -363,11 +364,12 @@ def run():
         report["recovery_pct_subgroups"]["Age_Band"] = _subgroup_metrics(
             age_test, y_pct, pred_pct_labeled, "Age_Band_Eval"
         )
-    out = Path("output/research_evaluation.json")
+    out = Path(output_path)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(report, indent=2, allow_nan=False) + "\n", encoding="utf-8")
-    print(json.dumps(report, indent=2, allow_nan=False))
-    print(f"Saved {out}")
+    if emit:
+        print(json.dumps(report, indent=2, allow_nan=False))
+        print(f"Saved {out}")
 
 
 if __name__ == "__main__":

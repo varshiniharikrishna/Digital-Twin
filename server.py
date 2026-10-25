@@ -21,6 +21,8 @@ from werkzeug.security import check_password_hash
 import config
 import db
 from data_prep import build_modelling_dataset, chronological_split, get_feature_frame
+from twin_state import fit_hierarchical_priors
+from deviation_analysis import estimate_training_sigmas
 import modeling
 import similarity as sim
 import simulation as simmod
@@ -49,6 +51,9 @@ X_TEST = get_feature_frame(TEST_DATA)
 PCT_MODEL, WEEKS_MODEL = modeling.train_models(
     X_TRAIN, TRAIN_DATA[config.TARGET_RECOVERY_PCT], TRAIN_DATA[config.TARGET_RECOVERY_WEEKS]
 )
+SIMILARITY_MODEL = sim.SimilarityModel.fit(TRAIN_DATA, config.TARGET_RECOVERY_PCT)
+TWIN_PRIORS = fit_hierarchical_priors(TABLES.get("Weekly_Progress",pd.DataFrame()),set(TRAIN_DATA.get("Patient_ID",pd.Series(dtype=str)).astype(str)))
+DEVIATION_SIGMAS = estimate_training_sigmas(TABLES, TRAIN_DATA, PCT_MODEL, WEEKS_MODEL)
 
 PRED_PCT, PRED_WEEKS = modeling.predict(PCT_MODEL, WEEKS_MODEL, X_TEST)
 TEST_DATA = TEST_DATA.copy()
@@ -117,10 +122,13 @@ def sanitize_dict(d):
 
 def refresh_tables():
     """Reloads tables from MySQL/CSV when new doctors, patients, or progress logs are added."""
-    global TABLES, FULL_DATASET, TRAIN_DATA, TEST_DATA
+    global TABLES, FULL_DATASET, TRAIN_DATA, TEST_DATA, SIMILARITY_MODEL, TWIN_PRIORS, DEVIATION_SIGMAS
     TABLES = db.load_all_tables()
     FULL_DATASET = build_modelling_dataset(TABLES)
     TRAIN_DATA, TEST_DATA = chronological_split(FULL_DATASET)
+    SIMILARITY_MODEL = sim.SimilarityModel.fit(TRAIN_DATA, config.TARGET_RECOVERY_PCT)
+    TWIN_PRIORS = fit_hierarchical_priors(TABLES.get("Weekly_Progress",pd.DataFrame()),set(TRAIN_DATA.get("Patient_ID",pd.Series(dtype=str)).astype(str)))
+    DEVIATION_SIGMAS = estimate_training_sigmas(TABLES, TRAIN_DATA, PCT_MODEL, WEEKS_MODEL)
 
 
 def get_patient_row(patient_id):
@@ -142,6 +150,17 @@ def predict_row(row: pd.Series):
     X = get_feature_frame(pd.DataFrame([row]))
     pct = float(PCT_MODEL.predict(X)[0])
     weeks = float(WEEKS_MODEL.predict(X)[0])
+    audit_salt=os.environ.get("DT_AUDIT_SALT")
+    if audit_salt:
+        try:
+            from privacy import append_audit_event, pseudonymize
+            sess=get_current_session()
+            append_audit_event("reports/audit/prediction_audit.jsonl",
+                pseudonymize(sess.get("user_id","unknown"),audit_salt) if sess else "unauthenticated-context",
+                "prediction_generated",pseudonymize(row.get("Patient_ID","unknown"),audit_salt),
+                {"model_version":"current","role":sess.get("role") if sess else "unknown"})
+        except Exception:
+            app.logger.exception("Privacy-minimized prediction audit event could not be written")
     return pct, weeks
 
 
@@ -593,7 +612,7 @@ def get_patient_details(patient_id):
 
     pred_pct, pred_weeks = predict_row(row)
     
-    similar_df = sim.find_similar_patients(row, TRAIN_DATA, top_k=5)
+    similar_df = sim.find_similar_patients(row, TRAIN_DATA, top_k=5, model=SIMILARITY_MODEL)
     similar_list = similar_df[[
         "Patient_ID", "Similarity_Score", "Age", "Gender", "Injury_Type",
         "Severity", config.TARGET_RECOVERY_PCT, config.TARGET_RECOVERY_WEEKS
@@ -706,7 +725,7 @@ def get_patient_week_detail(patient_id, week):
             "ROM_deg": rom_val,
             "Strength_pct": quad_val
         }
-        dev_dict = simmod.check_deviation(p_row, cur_st)
+        dev_dict = simmod.check_deviation(p_row, cur_st, residual_sigmas=DEVIATION_SIGMAS)
 
     comp_df = TABLES["Muscle_Compensation"] if "Muscle_Compensation" in TABLES else pd.DataFrame()
     comp_match = comp_df[(comp_df["Patient_ID"] == patient_id) & (comp_df["Week"] == week)] if not comp_df.empty else pd.DataFrame()
@@ -803,7 +822,7 @@ def save_weekly_checkin(patient_id):
     pred_week_match = predicted_df[predicted_df["Week"] == week]
     p_row = pred_week_match.iloc[0] if not pred_week_match.empty else predicted_df.iloc[0]
 
-    dev_dict = simmod.check_deviation(p_row, cur_st)
+    dev_dict = simmod.check_deviation(p_row, cur_st, residual_sigmas=DEVIATION_SIGMAS)
     recal_res = simmod.recalibrate(
         row, cur_st, week, TRAIN_DATA, TABLES["Recovery_Pathway"],
         PCT_MODEL, WEEKS_MODEL, get_feature_frame, dev_dict
@@ -870,10 +889,10 @@ def recalibrate_patient(patient_id):
     pred_week_match = predicted_df[predicted_df["Week"] == week]
     p_row = pred_week_match.iloc[0] if not pred_week_match.empty else predicted_df.iloc[0]
 
-    dev_dict = simmod.check_deviation(p_row, cur_st)
+    dev_dict = simmod.check_deviation(p_row, cur_st, residual_sigmas=DEVIATION_SIGMAS)
     res = simmod.recalibrate(
         row, cur_st, week, TRAIN_DATA, TABLES["Recovery_Pathway"],
-        PCT_MODEL, WEEKS_MODEL, get_feature_frame, dev_dict
+        PCT_MODEL, WEEKS_MODEL, get_feature_frame, dev_dict, SIMILARITY_MODEL, TWIN_PRIORS
     )
 
     recal_payload = {
@@ -893,7 +912,7 @@ def recalibrate_patient(patient_id):
     updated_row["Range_of_Motion_deg"] = float(data.get("rom", 75.0))
     updated_row["Quadriceps_Strength_pct"] = float(data.get("strength", 50.0))
     
-    new_neighbors_df = sim.find_similar_patients(updated_row, TRAIN_DATA, top_k=5)
+    new_neighbors_df = sim.find_similar_patients(updated_row, TRAIN_DATA, top_k=5, model=SIMILARITY_MODEL)
     new_neighbors = new_neighbors_df[[
         "Patient_ID", "Similarity_Score", config.TARGET_RECOVERY_PCT, config.TARGET_RECOVERY_WEEKS
     ]].to_dict(orient="records")
@@ -1063,7 +1082,7 @@ def get_recommended_pathways(patient_id):
     if row is None:
         return jsonify({"error": "Patient not found"}), 404
 
-    recs = pm.recommend_pathways_for_patient(row, TRAIN_DATA, TABLES, top_k=3)
+    recs = pm.recommend_pathways_for_patient(row, TRAIN_DATA, TABLES, top_k=3, similarity_model=SIMILARITY_MODEL)
     return jsonify(sanitize_dict({"recommended_pathways": recs}))
 
 

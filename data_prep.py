@@ -24,84 +24,86 @@ SEVERITY_MULT = {"Mild": 0.75, "Moderate": 1.0, "Severe": 1.35}
 
 
 def compute_derived_features(df: pd.DataFrame) -> pd.DataFrame:
-    """Adds clinical feature engineering for multi-region datasets."""
+    """Create region-aware generic measures without inventing missing observations."""
     df = df.copy()
-
-    # Resolve Quadriceps / Primary Strength
-    quad_col = None
-    for col in ["Quadriceps_Strength_pct", "Primary_Strength_pct_x", "Primary_Strength_pct", "Primary_Strength_pct_y", "Muscle_Strength_pct", "Primary_Strength_pct_w1"]:
-        if col in df.columns and df[col].notna().any():
-            quad_col = col
-            break
-    if quad_col is not None:
-        df["Quadriceps_Strength_pct"] = df[quad_col].astype(float)
-    else:
-        df["Quadriceps_Strength_pct"] = 50.0
-
-    # Resolve Hamstring / Secondary Strength
-    ham_col = None
-    for col in ["Hamstring_Strength_pct", "Secondary_Strength_pct", "Secondary_Strength_pct_y", "Secondary_Strength_pct_w1"]:
-        if col in df.columns and df[col].notna().any():
-            ham_col = col
-            break
-    if ham_col is not None:
-        df["Hamstring_Strength_pct"] = df[ham_col].fillna(df["Quadriceps_Strength_pct"] * 0.85).astype(float)
-    else:
-        df["Hamstring_Strength_pct"] = (df["Quadriceps_Strength_pct"] * 0.85).astype(float)
-
-    # Resolve Range of Motion
-    rom_col = None
-    for col in ["Range_of_Motion_deg", "Primary_ROM_deg_x", "Primary_ROM_deg", "Primary_ROM_deg_y", "Primary_ROM_deg_w1", "ROM_deg"]:
-        if col in df.columns and df[col].notna().any():
-            rom_col = col
-            break
-    if rom_col is not None:
-        df["Range_of_Motion_deg"] = df[rom_col].astype(float)
-    else:
-        df["Range_of_Motion_deg"] = 100.0
+    region_text = df.get("Body_Region", df.get("Body_Part", df.get("Injury_Type", pd.Series("", index=df.index)))).astype("string").str.casefold()
+    def first_available(columns):
+        result = pd.Series(np.nan,index=df.index,dtype=float)
+        for col in columns:
+            if col in df: result=result.combine_first(pd.to_numeric(df[col],errors="coerce"))
+        return result
+    primary = first_available(["Primary_Strength_pct", "Muscle_Strength_pct"])
+    secondary = first_available(["Secondary_Strength_pct"])
+    rom = first_available(["Primary_ROM_deg", "ROM_deg"])
+    for region, measures in config.REGION_MEASURES.items():
+        mask=region_text.str.contains(region,regex=False,na=False)
+        if region=="knee": mask=mask | region_text.str.contains("acl|meniscus|patella",regex=True,na=False)
+        source=measures.get("primary_strength")
+        if source in df: primary.loc[mask]=pd.to_numeric(df.loc[mask,source],errors="coerce").combine_first(primary.loc[mask])
+        source=measures.get("secondary_strength")
+        if source and source in df: secondary.loc[mask]=pd.to_numeric(df.loc[mask,source],errors="coerce").combine_first(secondary.loc[mask])
+        source=measures.get("rom")
+        if source in df: rom.loc[mask]=pd.to_numeric(df.loc[mask,source],errors="coerce").combine_first(rom.loc[mask])
+    # Legacy knee columns are only admitted for knee records.
+    knee=region_text.str.contains("knee|acl|meniscus|patella",regex=True,na=False)
+    primary.loc[knee]=first_available(["Quadriceps_Strength_pct"]).loc[knee].combine_first(primary.loc[knee])
+    secondary.loc[knee]=first_available(["Hamstring_Strength_pct"]).loc[knee].combine_first(secondary.loc[knee])
+    rom.loc[knee]=first_available(["Range_of_Motion_deg"]).loc[knee].combine_first(rom.loc[knee])
+    df["Primary_Strength_pct"]=primary
+    df["Secondary_Strength_pct"]=secondary
+    df["Primary_ROM_deg"]=rom
+    # Compatibility aliases for existing views; model feature set uses generic region measures.
+    df["Quadriceps_Strength_pct"]=primary
+    df["Hamstring_Strength_pct"]=secondary
+    df["Range_of_Motion_deg"]=rom
 
     # Resolve Balance / Function Score
     bal_col = None
-    for col in ["Balance_Score", "Function_Score", "Function_Score_x", "Balance_Score_x"]:
+    for col in ["Balance_Score", "Function_Score"]:
         if col in df.columns and df[col].notna().any():
             bal_col = col
             break
     if bal_col is not None:
-        df["Balance_Score"] = df[bal_col].astype(float)
+        df["Balance_Score"] = pd.to_numeric(df[bal_col],errors="coerce")
     else:
-        df["Balance_Score"] = 70.0
+        df["Balance_Score"] = np.nan
 
     # Resolve Walking Speed
     speed_col = None
-    for col in ["Walking_Speed_mps", "Walking_Speed_mps_x"]:
+    for col in ["Walking_Speed_mps"]:
         if col in df.columns and df[col].notna().any():
             speed_col = col
             break
     if speed_col is not None:
-        df["Walking_Speed_mps"] = df[speed_col].fillna(1.0).astype(float)
+        df["Walking_Speed_mps"] = pd.to_numeric(df[speed_col], errors="coerce")
     else:
-        df["Walking_Speed_mps"] = 1.0
+        df["Walking_Speed_mps"] = np.nan
 
     # Resolve Pain Score
     pain_col = None
-    for col in ["Pain_Score", "Pain_Score_x", "Pain_Score_ia", "Actual_Pain_Score", "Pain"]:
+    for col in ["Pain_Score", "Pain"]:
         if col in df.columns and df[col].notna().any():
             pain_col = col
             break
     if pain_col is not None:
-        df["Pain_Score"] = df[pain_col].astype(float)
+        df["Pain_Score"] = pd.to_numeric(df[pain_col],errors="coerce")
     else:
-        df["Pain_Score"] = 5.0
+        df["Pain_Score"] = np.nan
 
     quad = df["Quadriceps_Strength_pct"].astype(float)
     ham = df["Hamstring_Strength_pct"].astype(float)
     df["Quad_Ham_Ratio"] = (quad / (ham + 1e-5)).round(3)
     
-    diabetes = df["Diabetes"].astype(float) if "Diabetes" in df.columns else 0.0
-    hypertension = df["Hypertension"].astype(float) if "Hypertension" in df.columns else 0.0
-    smoking = (df["Smoking_Status"] == "Current").astype(float) if "Smoking_Status" in df.columns else 0.0
-    age = df["Age"].astype(float) if "Age" in df.columns else 40.0
-    age_flag = (age > 60).astype(float)
+    def binary(col):
+        if col not in df:return pd.Series(np.nan,index=df.index,dtype=float)
+        raw=df[col];numeric=pd.to_numeric(raw,errors="coerce")
+        words=raw.astype("string").str.strip().str.casefold().map({"yes":1.0,"true":1.0,"no":0.0,"false":0.0})
+        return numeric.combine_first(words)
+    diabetes = binary("Diabetes")
+    hypertension = binary("Hypertension")
+    smoking = (df["Smoking_Status"] == "Current").astype(float).where(df["Smoking_Status"].notna()) if "Smoking_Status" in df.columns else pd.Series(np.nan, index=df.index)
+    age = pd.to_numeric(df["Age"], errors="coerce") if "Age" in df.columns else pd.Series(np.nan, index=df.index)
+    age_flag = (age > 60).astype(float).where(age.notna())
     
     df["Comorbidity_Score"] = (diabetes * 1.5 + hypertension * 1.0 + smoking * 1.2 + age_flag * 1.0).round(2)
     
@@ -113,8 +115,8 @@ def compute_derived_features(df: pd.DataFrame) -> pd.DataFrame:
     balance = df["Balance_Score"].astype(float)
     df["Mobility_Index"] = (speed * balance / (pain + 1.0)).round(2)
     
-    base_wks = df["Injury_Type"].map(INJURY_BASE_WEEKS).fillna(14.0) if "Injury_Type" in df.columns else 14.0
-    sev_m = df["Severity"].map(SEVERITY_MULT).fillna(1.0) if "Severity" in df.columns else 1.0
+    base_wks = df["Injury_Type"].map(INJURY_BASE_WEEKS) if "Injury_Type" in df.columns else pd.Series(np.nan, index=df.index)
+    sev_m = df["Severity"].map(SEVERITY_MULT) if "Severity" in df.columns else pd.Series(np.nan, index=df.index)
     comorb_mult = 1.0 + 0.15 * diabetes + 0.10 * smoking + 0.10 * age_flag
     df["Clinical_Est_Weeks"] = (base_wks * sev_m * comorb_mult).round(1)
     
@@ -159,7 +161,14 @@ def build_modelling_dataset(tables: dict) -> pd.DataFrame:
         ["recorded percentage", "derived strength-ROM proxy"],
         default="missing",
     )
-    df[config.TARGET_RECOVERY_PCT] = recorded_pct.combine_first(proxy_pct)
+    if config.TARGET_SELECTION == "composite_proxy":
+        df[config.TARGET_RECOVERY_PCT] = recorded_pct.combine_first(proxy_pct)
+    else:
+        selected = pd.to_numeric(
+            df.get(config.TARGET_OUTCOME_COLUMN, pd.Series(np.nan, index=df.index)), errors="coerce"
+        )
+        df[config.TARGET_RECOVERY_PCT] = selected
+        df["Recovery_Pct_Target_Source"] = np.where(selected.notna(), f"PROM: {config.TARGET_SELECTION.upper()}", "missing")
 
     # Never substitute Clinical_Est_Weeks (a predictor) for a missing observed
     # outcome; doing so would make the duration target leak directly from X.
@@ -190,11 +199,12 @@ def build_modelling_dataset(tables: dict) -> pd.DataFrame:
         # it is not a recorded clinical date and is never a model feature.
         enrollment_date = pd.to_datetime(df["Enrollment_Date"], errors="coerce")
         duration_weeks = pd.to_numeric(df[config.TARGET_RECOVERY_WEEKS], errors="coerce")
-        available_date = pd.Series(pd.NaT, index=df.index, dtype="datetime64[ns]")
+        available_date = pd.to_datetime(df.get("Outcome_Recorded_Date", pd.Series(pd.NaT,index=df.index)),errors="coerce")
         valid_availability = enrollment_date.notna() & duration_weeks.notna()
-        available_date.loc[valid_availability] = enrollment_date.loc[valid_availability] + pd.to_timedelta(
+        estimated_date = enrollment_date.loc[valid_availability] + pd.to_timedelta(
             duration_weeks.loc[valid_availability] * 7, unit="D"
         )
+        available_date.loc[valid_availability & available_date.isna()] = estimated_date
         df["Estimated_Outcome_Availability_Date"] = available_date
     return df
 
@@ -249,7 +259,9 @@ def get_feature_frame(df: pd.DataFrame) -> pd.DataFrame:
     # can change pain, ROM, strength, balance, and walking speed on a row that
     # already contains the derived columns from the baseline state.
     df_clean = compute_derived_features(df)
+    for col in config.ALL_FEATURES:
+        if col not in df_clean: df_clean[col] = np.nan
     X = df_clean[config.ALL_FEATURES].copy()
     for col in config.CATEGORICAL_FEATURES:
-        X[col] = X[col].astype(str)
+        X[col] = X[col].astype(object).where(X[col].notna(), np.nan)
     return X

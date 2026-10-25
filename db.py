@@ -11,6 +11,8 @@ from sqlalchemy import create_engine, text
 from werkzeug.security import generate_password_hash
 import config
 
+LAST_DATA_ORIGIN = "unknown"
+
 
 def get_db_engine():
     """Returns a SQLAlchemy engine connecting to MySQL DigitalTwinDB."""
@@ -65,15 +67,27 @@ def _load_from_mysql():
 
 def load_all_tables():
     """Returns dict {table_name: DataFrame} for all tables."""
+    global LAST_DATA_ORIGIN
     tables = None
-    if config.DATA_SOURCE == "mysql":
+    if config.DATA_SOURCE == "real":
+        if not config.REAL_DATA_PATH:
+            raise RuntimeError("DT_DATA_SOURCE=real requires DT_REAL_DATA_PATH; no synthetic fallback is used.")
+        from data_adapter import load_real_records, to_tables
+        tables = to_tables(load_real_records(config.REAL_DATA_PATH))
+        LAST_DATA_ORIGIN = "real user-supplied"
+    elif config.DATA_SOURCE == "mysql":
         try:
             tables = _load_from_mysql()
+            LAST_DATA_ORIGIN = os.environ.get("DT_MYSQL_PROVENANCE", "unknown MySQL provenance")
         except Exception as e:
             print(f"MySQL connection error ({e}). Using CSV fallback.")
             tables = _load_from_csv()
+            external_csv=os.path.exists(os.path.join(config.CSV_DIR,"Patient.csv"))
+            LAST_DATA_ORIGIN = os.environ.get("DT_CSV_PROVENANCE") or ("CSV provenance unverified" if external_csv else "synthetic bundled CSV fallback")
     else:
         tables = _load_from_csv()
+        external_csv=os.path.exists(os.path.join(config.CSV_DIR,"Patient.csv"))
+        LAST_DATA_ORIGIN = os.environ.get("DT_CSV_PROVENANCE") or ("CSV provenance unverified" if external_csv else "synthetic bundled CSV")
 
     if tables is None or not tables:
         tables = _load_from_csv()

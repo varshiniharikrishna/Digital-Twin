@@ -13,6 +13,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.base import is_regressor
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
+from sklearn.impute import SimpleImputer
 from sklearn.ensemble import HistGradientBoostingRegressor, ExtraTreesRegressor, RandomForestRegressor, VotingRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
@@ -67,8 +68,9 @@ def get_recovery_boost_model_name():
 def build_pipeline(target_type="pct") -> Pipeline:
     preprocess = ColumnTransformer(
         transformers=[
-            ("num", "passthrough", config.NUMERIC_FEATURES),
-            ("cat", OneHotEncoder(handle_unknown="ignore"), config.CATEGORICAL_FEATURES),
+            ("num", SimpleImputer(strategy="median", add_indicator=True, keep_empty_features=True), config.NUMERIC_FEATURES),
+            ("cat", Pipeline([("impute", SimpleImputer(strategy="constant", fill_value="__MISSING__", keep_empty_features=True)),
+                               ("encode", OneHotEncoder(handle_unknown="ignore"))]), config.CATEGORICAL_FEATURES),
         ]
     )
     return Pipeline(steps=[("preprocess", preprocess), ("model", _make_ensemble_regressor(target_type))])
@@ -91,6 +93,13 @@ def train_models(X_train: pd.DataFrame, y_train_pct: pd.Series, y_train_weeks: p
     weeks_pipeline.fit(X_train.loc[weeks_mask], y_train_weeks.loc[weeks_mask])
 
     return pct_pipeline, weeks_pipeline
+
+
+def train_recovery_model(X_train: pd.DataFrame, y_train: pd.Series):
+    """Train the selected outcome model when discharge duration is unavailable."""
+    y=pd.to_numeric(y_train,errors="coerce"); mask=y.notna() & np.isfinite(y)
+    if int(mask.sum())<2: raise ValueError("At least two observed target values are required.")
+    model=build_pipeline("pct");model.fit(X_train.loc[mask],y.loc[mask]);return model
 
 
 def predict(pct_pipeline, weeks_pipeline, X: pd.DataFrame):
@@ -124,9 +133,7 @@ def get_feature_importance(pipeline: Pipeline) -> pd.DataFrame:
     voting_model = pipeline.named_steps["model"]
     
     # Extract feature names
-    cat_encoder = preprocess.named_transformers_["cat"]
-    cat_names = list(cat_encoder.get_feature_names_out(config.CATEGORICAL_FEATURES))
-    all_names = config.NUMERIC_FEATURES + cat_names
+    all_names = list(preprocess.get_feature_names_out())
 
     # ExtraTrees provides a stable global importance summary for this ensemble.
     et_estimator = dict(voting_model.named_estimators_)["et"]

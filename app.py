@@ -8,18 +8,24 @@ Run with:
 """
 
 import os
+import json
+from pathlib import Path
 import pandas as pd
 import numpy as np
 import streamlit as st
 import plotly.graph_objects as go
 
 import config
+import db
 from db import load_all_tables
 from data_prep import build_modelling_dataset, chronological_split, get_feature_frame
 import modeling
+import deviation_analysis
 import similarity as sim
+from twin_state import fit_hierarchical_priors
 import simulation as simmod
 import evaluation as ev
+import pathway_mining as pm
 import pdf_generator
 
 
@@ -136,6 +142,12 @@ def load_everything():
     metrics_pct = modeling.evaluate(test[config.TARGET_RECOVERY_PCT], pred_pct)
     metrics_weeks = modeling.evaluate(test[config.TARGET_RECOVERY_WEEKS], pred_weeks)
     fi = modeling.get_feature_importance(pct_model)
+    similarity_model = sim.SimilarityModel.fit(train, config.TARGET_RECOVERY_PCT)
+    train_ids=set(train["Patient_ID"].astype(str))
+    weekly=tables.get("Weekly_Progress",pd.DataFrame())
+    weekly_training=weekly[weekly["Patient_ID"].astype(str).isin(train_ids)] if "Patient_ID" in weekly else weekly
+    twin_priors=fit_hierarchical_priors(weekly_training,train_ids)
+    residual_sigmas=deviation_analysis.estimate_training_sigmas(tables,train,pct_model,weeks_model)
 
     test = test.copy()
     test["Predicted_Recovery_Pct"] = pred_pct
@@ -151,6 +163,9 @@ def load_everything():
         "metrics_pct": metrics_pct,
         "metrics_weeks": metrics_weeks,
         "feature_importance": fi,
+        "similarity_model": similarity_model,
+        "twin_priors": twin_priors,
+        "residual_sigmas": residual_sigmas,
     }
 
 
@@ -160,6 +175,9 @@ train = state["train"]
 test = state["test"]
 pct_model = state["pct_model"]
 weeks_model = state["weeks_model"]
+similarity_model = state["similarity_model"]
+twin_priors = state["twin_priors"]
+residual_sigmas = state["residual_sigmas"]
 
 
 # Initialize session state for recalibration history
@@ -188,6 +206,8 @@ page = st.sidebar.radio(
         "Simulation & Recalibration",
         "Recommendations",
         "Evaluation Metrics",
+        "Model Benchmark", "Similarity Spec / Explain", "Deviation Analysis",
+        "Pathway Ranking", "Adaptive Loop Evaluation", "Explain (XAI)", "Wearable Demo",
     ]
 )
 
@@ -436,7 +456,7 @@ if page == "Week-by-Week Twin":
                 "ROM_deg": float(week_row["ROM_deg"]),
                 "Strength_pct": float(week_row["Quadriceps_Strength_pct"]),
             }
-            dev_dict = simmod.check_deviation(p_row, current_state)
+            dev_dict = simmod.check_deviation(p_row, current_state, residual_sigmas=residual_sigmas)
             
             c_ev1, c_ev2, c_ev3 = st.columns(3)
             for col, (met, d) in zip([c_ev1, c_ev2, c_ev3], dev_dict.items()):
@@ -513,7 +533,7 @@ elif page == "Treatment Clones":
         cat_key = st.selectbox(
             "1. Treatment Category",
             options=list(simmod.TREATMENT_TAXONOMY.keys()),
-            format_func=lambda k: simmod.TREATMENT_TAXONOMY[k]["label"]
+            format_func=lambda k: simmod.TREATMENT_TAXONOMY[k].get("label", simmod.TREATMENT_TAXONOMY[k]["name"])
         )
     with c_sub:
         sub_map = simmod.TREATMENT_TAXONOMY[cat_key]["subtypes"]
@@ -537,7 +557,9 @@ elif page == "Treatment Clones":
         exercise_type=sub_key,
         intensity=intensity,
         start_week=start_w,
-        duration_weeks=dur_w
+        duration_weeks=dur_w,
+        base_pred_pct=predict_for_row(patient_row)[0],
+        base_pred_weeks=predict_for_row(patient_row)[1]
     )
 
     # Banner
@@ -558,6 +580,7 @@ elif page == "Treatment Clones":
     m4.metric("Discharge Timeline", f"{imp['discharge_weeks_new']} wks", f"{imp['discharge_delta']:+.1f} wks vs standard")
 
     st.info(f"**Physiological Reaction Rationale:** {rx_res['reaction_summary']}")
+    st.caption(rx_res.get("effect_evidence", "Assumed demo effects; not estimated from patient treatment outcomes."))
 
     st.markdown("---")
     st.markdown("### Comparative Trajectory Overlay (Standard vs Treatment-Stimulated)")
@@ -620,7 +643,7 @@ elif page == "Digital Twin Overview":
 
     st.markdown("---")
     st.markdown("### Closest Historical Patient Matches (Training Pool Only)")
-    top_sim = sim.find_similar_patients(patient_row, train, top_k=5)
+    top_sim = sim.find_similar_patients(patient_row, train, top_k=5, model=similarity_model)
     st.dataframe(
         top_sim[["Patient_ID", "Similarity_Score", "Age", "Injury_Type", "Severity", config.TARGET_RECOVERY_PCT, config.TARGET_RECOVERY_WEEKS]],
         width="stretch"
@@ -707,40 +730,52 @@ elif page == "Simulation & Recalibration":
 
     st.markdown("---")
     st.markdown("### Enter Recorded Weekly Check-In Observations")
-    c1, c2, c3 = st.columns(3)
-    with c1:
-        p_in = st.number_input("Recorded Pain (0-10)", 0.0, 10.0, float(p_row['Predicted_Pain']), 0.5)
-        quad_in = st.number_input("Recorded Quad Strength (%)", 0.0, 100.0, float(p_row['Predicted_Strength_pct']), 1.0)
-    with c2:
-        rom_in = st.number_input("Recorded ROM (deg)", 0.0, 150.0, float(p_row['Predicted_ROM_deg']), 1.0)
-        bal_in = st.number_input("Recorded Balance Score", 0.0, 100.0, 75.0, 1.0)
-    with c3:
-        speed_in = st.number_input("Recorded Speed (m/s)", 0.0, 3.0, float(p_row['Predicted_Walking_Speed_mps']), 0.1)
-        swelling_in = st.selectbox("Swelling Level", ["None", "Mild", "Moderate", "Severe"], index=0)
+    observation_source=st.radio("Observation source",["Manual weekly entry","Wearable (simulated)"],horizontal=True,key="recal_observation_source")
+    if observation_source == "Wearable (simulated)":
+        from sensors.simulate_wearable_stream import generate_demo_stream
+        from sensors.ingest_wearable import aggregate_weekly
+        wearable=aggregate_weekly(generate_demo_stream(patient_id="SIMULATED-DEMO",days=max(7,rec_w*7),seed=config.RANDOM_STATE))
+        selected=wearable.iloc[min(rec_w-1,len(wearable)-1)]
+        weekly_entry={"ROM_deg":float(selected["knee_flexion_angle_deg"]),"Walking_Speed_mps":float(selected["gait_speed_mps"]),"Pain":None,"Quadriceps_Strength_pct":None,"Balance_Score":None}
+        st.warning("SIMULATED DEMO ONLY. Pain and strength are unobserved and will not be substituted with predictions.")
+        st.write({k:v for k,v in weekly_entry.items() if v is not None})
+    else:
+        c1, c2, c3 = st.columns(3)
+        with c1:
+            p_in = st.number_input("Recorded Pain (0-10)", 0.0, 10.0, float(p_row['Predicted_Pain']), 0.5)
+            quad_in = st.number_input("Recorded Primary Strength (%)", 0.0, 100.0, float(p_row['Predicted_Strength_pct']), 1.0)
+        with c2:
+            rom_in = st.number_input("Recorded Primary ROM (deg)", 0.0, 360.0, float(p_row['Predicted_ROM_deg']), 1.0)
+            bal_in = st.number_input("Recorded Balance Score", 0.0, 100.0, 75.0, 1.0)
+        with c3:
+            speed_in = st.number_input("Recorded Speed (m/s)", 0.0, 3.0, float(p_row['Predicted_Walking_Speed_mps']), 0.1)
+            swelling_in = st.selectbox("Swelling Level", ["None", "Mild", "Moderate", "Severe"], index=0)
+        weekly_entry={"Pain":p_in,"ROM_deg":rom_in,"Quadriceps_Strength_pct":quad_in,"Balance_Score":bal_in,"Walking_Speed_mps":speed_in,"Swelling":swelling_in}
 
     if st.button("Run Weekly Stage Recalibration", type="primary"):
-        weekly_entry = {
-            "Pain": p_in, "ROM_deg": rom_in, "Quadriceps_Strength_pct": quad_in,
-            "Balance_Score": bal_in, "Walking_Speed_mps": speed_in, "Swelling": swelling_in
-        }
         res = simmod.process_weekly_stage_recalibration(
             patient_row=patient_row, week=rec_w, weekly_entry=weekly_entry,
             train_pool=train, pathways_table=tables["Recovery_Pathway"],
-            pct_model=pct_model, weeks_model=weeks_model, feature_fn=get_feature_frame
+            pct_model=pct_model, weeks_model=weeks_model, feature_fn=get_feature_frame,
+            similarity_model=similarity_model, cohort_priors=twin_priors,
+            residual_sigmas=residual_sigmas
         )
         st.session_state["recal_result"] = res
 
         # Persist to database & session history
-        db.save_patient_recalibration_record(patient_id, rec_w, res)
+        try:
+            db.save_patient_recalibration_record(patient_id, rec_w, res)
+        except Exception as exc:
+            st.warning(f"Database history was not saved ({type(exc).__name__}). The result remains available in this browser session.")
         pw_label = res["recommended_pathway"]["Archetype_Label"] if res["recommended_pathway"] is not None else "Standard"
         st.session_state["recal_history"].append({
             "Week": rec_w,
             "Old_Discharge_wks": round(pred_weeks, 1),
             "Recalibrated_Discharge_wks": res["new_predicted_weeks"],
             "Delta_wks": res["discharge_delta"],
-            "Pain_Expected_Real": f"{p_row['Predicted_Pain']:.1f} / {p_in:.1f}",
-            "ROM_Expected_Real": f"{p_row['Predicted_ROM_deg']:.1f} / {rom_in:.1f}",
-            "Strength_Expected_Real": f"{p_row['Predicted_Strength_pct']:.1f} / {quad_in:.1f}",
+            "Pain_Expected_Real": f"{p_row['Predicted_Pain']:.1f} / {weekly_entry.get('Pain')}",
+            "ROM_Expected_Real": f"{p_row['Predicted_ROM_deg']:.1f} / {weekly_entry.get('ROM_deg')}",
+            "Strength_Expected_Real": f"{p_row['Predicted_Strength_pct']:.1f} / {weekly_entry.get('Quadriceps_Strength_pct')}",
             "Updated_Pathway": pw_label,
             "Notes": res["explanation"]
         })
@@ -758,9 +793,10 @@ elif page == "Simulation & Recalibration":
         evr_df = pd.DataFrame([
             {
                 "Metric": k.replace("_", " "),
-                "Expected (Twin)": v["expected"],
+                "Expected (Twin)": v["predicted"],
                 "Actual (Recorded)": v["actual"],
                 "Deviation %": f"{v['pct_deviation']:+.1f}%",
+                "Adverse z-score": f"{v['z_adverse']:+.2f} SD",
                 "Status": "FLAGGED DEVIATION" if v["flagged"] else "On Track"
             }
             for k, v in res["expected_vs_real"].items()
@@ -775,7 +811,10 @@ elif page == "Simulation & Recalibration":
     # Display Session History Log
     st.markdown("---")
     st.markdown("### Weekly Stage-by-Stage Recalibration History Log")
-    db_history = db.get_recalibration_history_records(patient_id)
+    try:
+        db_history = db.get_recalibration_history_records(patient_id)
+    except Exception:
+        db_history = []
     if db_history:
         hist_df = pd.DataFrame(db_history)
         st.dataframe(hist_df, width="stretch")
@@ -805,7 +844,7 @@ elif page == "Evaluation Metrics":
     m_wks = state["metrics_weeks"]
 
     e1, e2, e3, e4 = st.columns(4)
-    e1.metric("Recovery % R²", f"{m_pct['R2']:.3f}")
+    e1.metric(f"{config.TARGET_DISPLAY_LABEL} R²", f"{m_pct['R2']:.3f}")
     e2.metric("Recovery % RMSE", f"{m_pct['RMSE']:.2f}")
     e3.metric("Recovery Weeks R²", f"{m_wks['R2']:.3f}")
     e4.metric("Recovery Weeks RMSE", f"{m_wks['RMSE']:.2f}")
@@ -822,3 +861,63 @@ elif page == "Evaluation Metrics":
     st.markdown("---")
     st.markdown("### Feature Importance")
     st.plotly_chart(ev.feature_importance_bar(state["feature_importance"]), width="stretch")
+
+elif page == "Model Benchmark":
+    st.title("Training-period model benchmark")
+    path=Path("reports/model_benchmark/benchmark.json")
+    if path.exists():
+        report=json.loads(path.read_text());st.caption(f"Data origin: {report.get('data_origin')} · selected using CV: {report.get('selected_by_training_cv')}")
+        st.dataframe(pd.DataFrame([{**v.get("fold_mean_sd",{}).get("R2",{}),"model":k,"holdout_R2":(report.get("chronological_holdout") or {}).get("metrics",{}).get("R2") if k==report.get("selected_by_training_cv") else None} for k,v in report.get("models",{}).items()]),width="stretch")
+        st.json(report.get("chronological_holdout"))
+    else: st.info("Run `make all` to generate reports/model_benchmark/benchmark.json.")
+    st.caption("Synthetic data are not clinical validation. The target display name follows DT_TARGET.")
+
+elif page == "Similarity Spec / Explain":
+    st.title("Patient similarity")
+    st.markdown("`d(x,y)=Σᵢwᵢdᵢ/Σᵢwᵢ`; `s=1-d`. Numeric ranges and outcome-association weights are fitted on the training partition and persisted. Retrieval requires `s ≥ τ`; cohorts below K_min are marked insufficient.")
+    st.write({"threshold":similarity_model.tau,"K_min":similarity_model.k_min,"K_max":similarity_model.k_max,"fit metadata":similarity_model.metadata})
+    neighbors=sim.find_similar_patients(patient_row,train,model=similarity_model)
+    st.caption(neighbors.attrs.get("confidence","unknown"))
+    if not neighbors.empty:
+        st.dataframe(neighbors[[c for c in ["Patient_ID","Similarity_Score","Injury_Type","Severity",config.TARGET_RECOVERY_PCT] if c in neighbors]],width="stretch")
+        candidate=neighbors.iloc[0];st.dataframe(pd.DataFrame(similarity_model.explain(patient_row,candidate)),width="stretch")
+
+elif page == "Deviation Analysis":
+    st.title("Deviation threshold analysis")
+    path=Path("reports/deviation/deviation.json")
+    if path.exists():
+        report=json.loads(path.read_text());st.caption(report.get("interpretation",""));st.json(report)
+    else: st.info("Run `make all` to generate the deviation threshold sweep.")
+    st.caption("MCID placeholders are intentionally unset pending instrument-specific source review. Current sigma floors are engineering values.")
+
+elif page == "Pathway Ranking":
+    st.title("Pathway ranking evidence")
+    path=Path("reports/pathway_ranking/evaluation.json")
+    if path.exists(): st.json(json.loads(path.read_text()))
+    mined=pm.mine_pathways_from_tables(tables)
+    if mined: st.dataframe(pd.DataFrame(mined),width="stretch")
+    st.warning("Bundled data do not link patient-level treatment exposure to outcomes. Cohort templates are descriptive; displayed intervention effects are assumed demo values, not treatment benefits.")
+
+elif page == "Adaptive Loop Evaluation":
+    st.title("Adaptive-loop replay")
+    path=Path("reports/adaptive_loop/evaluation.json")
+    if path.exists(): st.json(json.loads(path.read_text()))
+    else: st.info("Run `make all` to generate the week-by-week prediction replay.")
+    st.caption("Forecast error comparisons do not show that recalibration improves patient outcomes.")
+
+elif page == "Explain (XAI)":
+    st.title("Explain this prediction")
+    try:
+        explanation=__import__("explainability").explain_prediction(pct_model,background=get_feature_frame(train),query=get_feature_frame(pd.DataFrame([patient_row])))
+        st.metric("Prediction",f"{explanation['prediction']:.2f}",f"SHAP additive residual {explanation['additivity_error']:+.3g}")
+        st.dataframe(pd.DataFrame(explanation["features"]),width="stretch");st.caption(explanation["caveat"])
+    except Exception as exc: st.info(f"SHAP explanation unavailable: {exc}. Install the optional `shap` dependency.")
+
+elif page == "Wearable Demo":
+    st.title("Wearable data demo")
+    st.radio("Observation source",["Manual weekly entry","Wearable (simulated)"],horizontal=True,key="wearable_source")
+    st.warning("SIMULATED DEMO ONLY. These values are generated for interface testing, not patient records or model validation.")
+    from sensors.simulate_wearable_stream import generate_demo_stream
+    from sensors.ingest_wearable import aggregate_weekly
+    stream=generate_demo_stream(patient_id="SIMULATED-DEMO",days=56,seed=config.RANDOM_STATE)
+    st.dataframe(aggregate_weekly(stream),width="stretch")

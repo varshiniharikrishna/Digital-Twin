@@ -3,4 +3,9 @@ __pycache__/
 .DS_Store
 .env
 .venv/
-venv/
+venv/.env.*
+!.env.example
+reports/real_data/
+.pytest_cache/
+htmlcov/
+coverage.xml
