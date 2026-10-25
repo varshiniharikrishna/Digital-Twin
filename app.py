@@ -756,6 +756,7 @@ elif page == "Simulation & Recalibration":
     patient_weeks = tables["Weekly_Progress"][tables["Weekly_Progress"]["Patient_ID"].astype(str).eq(str(patient_id))]
     observed_max = pd.to_numeric(patient_weeks.get("Week", pd.Series(dtype=float)), errors="coerce").max()
     max_w = max(1, int(observed_max)) if pd.notna(observed_max) else 1
+    predicted_traj = simmod.build_predicted_trajectory(patient_row, pred_pct, max(float(pred_weeks), float(max_w)))
 
     rec_w = st.slider("Select Weekly Stage for Check-In Recalibration", 1, max_w, min(4, max_w))
 

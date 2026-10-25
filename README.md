@@ -56,7 +56,7 @@ All synthetic results are labelled synthetic/demo. If there is no patient-level 
 - Baseline features exclude weekly observations. Missing measurements remain missing and are imputed inside training-fitted pipelines; no baseline values are filled with invented clinical constants.
 - Similarity uses training-fitted numeric ranges, per-feature Gower distances, training-only feature/outcome association weights, a persisted JSON model and a training-only selected threshold. The learned metric is exploratory and requires external validation.
 - Deviation uses direction-aware standardized residuals with scales estimated from training-patient weekly residuals (and metric-specific floors). This exploratory fit is not a validated per-week calibration; without adjudicated deterioration labels, sensitivity results are engineering analyses only.
-- `twin_state.py` provides an exponential state transition and shrinkage update. The app’s hand-coded display curve remains a prototype, not a physiological simulator.
+- `twin_state.py` provides the shared exponential state transition and shrinkage update used by the app trajectory wrapper. It remains a prototype, not a physiologically validated simulator.
 - Treatment response multipliers are labelled assumed demo inputs because the bundled schema has no linked treatment exposure/outcome data; discharge duration is not shortened by the demo simulator.
 - See [`IMPLEMENTATION_STATUS.md`](IMPLEMENTATION_STATUS.md), [`docs/REVIEW_RESPONSE.md`](docs/REVIEW_RESPONSE.md) and the DRAFT specification documents for what remains unvalidated.
 

@@ -14,8 +14,8 @@ This module provides:
 import numpy as np
 import pandas as pd
 import config
-from similarity import find_similar_patients
 from twin_state import DigitalTwin
+from similarity import find_similar_patients
 from deviation_analysis import standardized_deviation
 
 SEVERITY_MULT_NPI = {"Mild": 0.0, "Moderate": 0.15, "Severe": 0.30}
@@ -157,43 +157,32 @@ def _region_rom_max(patient_row):
 
 
 def build_predicted_trajectory(patient_row: pd.Series, predicted_pct: float, predicted_weeks: float, protocol_key: str = "Standard") -> pd.DataFrame:
-    """
-    Builds a week-by-week predicted trajectory for Pain, ROM, Strength,
-    Walking Speed, ending at values consistent with the model's predicted
-    Final_Recovery_Pct at the model's predicted recovery week.
-    """
+    """Advance the shared DigitalTwin state engine for the requested horizon."""
     n_weeks = max(int(round(predicted_weeks)), 1)
-
     target_strength = np.clip(predicted_pct, 0, 100)
     rom_max = _region_rom_max(patient_row)
     target_rom = np.clip(predicted_pct / 100 * rom_max, 0, rom_max)
     target_pain = 0.5 if predicted_pct > 90 else (1.0 if predicted_pct > 75 else 1.8)
     target_walk = 0.9 + (predicted_pct / 100) * 0.75
-
-    start_pain = float(patient_row.get("Pain_Score", 6.0))
-    start_rom = float(patient_row.get("Range_of_Motion_deg", 75.0))
-    start_quad = float(patient_row.get("Quadriceps_Strength_pct", 50.0))
-    start_speed = float(patient_row.get("Walking_Speed_mps", 0.9))
-    start_balance = float(patient_row.get("Balance_Score", np.nan))
-
-    pain_curve = np.array(_asymptotic_curve(start_pain, target_pain, n_weeks, floor=target_pain * 0.6))
-    rom_curve = np.array(_asymptotic_curve(start_rom, target_rom, n_weeks, ceiling=rom_max))
-    strength_curve = np.array(_asymptotic_curve(start_quad, target_strength, n_weeks, ceiling=100))
-    walk_curve = np.array(_asymptotic_curve(start_speed, target_walk, n_weeks, ceiling=1.8))
-    balance_curve = (np.array(_asymptotic_curve(start_balance, 100.0, n_weeks, ceiling=100.0))
-                     if np.isfinite(start_balance) else np.full(n_weeks, np.nan))
-
-    df = pd.DataFrame({
-        "Week": range(1, n_weeks + 1),
-        "Predicted_Pain": np.round(pain_curve, 1),
-        "Predicted_ROM_deg": np.round(rom_curve, 1),
-        "Predicted_Strength_pct": np.round(strength_curve, 1),
-        "Predicted_Walking_Speed_mps": np.round(walk_curve, 2),
-        "Predicted_Balance_Score": np.round(balance_curve, 1),
-        "Predicted_Recovery_Pct": np.round(strength_curve, 1),
-        "Predicted_Function_Score": np.round(np.clip(strength_curve * 0.9, 0, 100), 1)
-    })
-    return df
+    twin = DigitalTwin.from_baseline(patient_row)
+    targets = {"Pain": target_pain, "ROM_deg": target_rom, "Strength_pct": target_strength,
+               "Walking_Speed_mps": target_walk, "Balance_Score": 100.0}
+    for metric, asymptote in targets.items():
+        if metric in twin.state:
+            twin.theta[metric] = {"asymptote": float(asymptote), "rate": 0.08}
+    rows=[]
+    for week in range(1,n_weeks+1):
+        twin.update({},week=week)
+        state=twin.state
+        strength=state.get("Strength_pct",np.nan)
+        rows.append({"Week":week,"Predicted_Pain":round(state.get("Pain",np.nan),1),
+                     "Predicted_ROM_deg":round(state.get("ROM_deg",np.nan),1),
+                     "Predicted_Strength_pct":round(strength,1),
+                     "Predicted_Walking_Speed_mps":round(state.get("Walking_Speed_mps",np.nan),2),
+                     "Predicted_Balance_Score":round(state.get("Balance_Score",np.nan),1),
+                     "Predicted_Recovery_Pct":round(strength,1),
+                     "Predicted_Function_Score":round(float(np.clip(strength*.9,0,100)),1) if np.isfinite(strength) else np.nan})
+    return pd.DataFrame(rows)
 
 
 def get_actual_trajectory(weekly_progress_df: pd.DataFrame, patient_id: str) -> pd.DataFrame:

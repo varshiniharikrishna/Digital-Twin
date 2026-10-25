@@ -6,6 +6,7 @@ from twin_state import DigitalTwin,fit_hierarchical_priors
 from deviation_analysis import standardized_deviation, estimate_training_sigmas
 from pathway_ranking import rank_pathways,weight_sensitivity
 from explainability import check_additivity
+from simulation import build_predicted_trajectory
 
 def train_frame():
     return pd.DataFrame({"Patient_ID":[f"P{i}" for i in range(8)],"Age":range(20,60,5),"BMI":[20,22,24,26,28,30,32,34],"Pain_Score":[8,7,6,5,4,3,2,1],"Primary_ROM_deg":[40,50,60,70,80,90,100,110],"Primary_Strength_pct":[20,30,40,50,60,70,80,90],"Balance_Score":[20,30,40,50,60,70,80,90],"Gender":["F","M"]*4,"Injury_Type":["knee"]*8,"Severity":["moderate"]*8,"Diabetes":[0]*8,"Smoking_Status":["No"]*8,"Final_Recovery_Pct":[40,45,50,55,60,65,70,75]})
@@ -33,6 +34,15 @@ def test_wearable_mode_missing_pain_and_strength_is_safe():
     innovations=twin.update({"Pain":None,"Strength_pct":None,"ROM_deg":55,"Walking_Speed_mps":1.0},week=2)
     assert "Pain" not in innovations and "Strength_pct" not in innovations
     assert twin.state["Pain"] <= old_pain and twin.state["Strength_pct"] >= old_strength
+
+def test_predicted_trajectory_advances_shared_twin_and_does_not_fill_missing_state():
+    row=pd.Series({"Injury_Type":"ACL Tear","Pain_Score":6.0,"Range_of_Motion_deg":70.0,
+                   "Quadriceps_Strength_pct":45.0,"Balance_Score":55.0})
+    result=build_predicted_trajectory(row,80.0,3.0)
+    assert len(result)==3
+    assert result["Predicted_Pain"].iloc[-1] < result["Predicted_Pain"].iloc[0]
+    assert result["Predicted_ROM_deg"].iloc[-1] > result["Predicted_ROM_deg"].iloc[0]
+    assert result["Predicted_Walking_Speed_mps"].isna().all()
 
 def test_hierarchical_prior_uses_training_weekly_records():
     rows=[]

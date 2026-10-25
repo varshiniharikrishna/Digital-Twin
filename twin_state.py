@@ -27,7 +27,16 @@ class DigitalTwin:
     def from_baseline(cls, row, patient_id=None, priors=None):
         mapping = {"Pain": "Pain_Score", "ROM_deg": "Range_of_Motion_deg", "Strength_pct": "Quadriceps_Strength_pct",
                    "Hamstring_Strength_pct": "Hamstring_Strength_pct", "Walking_Speed_mps": "Walking_Speed_mps", "Balance_Score": "Balance_Score"}
-        state = {m: float(row[k]) for m,k in mapping.items() if k in row and np.isfinite(float(row[k]))}
+        state = {}
+        for metric, column in mapping.items():
+            if column not in row:
+                continue
+            try:
+                value = float(row[column])
+            except (TypeError, ValueError):
+                continue
+            if np.isfinite(value):
+                state[metric] = value
         covars = {k: row.get(k) for k in ("Age", "Gender", "Injury_Type", "Severity", "BMI", "Surgery_Required") if k in row}
         if patient_id: covars["Patient_ID"] = patient_id
         # Latent progress is initialized to the enrollment origin, not measured data.
