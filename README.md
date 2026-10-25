@@ -10,16 +10,19 @@ Install only the Flask app dependencies (Streamlit is not needed):
 python3 -m pip install -r requirements-flask.txt
 ```
 
-From the project folder, point the Flask app at your existing MySQL database. The password is read silently and is not saved in the repository:
+First-time setup: copy the sample config. The launcher asks for your MySQL username and password at startup; it does not save the password. Edit `DT_MYSQL_DB` in `.env` only if your database has a different name. The real `.env` file is ignored by Git.
 
 ```bash
-export DT_DATA_SOURCE=mysql
-export DT_MYSQL_USER='your_mysql_user'
-read -s 'DT_MYSQL_PASSWORD?MySQL password: '; export DT_MYSQL_PASSWORD
-export DT_MYSQL_HOST=localhost
-export DT_MYSQL_PORT=3306
-export DT_MYSQL_DB=DigitalTwinDB
+cp .env.example .env
 ```
+
+Start the HTML app with one command:
+
+```bash
+./run_app.command
+```
+
+You can also double-click `run_app.command` in Finder. It starts the same Flask server that serves the HTML frontend and `/api` backend. Install dependencies once with `python3 -m pip install -r requirements-flask.txt` if needed.
 
 Before the first login, make sure `User_Account` exists and configure a password for each account you plan to demo. These commands create or reset only the specified login; they do not import or drop your application tables:
 
@@ -45,7 +48,7 @@ If you want to inspect the bundled data without logging in, you can start the se
 DT_DATA_SOURCE=csv python3 server.py
 ```
 
-The research dashboard is optional and separate: `DT_DATA_SOURCE=csv python3 -m streamlit run app.py`. `.env.example` lists supported variables; copy it to `.env` only if your launcher loads dotenv. The application reads environment variables directly and does not automatically parse `.env`.
+The research dashboard is optional and separate: `DT_DATA_SOURCE=csv python3 -m streamlit run app.py`. The Flask launcher loads `.env`; when starting `server.py` directly, the app reads settings from that Terminal's environment.
 
 **Do not run `import_to_mysql.py` against an existing database to fix a login.** That importer drops and recreates project tables. Use `setup_login.py` to configure one account without replacing patient or injury data.
 
