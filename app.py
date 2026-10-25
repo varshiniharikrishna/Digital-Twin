@@ -202,7 +202,7 @@ if "recal_history" not in st.session_state:
 # ----------------------------------------------------------------------
 st.sidebar.title("Orthopaedic Digital Twin")
 st.sidebar.caption("Dynamic Living Patient Simulation System")
-st.sidebar.caption(f"Production model: {state['model_metadata']['model_name']} · evaluated on the chronological holdout")
+st.sidebar.caption(f"Production models: recovery {state['model_metadata']['model_name']} · weeks {state['model_metadata'].get('weeks_model_name', state['model_metadata']['model_name'])} · evaluated on the chronological holdout")
 
 page = st.sidebar.radio(
     "Navigation Menu",
@@ -652,10 +652,13 @@ elif page == "Digital Twin Overview":
     interval_label = (f"n={state['metrics_pct']['n']}, 95% CI {r2_interval[0]:.3f}–{r2_interval[1]:.3f}"
                       if r2_interval else f"n={state['metrics_pct']['n']}, CI unavailable")
     prediction_half_width = state["model_metadata"].get("prediction_interval_half_width")
+    weeks_half_width = state["model_metadata"].get("prediction_interval_weeks_half_width")
     if prediction_half_width is not None:
         st.caption(f"Selected patient recovery prediction: {pred_pct:.1f}% ± {prediction_half_width:.1f} points ({state['model_metadata'].get('prediction_interval_method')}).")
     else:
         st.caption(f"Selected patient recovery prediction: {pred_pct:.1f}%. No matching CV prediction interval is available; run the benchmark first.")
+    if weeks_half_width is not None:
+        st.caption(f"Selected recovery duration: {pred_weeks:.1f} ± {weeks_half_width:.1f} weeks (patient-disjoint split-conformal interval; measured holdout coverage is in reports/model_benchmark/weeks/benchmark.json).")
     actual_traj = simmod.get_actual_trajectory(tables["Weekly_Progress"], patient_id)
 
     col1, col2 = st.columns(2)
@@ -963,13 +966,27 @@ elif page == "Evaluation Metrics":
 
 elif page == "Model Benchmark":
     st.title("Training-period model benchmark")
-    path=Path("reports/model_benchmark/benchmark.json")
-    if path.exists():
-        report=json.loads(path.read_text());st.caption(f"Data origin: {report.get('data_origin')} · selected using CV: {report.get('selected_by_training_cv')}")
-        st.dataframe(pd.DataFrame([{**v.get("fold_mean_sd",{}).get("R2",{}),"model":k,"holdout_R2":(report.get("chronological_holdout") or {}).get("metrics",{}).get("R2") if k==report.get("selected_by_training_cv") else None} for k,v in report.get("models",{}).items()]),width="stretch")
-        st.json(report.get("chronological_holdout"))
-    else: st.info("Run `make all` to generate reports/model_benchmark/benchmark.json.")
-    st.caption("Synthetic data are not clinical validation. The target display name follows DT_TARGET.")
+    for label,path in (("Recovery percentage",Path("reports/model_benchmark/benchmark.json")),
+                       ("Recovery duration (weeks)",Path("reports/model_benchmark/weeks/benchmark.json"))):
+        st.markdown(f"### {label}")
+        if path.exists():
+            report=json.loads(path.read_text());winner=report.get("selected_by_training_cv")
+            st.caption(f"Data origin: {report.get('data_origin')} · selected by patient-grouped training CV: {winner}")
+            rows=[]
+            for name,values in report.get("models",{}).items():
+                r2=values.get("fold_mean_sd",{}).get("R2",{});ci=values.get("oof_bootstrap_95_ci",{}).get("R2")
+                row={"model":name,"CV R² mean":r2.get("mean"),"CV R² SD":r2.get("sd"),
+                     "OOF R² bootstrap 95% CI":f"{ci[0]:.3f}–{ci[1]:.3f}" if ci else None}
+                if name==winner:
+                    holdout=report.get("chronological_holdout",{});metrics=holdout.get("metrics",{});hci=holdout.get("bootstrap_95_ci",{})
+                    row.update({"holdout R²":metrics.get("R2"),"holdout MAE":metrics.get("MAE"),
+                                "holdout RMSE":metrics.get("RMSE"),
+                                "holdout R² 95% CI":f"{hci['R2'][0]:.3f}–{hci['R2'][1]:.3f}" if hci.get("R2") else None})
+                rows.append(row)
+            st.dataframe(pd.DataFrame(rows),width="stretch")
+            st.json(report.get("chronological_holdout"))
+        else: st.info(f"Run `make all` to generate {path}.")
+    st.caption("The 2025 holdout is shown only for the CV-selected model. Bundled synthetic data are not clinical validation.")
 
 elif page == "Similarity Spec / Explain":
     st.title("Patient similarity")

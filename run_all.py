@@ -24,9 +24,19 @@ def main():
     if not args.skip_benchmark:
         def do_bench():
             import model_benchmark
-            ytr=train[config.TARGET_RECOVERY_PCT];yte=test[config.TARGET_RECOVERY_PCT]
-            report,_=model_benchmark.benchmark(get_feature_frame(train),ytr,get_feature_frame(test),yte,origin,out_dir=REPORTS/"model_benchmark",groups=train["Patient_ID"])
-            return {"selected_model":report["selected_by_training_cv"],"holdout":report["chronological_holdout"],"cv_mean_R2":report["models"][report["selected_by_training_cv"]]["fold_mean_sd"]["R2"]["mean"]}
+            results={}
+            for target_name,target_col,out_dir in (
+                ("recovery_pct",config.TARGET_RECOVERY_PCT,REPORTS/"model_benchmark"),
+                ("recovery_weeks",config.TARGET_RECOVERY_WEEKS,REPORTS/"model_benchmark"/"weeks"),
+            ):
+                report,_=model_benchmark.benchmark(
+                    get_feature_frame(train),train[target_col],get_feature_frame(test),test[target_col],
+                    origin,out_dir=out_dir,groups=train["Patient_ID"],target_name=target_name,
+                    groups_test=test["Patient_ID"])
+                results[target_name]={"selected_model":report["selected_by_training_cv"],
+                    "holdout":report["chronological_holdout"],
+                    "cv_mean_R2":report["models"][report["selected_by_training_cv"]]["fold_mean_sd"]["R2"]["mean"]}
+            return results
         run("model_benchmark",do_bench)
     else:_write_status("model_benchmark","skipped by flag")
     try:

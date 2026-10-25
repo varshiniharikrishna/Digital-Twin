@@ -11,7 +11,7 @@ from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.ensemble import RandomForestRegressor, ExtraTreesRegressor, HistGradientBoostingRegressor, VotingRegressor, StackingRegressor
 from sklearn.linear_model import Ridge
 from sklearn.dummy import DummyRegressor
-from sklearn.model_selection import StratifiedGroupKFold, RandomizedSearchCV
+from sklearn.model_selection import StratifiedGroupKFold, RandomizedSearchCV, GroupShuffleSplit
 from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 from scipy.stats import randint, uniform
 import config, modeling
@@ -74,13 +74,25 @@ def _bootstrap(y,p,groups=None,seed=config.RANDOM_STATE,n=1000):
             if m[k] is not None and np.isfinite(m[k]): out[k].append(m[k])
     return {k:[float(np.quantile(v,.025)),float(np.quantile(v,.975))] if v else None for k,v in out.items()}
 
-def benchmark(X_train,y_train,X_test=None,y_test=None,origin="unspecified",out_dir=OUT,outer_splits=5,repeats=3,n_iter=2,groups=None):
+def benchmark(X_train,y_train,X_test=None,y_test=None,origin="unspecified",out_dir=OUT,outer_splits=5,repeats=3,n_iter=2,groups=None,target_name="recovery_pct",groups_test=None):
     out_dir=Path(out_dir); out_dir.mkdir(parents=True,exist_ok=True)
     y=pd.to_numeric(pd.Series(y_train,index=X_train.index),errors="coerce"); valid=y.notna()
     group_values=(pd.Series(groups,index=X_train.index) if groups is not None else pd.Series(X_train.index,index=X_train.index))
     group_values=group_values.loc[valid].reset_index(drop=True)
     X_train=X_train.loc[valid].reset_index(drop=True); y=y.loc[valid].reset_index(drop=True)
     if len(y)<10: raise ValueError("Need at least 10 labeled training examples for stratified repeated CV.")
+    # Hold out patient groups before model selection for a genuinely independent
+    # split-conformal calibration sample. The chronological 2025 holdout remains
+    # untouched until the single final evaluation below.
+    full_payload=X_train.copy(); full_payload["__target_pct"]=y.to_numpy()
+    data_hash=modeling.dataframe_fingerprint(full_payload)
+    cal_split=GroupShuffleSplit(n_splits=1,test_size=0.20,random_state=config.RANDOM_STATE)
+    development_idx,calibration_idx=next(cal_split.split(X_train,y,group_values))
+    X_cal=X_train.iloc[calibration_idx].reset_index(drop=True)
+    y_cal=y.iloc[calibration_idx].reset_index(drop=True)
+    X_train=X_train.iloc[development_idx].reset_index(drop=True)
+    y=y.iloc[development_idx].reset_index(drop=True)
+    group_values=group_values.iloc[development_idx].reset_index(drop=True)
     bins=pd.qcut(y.rank(method="first"),q=min(5,max(2,len(y)//5)),labels=False,duplicates="drop").astype(int)
     n_splits=min(outer_splits,max(2,int(bins.value_counts().min())),int(group_values.nunique()))
     if n_splits < 2: raise ValueError("Grouped CV requires at least two distinct patient groups.")
@@ -118,13 +130,17 @@ def benchmark(X_train,y_train,X_test=None,y_test=None,origin="unspecified",out_d
         inner_folds=list(inner.split(X_train,bins,group_values))
         search=RandomizedSearchCV(Pipeline([("prep",_prep()),("model",regs[winner])]),spaces[winner],n_iter=max(5,n_iter),scoring="r2",cv=inner_folds,random_state=config.RANDOM_STATE,n_jobs=1)
         search.fit(X_train,y); final_pipe=search.best_estimator_;best_params[winner]=search.best_params_
-    cv_resid=np.abs(np.asarray(predictions[winner]["y"])-np.asarray(predictions[winner]["pred"]))
-    q=float(np.quantile(cv_resid,.95)) if len(cv_resid) else None
+    calibration_pred=final_pipe.predict(X_cal)
+    calibration_residuals=np.abs(y_cal.to_numpy()-calibration_pred)
+    conformal_rank=min(len(calibration_residuals),int(np.ceil((len(calibration_residuals)+1)*.95)))
+    q=float(np.sort(calibration_residuals)[conformal_rank-1]) if len(calibration_residuals) else None
     holdout=None
     if X_test is not None and y_test is not None:
         yt=pd.to_numeric(pd.Series(y_test),errors="coerce"); mask=yt.notna()
         pred=final_pipe.predict(X_test.loc[mask])
-        holdout={"metrics":_metrics(yt[mask],pred),"prediction_interval":{"method":"empirical 95th percentile of repeated-CV absolute residuals","half_width":q,"observed_coverage":float(np.mean(np.abs(yt[mask].to_numpy()-pred)<=q)) if q is not None else None,"formal_guarantee":False}}
+        test_groups=(pd.Series(groups_test,index=X_test.index).loc[mask].astype(str).to_numpy() if groups_test is not None else None)
+        holdout={"metrics":_metrics(yt[mask],pred),"bootstrap_95_ci":_bootstrap(yt[mask].to_numpy(),pred,test_groups),
+                 "prediction_interval":{"method":"split conformal absolute-residual quantile from patient-disjoint calibration sample","calibration_n":int(len(calibration_residuals)),"half_width":q,"observed_coverage":float(np.mean(np.abs(yt[mask].to_numpy()-pred)<=q)) if q is not None else None,"formal_guarantee":"finite-sample marginal under exchangeability; measured coverage is descriptive"}}
         pd.DataFrame({"y_true":yt[mask].to_numpy(),"y_pred":pred,"residual":yt[mask].to_numpy()-pred,
                       "lower":pred-q if q is not None else np.nan,"upper":pred+q if q is not None else np.nan}).to_csv(out_dir/"holdout_predictions.csv",index=False)
         try:
@@ -134,16 +150,17 @@ def benchmark(X_train,y_train,X_test=None,y_test=None,origin="unspecified",out_d
             fig2=px.histogram(x=yt[mask].to_numpy()-pred,title="Holdout residual distribution");fig2.write_image(str(out_dir/"residuals.png"))
         except Exception as exc:
             (out_dir/"plots_status.txt").write_text(f"Plot export unavailable: {exc}\n")
-    data_payload=X_train.copy();data_payload["__target_pct"]=y.to_numpy();data_hash=modeling.dataframe_fingerprint(data_payload)
+    import joblib
+    joblib.dump(final_pipe,out_dir/"selected_pipeline.joblib")
     try: commit=subprocess.run(["git","rev-parse","HEAD"],cwd=Path(__file__).resolve().parent,capture_output=True,text=True,check=True).stdout.strip()
     except (OSError,subprocess.CalledProcessError): commit="unavailable"
-    report={"data_origin":origin,"target":"Final_Recovery_Pct alias; configured target="+config.TARGET_SELECTION,
+    report={"data_origin":origin,"target":target_name,
             "seed":config.RANDOM_STATE,"cv":"nested training-fold RandomizedSearchCV inside repeated StratifiedGroupKFold grouped by patient; temporal evaluation is separately reported by research_evaluation.py",
             "outer_cv_folds":len(next(iter(results.values()))["folds"]),"selected_by_training_cv":winner,
             "best_params":best_params,"data_hash":data_hash,"features":list(X_train.columns),
-            "prediction_interval":{"method":"empirical 95th percentile absolute repeated-grouped-CV residual; descriptive, no formal coverage guarantee","half_width":q},
+            "prediction_interval":{"method":"split conformal absolute-residual quantile from patient-disjoint calibration sample","calibration_n":int(len(calibration_residuals)),"half_width":q},
             "stamp":{"git_commit":commit,"python":platform.python_version(),"numpy":np.__version__,"pandas":pd.__version__,"scikit_learn":__import__("sklearn").__version__,"xgboost":getattr(__import__("xgboost"),"__version__",None) if modeling.XGBRegressor else None},
-            "models":results,"chronological_holdout":holdout,"search_space":search_space,"limitations":["Optional estimators absent from installed dependencies are omitted.","Grouped CV is patient-independent; per-candidate temporal CV is reported separately only for the configured production estimator.","Bootstrap intervals are descriptive cluster resamples of out-of-fold predictions.","Prediction interval coverage is empirical, not a guaranteed conformal coverage claim.","Synthetic-source results are not clinical validation."]}
+            "models":results,"chronological_holdout":holdout,"search_space":search_space,"limitations":["Optional estimators absent from installed dependencies are omitted.","Grouped CV is patient-independent; per-candidate temporal CV is reported separately only for the configured production estimator.","Bootstrap intervals are descriptive cluster resamples of out-of-fold predictions.","Split-conformal coverage relies on exchangeability and may fail under temporal or domain shift.","Synthetic-source results are not clinical validation."]}
     (out_dir/"benchmark.json").write_text(json.dumps(report,indent=2,default=str))
     (out_dir/"best_params.json").write_text(json.dumps(best_params,indent=2,default=str))
     (out_dir/"search_space.json").write_text(json.dumps(search_space,indent=2,default=str))

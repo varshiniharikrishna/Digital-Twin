@@ -101,6 +101,15 @@ def test_sigma_estimation_fits_only_patient_heldout_oof_predictions(monkeypatch)
     assert len(calls) == 5
     assert sigma["estimation_method"].startswith("GroupKFold patient-held-out")
     assert sigma["by_week_bucket"]["Pain"]["1-4"] >= config.DEVIATION_SIGMA_FLOOR["Pain"]
+    # A deliberately optimistic in-sample reference predicts each patient's
+    # own outcome exactly. OOF estimates must retain the larger held-out error.
+    import simulation
+    in_sample_pain_errors=[]
+    for row,obs in zip(rows,observations):
+        curve=simulation.build_predicted_trajectory(pd.Series(row),row["Final_Recovery_Pct"],row["Actual_Recovery_Time_weeks"])
+        in_sample_pain_errors.append(float(obs["Pain"])-float(curve.iloc[1]["Predicted_Pain"]))
+    in_sample_sigma=float(np.std(in_sample_pain_errors,ddof=1))
+    assert in_sample_sigma < sigma["by_week_bucket"]["Pain"]["1-4"]
 
 def test_shap_attributions_sum_to_prediction_minus_base():
     check=check_additivity([1.25,-.5,.25],2.0,3.0,tolerance=1e-12)

@@ -117,7 +117,7 @@ def build_pipeline(target_type="pct", model_name=None, params=None,
 
 
 def train_models(X_train: pd.DataFrame, y_train_pct: pd.Series, y_train_weeks: pd.Series,
-                 model_name=None, params=None):
+                 model_name=None, params=None, weeks_model_name=None, weeks_params=None):
     """Fit each target model only on rows with an observed target."""
     if model_name is None:
         model_name, selected_params, _ = cv_model_selection(X_train, y_train_pct)
@@ -133,7 +133,8 @@ def train_models(X_train: pd.DataFrame, y_train_pct: pd.Series, y_train_weeks: p
     weeks_mask = y_train_weeks.notna() & np.isfinite(y_train_weeks)
     if int(weeks_mask.sum()) < 2:
         raise ValueError("At least two observed recovery-duration targets are required for training.")
-    weeks_pipeline = build_pipeline("weeks", model_name, params)
+    weeks_pipeline = build_pipeline("weeks", weeks_model_name or model_name,
+                                    params if weeks_params is None else weeks_params)
     weeks_pipeline.fit(X_train.loc[weeks_mask], y_train_weeks.loc[weeks_mask])
 
     return pct_pipeline, weeks_pipeline
@@ -173,44 +174,88 @@ def load_or_train_models(X_train, y_train_pct, y_train_weeks, data_hash,
     model_path = directory / "production_models.joblib"
     selected_name, selected_params, pct_data_hash = cv_model_selection(
         X_train, y_train_pct, benchmark_path=directory.parent / "benchmark.json")
+    weeks_name, weeks_params, weeks_data_hash = cv_model_selection(
+        X_train, y_train_weeks, benchmark_path=directory.parent / "weeks" / "benchmark.json")
     if model_name:
         selected_name, selected_params = model_name, dict(params or {})
+        weeks_name, weeks_params = selected_name, selected_params
     if selected_name in {"XGBoost", "XGBRegressor"} and XGBRegressor is None:
         selected_name = "HistGradientBoosting"
+    if weeks_name in {"XGBoost", "XGBRegressor"} and XGBRegressor is None:
+        weeks_name = "HistGradientBoosting"
     xgb_version = getattr(__import__("xgboost"), "__version__", None) if XGBRegressor else None
     benchmark_path = directory.parent / "benchmark.json"
     interval_half_width = None
     selected_cv_metrics = None
     selected_holdout_metrics = None
+    weeks_cv_metrics = None
+    weeks_holdout_metrics = None
+    weeks_interval_half_width = None
     if not model_name and benchmark_path.is_file():
         benchmark = json.loads(benchmark_path.read_text())
         if benchmark.get("data_hash") == pct_data_hash and benchmark.get("selected_by_training_cv") == selected_name:
             interval_half_width = benchmark.get("prediction_interval", {}).get("half_width")
             selected_cv_metrics = benchmark.get("models", {}).get(selected_name, {}).get("fold_mean_sd")
             selected_holdout_metrics = benchmark.get("chronological_holdout", {}).get("metrics")
+        weeks_benchmark_path = directory.parent / "weeks" / "benchmark.json"
+        if weeks_benchmark_path.is_file():
+            weeks_benchmark = json.loads(weeks_benchmark_path.read_text())
+            if weeks_benchmark.get("data_hash") == weeks_data_hash and weeks_benchmark.get("selected_by_training_cv") == weeks_name:
+                weeks_interval_half_width = weeks_benchmark.get("prediction_interval", {}).get("half_width")
+                weeks_cv_metrics = weeks_benchmark.get("models", {}).get(weeks_name, {}).get("fold_mean_sd")
+                weeks_holdout_metrics = weeks_benchmark.get("chronological_holdout", {}).get("metrics")
     evaluation_path = directory.parent.parent / "research_evaluation" / "research_evaluation.json"
     evaluation = json.loads(evaluation_path.read_text()) if evaluation_path.is_file() else {}
     if metadata_path.exists() and model_path.exists():
         metadata = json.loads(metadata_path.read_text())
         if (metadata.get("data_hash") == data_hash
                 and metadata.get("model_name") == selected_name
+                and metadata.get("weeks_model_name") == weeks_name
                 and metadata.get("params", {}) == selected_params
+                and metadata.get("weeks_params", {}) == weeks_params
+                and metadata.get("fit_protocol") in {
+                    "patient-disjoint split-conformal development/calibration partition",
+                    "full training rows; no matching benchmark pipeline"}
                 and metadata.get("scikit_learn") == __import__("sklearn").__version__
                 and metadata.get("xgboost") == xgb_version):
             saved = joblib.load(model_path)
             if interval_half_width is not None:
                 metadata["prediction_interval_half_width"] = float(interval_half_width)
-                metadata["prediction_interval_method"] = "empirical repeated grouped-CV residual; descriptive, no formal coverage guarantee"
+                metadata["prediction_interval_method"] = "split conformal absolute-residual quantile from patient-disjoint calibration sample"
             metadata["cv_metrics_recovery_pct"] = selected_cv_metrics
             metadata["holdout_metrics_recovery_pct"] = selected_holdout_metrics
             metadata["temporal_metrics"] = evaluation.get("expanding_window_cross_validation")
             metadata["holdout_metrics_weeks"] = (evaluation.get("chronological_holdout", {})
                                                  .get("recovery_weeks", {}).get("model"))
+            metadata["cv_metrics_recovery_weeks"] = weeks_cv_metrics
+            metadata["benchmark_holdout_metrics_recovery_weeks"] = weeks_holdout_metrics
+            if weeks_interval_half_width is not None:
+                metadata["prediction_interval_weeks_half_width"] = float(weeks_interval_half_width)
+                metadata["prediction_interval_weeks_method"] = "split conformal absolute-residual quantile from patient-disjoint calibration sample"
             metadata_path.write_text(json.dumps(metadata, indent=2, default=str))
             return saved["recovery_pct"], saved["recovery_weeks"], metadata
-    pct, weeks = train_models(X_train, y_train_pct, y_train_weeks, selected_name, selected_params)
+    pct_pipeline_path = directory.parent / "selected_pipeline.joblib"
+    weeks_pipeline_path = directory.parent / "weeks" / "selected_pipeline.joblib"
+    pct_report_path = directory.parent / "benchmark.json"
+    weeks_report_path = directory.parent / "weeks" / "benchmark.json"
+    use_benchmark_pipelines = False
+    if not model_name and pct_pipeline_path.is_file() and weeks_pipeline_path.is_file():
+        pct_report = json.loads(pct_report_path.read_text()) if pct_report_path.is_file() else {}
+        weeks_report = json.loads(weeks_report_path.read_text()) if weeks_report_path.is_file() else {}
+        use_benchmark_pipelines = (pct_report.get("data_hash") == pct_data_hash
+                                   and weeks_report.get("data_hash") == weeks_data_hash
+                                   and pct_report.get("selected_by_training_cv") == selected_name
+                                   and weeks_report.get("selected_by_training_cv") == weeks_name)
+    if use_benchmark_pipelines:
+        pct, weeks = joblib.load(pct_pipeline_path), joblib.load(weeks_pipeline_path)
+    else:
+        pct, weeks = train_models(X_train, y_train_pct, y_train_weeks, selected_name, selected_params,
+                                  weeks_model_name=weeks_name, weeks_params=weeks_params)
     joblib.dump({"recovery_pct": pct, "recovery_weeks": weeks}, model_path)
-    metadata = {"model_name": selected_name, "params": selected_params, "data_hash": data_hash,
+    metadata = {"model_name": selected_name, "params": selected_params,
+                "weeks_model_name": weeks_name, "weeks_params": weeks_params, "data_hash": data_hash,
+                "fit_protocol": ("patient-disjoint split-conformal development/calibration partition"
+                                 if use_benchmark_pipelines else "full training rows; no matching benchmark pipeline"),
                 "features": list(X_train.columns), "python": __import__("platform").python_version(),
                 "scikit_learn": __import__("sklearn").__version__,
                 "xgboost": xgb_version}
@@ -219,9 +264,14 @@ def load_or_train_models(X_train, y_train_pct, y_train_weeks, data_hash,
     metadata["temporal_metrics"] = evaluation.get("expanding_window_cross_validation")
     metadata["holdout_metrics_weeks"] = (evaluation.get("chronological_holdout", {})
                                          .get("recovery_weeks", {}).get("model"))
+    metadata["cv_metrics_recovery_weeks"] = weeks_cv_metrics
+    metadata["benchmark_holdout_metrics_recovery_weeks"] = weeks_holdout_metrics
     if interval_half_width is not None:
         metadata["prediction_interval_half_width"] = float(interval_half_width)
-        metadata["prediction_interval_method"] = "empirical repeated grouped-CV residual; descriptive, no formal coverage guarantee"
+        metadata["prediction_interval_method"] = "split conformal absolute-residual quantile from patient-disjoint calibration sample"
+    if weeks_interval_half_width is not None:
+        metadata["prediction_interval_weeks_half_width"] = float(weeks_interval_half_width)
+        metadata["prediction_interval_weeks_method"] = "split conformal absolute-residual quantile from patient-disjoint calibration sample"
     metadata_path.write_text(json.dumps(metadata, indent=2, default=str))
     return pct, weeks, metadata
 
@@ -275,7 +325,9 @@ def bootstrap_metric_intervals(y_true, y_pred, n_resamples=1000):
 
 def get_feature_importance(pipeline: Pipeline, X_validation=None, y_validation=None) -> pd.DataFrame:
     """Return permutation importances for any fitted production pipeline."""
-    preprocess = pipeline.named_steps["preprocess"]
+    preprocess = pipeline.named_steps.get("preprocess", pipeline.named_steps.get("prep"))
+    if preprocess is None:
+        raise ValueError("Fitted model pipeline has no recognized preprocessing step ('preprocess' or 'prep').")
     estimator = pipeline.named_steps["model"]
     if X_validation is not None and y_validation is not None:
         from sklearn.inspection import permutation_importance
